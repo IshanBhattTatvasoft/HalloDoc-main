@@ -1,0 +1,110 @@
+.moon-flex {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+.change-theme {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    border: none;
+    background-color: transparent;
+}
+
+.night-mode-icon {
+    height: 45px;
+    width: 45px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.hide-icon {
+    display: none;
+}
+
+.anchorcolor {
+    color: rgb(32, 193, 204);
+}
+
+#backdesign {
+    border-radius: 5px;
+    border: 2px solid rgb(32, 193, 204);
+    padding: 10px;
+    min-width: 90px;
+}
+
+.submitrequest {
+    height: 70px;
+    border-radius: 50px;
+    /* max-width: 576px; */
+    width: 300px;
+    border: 2px;
+    /*border-style: solid;*/
+}
+
+.box-design{
+    border-radius: 15px;
+}
+
+#colorofrequest1 {
+    background-color: rgb(193, 198, 247);
+    color: rgb(72, 88, 236);
+}
+
+#colorofrequest2 {
+    background-color: rgb(196, 234, 247);
+    color: rgb(88, 174, 245);
+}
+
+#colorofrequest3 {
+    background-color: rgb(186, 218, 179);
+    color: rgb(0, 109, 0);
+}
+
+#colorofrequest4 {
+    background-color: rgb(231, 179, 229);
+    color: rgb(182, 0, 167);
+}
+
+.t-and-c {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+}
+
+.footerterms {
+    width: 340px;
+}
+
+.foot {
+    min-height: 50px;
+}
+
+@media only screen and (max-width:850px) {
+    .titlee {
+        width: 70%;
+        background-color: #00ccff;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #backdesign {
+        margin-right: 100px;
+    }
+}
+
+.footercolor {
+    background-color: black !important;
+    height: 75px !important;
+}
+
+:root,
+:root.light {
+    --some-value: black;
+    --some-other-value: white;
+}

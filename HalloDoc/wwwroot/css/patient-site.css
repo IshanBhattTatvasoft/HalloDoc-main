@@ -1,0 +1,44 @@
+body{
+    display: flex;
+    padding: 0%;
+    margin: 0%;
+    box-sizing: border-box;
+    height: 100vh;
+    width: 100vw;
+    justify-content: center;
+    /* align-items: center; */
+}
+
+.moon-flex{
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+.change-theme {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    border: none;
+    background-color: transparent;
+}
+
+.night-mode-icon {
+    height: 45px;
+    width: 45px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.hide-icon{
+    display: none;
+}
+
+#main-page{
+    height: 100vh;
+}
+
