@@ -1,4 +1,4 @@
-body{
+.main{
     display: flex;
     padding: 0%;
     margin: 0%;
@@ -14,7 +14,15 @@ body{
     justify-content: flex-end;
     position: absolute;
     top: 7px;
-    right: 15px;
+    right: 0px;
+    background-color: red !important;
+}
+
+@media only screen and (max-width: 400px) {
+    .logo-resize{
+        height: 110px;
+        width: 150px;
+    }
 }
 
 .change-theme {

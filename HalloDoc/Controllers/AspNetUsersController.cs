@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HalloDoc.Models;
+using Humanizer;
+using Azure;
 
 namespace HalloDoc.Controllers
 {
@@ -21,6 +23,9 @@ namespace HalloDoc.Controllers
         // GET: AspNetUsers
         public async Task<IActionResult> Index()
         {
+            //_context.AspNetUsers != null: This checks if the AspNetUsers property of the _context(an instance of HalloDocDbContext) is not null.If it's not null, it means that the database context has been properly initialized, and it's safe to retrieve the list of AspNetUsers.
+            //If the AspNetUsers property is not null, this line asynchronously retrieves all AspNetUser entities from the database using the ToListAsync() method and passes them to the View method.
+            //If the AspNetUsers property is null(indicating that the entity set is not properly initialized), this line returns a problem response with a message indicating the issue.
               return _context.AspNetUsers != null ? 
                           View(await _context.AspNetUsers.ToListAsync()) :
                           Problem("Entity set 'HalloDocDbContext.AspNetUsers'  is null.");
