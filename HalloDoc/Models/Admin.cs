@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace HalloDoc.Models;
@@ -8,7 +7,7 @@ public partial class Admin
 {
     public int AdminId { get; set; }
 
-    public string AspNetUserId { get; set; } = null!;
+    public int AspNetUserId { get; set; }
 
     public string FirstName { get; set; } = null!;
 
@@ -30,23 +29,25 @@ public partial class Admin
 
     public string? AltPhone { get; set; }
 
-    public string CreatedBy { get; set; } = null!;
+    public int CreatedBy { get; set; }
 
     public DateTime CreatedDate { get; set; }
 
-    public string? ModifiedBy { get; set; }
+    public int? ModifiedBy { get; set; }
 
     public DateTime? ModifiedDate { get; set; }
 
     public short? Status { get; set; }
 
-    public BitArray? IsDeleted { get; set; }
+    public bool? IsDeleted { get; set; }
 
     public int? RoleId { get; set; }
 
     public virtual ICollection<AdminRegion> AdminRegions { get; set; } = new List<AdminRegion>();
 
     public virtual AspNetUser AspNetUser { get; set; } = null!;
+
+    public virtual AspNetUser CreatedByNavigation { get; set; } = null!;
 
     public virtual AspNetUser? ModifiedByNavigation { get; set; }
 

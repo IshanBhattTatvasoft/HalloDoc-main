@@ -18,7 +18,7 @@ public partial class Shift
 
     public int? RepeatUpto { get; set; }
 
-    public string CreatedBy { get; set; } = null!;
+    public int CreatedBy { get; set; }
 
     public DateTime CreatedDate { get; set; }
 

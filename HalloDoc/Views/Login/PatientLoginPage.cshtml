@@ -2,7 +2,6 @@
 @{
     ViewData["Title"] = "PatientLoginPage";
 }
-<Partial name="_ValidationScriptsPartial" />
 @section Styles {
     <link href="~/css/patient-platform-login-page.css" rel="stylesheet" type="text/css" />
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
@@ -53,9 +52,9 @@
 
             </div>
 
-            <form method="post">
+            <form method="post" asp-action="PatientLoginPage">
                 <div class="form-floating mb-4 w-100 input-icons first-input">
-                    <input type="text" class="form-control bg-transparent" id="floatingInput" placeholder="name@example.com" asp-for="UserName" required>
+                    <input asp-for="UserName" type="text" class="form-control bg-transparent" id="floatingInput" placeholder="name@example.com" required>
                     <label for="floatingInput" class="text-muted inp">Username</label>
                     <span asp-validation-for="UserName" class="text-danger"></span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -66,8 +65,8 @@
 
                 <div class="form-floating mb-4 w-100 input-icons first-input">
                     <i class="fa-solid fa-eye icon"></i>
-                    <input type="password" class="form-control bg-transparent" id="floatingPassword" placeholder="Password" asp-for="Password" required>
-                    <span asp-validation-for="Password" class="text-danger"></span>
+                    <input type="password" class="form-control bg-transparent" id="floatingPassword" placeholder="Password" asp-for="PasswordHash" required>
+                    <span asp-validation-for="PasswordHash" class="text-danger"></span>
                     <label for="floatingPassword" class="text-muted inp">Password</label>
                     <svg onclick="onpress()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-eye person-icon hide-eye" viewBox="0 0 16 16">

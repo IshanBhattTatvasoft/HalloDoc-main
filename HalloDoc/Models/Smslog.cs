@@ -6,7 +6,7 @@ namespace HalloDoc.Models;
 
 public partial class Smslog
 {
-    public decimal SmslogId { get; set; }
+    public int SmslogId { get; set; }
 
     public string Smstemplate { get; set; } = null!;
 

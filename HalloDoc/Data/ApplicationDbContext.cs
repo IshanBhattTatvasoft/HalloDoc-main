@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using HalloDoc.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HalloDoc.Models;
+namespace HalloDoc.Data;
 
-public partial class HalloDocDbContext : DbContext
+public partial class ApplicationDbContext : DbContext
 {
-    public HalloDocDbContext()
+    public ApplicationDbContext()
     {
     }
 
-    public HalloDocDbContext(DbContextOptions<HalloDocDbContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
@@ -23,8 +24,6 @@ public partial class HalloDocDbContext : DbContext
 
     public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
 
-    public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
-
     public virtual DbSet<BlockRequest> BlockRequests { get; set; }
 
     public virtual DbSet<Business> Businesses { get; set; }
@@ -34,6 +33,8 @@ public partial class HalloDocDbContext : DbContext
     public virtual DbSet<Concierge> Concierges { get; set; }
 
     public virtual DbSet<EmailLog> EmailLogs { get; set; }
+
+    public virtual DbSet<Family> Families { get; set; }
 
     public virtual DbSet<HealthProfessional> HealthProfessionals { get; set; }
 
@@ -63,6 +64,8 @@ public partial class HalloDocDbContext : DbContext
 
     public virtual DbSet<RequestConcierge> RequestConcierges { get; set; }
 
+    public virtual DbSet<RequestFamily> RequestFamilies { get; set; }
+
     public virtual DbSet<RequestNote> RequestNotes { get; set; }
 
     public virtual DbSet<RequestStatusLog> RequestStatusLogs { get; set; }
@@ -87,7 +90,7 @@ public partial class HalloDocDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseNpgsql("Host=localhost;Database=HalloDocDB;Username=postgres;Password=Ishan1503");
+        => optionsBuilder.UseNpgsql("User ID = postgres;Password=ishan123;Server=localhost;Port=5432;Database=HalloDocDB;Integrated Security=true;Pooling=true;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -100,16 +103,12 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.Address1).HasMaxLength(500);
             entity.Property(e => e.Address2).HasMaxLength(500);
             entity.Property(e => e.AltPhone).HasMaxLength(20);
-            entity.Property(e => e.AspNetUserId).HasMaxLength(128);
             entity.Property(e => e.City).HasMaxLength(100);
-            entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(100);
-            entity.Property(e => e.IsDeleted).HasColumnType("bit(1)");
             entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.Mobile).HasMaxLength(20);
-            entity.Property(e => e.ModifiedBy).HasMaxLength(128);
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Zip).HasMaxLength(10);
 
@@ -117,6 +116,11 @@ public partial class HalloDocDbContext : DbContext
                 .HasForeignKey(d => d.AspNetUserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Admin_AspNetUserId_fkey");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.AdminCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Admin_CreatedBy_fkey");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.AdminModifiedByNavigations)
                 .HasForeignKey(d => d.ModifiedBy)
@@ -144,7 +148,6 @@ public partial class HalloDocDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("AspNetRoles_pkey");
 
-            entity.Property(e => e.Id).HasMaxLength(128);
             entity.Property(e => e.Name).HasMaxLength(256);
         });
 
@@ -152,29 +155,31 @@ public partial class HalloDocDbContext : DbContext
         {
             entity.HasKey(e => e.Id).HasName("AspNetUsers_pkey");
 
-            entity.Property(e => e.Id).HasMaxLength(128);
+            entity.HasIndex(e => e.Email, "AspNetUsers_Email_key").IsUnique();
+
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Email).HasMaxLength(256);
             entity.Property(e => e.Ip)
                 .HasMaxLength(20)
                 .HasColumnName("IP");
-            entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.PasswordHash).HasColumnType("character varying");
-            entity.Property(e => e.PhoneNumber).HasMaxLength(20);
             entity.Property(e => e.UserName).HasMaxLength(256);
-        });
 
-        modelBuilder.Entity<AspNetUserRole>(entity =>
-        {
-            entity.HasKey(e => new { e.UserId, e.RoleId }).HasName("AspNetUserRoles_pkey");
-
-            entity.Property(e => e.UserId).HasMaxLength(128);
-            entity.Property(e => e.RoleId).HasMaxLength(128);
-
-            entity.HasOne(d => d.User).WithMany(p => p.AspNetUserRoles)
-                .HasForeignKey(d => d.UserId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("AspNetUserRoles_UserId_fkey");
+            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
+                .UsingEntity<Dictionary<string, object>>(
+                    "AspNetUserRole",
+                    r => r.HasOne<AspNetRole>().WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("AspNetUserRoles_RoleId_fkey"),
+                    l => l.HasOne<AspNetUser>().WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .HasConstraintName("AspNetUserRoles_UserId_fkey"),
+                    j =>
+                    {
+                        j.HasKey("UserId", "RoleId").HasName("AspNetUserRoles_pkey");
+                        j.ToTable("AspNetUserRoles");
+                    });
         });
 
         modelBuilder.Entity<BlockRequest>(entity =>
@@ -189,7 +194,6 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.IsActive).HasColumnType("bit(1)");
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
-            entity.Property(e => e.Reason).HasColumnType("character varying");
             entity.Property(e => e.RequestId).HasMaxLength(50);
         });
 
@@ -202,7 +206,6 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.Address1).HasMaxLength(500);
             entity.Property(e => e.Address2).HasMaxLength(500);
             entity.Property(e => e.City).HasMaxLength(50);
-            entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.FaxNumber).HasMaxLength(20);
             entity.Property(e => e.Ip)
@@ -210,7 +213,6 @@ public partial class HalloDocDbContext : DbContext
                 .HasColumnName("IP");
             entity.Property(e => e.IsDeleted).HasColumnType("bit(1)");
             entity.Property(e => e.IsRegistered).HasColumnType("bit(1)");
-            entity.Property(e => e.ModifiedBy).HasMaxLength(128);
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Name).HasMaxLength(100);
             entity.Property(e => e.PhoneNumber).HasMaxLength(20);
@@ -231,11 +233,10 @@ public partial class HalloDocDbContext : DbContext
 
         modelBuilder.Entity<CaseTag>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("CaseTag");
+            entity.HasKey(e => e.CaseTagId).HasName("CaseTag_pkey");
 
-            entity.Property(e => e.CaseTagId).ValueGeneratedOnAdd();
+            entity.ToTable("CaseTag");
+
             entity.Property(e => e.Name).HasMaxLength(50);
         });
 
@@ -249,14 +250,15 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.City).HasMaxLength(50);
             entity.Property(e => e.ConciergeName).HasMaxLength(100);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.RoleId).HasMaxLength(20);
+            entity.Property(e => e.Ip)
+                .HasMaxLength(20)
+                .HasColumnName("IP");
             entity.Property(e => e.State).HasMaxLength(50);
             entity.Property(e => e.Street).HasMaxLength(50);
             entity.Property(e => e.ZipCode).HasMaxLength(50);
 
             entity.HasOne(d => d.Region).WithMany(p => p.Concierges)
                 .HasForeignKey(d => d.RegionId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Concierge_RegionId_fkey");
         });
 
@@ -266,19 +268,44 @@ public partial class HalloDocDbContext : DbContext
 
             entity.ToTable("EmailLog");
 
-            entity.Property(e => e.EmailLogId)
-                .HasPrecision(9)
-                .HasColumnName("EmailLogID");
+            entity.Property(e => e.EmailLogId).HasColumnName("EmailLogID");
             entity.Property(e => e.ConfirmationNumber).HasMaxLength(200);
             entity.Property(e => e.CreateDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.EmailId)
                 .HasMaxLength(200)
                 .HasColumnName("EmailID");
-            entity.Property(e => e.EmailTemplate).HasColumnType("character varying");
-            entity.Property(e => e.FilePath).HasColumnType("character varying");
             entity.Property(e => e.IsEmailSent).HasColumnType("bit(1)");
             entity.Property(e => e.SentDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.SubjectName).HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<Family>(entity =>
+        {
+            entity.HasKey(e => e.Familyid).HasName("Family_pkey");
+
+            entity.ToTable("Family");
+
+            entity.Property(e => e.Familyid)
+                .ValueGeneratedNever()
+                .HasColumnName("familyid");
+            entity.Property(e => e.Createddate)
+                .HasColumnType("timestamp without time zone")
+                .HasColumnName("createddate");
+            entity.Property(e => e.Email)
+                .HasMaxLength(50)
+                .HasColumnName("email");
+            entity.Property(e => e.Firstname)
+                .HasMaxLength(100)
+                .HasColumnName("firstname");
+            entity.Property(e => e.Lastname)
+                .HasMaxLength(100)
+                .HasColumnName("lastname");
+            entity.Property(e => e.Mobile)
+                .HasMaxLength(20)
+                .HasColumnName("mobile");
+            entity.Property(e => e.Relation)
+                .HasMaxLength(100)
+                .HasColumnName("relation");
         });
 
         modelBuilder.Entity<HealthProfessional>(entity =>
@@ -336,7 +363,6 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FaxNumber).HasMaxLength(50);
-            entity.Property(e => e.Prescription).HasColumnType("character varying");
         });
 
         modelBuilder.Entity<Physician>(entity =>
@@ -349,11 +375,9 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.Address2).HasMaxLength(500);
             entity.Property(e => e.AdminNotes).HasMaxLength(500);
             entity.Property(e => e.AltPhone).HasMaxLength(20);
-            entity.Property(e => e.AspNetUserId).HasMaxLength(128);
             entity.Property(e => e.BusinessName).HasMaxLength(100);
             entity.Property(e => e.BusinessWebsite).HasMaxLength(200);
             entity.Property(e => e.City).HasMaxLength(100);
-            entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(100);
@@ -368,7 +392,6 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.MedicalLicense).HasMaxLength(500);
             entity.Property(e => e.Mobile).HasMaxLength(20);
-            entity.Property(e => e.ModifiedBy).HasMaxLength(128);
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Npinumber)
                 .HasMaxLength(500)
@@ -384,7 +407,6 @@ public partial class HalloDocDbContext : DbContext
 
             entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.PhysicianCreatedByNavigations)
                 .HasForeignKey(d => d.CreatedBy)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("Physician_CreatedBy_fkey");
 
             entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.PhysicianModifiedByNavigations)
@@ -394,21 +416,15 @@ public partial class HalloDocDbContext : DbContext
 
         modelBuilder.Entity<PhysicianLocation>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("PhysicianLocation");
+            entity.HasKey(e => e.LocationId).HasName("PhysicianLocation_pkey");
+
+            entity.ToTable("PhysicianLocation");
 
             entity.Property(e => e.Address).HasMaxLength(500);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Latitude).HasPrecision(11, 8);
-            entity.Property(e => e.LocationId).ValueGeneratedOnAdd();
-            entity.Property(e => e.Longitude).HasPrecision(11, 8);
+            entity.Property(e => e.Latitude).HasPrecision(9, 6);
+            entity.Property(e => e.Longitude).HasPrecision(9, 6);
             entity.Property(e => e.PhysicianName).HasMaxLength(50);
-
-            entity.HasOne(d => d.Physician).WithMany()
-                .HasForeignKey(d => d.PhysicianId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("PhysicianLocation_PhysicianId_fkey");
         });
 
         modelBuilder.Entity<PhysicianNotification>(entity =>
@@ -530,9 +546,9 @@ public partial class HalloDocDbContext : DbContext
                 .HasColumnName("IP");
             entity.Property(e => e.IsMobile).HasColumnType("bit(1)");
             entity.Property(e => e.LastName).HasMaxLength(100);
-            entity.Property(e => e.Latitude).HasPrecision(11, 8);
+            entity.Property(e => e.Latitude).HasPrecision(9, 6);
             entity.Property(e => e.Location).HasMaxLength(100);
-            entity.Property(e => e.Longitude).HasPrecision(11, 8);
+            entity.Property(e => e.Longitude).HasPrecision(9, 6);
             entity.Property(e => e.Notes).HasMaxLength(500);
             entity.Property(e => e.NotiEmail).HasMaxLength(50);
             entity.Property(e => e.NotiMobile).HasMaxLength(20);
@@ -598,25 +614,50 @@ public partial class HalloDocDbContext : DbContext
                 .HasConstraintName("RequestConcierge_RequestId_fkey");
         });
 
+        modelBuilder.Entity<RequestFamily>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("RequestFamily_pkey");
+
+            entity.ToTable("RequestFamily");
+
+            entity.Property(e => e.Familyid).HasColumnName("familyid");
+            entity.Property(e => e.Requestid).HasColumnName("requestid");
+
+            entity.HasOne(d => d.Family).WithMany(p => p.RequestFamilies)
+                .HasForeignKey(d => d.Familyid)
+                .HasConstraintName("RequestFamily_familyid_fkey");
+
+            entity.HasOne(d => d.Request).WithMany(p => p.RequestFamilies)
+                .HasForeignKey(d => d.Requestid)
+                .HasConstraintName("RequestFamily_requestid_fkey");
+        });
+
         modelBuilder.Entity<RequestNote>(entity =>
         {
             entity.HasKey(e => e.RequestNotesId).HasName("RequestNotes_pkey");
 
             entity.Property(e => e.AdminNotes).HasMaxLength(500);
             entity.Property(e => e.AdministrativeNotes).HasMaxLength(500);
-            entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.IntDate).HasColumnName("intDate");
             entity.Property(e => e.IntYear).HasColumnName("intYear");
             entity.Property(e => e.Ip)
                 .HasMaxLength(20)
                 .HasColumnName("IP");
-            entity.Property(e => e.ModifiedBy).HasMaxLength(128);
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.PhysicianNotes).HasMaxLength(500);
             entity.Property(e => e.StrMonth)
                 .HasMaxLength(20)
                 .HasColumnName("strMonth");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.RequestNoteCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("RequestNotes_CreatedBy_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.RequestNoteModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("RequestNotes_ModifiedBy_fkey");
 
             entity.HasOne(d => d.Request).WithMany(p => p.RequestNotes)
                 .HasForeignKey(d => d.RequestId)
@@ -736,7 +777,6 @@ public partial class HalloDocDbContext : DbContext
 
             entity.ToTable("Shift");
 
-            entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Ip)
                 .HasMaxLength(20)
@@ -767,7 +807,6 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.IsDeleted).HasColumnType("bit(1)");
             entity.Property(e => e.IsSync).HasColumnType("bit(1)");
             entity.Property(e => e.LastRunningDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.ModifiedBy).HasMaxLength(128);
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.ShiftDate).HasColumnType("timestamp without time zone");
 
@@ -806,19 +845,14 @@ public partial class HalloDocDbContext : DbContext
 
             entity.ToTable("SMSLog");
 
-            entity.Property(e => e.SmslogId)
-                .HasPrecision(9)
-                .HasColumnName("SMSLogID");
-            entity.Property(e => e.ConfirmationNumber).HasMaxLength(200);
+            entity.Property(e => e.SmslogId).HasColumnName("SMSLogID");
             entity.Property(e => e.CreateDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.IsSmssent)
                 .HasColumnType("bit(1)")
                 .HasColumnName("IsSMSSent");
             entity.Property(e => e.MobileNumber).HasMaxLength(50);
             entity.Property(e => e.SentDate).HasColumnType("timestamp without time zone");
-            entity.Property(e => e.Smstemplate)
-                .HasColumnType("character varying")
-                .HasColumnName("SMSTemplate");
+            entity.Property(e => e.Smstemplate).HasColumnName("SMSTemplate");
         });
 
         modelBuilder.Entity<User>(entity =>
@@ -827,10 +861,7 @@ public partial class HalloDocDbContext : DbContext
 
             entity.ToTable("User");
 
-            entity.Property(e => e.UserId).ValueGeneratedNever();
-            entity.Property(e => e.AspNetUserId).HasMaxLength(128);
             entity.Property(e => e.City).HasMaxLength(100);
-            entity.Property(e => e.CreatedBy).HasMaxLength(128);
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FirstName).HasMaxLength(100);
@@ -844,7 +875,6 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.IsRequestWithEmail).HasColumnType("bit(1)");
             entity.Property(e => e.LastName).HasMaxLength(100);
             entity.Property(e => e.Mobile).HasMaxLength(20);
-            entity.Property(e => e.ModifiedBy).HasMaxLength(128);
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.State).HasMaxLength(100);
             entity.Property(e => e.StrMonth)
@@ -853,9 +883,18 @@ public partial class HalloDocDbContext : DbContext
             entity.Property(e => e.Street).HasMaxLength(100);
             entity.Property(e => e.ZipCode).HasMaxLength(10);
 
-            entity.HasOne(d => d.AspNetUser).WithMany(p => p.Users)
+            entity.HasOne(d => d.AspNetUser).WithMany(p => p.UserAspNetUsers)
                 .HasForeignKey(d => d.AspNetUserId)
                 .HasConstraintName("User_AspNetUserId_fkey");
+
+            entity.HasOne(d => d.CreatedByNavigation).WithMany(p => p.UserCreatedByNavigations)
+                .HasForeignKey(d => d.CreatedBy)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("User_CreatedBy_fkey");
+
+            entity.HasOne(d => d.ModifiedByNavigation).WithMany(p => p.UserModifiedByNavigations)
+                .HasForeignKey(d => d.ModifiedBy)
+                .HasConstraintName("User_ModifiedBy_fkey");
         });
 
         OnModelCreatingPartial(modelBuilder);

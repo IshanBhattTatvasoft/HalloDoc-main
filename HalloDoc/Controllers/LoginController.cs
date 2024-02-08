@@ -1,4 +1,5 @@
-﻿using HalloDoc.Models;
+﻿using HalloDoc.Data;
+using HalloDoc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -7,14 +8,14 @@ namespace HalloDoc.Controllers
 {
     public class LoginController : Controller
     {
-        private readonly ILogger<LoginController> _logger;
+       /* private readonly ILogger<LoginController> _logger;*/
 
         //public LoginController(ILogger<LoginController> logger)
         //{
         //    _logger = logger;
         //}
-        private readonly HalloDocDbContext _context;
-        public LoginController(HalloDocDbContext context)
+        private readonly ApplicationDbContext _context;
+        public LoginController(ApplicationDbContext context)
         {
             /* _logger = logger;*/
             _context = context;
@@ -28,10 +29,11 @@ namespace HalloDoc.Controllers
 
             if (ModelState.IsValid)
             {
+                Debug.WriteLine(model.UserName);
                 var user = _context.AspNetUsers.FirstOrDefault(u => u.UserName == model.UserName);
                 if (user != null)
                 {
-                    if (model.Password == user.PasswordHash)
+                    if (model.PasswordHash == user.PasswordHash)
                     {
                         return RedirectToAction("PatientDashboardAndMedicalHistory");
                     }

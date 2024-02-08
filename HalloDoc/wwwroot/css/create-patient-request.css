@@ -13,7 +13,9 @@
     border: none;
     background-color: transparent;
 }
-
+.hidden-pass{
+    display:none;
+}
 .night-mode-icon {
     height: 45px;
     width: 45px;

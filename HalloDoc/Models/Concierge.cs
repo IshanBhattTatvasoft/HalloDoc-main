@@ -21,11 +21,11 @@ public partial class Concierge
 
     public DateTime CreatedDate { get; set; }
 
-    public int RegionId { get; set; }
+    public int? RegionId { get; set; }
 
-    public string? RoleId { get; set; }
+    public string? Ip { get; set; }
 
-    public virtual Region Region { get; set; } = null!;
+    public virtual Region? Region { get; set; }
 
     public virtual ICollection<RequestConcierge> RequestConcierges { get; set; } = new List<RequestConcierge>();
 }

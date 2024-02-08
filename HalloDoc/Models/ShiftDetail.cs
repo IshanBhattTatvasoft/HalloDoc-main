@@ -22,7 +22,7 @@ public partial class ShiftDetail
 
     public BitArray IsDeleted { get; set; } = null!;
 
-    public string? ModifiedBy { get; set; }
+    public int? ModifiedBy { get; set; }
 
     public DateTime? ModifiedDate { get; set; }
 

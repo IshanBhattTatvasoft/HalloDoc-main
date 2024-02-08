@@ -18,6 +18,4 @@ public partial class PhysicianLocation
     public string? PhysicianName { get; set; }
 
     public string? Address { get; set; }
-
-    public virtual Physician Physician { get; set; } = null!;
 }

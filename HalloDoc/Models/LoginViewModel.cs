@@ -8,7 +8,6 @@ namespace HalloDoc.Models
         [Required(ErrorMessage = "UserName is incorrect")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Password is incorrect")]
-        [DataType(DataType.Password)]
-        public string Password { get; set; }
+        public string PasswordHash { get; set; }
     }
 }

@@ -17,6 +17,7 @@ using static System.Net.Mime.MediaTypeNames;
 using System.Runtime.Intrinsics.X86;
 using System.Drawing;
 using System.IO;
+using HalloDoc.Data;
 
 //Following function marks the starting point for building an ASP.NET Core web application by providing a flexible and efficient configuration API.
 //It initializes a WebApplicationBuilder object and the parameter 'args' accepts an array of strings representing command-line arguments passed to your application when it starts.
@@ -35,7 +36,7 @@ builder.Services.AddControllersWithViews();
 //(options => ...): This is a lambda expression that configures the DbContext options. Inside the lambda expression, options refers to an instance of DbContextOptionsBuilder, which is used to configure the DbContext.
 //options.UseNpgsql(...): This configures the DbContext to use a PostgreSQL database. UseNpgsql is a method provided by Entity Framework Core's PostgreSQL provider (Npgsql.EntityFrameworkCore.PostgreSQL). It takes a connection string as an argument.
 //builder.Configuration.GetConnectionString("HalloDocDbContext"): This retrieves the connection string named "HalloDocDbContext" from the application's configuration. The connection string typically contains information such as the server, database name, credentials, etc., needed to connect to the PostgreSQL database.
-builder.Services.AddDbContext<HalloDocDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("HalloDocDbContext")));
 var app = builder.Build();
 

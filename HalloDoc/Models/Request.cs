@@ -34,7 +34,7 @@ public partial class Request
 
     public string? DeclinedBy { get; set; }
 
-    public BitArray IsUrgentEmailSent { get; set; } = null!;
+    public BitArray? IsUrgentEmailSent { get; set; }
 
     public DateTime? LastWellnessDate { get; set; }
 
@@ -71,6 +71,8 @@ public partial class Request
     public virtual ICollection<RequestClosed> RequestCloseds { get; set; } = new List<RequestClosed>();
 
     public virtual ICollection<RequestConcierge> RequestConcierges { get; set; } = new List<RequestConcierge>();
+
+    public virtual ICollection<RequestFamily> RequestFamilies { get; set; } = new List<RequestFamily>();
 
     public virtual ICollection<RequestNote> RequestNotes { get; set; } = new List<RequestNote>();
 
