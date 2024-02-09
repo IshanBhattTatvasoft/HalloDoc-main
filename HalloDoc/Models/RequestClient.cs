@@ -8,8 +8,6 @@ public partial class RequestClient
 {
     public int RequestClientId { get; set; }
 
-    public int RequestId { get; set; }
-
     public string FirstName { get; set; } = null!;
 
     public string? LastName { get; set; }
@@ -64,5 +62,5 @@ public partial class RequestClient
 
     public virtual Region? Region { get; set; }
 
-    public virtual Request Request { get; set; } = null!;
+    public virtual ICollection<Request> Requests { get; set; } = new List<Request>();
 }

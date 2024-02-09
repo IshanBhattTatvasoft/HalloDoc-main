@@ -26,4 +26,26 @@ public class PatientRequestModel
     public string ConciergeEmail { get; set; }
     public string ConciergePhoneNumber { get; set; }
     public string ConciergePropertyName { get; set; }
+    public string ConciergeStreet { get; set; }
+    public string ConciergeCity { get; set; }
+    public string ConciergeState { get; set; }
+    public string ConciergeZipcode { get; set; }
+
+
+    public string BusinessFirstName { get; set; }
+    public string BusinessLastName { get; set; }
+    public string BusinessPhoneNumber { get; set; }
+    public string BusinessEmail { get; set; }
+    public string BusinessPropertyName { get; set; }
+    public string BusinessCaseNumber { get; set; }
+
+
+    public string FamilyFirstName { get; set; }
+    public string FamilyLastName { get; set;}
+    public string FamilyPhoneNumber { get; set;}
+    public string FamilyEmail { get; set;}
+    public string FamilyRelation { get; set;}
+
+
+    //public string ConciergeFirstName { get; set; }
 }

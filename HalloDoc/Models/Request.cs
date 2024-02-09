@@ -62,11 +62,13 @@ public partial class Request
 
     public int? CreatedUserId { get; set; }
 
+    public int RequestClientId { get; set; }
+
     public virtual Physician? Physician { get; set; }
 
     public virtual ICollection<RequestBusiness> RequestBusinesses { get; set; } = new List<RequestBusiness>();
 
-    public virtual ICollection<RequestClient> RequestClients { get; set; } = new List<RequestClient>();
+    public virtual RequestClient RequestClient { get; set; } = null!;
 
     public virtual ICollection<RequestClosed> RequestCloseds { get; set; } = new List<RequestClosed>();
 

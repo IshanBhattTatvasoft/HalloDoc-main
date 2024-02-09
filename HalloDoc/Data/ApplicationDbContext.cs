@@ -503,6 +503,11 @@ public partial class ApplicationDbContext : DbContext
                 .HasForeignKey(d => d.PhysicianId)
                 .HasConstraintName("Request_PhysicianId_fkey");
 
+            entity.HasOne(d => d.RequestClient).WithMany(p => p.Requests)
+                .HasForeignKey(d => d.RequestClientId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_request_requestclient");
+
             entity.HasOne(d => d.User).WithMany(p => p.Requests)
                 .HasForeignKey(d => d.UserId)
                 .HasConstraintName("Request_UserId_fkey");
@@ -563,11 +568,6 @@ public partial class ApplicationDbContext : DbContext
             entity.HasOne(d => d.Region).WithMany(p => p.RequestClients)
                 .HasForeignKey(d => d.RegionId)
                 .HasConstraintName("RequestClient_RegionId_fkey");
-
-            entity.HasOne(d => d.Request).WithMany(p => p.RequestClients)
-                .HasForeignKey(d => d.RequestId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("RequestClient_RequestId_fkey");
         });
 
         modelBuilder.Entity<RequestClosed>(entity =>

@@ -1,6 +1,7 @@
 ﻿@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@model PatientRequestModel
 @{
     ViewData["Title"] = "CreateFamilyFriendRequest";
 }
@@ -41,6 +42,7 @@
                 </a>
             </div>
             
+            <form method="post" asp-action="CreateFamilyFriendRequest" asp-controller="PatientRequest" enctype="multipart/form-data">
             <div class="row">
                 <div class="col mt-4 ps-0">
                     <p class="h5 text-muted fw-bold">
@@ -50,28 +52,28 @@
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FamilyFirstName">
                     <label for="floatingInput" class="ms-2 text-muted">Your First Name</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
-                    <label for="floatingInput" class="ms-2 text-muted">Your Last Name</label>
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FamilyLastName">
+                        <label for="floatingInput" class="ms-2 text-muted">Your Last Name</label>
                 </div>
             </div>
             <div class="row">
 
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FamilyEmail">
                     <label for="floatingInput" class="ms-2 text-muted">Your Email</label>
                 </div>
                 <div class="col-sm-6 mt-3 form-floating">
-                    <input id="phone" class="form-control" type="tel" name="phone" />
+                    <input id="phone" class="form-control" type="tel" name="phone" asp-controller="FamilyPhoneNumber"/>
                 </div>
             </div>
 
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FamilyRelation">
                     <label for="floatingInput" class="ms-2 text-muted">Relation With Patient</label>
                 </div>
             </div>
@@ -86,22 +88,22 @@
             <div class="row">
                 <div class="col mb-3">
                     <textarea class="form-control" id="firstTextArea"
-                              placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4"></textarea>
+                              placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4" asp-for="Symptoms"></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
                     <label for="floatingInput" class="ms-2 text-muted">Your First Name</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
                     <label for="floatingInput" class="ms-2 text-muted">Your Last Name</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 form-floating mt-3">
-                    <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth">
+                    <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
                     <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
                 </div>
             </div>
@@ -115,11 +117,11 @@
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
                     <label for="floatingInput" class="ms-2 text-muted">Email</label>
                 </div>
                 <div class="col-sm-6 mt-3 form-floating">
-                    <input id="phone1" class="form-control" type="tel" name="phone" />
+                    <input id="phone1" class="form-control" type="tel" name="phone" asp-for="PhoneNumber"/>
                 </div>
 
             </div>
@@ -133,27 +135,27 @@
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Street">
                     <label for="floatingInput" class="ms-2 text-muted">Street</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
                     <label for="floatingInput" class="ms-2 text-muted">City</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="State">
                     <label for="floatingInput" class="ms-2 text-muted">State</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zipcode">
                     <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Room">
                     <label for="floatingInput" class="ms-2 text-muted">Room # / Suite (Optional)</label>
                 </div>
             </div>
@@ -169,7 +171,7 @@
                 <div class="container py-3 col">
 
                     <div class="input-group custom-file-button">
-                        <input type="file" class="form-control" id="inputGroupFile">
+                        <input type="file" class="form-control" id="inputGroupFile" asp-for="File">
                         <label class="input-group-text" style="background-color: cyan;" for="inputGroupFile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
@@ -186,9 +188,10 @@
             <div class="row">
                 <div class="col">
                     <button type="button" class="btn btn-outline-info float-end mb-3">Cancel</button>
-                    <button type="button" class="btn btn-info float-end me-3 mb-3">Submit</button>
+                    <button type="submit" class="btn btn-info float-end me-3 mb-3">Submit</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
