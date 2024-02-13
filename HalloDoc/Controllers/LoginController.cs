@@ -1,7 +1,9 @@
-﻿using HalloDoc.Data;
+﻿using Azure.Core;
+using HalloDoc.Data;
 using HalloDoc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace HalloDoc.Controllers
@@ -35,6 +37,11 @@ namespace HalloDoc.Controllers
                 {
                     if (model.PasswordHash == user.PasswordHash)
                     {
+                        var user2 = _context.Users.Where(x => x.Email == model.UserName);
+                        User users = user2.ToList().First();
+                        HttpContext.Session.SetInt32("id", users.UserId);
+                        HttpContext.Session.SetString("Name", users.FirstName);
+                        HttpContext.Session.SetString("IsLoggedIn", "true");
                         return RedirectToAction("PatientDashboardAndMedicalHistory");
                     }
                     else
@@ -58,6 +65,29 @@ namespace HalloDoc.Controllers
         }
 
         public IActionResult PatientDashboardAndMedicalHistory()
+        {
+            var data = (
+        from req in _context.Requests
+        join file in _context.RequestWiseFiles on req.RequestId equals file.RequestId into files
+        from file in files.DefaultIfEmpty()
+        group file by new { req.RequestId, req.CreatedDate, req.Status } into fileGroup
+        select new TableContent
+        {
+            RequestId = fileGroup.Key.RequestId,
+            CreatedDate = fileGroup.Key.CreatedDate,
+            Status = fileGroup.Key.Status,
+            Count = fileGroup.Count()
+        }).ToList();
+
+            var viewModel = new DashboardViewModel
+            {
+                requests = data
+            };
+
+            return View(viewModel);
+        }
+
+        public IActionResult PatientDashboardViewDocuments()
         {
             return View();
         }

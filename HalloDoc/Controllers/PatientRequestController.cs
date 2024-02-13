@@ -3,6 +3,9 @@ using HalloDoc.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Http;
+
+using Region = HalloDoc.Models.Region;
 
 namespace HalloDoc.Controllers
 {
@@ -31,90 +34,133 @@ namespace HalloDoc.Controllers
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
+            var temp = model.State.ToLower().Trim();
+            var region = _context.Regions.FirstOrDefault(u => u.Name.ToLower().Trim().Equals(temp));
+            if (region == null)
+            {
+                ModelState.AddModelError("State", "Currently we are not serving in this region");
+                return View(model);
+            }
+            var blockedUser = _context.BlockRequests.FirstOrDefault(u => u.Email == model.Email);
+            if (blockedUser != null)
+            {
+                ModelState.AddModelError("Email", "This patient is blocked.");
+                return View(model);
+            }
+
+            if (model.File != null && model.File.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.ImageContent.CopyToAsync(stream);
+                }
+            }
+
             var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == model.Email);
             bool userExists = true;
-            if (existingUser == null)
+            if(ModelState.IsValid)
             {
-                userExists = false;
-                aspNetUser.UserName = model.Email;
-                aspNetUser.Email = model.Email;
-                aspNetUser.PhoneNumber = model.PhoneNumber;
-                aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
-                _context.AspNetUsers.Add(aspNetUser);
+                if (existingUser == null)
+                {
+                    userExists = false;
+                    aspNetUser.UserName = model.Email;
+                    aspNetUser.Email = model.Email;
+                    aspNetUser.PhoneNumber = model.PhoneNumber;
+                    aspNetUser.CreatedDate = DateTime.Now;
+                    aspNetUser.PasswordHash = model.Password;
+                    _context.AspNetUsers.Add(aspNetUser);
+                    await _context.SaveChangesAsync();
+
+                    user.AspNetUserId = aspNetUser.Id;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.Mobile = model.PhoneNumber;
+                    user.Street = model.Street;
+                    user.City = model.City;
+                    user.State = model.State;
+                    user.ZipCode = model.Zipcode;
+                    user.IntDate = model.DOB.Day;
+                    user.StrMonth = model.DOB.Month.ToString();
+                    user.IntYear = model.DOB.Year;
+                    user.CreatedBy = aspNetUser.Id;
+                    user.CreatedDate = DateTime.Now;
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+
+                requestClient.FirstName = model.FirstName;
+                requestClient.LastName = model.LastName;
+                requestClient.PhoneNumber = model.PhoneNumber;
+                requestClient.Location = model.City;
+                requestClient.Address = model.Street;
+                requestClient.RegionId = 1;
+                requestClient.Notes = model.Symptoms;
+                requestClient.Email = model.Email;
+                requestClient.IntDate = model.DOB.Day;
+                requestClient.StrMonth = model.DOB.Month.ToString();
+                requestClient.IntYear = model.DOB.Year;
+                requestClient.Street = model.Street;
+                requestClient.City = model.City;
+                requestClient.State = model.State;
+                requestClient.ZipCode = model.Zipcode;
+                _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
 
-                user.AspNetUserId = aspNetUser.Id;
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.Mobile = model.PhoneNumber;
-                user.Street = model.Street;
-                user.City = model.City;
-                user.State = model.State;
-                user.ZipCode = model.Zipcode;
-                user.IntDate = model.DOB.Day;
-                user.StrMonth = model.DOB.Month.ToString();
-                user.IntYear = model.DOB.Year;
-                user.CreatedBy = aspNetUser.Id;
-                user.CreatedDate = DateTime.Now;
-                _context.Users.Add(user);
+                request.RequestTypeId = 1;
+                if (!userExists)
+                {
+                    request.UserId = user.UserId;
+                }
+                request.FirstName = model.FirstName;
+                request.LastName = model.LastName;
+                request.Email = model.Email;
+                request.PhoneNumber = model.PhoneNumber;
+                request.Status = 1;
+                request.CreatedDate = DateTime.Now;
+                request.RequestClientId = requestClient.RequestClientId;
+                _context.Requests.Add(request);
                 await _context.SaveChangesAsync();
-            }
 
-            requestClient.FirstName = model.FirstName;
-            requestClient.LastName = model.LastName;
-            requestClient.PhoneNumber = model.PhoneNumber;
-            requestClient.Location = model.City;
-            requestClient.Address = model.Street;
-            requestClient.RegionId = 1;
-            requestClient.Notes = model.Symptoms;
-            requestClient.Email = model.Email;
-            requestClient.IntDate = model.DOB.Day;
-            requestClient.StrMonth = model.DOB.Month.ToString();
-            requestClient.IntYear = model.DOB.Year;
-            requestClient.Street = model.Street;
-            requestClient.City = model.City;
-            requestClient.State = model.State;
-            requestClient.ZipCode = model.Zipcode;
-            _context.RequestClients.Add(requestClient);
-            await _context.SaveChangesAsync();
+                if (model.ImageContent != null && model.ImageContent.Length > 0)
+                {
+                    var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", model.ImageContent.FileName);
 
-            request.RequestTypeId = 1;
-            if (!userExists)
-            {
-                request.UserId = user.UserId;
-            }
-            request.FirstName = model.FirstName;
-            request.LastName = model.LastName;
-            request.Email = model.Email;
-            request.PhoneNumber = model.PhoneNumber;
-            request.Status = 1;
-            request.CreatedDate = DateTime.Now;
-            request.RequestClientId = requestClient.RequestClientId;
-            _context.Requests.Add(request);
-            await _context.SaveChangesAsync();
+                    using (var stream = new FileStream(uploadPath, FileMode.Create))
+                    {
+                        await model.ImageContent.CopyToAsync(stream);
+                    }
+                    var filePath = "/uploads/" + model.ImageContent.FileName;
 
-            if (model.File != null)
-            {
-                requestWiseFile.RequestId = request.RequestId;
-                requestWiseFile.FileName = model.File;
-                requestWiseFile.CreatedDate = DateTime.Now;
-                _context.RequestWiseFiles.Add(requestWiseFile);
+                    requestWiseFile.RequestId = request.RequestId;
+                    requestWiseFile.FileName = filePath;
+                    requestWiseFile.CreatedDate = request.CreatedDate;
+                    _context.RequestWiseFiles.Add(requestWiseFile);
+                    await _context.SaveChangesAsync();
+                }
+
+                requestStatusLog.RequestId = request.RequestId;
+                requestStatusLog.Status = 1;
+                requestStatusLog.Notes = model.Symptoms;
+                requestStatusLog.CreatedDate = DateTime.Now;
+                _context.RequestStatusLogs.Add(requestStatusLog);
                 await _context.SaveChangesAsync();
+                return RedirectToAction("PatientSite", "Login");
             }
 
-            requestStatusLog.RequestId = request.RequestId;
-            requestStatusLog.Status = 1;
-            requestStatusLog.Notes = model.Symptoms;
-            requestStatusLog.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(requestStatusLog);
-            await _context.SaveChangesAsync();
-            return View();
+            else
+            {
+                return View("CreatePatientRequest");
+            }
+
+            
+
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateFamilyFriendRequest(PatientRequestModel model)
+        public async Task<IActionResult> CreateFamilyFriendRequest(FamilyRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
             User user = new User();
@@ -123,93 +169,120 @@ namespace HalloDoc.Controllers
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
+            var region = _context.Regions.FirstOrDefault(u => u.Name == model.State.Trim().ToLower().Replace(" ", ""));
+            if (region == null)
+            {
+                ModelState.AddModelError("State", "Currently we are not serving in this region");
+                return View(model);
+            }
+
+            if (model.File != null && model.File.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.ImageContent.CopyToAsync(stream);
+                }
+            }
+
             var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == model.Email);
             bool userExists = true;
-            if (existingUser == null)
+
+            if(ModelState.IsValid)
             {
-                userExists = false;
-                aspNetUser.UserName = model.Email;
-                aspNetUser.Email = model.Email;
-                aspNetUser.PhoneNumber = model.PhoneNumber;
-                aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
-                _context.AspNetUsers.Add(aspNetUser);
+                if (existingUser == null)
+                {
+                    userExists = false;
+                    aspNetUser.UserName = model.Email;
+                    aspNetUser.Email = model.Email;
+                    aspNetUser.PhoneNumber = model.PhoneNumber;
+                    aspNetUser.CreatedDate = DateTime.Now;
+                    aspNetUser.PasswordHash = model.Password;
+                    _context.AspNetUsers.Add(aspNetUser);
+                    await _context.SaveChangesAsync();
+
+                    user.AspNetUserId = aspNetUser.Id;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.Mobile = model.PhoneNumber;
+                    user.Street = model.Street;
+                    user.City = model.City;
+                    user.State = model.State;
+                    user.ZipCode = model.Zipcode;
+                    user.IntDate = model.DOB.Day;
+                    user.StrMonth = model.DOB.Month.ToString();
+                    user.IntYear = model.DOB.Year;
+                    user.CreatedBy = aspNetUser.Id;
+                    user.CreatedDate = DateTime.Now;
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+
+                requestClient.FirstName = model.FirstName;
+                requestClient.LastName = model.LastName;
+                requestClient.PhoneNumber = model.PhoneNumber;
+                requestClient.Location = model.City;
+                requestClient.Address = model.Street;
+                requestClient.RegionId = 1;
+                if (model.Symptoms != null)
+                {
+                    requestClient.Notes = model.Symptoms;
+                }
+                requestClient.Email = model.Email;
+                requestClient.IntDate = model.DOB.Day;
+                requestClient.StrMonth = model.DOB.Month.ToString();
+                requestClient.IntYear = model.DOB.Year;
+                requestClient.Street = model.Street;
+                requestClient.City = model.City;
+                requestClient.State = model.State;
+                requestClient.ZipCode = model.Zipcode;
+                _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
 
-                user.AspNetUserId = aspNetUser.Id;
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.Mobile = model.PhoneNumber;
-                user.Street = model.Street;
-                user.City = model.City;
-                user.State = model.State;
-                user.ZipCode = model.Zipcode;
-                user.IntDate = model.DOB.Day;
-                user.StrMonth = model.DOB.Month.ToString();
-                user.IntYear = model.DOB.Year;
-                user.CreatedBy = aspNetUser.Id;
-                user.CreatedDate = DateTime.Now;
-                _context.Users.Add(user);
+                request.RequestTypeId = 2;
+                if (!userExists)
+                {
+                    request.UserId = user.UserId;
+                }
+                request.FirstName = model.FamilyFirstName;
+                request.LastName = model.FamilyLastName;
+                request.Email = model.FamilyEmail;
+                request.PhoneNumber = model.FamilyPhoneNumber;
+                request.Status = 1;
+                request.CreatedDate = DateTime.Now;
+                request.RequestClientId = requestClient.RequestClientId;
+                _context.Requests.Add(request);
                 await _context.SaveChangesAsync();
-            }
 
-            requestClient.FirstName = model.FirstName;
-            requestClient.LastName = model.LastName;
-            requestClient.PhoneNumber = model.PhoneNumber;
-            requestClient.Location = model.City;
-            requestClient.Address = model.Street;
-            requestClient.RegionId = 1;
-            if (model.Symptoms != null)
-            {
-                requestClient.Notes = model.Symptoms;
-            }
-            requestClient.Email = model.Email;
-            requestClient.IntDate = model.DOB.Day;
-            requestClient.StrMonth = model.DOB.Month.ToString();
-            requestClient.IntYear = model.DOB.Year;
-            requestClient.Street = model.Street;
-            requestClient.City = model.City;
-            requestClient.State = model.State;
-            requestClient.ZipCode = model.Zipcode;
-            _context.RequestClients.Add(requestClient);
-            await _context.SaveChangesAsync();
+                if (model.File != null)
+                {
+                    requestWiseFile.RequestId = request.RequestId;
+                    requestWiseFile.FileName = model.File;
+                    requestWiseFile.CreatedDate = DateTime.Now;
+                    _context.RequestWiseFiles.Add(requestWiseFile);
+                    await _context.SaveChangesAsync();
+                }
 
-            request.RequestTypeId = 2;
-            if (!userExists)
-            {
-                request.UserId = user.UserId;
-            }
-            request.FirstName = model.FamilyFirstName;
-            request.LastName = model.FamilyLastName;
-            request.Email = model.FamilyEmail;
-            request.PhoneNumber = model.FamilyPhoneNumber;
-            request.Status = 1;
-            request.CreatedDate = DateTime.Now;
-            request.RequestClientId = requestClient.RequestClientId;
-            _context.Requests.Add(request);
-            await _context.SaveChangesAsync();
-
-            if (model.File != null)
-            {
-                requestWiseFile.RequestId = request.RequestId;
-                requestWiseFile.FileName = model.File;
-                requestWiseFile.CreatedDate = DateTime.Now;
-                _context.RequestWiseFiles.Add(requestWiseFile);
+                requestStatusLog.RequestId = request.RequestId;
+                requestStatusLog.Status = 1;
+                requestStatusLog.Notes = model.Symptoms;
+                requestStatusLog.CreatedDate = DateTime.Now;
+                _context.RequestStatusLogs.Add(requestStatusLog);
                 await _context.SaveChangesAsync();
+                return RedirectToAction("PatientSite", "Login");
+
             }
 
-            requestStatusLog.RequestId = request.RequestId;
-            requestStatusLog.Status = 1;
-            requestStatusLog.Notes = model.Symptoms;
-            requestStatusLog.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(requestStatusLog);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("SubmitRequestScreen", "Login");
+            else
+            {
+                return View("CreateFamilyFriendRequest");
+            }
+
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateConciergeRequest(PatientRequestModel model)
+        public async Task<IActionResult> CreateConciergeRequest(ConceirgeRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
             User user = new User();
@@ -223,104 +296,113 @@ namespace HalloDoc.Controllers
             var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == model.Email);
             bool userExists = true;
 
-            if (existingUser == null)
+            if(ModelState.IsValid)
             {
-                userExists = false;
-                aspNetUser.UserName = model.Email;
-                aspNetUser.Email = model.Email;
-                aspNetUser.PhoneNumber = model.PhoneNumber;
-                aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
-                _context.AspNetUsers.Add(aspNetUser);
+                if (existingUser == null)
+                {
+                    userExists = false;
+                    aspNetUser.UserName = model.Email;
+                    aspNetUser.Email = model.Email;
+                    aspNetUser.PhoneNumber = model.PhoneNumber;
+                    aspNetUser.CreatedDate = DateTime.Now;
+                    aspNetUser.PasswordHash = model.Password;
+                    _context.AspNetUsers.Add(aspNetUser);
+                    await _context.SaveChangesAsync();
+
+                    user.AspNetUserId = aspNetUser.Id;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.Mobile = model.PhoneNumber;
+                    user.Street = model.Street;
+                    user.City = model.City;
+                    user.State = model.State;
+                    user.ZipCode = model.Zipcode;
+                    user.IntDate = model.DOB.Day;
+                    user.StrMonth = model.DOB.Month.ToString();
+                    user.IntYear = model.DOB.Year;
+                    user.CreatedBy = aspNetUser.Id;
+                    user.CreatedDate = DateTime.Now;
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+                requestClient.FirstName = model.FirstName;
+                requestClient.LastName = model.LastName;
+                requestClient.PhoneNumber = model.PhoneNumber;
+                requestClient.Location = model.City;
+                requestClient.Address = model.Street;
+                requestClient.RegionId = 1;
+                requestClient.Notes = model.Symptoms;
+                requestClient.Email = model.Email;
+                requestClient.IntDate = model.DOB.Day;
+                requestClient.StrMonth = model.DOB.Month.ToString();
+                requestClient.IntYear = model.DOB.Year;
+                requestClient.Street = model.Street;
+                requestClient.City = model.City;
+                requestClient.State = model.State;
+                requestClient.ZipCode = model.Zipcode;
+                _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
 
-                user.AspNetUserId = aspNetUser.Id;
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.Mobile = model.PhoneNumber;
-                user.Street = model.Street;
-                user.City = model.City;
-                user.State = model.State;
-                user.ZipCode = model.Zipcode;
-                user.IntDate = model.DOB.Day;
-                user.StrMonth = model.DOB.Month.ToString();
-                user.IntYear = model.DOB.Year;
-                user.CreatedBy = aspNetUser.Id;
-                user.CreatedDate = DateTime.Now;
-                _context.Users.Add(user);
+                request.RequestTypeId = 3;
+                if (!userExists)
+                {
+                    request.UserId = user.UserId;
+                }
+                request.FirstName = model.ConciergeFirstName;
+                request.LastName = model.ConciergeLastName;
+                request.Email = model.ConciergeEmail;
+                request.PhoneNumber = model.ConciergePhoneNumber;
+                request.Status = 1;
+                request.CreatedDate = DateTime.Now;
+                request.RequestClientId = requestClient.RequestClientId;
+                _context.Requests.Add(request);
                 await _context.SaveChangesAsync();
-            }
-            requestClient.FirstName = model.FirstName;
-            requestClient.LastName = model.LastName;
-            requestClient.PhoneNumber = model.PhoneNumber;
-            requestClient.Location = model.City;
-            requestClient.Address = model.Street;
-            requestClient.RegionId = 1;
-            requestClient.Notes = model.Symptoms;
-            requestClient.Email = model.Email;
-            requestClient.IntDate = model.DOB.Day;
-            requestClient.StrMonth = model.DOB.Month.ToString();
-            requestClient.IntYear = model.DOB.Year;
-            requestClient.Street = model.Street;
-            requestClient.City = model.City;
-            requestClient.State = model.State;
-            requestClient.ZipCode = model.Zipcode;
-            _context.RequestClients.Add(requestClient);
-            await _context.SaveChangesAsync();
 
-            request.RequestTypeId = 3;
-            if (!userExists)
-            {
-                request.UserId = user.UserId;
-            }
-            request.FirstName = model.ConciergeFirstName;
-            request.LastName = model.ConciergeLastName;
-            request.Email = model.ConciergeEmail;
-            request.PhoneNumber = model.ConciergePhoneNumber;
-            request.Status = 1;
-            request.CreatedDate = DateTime.Now;
-            request.RequestClientId = requestClient.RequestClientId;
-            _context.Requests.Add(request);
-            await _context.SaveChangesAsync();
+                if (model.File != null)
+                {
+                    requestWiseFile.RequestId = request.RequestId;
+                    requestWiseFile.FileName = model.File;
+                    requestWiseFile.CreatedDate = DateTime.Now;
+                    _context.RequestWiseFiles.Add(requestWiseFile);
+                    await _context.SaveChangesAsync();
+                }
 
-            if (model.File != null)
-            {
-                requestWiseFile.RequestId = request.RequestId;
-                requestWiseFile.FileName = model.File;
-                requestWiseFile.CreatedDate = DateTime.Now;
-                _context.RequestWiseFiles.Add(requestWiseFile);
+                requestStatusLog.RequestId = request.RequestId;
+                requestStatusLog.Status = 1;
+                requestStatusLog.Notes = model.Symptoms;
+                requestStatusLog.CreatedDate = DateTime.Now;
+                _context.RequestStatusLogs.Add(requestStatusLog);
                 await _context.SaveChangesAsync();
+
+                concierge.ConciergeName = model.ConciergeFirstName;
+                concierge.Address = model.ConciergePropertyName;
+                concierge.Street = model.ConciergeStreet;
+                concierge.City = model.ConciergeCity;
+                concierge.State = model.ConciergeState;
+                concierge.ZipCode = model.ConciergeZipcode;
+                concierge.CreatedDate = DateTime.Now;
+                _context.Concierges.Add(concierge);
+                await _context.SaveChangesAsync();
+
+                requestConcierge.RequestId = request.RequestId;
+                requestConcierge.ConciergeId = concierge.ConciergeId;
+                _context.RequestConcierges.Add(requestConcierge);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("PatientSite", "Login");
+
             }
 
-            requestStatusLog.RequestId = request.RequestId;
-            requestStatusLog.Status = 1;
-            requestStatusLog.Notes = model.Symptoms;
-            requestStatusLog.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(requestStatusLog);
-            await _context.SaveChangesAsync();
-
-            concierge.ConciergeName = model.ConciergeFirstName;
-            concierge.Address = model.ConciergePropertyName;
-            concierge.Street = model.ConciergeStreet;
-            concierge.City = model.ConciergeCity;
-            concierge.State = model.ConciergeState;
-            concierge.ZipCode = model.ConciergeZipcode;
-            concierge.CreatedDate = DateTime.Now;
-            _context.Concierges.Add(concierge);
-            await _context.SaveChangesAsync();
-
-            requestConcierge.RequestId = request.RequestId;
-            requestConcierge.ConciergeId = concierge.ConciergeId;
-            _context.RequestConcierges.Add(requestConcierge);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("SubmitRequestScreen", "Login");
+            else
+            {
+                return View("CreateConciergeRequest");
+            }
 
         }
 
-
-        public async Task <IActionResult> CreateBusinessRequest(PatientRequestModel model)
+        [HttpPost]
+        public async Task <IActionResult> CreateBusinessRequest(BusinessRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
             User user = new User();
@@ -334,101 +416,117 @@ namespace HalloDoc.Controllers
             var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == model.Email);
             bool userExists = true;
 
-            if(existingUser == null)
+            var region = _context.Regions.FirstOrDefault(u => u.Name == model.State.Trim().ToLower().Replace(" ", ""));
+            if (region == null)
             {
-                userExists = false;
-                aspNetUser.UserName = model.Email;
-                aspNetUser.Email = model.Email;
-                aspNetUser.PhoneNumber = model.PhoneNumber;
-                aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
-                _context.AspNetUsers.Add(aspNetUser);
-                await _context.SaveChangesAsync();
-
-                user.AspNetUserId = aspNetUser.Id;
-                user.FirstName = model.FirstName;
-                user.LastName = model.LastName;
-                user.Email = model.Email;
-                user.Mobile = model.PhoneNumber;
-                user.Street = model.Street;
-                user.City = model.City;
-                user.State = model.State;
-                user.ZipCode = model.Zipcode;
-                user.IntDate = model.DOB.Day;
-                user.StrMonth = model.DOB.Month.ToString();
-                user.IntYear = model.DOB.Year;
-                user.CreatedBy = aspNetUser.Id;
-                user.CreatedDate = DateTime.Now;
-                _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                ModelState.AddModelError("State", "Currently we are not serving in this region");
+                return View(model);
             }
 
-            requestClient.FirstName = model.FirstName;
-            requestClient.LastName = model.LastName;
-            requestClient.PhoneNumber = model.PhoneNumber;
-            requestClient.Location = model.City;
-            requestClient.Address = model.Street;
-            requestClient.RegionId = 1;
-            requestClient.Notes = model.Symptoms;
-            requestClient.Email = model.Email;
-            requestClient.IntDate = model.DOB.Day;
-            requestClient.StrMonth = model.DOB.Month.ToString();
-            requestClient.IntYear = model.DOB.Year;
-            requestClient.Street = model.Street;
-            requestClient.City = model.City;
-            requestClient.State = model.State;
-            requestClient.ZipCode = model.Zipcode;
-            _context.RequestClients.Add(requestClient);
-            await _context.SaveChangesAsync();
-
-            request.RequestTypeId = 4;
-            if (!userExists)
+            if (ModelState.IsValid)
             {
-                request.UserId = user.UserId;
-            }
-            request.FirstName = model.BusinessFirstName;
-            request.LastName = model.BusinessLastName;
-            request.Email = model.BusinessEmail;
-            request.PhoneNumber = model.BusinessPhoneNumber;
-            request.Status = 1;
-            request.CreatedDate = DateTime.Now;
-            request.RequestClientId = requestClient.RequestClientId;
-            _context.Requests.Add(request);
-            await _context.SaveChangesAsync();
+                if (existingUser == null)
+                {
+                    userExists = false;
+                    aspNetUser.UserName = model.Email;
+                    aspNetUser.Email = model.Email;
+                    aspNetUser.PhoneNumber = model.PhoneNumber;
+                    aspNetUser.CreatedDate = DateTime.Now;
+                    aspNetUser.PasswordHash = model.Password;
+                    _context.AspNetUsers.Add(aspNetUser);
+                    await _context.SaveChangesAsync();
 
-            if (model.File != null)
-            {
-                requestWiseFile.RequestId = request.RequestId;
-                requestWiseFile.FileName = model.File;
-                requestWiseFile.CreatedDate = DateTime.Now;
-                _context.RequestWiseFiles.Add(requestWiseFile);
+                    user.AspNetUserId = aspNetUser.Id;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.Email = model.Email;
+                    user.Mobile = model.PhoneNumber;
+                    user.Street = model.Street;
+                    user.City = model.City;
+                    user.State = model.State;
+                    user.ZipCode = model.Zipcode;
+                    user.IntDate = model.DOB.Day;
+                    user.StrMonth = model.DOB.Month.ToString();
+                    user.IntYear = model.DOB.Year;
+                    user.CreatedBy = aspNetUser.Id;
+                    user.CreatedDate = DateTime.Now;
+                    _context.Users.Add(user);
+                    await _context.SaveChangesAsync();
+                }
+
+                requestClient.FirstName = model.FirstName;
+                requestClient.LastName = model.LastName;
+                requestClient.PhoneNumber = model.PhoneNumber;
+                requestClient.Location = model.City;
+                requestClient.Address = model.Street;
+                requestClient.RegionId = 1;
+                requestClient.Notes = model.Symptoms;
+                requestClient.Email = model.Email;
+                requestClient.IntDate = model.DOB.Day;
+                requestClient.StrMonth = model.DOB.Month.ToString();
+                requestClient.IntYear = model.DOB.Year;
+                requestClient.Street = model.Street;
+                requestClient.City = model.City;
+                requestClient.State = model.State;
+                requestClient.ZipCode = model.Zipcode;
+                _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
+
+                request.RequestTypeId = 4;
+                if (!userExists)
+                {
+                    request.UserId = user.UserId;
+                }
+                request.FirstName = model.BusinessFirstName;
+                request.LastName = model.BusinessLastName;
+                request.Email = model.BusinessEmail;
+                request.PhoneNumber = model.BusinessPhoneNumber;
+                request.Status = 1;
+                request.CreatedDate = DateTime.Now;
+                request.RequestClientId = requestClient.RequestClientId;
+                _context.Requests.Add(request);
+                await _context.SaveChangesAsync();
+
+                if (model.File != null)
+                {
+                    requestWiseFile.RequestId = request.RequestId;
+                    requestWiseFile.FileName = model.File;
+                    requestWiseFile.CreatedDate = DateTime.Now;
+                    _context.RequestWiseFiles.Add(requestWiseFile);
+                    await _context.SaveChangesAsync();
+                }
+
+                requestStatusLog.RequestId = request.RequestId;
+                requestStatusLog.Status = 1;
+                requestStatusLog.Notes = model.Symptoms;
+                requestStatusLog.CreatedDate = DateTime.Now;
+                _context.RequestStatusLogs.Add(requestStatusLog);
+                await _context.SaveChangesAsync();
+
+                business.Name = model.BusinessFirstName + " " + model.BusinessLastName;
+                business.Address1 = model.BusinessPropertyName;
+                business.Address2 = model.BusinessPropertyName;
+                business.City = model.BusinessPropertyName;
+                business.ZipCode = "361002";
+                //business.PhoneNumber = model.BusinessPhoneNumber;
+                business.CreatedDate = DateTime.Now;
+                business.RegionId = 1;
+                _context.Businesses.Add(business);
+                await _context.SaveChangesAsync();
+
+                requestBusiness.RequestId = request.RequestId;
+                requestBusiness.BusinessId = business.BusinessId;
+                _context.RequestBusinesses.Add(requestBusiness);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("PatientSite", "Login");
+
             }
 
-            requestStatusLog.RequestId = request.RequestId;
-            requestStatusLog.Status = 1;
-            requestStatusLog.Notes = model.Symptoms;
-            requestStatusLog.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(requestStatusLog);
-            await _context.SaveChangesAsync();
-
-            business.Name = model.BusinessFirstName + " " + model.BusinessLastName;
-            business.Address1 = model.BusinessPropertyName;
-            business.Address2 = model.BusinessPropertyName;
-            business.City = model.BusinessPropertyName;
-            business.ZipCode = "361002";
-            //business.PhoneNumber = model.BusinessPhoneNumber;
-            business.CreatedDate = DateTime.Now;
-            business.RegionId = 1;
-            _context.Businesses.Add(business);
-            await _context.SaveChangesAsync();
-
-            requestBusiness.RequestId = request.RequestId;
-            requestBusiness.BusinessId = business.BusinessId;
-            _context.RequestBusinesses.Add(requestBusiness);
-            await _context.SaveChangesAsync();
-
-            return RedirectToAction("SubmitRequestScreen", "Login");
+            else
+            {
+                return View("CreateBusinessRequest");
+            }
         }
 
         

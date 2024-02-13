@@ -26,6 +26,15 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 //builder.Services is used to add services to the dependency injection container.
 //i) a dependency is when one object relies on another object to perform its function. For example, a Car object might depend on a Engine object to run.
 //ii)  Injection refers to the passing of a dependency (usually as a parameter) to a dependent object. Instead of the dependent object creating its own dependencies, they are "injected" into it from an external source.
@@ -57,6 +66,9 @@ if (!app.Environment.IsDevelopment())
     app.UseRouting();
     //This middleware is used to enable authorization in the application. It performs authentication and authorization checks for incoming requests based on the configured policies and requirements.
     app.UseAuthorization();
+
+    app.UseSession();
+
     //This method configures MVC-style routing for controller actions. It defines a route named "default" with a pattern that specifies the default controller (LoginController) and action to be invoked when a request matches the specified pattern. The {id?} part indicates that the id parameter is optional.
     app.MapControllerRoute(
         name: "default",

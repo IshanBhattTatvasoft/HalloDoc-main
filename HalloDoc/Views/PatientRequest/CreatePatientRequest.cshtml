@@ -43,7 +43,7 @@
                     Back
                 </a>
             </div>
-            <form method="post" asp-action="CreatePatientRequest" asp-controller="PatientRequest" enctype="multipart/form-data">
+            <form  asp-action="CreatePatientRequest" asp-controller="PatientRequest" enctype="multipart/form-data">
             <div class="row">
                 <div class="col mt-4 ps-0">
                     <p class="h5 text-muted fw-bold ms-0" id="heading-one">
@@ -61,16 +61,21 @@
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
                     <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
                     <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 form-floating mt-3">
                     <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
                     <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
+                        <span asp-validation-for="DOB" class="text-danger"></span>
+
                 </div>
 
             </div>
@@ -86,22 +91,29 @@
                 <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="Email">
                     <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+
                 </div>
                 <div class="col-sm-6 mt-3 form-floating">
-                        <input id="phone" class="form-control" type="tel" name="phone" asp-for="PhoneNumber" />
-                </div>
+                        <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" required/>
+                        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                    </div>
             </div>
 
-            <div class="row hidden-pass" style="display:none;">
+            @*<div class="row hidden-pass" style="display:none;">
                 <div class="form-floating col-sm-6 mt-3">
                         <input type="password" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Password">
                     <label for="floatingInput" class="ms-2 text-muted">Create Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
                         <input type="password" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Password">
                     <label for="floatingInput" class="ms-2 text-muted">Confirm Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
                 </div>
-            </div>
+            </div>*@
 
             <div class="row">
                 <div class="col mt-4">
@@ -114,21 +126,26 @@
                 <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Street">
                     <label for="floatingInput" class="ms-2 text-muted">Street</label>
+                        <span asp-validation-for="Street" class="text-danger"></span>
+
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
                     <label for="floatingInput" class="ms-2 text-muted">City</label>
-                </div>
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="State">
                     <label for="floatingInput" class="ms-2 text-muted">State</label>
-                </div>
+                        <span asp-validation-for="State" class="text-danger"></span>
+                    </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zipcode">
                     <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
-                </div>
+                        <span asp-validation-for="Zipcode" class="text-danger"></span>
+                    </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
@@ -148,7 +165,7 @@
                 <div class="container py-3 col">
 
                     <div class="input-group custom-file-button">
-                            <input type="file" class="form-control" id="inputGroupFile" asp-for="File">
+                            <input type="file" class="form-control" id="inputGroupFile" asp-for="ImageContent">
                         <label class="input-group-text" style="background-color: cyan;" for="inputGroupFile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">

@@ -1,7 +1,8 @@
-﻿
+﻿@model HalloDoc.Models.DashboardViewModel
 @{
     ViewData["Title"] = "PatientDashboardAndMedicalHistory";
 }
+
 <Partial name="_Notification" />
 @section Styles {
     <link href="~/css/patient-dashboard-and-medical-history.css" rel="stylesheet" type="text/css" />
@@ -11,7 +12,7 @@
 <div>
     <nav class="navbar navbar-expand-lg navbar-light d-none d-sm-flex">
         <div class="container-fluid">
-            <img src="./images/logo1.png" alt="" style="height: 80px;" class="ms-5">
+            <img src="~/images/logo1.png" alt="" style="height: 80px;" class="ms-5">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -22,7 +23,7 @@
                         <p class="h5">Welcome <span class="fw-bold">Tests Testing</span></p>
                     </li>
                     <li class="nav-item mt-4" style="margin-right:100px;">
-                        <button type="button" class="border border-info border-2 btn btn-outline-info">Logout</button>
+                        <a class="border border-info border-2 btn btn-outline-info" asp-controller="Login" asp-action="PatientDashboardViewDocuments">Logout</a>
                     </li>
                     <li class="nav-item">
                         <div class="moon-flex">
@@ -45,6 +46,43 @@
             </div>
         </div>
     </nav>
+
+    @*<nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Navbar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Dropdown
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Another action</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>*@
 
 
     <!-- Navbar for mobile view -->
@@ -74,9 +112,9 @@
                 </ul>
             </div>
 
-            <img src="./images/logo1.png" alt="" style="height: 80px; position: absolute; left: 75px;">
+            <img src="~/images/logo1.png" alt="" style="height: 80px; position: absolute; left: 75px;">
 
-            <button type="button" class="border border-info border-2 btn btn-outline-info logout-icon"
+            <a class="border border-info border-2 btn btn-outline-info logout-icon"
                     style="height: 40px;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px"
                      fill="currentColor" class="bi bi-box-arrow-right change-my-color d-flex justify-content-center"
@@ -86,7 +124,7 @@
                     <path fill-rule="evenodd"
                           d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
                 </svg>
-            </button>
+            </a>
             <!-- <div class="logout-icon btn btn-outline-info">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                     class="bi bi-box-arrow-right change-my-color" viewBox="0 0 16 16">
@@ -200,71 +238,14 @@
                         </tr>
                     </thead>
                     <tbody class="ms-2">
-                        <tr>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
-
-                        <tr>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>qwerty</td>
-                        </tr>
+                        @foreach (var item in Model.requests)
+                        {
+                            <tr>
+                                <td>@item.CreatedDate</td>
+                                <td>@item.Status</td>
+                                <td><a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments">(@item.Count) Documents</a></td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
@@ -280,180 +261,44 @@
                     </button>
                 </div>
                 <div class="accordion accordion-flush d-sm-none" id="accordionFlushExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingOne">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseOne" aria-expanded="false"
-                                    aria-controls="flush-collapseOne">
-                                Created Date: Dec 5, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseOne" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion
-                                body.
+                    @for (var i = 0; i < Model.requests.Count; ++i)
+                    {
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading@(i)">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapse@(i)" aria-expanded="false" aria-controls="flush-collapse@(i)">
+                                    <img src="~/images/clock.svg" alt="" class="accordion-img"> <span class="accordion-heading">
+                                        Created
+                                        Date: <span class="accordion-value">@Model.requests[i].CreatedDate</span>
+                                    </span>
+                                </button>
+                            </h2>
+                            <div id="flush-collapse@(i)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(i)"
+                                 data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body main-flex">
+                                    <div class="inner-flex">
+                                        <img src="~/images/person-circle.svg" alt="" class="accordion-img-inner">
+                                        <span class="accordion-heading-inner">
+                                            Provider :
+                                            <span class="accordion-value-inner">@Model.requests[i].Name</span>
+                                        </span>
+                                    </div>
+                                    <div class="inner-flex">
+                                        <img src="~/images/success-26.svg" alt="" class="accordion-img-inner"> <span class="accordion-heading-inner">
+                                            Current
+                                            Status: <span class="accordion-value-inner">@Model.requests[i].Status</span>
+                                        </span>
+                                    </div>
+                                    <a class="document-mob" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@(Model.requests[i].RequestId)" style="text-decoration: none;">
+                                        <span class="logout-text">(@(Model.requests[i].Count ?? 0)) Documents</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingTwo">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseTwo" aria-expanded="false"
-                                    aria-controls="flush-collapseTwo">
-                                Created Date: Sep 27, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the second item's accordion
-                                body. Let's imagine this being filled with some actual content.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingThree">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseThree" aria-expanded="false"
-                                    aria-controls="flush-collapseThree">
-                                Created Date: Aug 4, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseThree" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                                body. Nothing more exciting happening here in terms of content, but just filling up the
-                                space to make it look, at least at first glance, a bit more representative of how this
-                                would
-                                look in a real-world application.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingFour">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseFour" aria-expanded="false"
-                                    aria-controls="flush-collapseFour">
-                                Created Date: Aug 4, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseFour" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingFour" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                                body. Nothing more exciting happening here in terms of content, but just filling up the
-                                space to make it look, at least at first glance, a bit more representative of how this
-                                would
-                                look in a real-world application.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingFive">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseFive" aria-expanded="false"
-                                    aria-controls="flush-collapseFive">
-                                Created Date: Aug 4, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseFive" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                                body. Nothing more exciting happening here in terms of content, but just filling up the
-                                space to make it look, at least at first glance, a bit more representative of how this
-                                would
-                                look in a real-world application.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingSix">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseSix" aria-expanded="false"
-                                    aria-controls="flush-collapseSix">
-                                Created Date: Jul 3, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseSix" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingSix" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                                body. Nothing more exciting happening here in terms of content, but just filling up the
-                                space to make it look, at least at first glance, a bit more representative of how this
-                                would
-                                look in a real-world application.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingSeven">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseSeven" aria-expanded="false"
-                                    aria-controls="flush-collapseSeven">
-                                Created Date: May 31, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseSeven" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingSeven" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                                body. Nothing more exciting happening here in terms of content, but just filling up the
-                                space to make it look, at least at first glance, a bit more representative of how this
-                                would
-                                look in a real-world application.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingEight">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseEight" aria-expanded="false"
-                                    aria-controls="flush-collapseEight">
-                                Created Date: May 10, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseEight" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingEight" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                                body. Nothing more exciting happening here in terms of content, but just filling up the
-                                space to make it look, at least at first glance, a bit more representative of how this
-                                would
-                                look in a real-world application.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="flush-headingNine">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#flush-collapseNine" aria-expanded="false"
-                                    aria-controls="flush-collapseNine">
-                                Created Date: Apr 12, 2023
-                            </button>
-                        </h2>
-                        <div id="flush-collapseNine" class="accordion-collapse collapse"
-                             aria-labelledby="flush-headingNine" data-bs-parent="#accordionFlushExample">
-                            <div class="accordion-body">
-                                Placeholder content for this accordion, which is intended to
-                                demonstrate the <code>.accordion-flush</code> class. This is the third item's accordion
-                                body. Nothing more exciting happening here in terms of content, but just filling up the
-                                space to make it look, at least at first glance, a bit more representative of how this
-                                would
-                                look in a real-world application.
-                            </div>
-                        </div>
-                    </div>
+                    }
+                    
+                    
+                    
                 </div>
             </div>
         </div>
@@ -491,4 +336,5 @@
             window.location.assign(`./${document.getElementById("redirect-value").value}`);
         }
     </script>
+    
 </div>

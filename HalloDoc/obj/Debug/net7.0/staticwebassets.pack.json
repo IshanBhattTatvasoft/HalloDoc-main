@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\css\\patient-dashboard-and-medical-history.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\css\\patient-dashboard-view-documents.css",
+      "PackagePath": "staticwebassets\\css\\patient-dashboard-view-documents.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\css\\patient-platform-login-page.css",
       "PackagePath": "staticwebassets\\css\\patient-platform-login-page.css"
     },
@@ -57,12 +61,28 @@
       "PackagePath": "staticwebassets\\images\\LesfImage.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\clock.svg",
+      "PackagePath": "staticwebassets\\images\\clock.svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\hallodoc logo.png",
       "PackagePath": "staticwebassets\\images\\hallodoc logo.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\login.jpg",
+      "PackagePath": "staticwebassets\\images\\login.jpg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\logo1.png",
       "PackagePath": "staticwebassets\\images\\logo1.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\person-circle.svg",
+      "PackagePath": "staticwebassets\\images\\person-circle.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\success-26.svg",
+      "PackagePath": "staticwebassets\\images\\success-26.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\js\\patient-platform-login-page.js",
@@ -299,6 +319,22 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC.pdf",
+      "PackagePath": "staticwebassets\\uploads\\MVC.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024.pdf",
+      "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SQL_Session.pdf",
+      "PackagePath": "staticwebassets\\uploads\\SQL_Session.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",
+      "PackagePath": "staticwebassets\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.HalloDoc.Microsoft.AspNetCore.StaticWebAssets.props",

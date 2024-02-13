@@ -1,0 +1,74 @@
+.moon-flex {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+.change-theme {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+    border: none;
+    background-color: transparent;
+}
+
+.change-theme-mobile-view {
+    position: absolute;
+    right: 2px;
+    top: 87px;
+    border: none;
+    background-color: transparent;
+}
+
+.night-mode-icon {
+    height: 45px;
+    width: 45px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.hide-icon{
+    display: none;
+}
+
+.nav-links a.active{
+    border-bottom: 2px solid #00ccff;
+}
+
+.change-my-color{
+    fill: #54B4D3;
+    /* border: 2px solid #54B4D3; */
+}
+
+.logout-icon{
+    position: absolute;
+    right: 80px;
+    top: 41px;
+}
+
+#backdesign {
+    border-radius: 5px;
+    border: 2px solid rgb(32, 193, 204);
+    padding: 10px;
+    min-width: 90px;
+}
+
+
+th:first-child, td:first-child{
+    width: 40%;
+}
+
+th:last-child, td:last-child{
+    text-align: right;
+}
+
+.download{
+    border: 1px solid cyan;
+    border-radius: 1px;
+    padding: 2px;
+}
+

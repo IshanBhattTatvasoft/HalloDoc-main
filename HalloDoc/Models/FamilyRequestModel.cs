@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 namespace HalloDoc.Models;
 
-public class PatientRequestModel
-{
-    public string ?Symptoms { get; set; }
+    public class FamilyRequestModel
+    {
+    public string Symptoms { get; set; }
     [Required(ErrorMessage = "First name is required")]
-    public  required string FirstName { get; set; }
+    public required string FirstName { get; set; }
     [Required(ErrorMessage = "Last name is required")]
     public string LastName { get; set; }
 
@@ -23,15 +23,25 @@ public class PatientRequestModel
     public string State { get; set; }
     [Required(ErrorMessage = "Zipcode is required")]
     public string Zipcode { get; set; }
-    public string ?Room { get; set; }
+    public string Room { get; set; }
+    [Required(ErrorMessage = "Family First Name is required")]
+    public string FamilyFirstName { get; set; }
+    [Required(ErrorMessage = "Family Last Name is required")]
+    public string FamilyLastName { get; set; }
+    [Required(ErrorMessage = "Family Phone Number is required")]
+    public string FamilyPhoneNumber { get; set; }
+    [Required(ErrorMessage = "Family Email is required")]
+    public string FamilyEmail { get; set; }
+    [Required(ErrorMessage = "Family Relation is required")]
+    public string FamilyRelation { get; set; }
 
-    public string ?Password { get; set; }
-    public string ?File { get; set; }
+    [Required(ErrorMessage = "Password is required")]
+    public string Password { get; set; }
+    public string File { get; set; }
     public bool isPassword { get; set; } = false;
 
-    public IFormFile? ImageContent { get; set; }
+    public IFormFile ImageContent { get; set; }
 
 
-
-    //public string ConciergeFirstName { get; set; }
 }
+

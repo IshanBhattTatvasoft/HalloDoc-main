@@ -1,0 +1,382 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["Title"] = "PatientDashboardViewDocuments";
+}
+@section Styles{
+    <link href="~/css/patient-dashboard-view-documents.css"/>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+<div class="bg-light">
+    <nav class="navbar navbar-expand-lg bg-white d-none d-sm-flex">
+        <div class="container-fluid">
+            <img src="~/images/logo1.png" alt="" style="height: 80px;" class="ms-5">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item mt-4" style="margin-right:40px; margin-top: 30px !important;">
+                        <p class="h5">Welcome <span class="fw-bold">Tests Testing</span></p>
+                    </li>
+                    <li class="nav-item mt-4" style="margin-right:100px;">
+                        <button type="button" class="border border-info border-2 btn btn-outline-info">Logout</button>
+                    </li>
+                    <li class="nav-item">
+                        <div class="moon-flex">
+                            <button onclick="changeTheme()" class="change-theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
+                                    <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                                </svg>
+                            </button>
+                            <button onclick="changeTheme()" class="change-theme hide-icon">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
+                                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                                </svg>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Navbar for mobile view -->
+
+    <nav class="navbar navbar-expand-lg navbar-light d-sm-none">
+        <div class="container-fluid" style="height: 88px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse mt-5" id="navbarNav">
+                <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist" style="margin-top: 10px;">
+                    <li class="nav-item me-3" role="presentation">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                aria-selected="true">
+                            Dashboard
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                                type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                            Profile
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <img src="~/images/logo1.png" alt="" style="height: 80px; position: absolute; left: 75px;">
+
+            <button type="button" class="border border-info border-2 btn btn-outline-info logout-icon"
+                    style="height: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px"
+                     fill="currentColor" class="bi bi-box-arrow-right change-my-color d-flex justify-content-center"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                    <path fill-rule="evenodd"
+                          d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
+            </button>
+            <!-- <div class="logout-icon btn btn-outline-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-arrow-right change-my-color" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
+            </div> -->
+
+            <div class="moon-flex">
+                <button onclick="changeTheme()" class="change-theme-mobile-view">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                    </svg>
+                </button>
+                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="card border-bottom-0 border-left-0 border-right-0 d-none d-sm-flex">
+        <div class="card-body nav-links ms-5">
+            <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                <li class="nav-item me-3" role="presentation">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                        Dashboard
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                        Profile
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+
+            <div style="top: 42px; position: relative;" class="col me-5">
+                <a class="float-end text-info d-flex align-items-center" id="backdesign" style="text-decoration: none;"
+                   asp-controller="Login" asp-action="SubmitRequestScreen">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col mt-2 ms-5">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Documents
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white mt-4 rounded ms-5 me-5">
+            <div class="row">
+                <div class="col text-muted ms-3 mt-3 h6">Patient Name</div>
+            </div>
+
+            <div class="row">
+                <div class="col text-info ms-3 h5">
+                    Testing test <span class="text-muted h6">(MD051023TETE0001)</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col text-muted ms-3 mt-3 h6">
+                    Check here for any files that you or the doctors of your
+                    subsequent requestors have attached for you to review.
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="container py-3 col ms-3 me-3">
+
+                    <div class="input-group custom-file-button">
+                        <input type="file" class="form-control" id="inputGroupFile">
+                        <label class="input-group-text" style="background-color: cyan;" for="inputGroupFile">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                 class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M7.646 5.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708z" />
+                                <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
+                            </svg><span class=" d-none d-sm-flex">Upload</span>
+                        </label>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col mt-4 ms-3">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Documents
+                    </p>
+                </div>
+                <div class="col mt-4 me-3">
+                    <div class="btn btn-outline-info float-end">Download All</div>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-3">
+                <table class="table mb-0">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th scope="col" class="ms-2 me-5"><input type="checkbox" name="name1" />&nbsp;</th>
+                            <th scope="col" class="ms-5">Uploader</th>
+                            <th scope="col">
+                                Upload Date
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up ms-1" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
+                                </svg>
+                            </th>
+                            <th scope="col" class="me-5">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="ms-2">
+                        <tr>
+                            <td scope="col" class="ms-2 me-5">
+                                <input type="checkbox" name="name1" />&nbsp;<span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-filetype-pdf ms-5" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z" />
+                                    </svg>
+                                </span><span class="text-muted ms-3">dummy (1).pdf</span>
+                            </td>
+                            <td class="text-muted">Testing test</td>
+                            <td class="text-muted">Aug 4, 2023</td>
+                            <td>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cyan" class="bi bi-cloud-arrow-down me-4 download" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z" />
+                                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
+                                </svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col" class="ms-2 me-5">
+                                <input type="checkbox" name="name1" />&nbsp;<span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-file-earmark-word ms-5" viewBox="0 0 16 16">
+                                        <path d="M5.485 6.879a.5.5 0 1 0-.97.242l1.5 6a.5.5 0 0 0 .967.01L8 9.402l1.018 3.73a.5.5 0 0 0 .967-.01l1.5-6a.5.5 0 0 0-.97-.242l-1.036 4.144-.997-3.655a.5.5 0 0 0-.964 0l-.997 3.655L5.485 6.88z" />
+                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                                    </svg>
+                                </span><span class="text-muted ms-3">dummy (2).docx</span>
+                            </td>
+                            <td class="text-muted">Testing test</td>
+                            <td class="text-muted">Aug 5, 2023</td>
+                            <td>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cyan" class="bi bi-cloud-arrow-down me-4 download" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z" />
+                                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
+                                </svg>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td scope="col" class="ms-2 me-5">
+                                <input type="checkbox" name="name1" />&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-file-earmark-excel ms-5" viewBox="0 0 16 16">
+                                    <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z" />
+                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                                </svg><span class="text-muted ms-3">dummy (3).xlsx</span>
+                            </td>
+                            <td class="text-muted">Testing test</td>
+                            <td class="text-muted">Aug 6, 2023</td>
+                            <td>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cyan" class="bi bi-cloud-arrow-down me-4 download" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z" />
+                                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
+                                </svg>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let eye = false;
+        function onpress() {
+            if (!eye) {
+                document.getElementsByClassName('person-icon')[2].classList.add('hide-eye');
+                document.getElementsByClassName('person-icon')[1].classList.remove('hide-eye');
+                document.getElementById('floatingPassword').type = "text";
+                eye = true;
+            } else {
+                document.getElementsByClassName('person-icon')[2].classList.remove('hide-eye');
+                document.getElementsByClassName('person-icon')[1].classList.add('hide-eye');
+                document.getElementById('floatingPassword').type = "password";
+                eye = false;
+            }
+        }
+
+        window.onload = function checkingTheme() {
+            let themeCheck = localStorage.getItem('theme');
+            if (themeCheck == null || themeCheck == 'light') {
+                document.getElementById('main-page').style.backgroundColor = '#fcfcfc';
+                document.getElementById('login-text').style.color = 'black';
+                document.getElementsByClassName('first-input')[0].style.backgroundColor = 'white';
+                document.getElementsByClassName('first-input')[1].style.backgroundColor = 'white';
+                document.getElementById('term').style.color = 'gray';
+                document.getElementById('of').style.color = 'gray';
+                document.getElementById('privacy').style.color = 'gray';
+                document.getElementsByClassName('change-theme')[1].classList.add('hide-icon');
+                document.getElementsByClassName('change-theme')[0].classList.remove('hide-icon');
+            }
+            else {
+                document.getElementById('main-page').style.backgroundColor = 'black';
+                document.getElementById('login-text').style.color = 'white';
+                document.getElementsByClassName('first-input')[0].style.backgroundColor = 'white';
+                document.getElementsByClassName('first-input')[1].style.backgroundColor = 'white';
+                document.getElementById('term').style.color = 'white';
+                document.getElementById('of').style.color = 'white';
+                document.getElementById('privacy').style.color = 'white';
+                document.getElementsByClassName('change-theme')[0].classList.add('hide-icon');
+                document.getElementsByClassName('change-theme')[1].classList.remove('hide-icon');
+            }
+        }
+
+        function changeTheme() {
+            let theme = localStorage.getItem('theme');
+            if (theme == null || theme == 'light') {
+                localStorage.setItem('theme', 'dark');
+                console.log('theme changed to dark');
+                document.getElementById('main-page').style.backgroundColor = 'black';
+                document.getElementById('login-text').style.color = 'white';
+                document.getElementsByClassName('first-input')[0].style.backgroundColor = 'white';
+                document.getElementsByClassName('first-input')[1].style.backgroundColor = 'white';
+                document.getElementById('term').style.color = 'white';
+                document.getElementById('of').style.color = 'white';
+                document.getElementById('privacy').style.color = 'white';
+                document.getElementsByClassName('change-theme')[0].classList.add('hide-icon');
+                document.getElementsByClassName('change-theme')[1].classList.remove('hide-icon');
+            }
+            else if (theme == 'dark') {
+                localStorage.setItem('theme', 'light');
+                document.getElementById('main-page').style.backgroundColor = '#fcfcfc';
+                document.getElementById('login-text').style.color = 'black';
+                document.getElementsByClassName('first-input')[0].style.backgroundColor = 'white';
+                document.getElementsByClassName('first-input')[1].style.backgroundColor = 'white';
+                document.getElementById('term').style.color = 'gray';
+                document.getElementById('of').style.color = 'gray';
+                document.getElementById('privacy').style.color = 'gray';
+                document.getElementsByClassName('change-theme')[1].classList.add('hide-icon');
+                document.getElementsByClassName('change-theme')[0].classList.remove('hide-icon');
+            }
+        }
+
+        function changeBackgroundColor(radioButtonId) {
+            var radioButton = document.getElementById(radioButtonId);
+            if (radioButton.checked) {
+                radioButton.parentElement.classList.add('active');
+            } else {
+                radioButton.parentElement.classList.remove('active');
+            }
+        }
+
+        // to add or remove create-request-active page
+        const toggleButton = (redirect_page) => {
+            const buttons = document.getElementsByClassName("common-btn")
+            for (let i = 0; i < buttons.length; ++i) {
+                if (buttons[i].classList.length == 5) {
+                    buttons[i].classList.remove('create-request-active')
+                }
+                else {
+                    buttons[i].classList.add('create-request-active')
+                }
+            }
+            document.getElementById("redirect-value").value = redirect_page;
+        }
+
+        // to redirect to the page passed in the parameter of toggleButton() function
+        const redirect = () => {
+            window.location.assign(`./${document.getElementById("redirect-value").value}`);
+        }
+    </script>
+</div>
