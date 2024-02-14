@@ -66,10 +66,13 @@ namespace HalloDoc.Controllers
 
         public IActionResult PatientDashboardAndMedicalHistory()
         {
+            var userId = HttpContext.Session.GetInt32("id");
+
             var data = (
         from req in _context.Requests
         join file in _context.RequestWiseFiles on req.RequestId equals file.RequestId into files
         from file in files.DefaultIfEmpty()
+        where req.UserId == userId
         group file by new { req.RequestId, req.CreatedDate, req.Status } into fileGroup
         select new TableContent
         {
@@ -79,17 +82,40 @@ namespace HalloDoc.Controllers
             Count = fileGroup.Count()
         }).ToList();
 
+
+
             var viewModel = new DashboardViewModel
             {
-                requests = data
+                requests = data,
+                Username = _context.Users.FirstOrDefault(t => t.UserId == userId).FirstName
             };
 
             return View(viewModel);
         }
 
-        public IActionResult PatientDashboardViewDocuments()
+        public IActionResult PatientDashboardViewDocuments(int requestid)
         {
-            return View();
+            var user_id = HttpContext.Session.GetInt32("id");
+
+            // include() method creates object of RequestClient table where Request.RequestClientId = RequestClient.RequestClientId and this object is added to the Request table (kind of join operation). only those records are present in the variable 'request' whose requestId matches with the id passed in argument
+            var request = _context.Requests.Include(r => r.RequestClient).FirstOrDefault(u => u.RequestId == requestid);
+            
+            // Similarly, we include the records of Admin and Physician where Admin.AdminId = RequestWiseFiles.AdminId and Physician.PhysicianId = Admin.AdminId and only those records are present in the variable 'documents' whose requestId matches with the id passed in argument
+            var documents = _context.RequestWiseFiles.Include(u => u.Admin).Include(u => u.Physician).Where(u => u.RequestId == requestid).ToList();
+            
+            var user = _context.Users.FirstOrDefault(u => u.UserId == user_id);
+
+
+            ViewDocumentModel viewDocumentModal = new ViewDocumentModel()
+            {
+                patient_name = string.Concat(request.RequestClient.FirstName, ' ', request.RequestClient.LastName),
+                name = string.Concat(user.FirstName, ' ', user.LastName),
+                confirmation_number = request.ConfirmationNumber,
+                requestWiseFiles = documents,
+                uploader_name = string.Concat(request.FirstName, ' ', request.LastName),
+                Username = _context.Users.FirstOrDefault(t => t.UserId == user_id).FirstName
+            };
+            return View(viewDocumentModal);
         }
 
         public IActionResult PatientLoginPage()

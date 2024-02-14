@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "YUx1GkkIRgdVEZzxgCfobuCvH+qo/wkX+zbU1McfEpA=",
+  "Hash": "qfHhFhQCfdlckJZ93ICBdwMjA6Ef+ZwJhnYJeAm/6zo=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -389,6 +389,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\success-26.svg"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "js/bootstrap.bundle.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\bootstrap.bundle.min.js"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\js\\patient-platform-login-page.js",
@@ -1392,6 +1409,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234.pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "uploads/Assignment-1234.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\Assignment-1234.pdf"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC.pdf",

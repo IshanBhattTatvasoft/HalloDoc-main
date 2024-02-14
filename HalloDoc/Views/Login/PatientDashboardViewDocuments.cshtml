@@ -1,12 +1,15 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model HalloDoc.Models.ViewDocumentModel
 @{
     ViewData["Title"] = "PatientDashboardViewDocuments";
+    Layout = "_Layout";
 }
 @section Styles{
     <link href="~/css/patient-dashboard-view-documents.css"/>
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts {
+    <script src="~/js/bootstrap.bundle.min.js"></script>
 }
 
 <div class="bg-light">
@@ -20,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item mt-4" style="margin-right:40px; margin-top: 30px !important;">
-                        <p class="h5">Welcome <span class="fw-bold">Tests Testing</span></p>
+                        <p class="h5">Welcome <span class="fw-bold">@Model.Username</span></p>
                     </li>
                     <li class="nav-item mt-4" style="margin-right:100px;">
                         <button type="button" class="border border-info border-2 btn btn-outline-info">Logout</button>
@@ -136,12 +139,12 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="height: 81vh;">
         <div class="row">
 
             <div style="top: 42px; position: relative;" class="col me-5">
-                <a class="float-end text-info d-flex align-items-center" id="backdesign" style="text-decoration: none;"
-                   asp-controller="Login" asp-action="SubmitRequestScreen">
+                <a class="float-end text-info d-flex align-items-center" id="backdesign" style="text-decoration: none; border: 1px solid #20809d;"
+                   asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                          class="bi bi-chevron-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -167,7 +170,7 @@
 
             <div class="row">
                 <div class="col text-info ms-3 h5">
-                    Testing test <span class="text-muted h6">(MD051023TETE0001)</span>
+                    @Model.name <span class="text-muted h6">(@Model.confirmation_number)</span>
                 </div>
             </div>
 
@@ -203,7 +206,7 @@
                     </p>
                 </div>
                 <div class="col mt-4 me-3">
-                    <div class="btn btn-outline-info float-end">Download All</div>
+                    <div class="btn btn-outline-info float-end" onclick="downloadall()">Download All</div>
                 </div>
             </div>
 
@@ -211,70 +214,54 @@
                 <table class="table mb-0">
                     <thead class="table-secondary">
                         <tr>
-                            <th scope="col" class="ms-2 me-5"><input type="checkbox" name="name1" />&nbsp;</th>
-                            <th scope="col" class="ms-5">Uploader</th>
-                            <th scope="col">
+                            <th style="width:80px !important;background-color: #ededed !important;"><input type="checkbox" onclick="oncheck()" style="height: 18px;width: 18px;" class="ms-2 me-5" id="checkall" /></th>
+                            <th style="background-color: #ededed !important;"></th>
+                            <th scope="col" class="ms-5" style="color: rgb(73, 73, 73);font-weight:500;background-color: #ededed !important;">Uploader</th>
+                            <th scope="col" style="color: rgb(73, 73, 73);font-weight:500;background-color: #ededed !important;">
                                 Upload Date
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up ms-1" viewBox="0 0 16 16">
                                     <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5" />
                                 </svg>
                             </th>
-                            <th scope="col" class="me-5">Actions</th>
+                            <th scope="col" class="me-5" style="color: rgb(73, 73, 73);font-weight:500;background-color: #ededed !important;">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="ms-2">
+                    @foreach (var item in Model.requestWiseFiles)
+                    {
                         <tr>
-                            <td scope="col" class="ms-2 me-5">
-                                <input type="checkbox" name="name1" />&nbsp;<span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-filetype-pdf ms-5" viewBox="0 0 16 16">
-                                        <path fill-rule="evenodd" d="M14 4.5V14a2 2 0 0 1-2 2h-1v-1h1a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.6 11.85H0v3.999h.791v-1.342h.803q.43 0 .732-.173.305-.175.463-.474a1.4 1.4 0 0 0 .161-.677q0-.375-.158-.677a1.2 1.2 0 0 0-.46-.477q-.3-.18-.732-.179m.545 1.333a.8.8 0 0 1-.085.38.57.57 0 0 1-.238.241.8.8 0 0 1-.375.082H.788V12.48h.66q.327 0 .512.181.185.183.185.522m1.217-1.333v3.999h1.46q.602 0 .998-.237a1.45 1.45 0 0 0 .595-.689q.196-.45.196-1.084 0-.63-.196-1.075a1.43 1.43 0 0 0-.589-.68q-.396-.234-1.005-.234zm.791.645h.563q.371 0 .609.152a.9.9 0 0 1 .354.454q.118.302.118.753a2.3 2.3 0 0 1-.068.592 1.1 1.1 0 0 1-.196.422.8.8 0 0 1-.334.252 1.3 1.3 0 0 1-.483.082h-.563zm3.743 1.763v1.591h-.79V11.85h2.548v.653H7.896v1.117h1.606v.638z" />
+                            <td><input class="checkboxes" type="checkbox" style="height: 18px;width: 18px;" /></td>
+                            <td>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ba1c1c" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
+                                    <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z" />
+                                    <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103" />
+                                </svg>  @item.FileName
+                            </td>
+                            <td>
+                                @if (item.PhysicianId != null)
+                                {
+                                    <span>@item.Physician.FirstName + " " + @item.Physician.LastName</span>
+                                }
+                                else if (item.AdminId != null)
+                                {
+                                    <span>@item.Admin.FirstName + " " + @item.Admin.LastName</span>
+                                }
+                                else
+                                {
+                                    <span>@Model.uploader_name</span>
+                                }
+                            </td>
+                            <td>@item.CreatedDate</td>
+                            <td>
+                                <a class="link" href="@item.FileName" download style="border: 1px solid #00ccff; padding:5px;border-radius:5px;text-decoration:none">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" fill="#00ccff" class="bi bi-cloud-download" viewBox="0 0 16 16">
+                                        <path d="M4.406 1.342A5.53 5.53 0 0 1 8 0c2.69 0 4.923 2 5.166 4.579C14.758 4.804 16 6.137 16 7.773 16 9.569 14.502 11 12.687 11H10a.5.5 0 0 1 0-1h2.688C13.979 10 15 8.988 15 7.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 2.825 10.328 1 8 1a4.53 4.53 0 0 0-2.941 1.1c-.757.652-1.153 1.438-1.153 2.055v.448l-.445.049C2.064 4.805 1 5.952 1 7.318 1 8.785 2.23 10 3.781 10H6a.5.5 0 0 1 0 1H3.781C1.708 11 0 9.366 0 7.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383" />
+                                        <path d="M7.646 15.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 14.293V5.5a.5.5 0 0 0-1 0v8.793l-2.146-2.147a.5.5 0 0 0-.708.708z" />
                                     </svg>
-                                </span><span class="text-muted ms-3">dummy (1).pdf</span>
-                            </td>
-                            <td class="text-muted">Testing test</td>
-                            <td class="text-muted">Aug 4, 2023</td>
-                            <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cyan" class="bi bi-cloud-arrow-down me-4 download" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z" />
-                                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
-                                </svg>
+                                </a>
                             </td>
                         </tr>
-                        <tr>
-                            <td scope="col" class="ms-2 me-5">
-                                <input type="checkbox" name="name1" />&nbsp;<span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="blue" class="bi bi-file-earmark-word ms-5" viewBox="0 0 16 16">
-                                        <path d="M5.485 6.879a.5.5 0 1 0-.97.242l1.5 6a.5.5 0 0 0 .967.01L8 9.402l1.018 3.73a.5.5 0 0 0 .967-.01l1.5-6a.5.5 0 0 0-.97-.242l-1.036 4.144-.997-3.655a.5.5 0 0 0-.964 0l-.997 3.655L5.485 6.88z" />
-                                        <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
-                                    </svg>
-                                </span><span class="text-muted ms-3">dummy (2).docx</span>
-                            </td>
-                            <td class="text-muted">Testing test</td>
-                            <td class="text-muted">Aug 5, 2023</td>
-                            <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cyan" class="bi bi-cloud-arrow-down me-4 download" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z" />
-                                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
-                                </svg>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td scope="col" class="ms-2 me-5">
-                                <input type="checkbox" name="name1" />&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-file-earmark-excel ms-5" viewBox="0 0 16 16">
-                                    <path d="M5.884 6.68a.5.5 0 1 0-.768.64L7.349 10l-2.233 2.68a.5.5 0 0 0 .768.64L8 10.781l2.116 2.54a.5.5 0 0 0 .768-.641L8.651 10l2.233-2.68a.5.5 0 0 0-.768-.64L8 9.219l-2.116-2.54z" />
-                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
-                                </svg><span class="text-muted ms-3">dummy (3).xlsx</span>
-                            </td>
-                            <td class="text-muted">Testing test</td>
-                            <td class="text-muted">Aug 6, 2023</td>
-                            <td>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="cyan" class="bi bi-cloud-arrow-down me-4 download" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z" />
-                                    <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
-                                </svg>
-                            </td>
-                        </tr>
-                    </tbody>
+                    }
                 </table>
             </div>
         </div>
@@ -360,6 +347,39 @@
             }
         }
 
+        function downloadall() {
+            var classes = document.getElementsByClassName('checkboxes');
+
+            var count = 0;
+            for (var i = 0; i < classes.length; i++) {
+                if (classes[i].checked == true) {
+                    document.getElementsByClassName('link')[i].click();
+                } else {
+                    count++;
+                }
+            }
+            if (count == classes.length) {
+                alert('No checkboxes are ticked');
+            }
+
+        }
+
+        function oncheck() {
+            var check = document.getElementById('checkall').checked;
+            if (check) {
+                var len = document.getElementsByClassName('checkboxes');
+                for (var i = 0; i < len.length; i++) {
+                    len[i].checked = true;
+                }
+            } else {
+                var len = document.getElementsByClassName('checkboxes');
+                for (var i = 0; i < len.length; i++) {
+                    len[i].checked = false;
+                }
+            }
+            console.log(check);
+        }
+
         // to add or remove create-request-active page
         const toggleButton = (redirect_page) => {
             const buttons = document.getElementsByClassName("common-btn")
@@ -378,5 +398,6 @@
         const redirect = () => {
             window.location.assign(`./${document.getElementById("redirect-value").value}`);
         }
+        
     </script>
 </div>

@@ -1,12 +1,17 @@
 ﻿@model HalloDoc.Models.DashboardViewModel
 @{
     ViewData["Title"] = "PatientDashboardAndMedicalHistory";
+    Layout = "_Layout";
 }
 
 <Partial name="_Notification" />
 @section Styles {
     <link href="~/css/patient-dashboard-and-medical-history.css" rel="stylesheet" type="text/css" />
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts {
+    <script src="~/js/bootstrap.bundle.min.js"></script>
 }
 
 <div>
@@ -20,7 +25,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item mt-4" style="margin-right:40px; margin-top: 30px !important;">
-                        <p class="h5">Welcome <span class="fw-bold">Tests Testing</span></p>
+                        <p class="h5">Welcome <span class="fw-bold">@Model.Username</span></p>
                     </li>
                     <li class="nav-item mt-4" style="margin-right:100px;">
                         <a class="border border-info border-2 btn btn-outline-info" asp-controller="Login" asp-action="PatientDashboardViewDocuments">Logout</a>
@@ -241,9 +246,9 @@
                         @foreach (var item in Model.requests)
                         {
                             <tr>
-                                <td>@item.CreatedDate</td>
+                                <td>@item.CreatedDate.ToString("MMM dd, yyyy")</td>
                                 <td>@item.Status</td>
-                                <td><a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments">(@item.Count) Documents</a></td>
+                                <td><a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@item.RequestId">(@item.Count) Documents</a></td>
                             </tr>
                         }
                     </tbody>

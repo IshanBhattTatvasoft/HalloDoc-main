@@ -85,6 +85,10 @@
       "PackagePath": "staticwebassets\\images\\success-26.svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\js\\patient-platform-login-page.js",
       "PackagePath": "staticwebassets\\js\\patient-platform-login-page.js"
     },
@@ -319,6 +323,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234.pdf",
+      "PackagePath": "staticwebassets\\uploads\\Assignment-1234.pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC.pdf",

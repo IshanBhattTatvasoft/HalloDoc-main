@@ -10,6 +10,8 @@ public class DashboardViewModel
     public string name { get; set; }
     
     public List<TableContent> requests { get; set; }
+    public string Username { get; set; }
+    public string ConfirmationNumber { get; set; }
 
 }
 

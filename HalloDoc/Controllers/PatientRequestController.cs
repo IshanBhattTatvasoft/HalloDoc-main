@@ -6,6 +6,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Http;
 
 using Region = HalloDoc.Models.Region;
+using System.Drawing;
 
 namespace HalloDoc.Controllers
 {
@@ -30,12 +31,15 @@ namespace HalloDoc.Controllers
             AspNetUser aspNetUser = new AspNetUser();
             User user = new User();
             Request request = new Request();
+            Region region2 = new Region();
             RequestClient requestClient = new RequestClient();
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
             var temp = model.State.ToLower().Trim();
             var region = _context.Regions.FirstOrDefault(u => u.Name.ToLower().Trim().Equals(temp));
+
+
             if (region == null)
             {
                 ModelState.AddModelError("State", "Currently we are not serving in this region");
@@ -108,6 +112,9 @@ namespace HalloDoc.Controllers
                 _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
 
+                int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
+                string ConfirmationNumber = string.Concat(region2.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+
                 request.RequestTypeId = 1;
                 if (!userExists)
                 {
@@ -117,6 +124,7 @@ namespace HalloDoc.Controllers
                 request.LastName = model.LastName;
                 request.Email = model.Email;
                 request.PhoneNumber = model.PhoneNumber;
+                request.ConfirmationNumber = ConfirmationNumber;
                 request.Status = 1;
                 request.CreatedDate = DateTime.Now;
                 request.RequestClientId = requestClient.RequestClientId;
@@ -166,6 +174,7 @@ namespace HalloDoc.Controllers
             User user = new User();
             Request request = new Request();
             RequestClient requestClient = new RequestClient();
+            Region region2 = new Region();
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
@@ -240,6 +249,9 @@ namespace HalloDoc.Controllers
                 _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
 
+                int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
+                string ConfirmationNumber = string.Concat(region2.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+
                 request.RequestTypeId = 2;
                 if (!userExists)
                 {
@@ -248,6 +260,7 @@ namespace HalloDoc.Controllers
                 request.FirstName = model.FamilyFirstName;
                 request.LastName = model.FamilyLastName;
                 request.Email = model.FamilyEmail;
+                request.ConfirmationNumber = ConfirmationNumber;
                 request.PhoneNumber = model.FamilyPhoneNumber;
                 request.Status = 1;
                 request.CreatedDate = DateTime.Now;
@@ -292,6 +305,7 @@ namespace HalloDoc.Controllers
             RequestStatusLog requestStatusLog = new RequestStatusLog();
             Concierge concierge = new Concierge();
             RequestConcierge requestConcierge = new RequestConcierge();
+            Region region = new Region();
 
             var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == model.Email);
             bool userExists = true;
@@ -344,6 +358,9 @@ namespace HalloDoc.Controllers
                 _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
 
+                int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
+                string ConfirmationNumber = string.Concat(region.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+
                 request.RequestTypeId = 3;
                 if (!userExists)
                 {
@@ -352,6 +369,7 @@ namespace HalloDoc.Controllers
                 request.FirstName = model.ConciergeFirstName;
                 request.LastName = model.ConciergeLastName;
                 request.Email = model.ConciergeEmail;
+                request.ConfirmationNumber = ConfirmationNumber;
                 request.PhoneNumber = model.ConciergePhoneNumber;
                 request.Status = 1;
                 request.CreatedDate = DateTime.Now;
@@ -412,6 +430,8 @@ namespace HalloDoc.Controllers
             RequestStatusLog requestStatusLog = new RequestStatusLog();
             Business business = new Business();
             RequestBusiness requestBusiness = new RequestBusiness();
+            Region region2 = new Region();
+
 
             var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == model.Email);
             bool userExists = true;
@@ -472,6 +492,9 @@ namespace HalloDoc.Controllers
                 _context.RequestClients.Add(requestClient);
                 await _context.SaveChangesAsync();
 
+                int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
+                string ConfirmationNumber = string.Concat(region2.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+
                 request.RequestTypeId = 4;
                 if (!userExists)
                 {
@@ -480,6 +503,7 @@ namespace HalloDoc.Controllers
                 request.FirstName = model.BusinessFirstName;
                 request.LastName = model.BusinessLastName;
                 request.Email = model.BusinessEmail;
+                request.ConfirmationNumber = ConfirmationNumber;
                 request.PhoneNumber = model.BusinessPhoneNumber;
                 request.Status = 1;
                 request.CreatedDate = DateTime.Now;
