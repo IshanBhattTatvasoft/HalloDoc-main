@@ -570,7 +570,6 @@ namespace HalloDoc.Controllers
             return Json(new { isValid = isValidEmail });
         }
 
-        
 
 
         public IActionResult CreatePatientRequest()
@@ -592,6 +591,8 @@ namespace HalloDoc.Controllers
         {
             return View();
         }
+
+        
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

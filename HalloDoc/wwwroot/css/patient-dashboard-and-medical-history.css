@@ -49,3 +49,21 @@
     right: 80px;
     top: 41px;
 }
+
+/*input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+}
+
+#a {
+    display: none;
+}
+
+input[type="radio"]:checked {
+    background-color: #17a2b8;
+}*/
+
+input[type='radio']:checked + label {
+    background-color: dodgerblue;
+    color: white;
+}

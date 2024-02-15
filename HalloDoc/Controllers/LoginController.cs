@@ -93,6 +93,14 @@ namespace HalloDoc.Controllers
             return View(viewModel);
         }
 
+        public IActionResult RequestForMe()
+        {
+            return View();
+        }
+
+        public IActionResult RequestForSomeoneElse()
+        { return View(); }
+
         public IActionResult PatientDashboardViewDocuments(int requestid)
         {
             var user_id = HttpContext.Session.GetInt32("id");
@@ -116,6 +124,52 @@ namespace HalloDoc.Controllers
                 Username = _context.Users.FirstOrDefault(t => t.UserId == user_id).FirstName
             };
             return View(viewDocumentModal);
+        }
+
+        public IActionResult PatientProfile()
+        {
+            var user_id = HttpContext.Session.GetInt32("id");
+            //var request = _context.Requests.Include(r => r.RequestClient).FirstOrDefault(u => u.RequestId == requestid);
+            var user = _context.Users.FirstOrDefault(u => u.UserId == user_id);
+            int intYear = (int)user.IntYear;
+            int intDate = (int)user.IntDate;
+            string month = user.StrMonth;
+            DateTime date = new DateTime(intYear, int.Parse(month), intDate);
+            PatientProfileView ppv = new PatientProfileView()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                DOB = date,
+                PhoneNumber = user.Mobile,
+                Email = user.Email,
+                Street = user.Street,
+                City = user.City,
+                State = user.State,
+                ZipCode = user.ZipCode,
+            };
+            return View(ppv);
+        }
+
+        public IActionResult EditPatientProfile(PatientProfileView model)
+        {
+            var user_id = HttpContext.Session.GetInt32("id");
+            var user = _context.Users.FirstOrDefault(u => u.UserId == user_id);
+            
+
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.Email = model.Email;
+            user.Mobile = model.PhoneNumber;
+            user.Street = model.Street;
+            user.City = model.City;
+            user.State = model.State;
+            user.ZipCode = model.ZipCode;
+            user.IntDate = model.DOB.Day;
+            user.IntYear = model.DOB.Year;
+            user.StrMonth = model.DOB.Month.ToString();
+
+            _context.SaveChanges();
+            return RedirectToAction("PatientProfile");
         }
 
         public IActionResult PatientLoginPage()

@@ -163,15 +163,16 @@
         <div class="card-body nav-links ms-5">
             <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
                 <li class="nav-item me-3" role="presentation">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                        Dashboard
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                            aria-selected="true">
+                        <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
                             type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                        Profile
+                        <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
                     </button>
                 </li>
             </ul>
@@ -188,46 +189,31 @@
         <div class="mx-3 border rounded">
             <div class="bg-white d-sm-flex d-none justify-content-end">
                 <button type="button" class="btn btn-outline-info me-4 my-2" data-bs-toggle="modal"
-                        data-bs-target="#centeredModal" style="padding-top: 5px;">
+                        data-bs-target="#exampleModal" style="padding-top: 5px;">
                     Create New Request
                 </button>
             </div>
 
-            <div class="modal fade" id="centeredModal" tabindex="-1" aria-labelledby="centeredModalLabel"
-                 aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <div class="modal-header bg-info">
-                            <p class="h5 text-white">Create New Request</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <div class="crossbutton modal-header bg-info">
+                            <h1 class="modal-title text-white fs-5" id="exampleModalLabel">Create New Request</h1>
+                            <button type="button" class="crossss btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <p>Here, I want to create new request for...</p>
-                            <div class="d-flex justify-content-center align-items-center">
-                                <input type="hidden" name="" id="redirect-value" value="PatientForm">
-                                <!-- <input class="btn-check" type="radio" name="exampleRadios" id="exampleRadio1"
-                                    value="option1" autocomplete="off" checked>
-                                <label class="btn btn-outline-info" for="exampleRadio1"
-                                    style="margin-right: 10px;">Me</label>
+                            Here, I want to create a new request for...
 
-                                <input class="btn-check" type="radio" name="exampleRadios" id="exampleRadio2"
-                                    value="option2" autocomplete="off">
-                                <label class="btn btn-outline-info" for="exampleRadio2">Someone Else</label> -->
-                                <div class="btn btn-outline-info cancel-btn common-btn create-request-active"
-                                     onclick="toggleButton('create-patient-request.html')" style="margin-right: 10px;">
-                                    Me
-                                </div>
-                                <div class="btn btn-outline-info cancel-btn common-btn"
-                                     onclick="toggleButton('create-patient-request-someoneElse.html')">
-                                    Some One Else
-                                </div>
-
+                            <div class="text-center">
+                                <button type="button" class="btn btn_dash selected" id="me-link" onclick="toggleMe()">Me</button>
+                                <a asp-action="RequestForMe" id="me_link"></a>
+                                <a asp-action="RequestForSomeoneElse" id="else_link"></a>
+                                <button type="button" class="btn btn_dash" id="else-link" onclick="toggleElse()">Someone Else</button>
                             </div>
-
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-outline-info" onclick="redirect()">Continue</button>
-                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-outline-info" onclick="selectForm()">Continue</button>
+                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </div>
                 </div>
@@ -336,9 +322,37 @@
             document.getElementById("redirect-value").value = redirect_page;
         }
 
-        // to redirect to the page passed in the parameter of toggleButton() function
-        const redirect = () => {
-            window.location.assign(`./${document.getElementById("redirect-value").value}`);
+
+        var btn_me = document.getElementById("me-link");
+        var btn_else = document.getElementById("else-link");
+        var link_me = document.getElementById("me_link");
+        var link_else = document.getElementById("else_link");
+        function toggleMe() {
+            if (btn_me.classList.contains("selected")) {
+                btn_else.classList.remove("selected");
+            }
+            else {
+                btn_me.classList.add("selected");
+                btn_else.classList.remove("selected");
+            }
+        }
+        function toggleElse() {
+            if (btn_else.classList.contains("selected")) {
+                btn_me.classList.remove("selected");
+            }
+            else {
+                btn_me.classList.remove("selected");
+                btn_else.classList.add("selected");
+            }
+        }
+        function selectForm() {
+
+            if (btn_me.classList.contains("selected")) {
+                link_me.click();
+            }
+            else {
+                link_else.click();
+            }
         }
     </script>
     

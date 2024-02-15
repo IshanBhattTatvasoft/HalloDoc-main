@@ -13,4 +13,6 @@ public class ViewDocumentModel
     public string name { get; set; }
     public string confirmation_number { get; set; }
     public List<RequestWiseFile> requestWiseFiles { get; set; }
+    public IFormFile? ImageContent { get; set; }
+
 }

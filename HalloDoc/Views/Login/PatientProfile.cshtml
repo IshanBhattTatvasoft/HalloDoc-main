@@ -1,0 +1,361 @@
+﻿@model HalloDoc.Models.PatientProfileView 
+@{
+    ViewData["Title"] = "PatientProfile";
+    Layout = "_Layout";
+}
+@section Styles{
+    <link href="~/css/patient-profile.css" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts {
+    <script src="~/js/bootstrap.bundle.min.js"></script>
+}
+
+<div>
+    <nav class="navbar navbar-expand-lg navbar-light d-none d-sm-flex">
+        <div class="container-fluid">
+            <img src="./images/logo1.png" alt="" style="height: 80px;" class="ms-5">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto ">
+                    <li class="nav-item mt-4" style="margin-right:40px; margin-top: 30px !important;">
+                        <p class="h5">Welcome <span class="fw-bold">Tests Testing</span></p>
+                    </li>
+                    <li class="nav-item mt-4" style="margin-right:100px;">
+                        <button type="button" class="border border-info border-2 btn btn-outline-info">Logout</button>
+                    </li>
+                    <li class="nav-item">
+                        <div class="moon-flex">
+                            <button onclick="changeTheme()" class="change-theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
+                                    <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                                </svg>
+                            </button>
+                            <button onclick="changeTheme()" class="change-theme hide-icon">
+
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                     class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
+                                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                                </svg>
+                            </button>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!--Location Modal -->
+
+    <div class="modal" id="myModal1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <section>
+                    <div class="mapouter">
+                        <div class="gmap_canvas">
+                            <iframe width="600" height="500" id="gmap_canvas" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+
+                                <!-- </iframe><a href="https://123movies-to.org">123 movies</a><br> -->
+                                <style>
+                                    .mapouter {
+                                        position: relative;
+                                        text-align: right;
+                                        height: 500px;
+                                        width: 600px;
+                                    }</style>
+                                <!-- <a href="https://www.embedgooglemap.net">embedgooglemap.net</a> -->
+                                <style>
+                                    .gmap_canvas {
+                                        overflow: hidden;
+                                        background: none !important;
+                                        height: 500px;
+                                        width: 600px;
+                                    }
+                                </style>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Navbar for mobile view -->
+
+    <nav class="navbar navbar-expand-lg navbar-light d-sm-none">
+        <div class="container-fluid" style="height: 88px;">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse mt-5" id="navbarNav">
+                <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist" style="margin-top: 10px;">
+                    <li class="nav-item me-3" role="presentation">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                                aria-selected="true">
+                            Dashboard
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                                type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                            Profile
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <img src="./images/logo1.png" alt="" style="height: 80px; position: absolute; left: 75px;">
+
+            <button type="button" class="border border-info border-2 btn btn-outline-info logout-icon"
+                    style="height: 40px;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px"
+                     fill="currentColor" class="bi bi-box-arrow-right change-my-color d-flex justify-content-center"
+                     viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                    <path fill-rule="evenodd"
+                          d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
+            </button>
+            <!-- <div class="logout-icon btn btn-outline-info">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                    class="bi bi-box-arrow-right change-my-color" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                    <path fill-rule="evenodd"
+                        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
+            </div> -->
+
+            <div class="moon-flex">
+                <button onclick="changeTheme()" class="change-theme-mobile-view">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                    </svg>
+                </button>
+                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </nav>
+
+    <div class="card border-bottom-0 border-left-0 border-right-0 d-none d-sm-flex">
+        <div class="card-body nav-links ms-5">
+            <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
+                <li class="nav-item me-3" role="presentation">
+                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                            aria-selected="true">
+                        <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
+                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
+                        <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="d-flex flex-column bg-light" style="margin: 5px auto; padding: 0px 35px; height: 782px;">
+        <div class="bg-light d-flex flex-row justify-content-between align-items-center">
+            <div class="py-5 px-3" style="margin-left: 235px;">
+                <p class="h4 fw-bold">User Profile</p>
+            </div>
+            <a class="float-end text-info me-5" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                </svg>
+                Back
+            </a>
+        </div>
+
+        <div class="container shadow-lg p-3 mb-5 bg-white rounded" id="main-container">
+
+            <form asp-action="EditPatientProfile" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col mt-2 ps-4">
+                        <p class="h5 fw-bold ms-0" id="heading-one">
+                            General Information
+                        </p>
+                    </div>
+                </div>
+                <div class="row ms-0">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName" disabled
+                               >
+                        <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                        <span  class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                        <span  class="text-danger"></span>
+
+                    </div>
+                </div>
+                <div class="row ms-0">
+                    <div class="col-sm-6 form-floating mt-3">
+                        <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
+                        <span  class="text-danger"></span>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col mt-5 ps-4">
+                        <p class="h5 fw-bold ms-0" id="heading-two">
+                            Contact Information
+                        </p>
+                    </div>
+                </div>
+                <div class="row ms-0">
+                    <div class="form-floating col-sm-2 mt-3">
+                        <select class="form-select" aria-label="Default select example">
+                            <option value="" disabled selected>Type</option>
+                            <option value="phone">Phone</option>
+                            <option value="mobile">Mobile</option>
+                            <option value="landline">Landline</option>
+                        </select>
+                    </div>
+                    <div class="form-floating col-sm-4 mt-3">
+                        <input type="text" class="form-control" id="emailInput" placeholder="Your First Name"
+                               aria-label="First name" asp-for="Email" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                        <span class="text-danger"></span>
+
+                    </div>
+                    <div class="col-sm-6 mt-3 form-floating">
+                        <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" disabled style="height: 55px;" />
+                        <span  class="text-danger"></span>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col mt-5 ps-4">
+                        <p class="h5 fw-bold ms-0" id="heading-two">
+                            Location Information
+                        </p>
+                    </div>
+                </div>
+                <div class="row ms-0">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" id="street" placeholder="Your First Name" aria-label="First name" asp-for="Street" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">Street</label>
+                        <span  class="text-danger"></span>
+
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" id="city" placeholder="Your First Name" aria-label="First name" asp-for="City" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">City</label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row ms-0">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" id="state" placeholder="Your First Name" aria-label="First name" asp-for="State" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">State</label>
+                        <span class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-4 mt-3">
+                        <input type="text" class="form-control" id="zipcode" placeholder="Your First Name" aria-label="First name"
+                               asp-for="ZipCode" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
+                        <span  class="text-danger"></span>
+                    </div>
+                    <a class="form-floating col-sm-1 mt-3 ms-3" style="cursor:pointer;display: flex; align-items: center;height: 59px;width: 86px;justify-content: center;border: 1px solid #00ccff;border-radius:7px;text-decoration: none; " id="openBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff"
+                             class="bi bi-geo-alt" viewBox="0 0 16 16">
+                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
+                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                        </svg>
+                        <span style="color: #00ccff;margin-left: 4px;">Map</span>
+                    </a>
+                </div>
+
+
+
+                <div class="row mt-3">
+                    <div class="d-flex justify-content-end mt-4">
+                        <button type="button" class="btn bg-info btn-outline-light px-4 " id="editButton">
+                            Edit
+                        </button>
+                    </div>
+
+                    <div class="d-flex savebutton justify-content-end d-none gap-3 me-2 mb-5">
+                        <button class="btn btn-info text-white" type="submit">Submit</button>
+                        <button class="btn border-info text-info" asp-action="PatientProfile">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("editButton").addEventListener("click", function () {
+            // Get all disabled input elements within the form
+            var disabledInputs = document.querySelectorAll("form input[disabled]");
+
+            // Iterate over each disabled input element and enable it
+            disabledInputs.forEach(function (input) {
+                input.removeAttribute("disabled");
+            });
+
+            // Enable select elements as well
+            var disabledSelects = document.querySelectorAll("form select[disabled]");
+            disabledSelects.forEach(function (select) {
+                select.removeAttribute("disabled");
+            });
+
+            var editbtn = document.getElementById("editButton").classList.add("d-none");
+            var savebtn = document.querySelector(".savebutton").classList.remove("d-none");
+            document.querySelector(".savebutton").classList.add("d-flex");
+        });
+
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            innerHeight: 1,
+            utilsScript:
+                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+        $(document).ready(function () {
+            $("#openBtn").click(function () {
+                $("#myModal1").modal("show");
+                var Street = $("#street").val();
+                var City = $("#city").val();
+                var State = $("#state").val();
+                var ZipCode = $("#zipcode").val();
+                var address = "https://maps.google.com/maps?q=" + Street + City + State + ZipCode + "&t=&z=13&ie=UTF8&iwloc=&output=embed";
+                $("#gmap_canvas").attr("src", address);
+            });
+        });
+
+        $(document).ready(function () {
+            $("#closeBtn1").click(function () {
+                $("#myModal1").modal("hide");
+            });
+        });
+    </script>
+</div>

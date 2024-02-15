@@ -63,16 +63,16 @@
             <div class="collapse navbar-collapse mt-5" id="navbarNav">
                 <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist" style="margin-top: 10px;">
                     <li class="nav-item me-3" role="presentation">
-                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+                        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
                                 data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
                                 aria-selected="true">
-                            Dashboard
+                            <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
                         <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
                                 type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                            Profile
+                            <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
                         </button>
                     </li>
                 </ul>
@@ -124,15 +124,16 @@
         <div class="card-body nav-links ms-5">
             <ul class="nav nav-tabs" id="pills-tab" role="tablist">
                 <li class="nav-item me-3" role="presentation">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                        Dashboard
+                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
+                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+                            aria-selected="true">
+                        <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
                             type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                        Profile
+                        <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
                     </button>
                 </li>
             </ul>
@@ -185,7 +186,7 @@
                 <div class="container py-3 col ms-3 me-3">
 
                     <div class="input-group custom-file-button">
-                        <input type="file" class="form-control" id="inputGroupFile">
+                        <input type="file" class="form-control" id="inputGroupFile" asp-for="ImageContent">
                         <label class="input-group-text" style="background-color: cyan;" for="inputGroupFile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
