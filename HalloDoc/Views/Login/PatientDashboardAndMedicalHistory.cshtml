@@ -28,7 +28,7 @@
                         <p class="h5">Welcome <span class="fw-bold">@Model.Username</span></p>
                     </li>
                     <li class="nav-item mt-4" style="margin-right:100px;">
-                        <a class="border border-info border-2 btn btn-outline-info" asp-controller="Login" asp-action="PatientDashboardViewDocuments">Logout</a>
+                        <a class="border border-info border-2 btn btn-outline-info" asp-controller="Login" asp-action="PatientSite">Logout</a>
                     </li>
                     <li class="nav-item">
                         <div class="moon-flex">
@@ -102,18 +102,10 @@
             <div class="collapse navbar-collapse mt-5" id="navbarNav">
                 <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist" style="margin-top: 10px;">
                     <li class="nav-item me-3" role="presentation">
-                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                aria-selected="true">
-                            Dashboard
-                        </button>
+                        <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                                type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                            Profile
-                        </button>
-                    </li>
+                        <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
                 </ul>
             </div>
 
@@ -161,7 +153,7 @@
 
     <div class="card border-bottom-0 border-left-0 border-right-0 d-none d-sm-flex">
         <div class="card-body nav-links ms-5">
-            <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist">
+            <ul class="nav nav-tabs mb-3 nav-links" id="pills-tab" role="tablist">
                 <li class="nav-item me-3" role="presentation">
                     <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
                             data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
@@ -275,7 +267,7 @@
                                         </span>
                                     </div>
                                     <div class="inner-flex">
-                                        <img src="~/images/success-26.svg" alt="" class="accordion-img-inner"> <span class="accordion-heading-inner">
+                                        <img src="~/images/success-26.svg" alt="" class="accordion-img-inner" style="height: 5px; width: 5px"> <span class="accordion-heading-inner">
                                             Current
                                             Status: <span class="accordion-value-inner">@Model.requests[i].Status</span>
                                         </span>

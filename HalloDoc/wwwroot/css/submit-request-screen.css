@@ -5,7 +5,10 @@
     top: 7px;
     right: 15px;
 }
-
+.my-nav{
+    width:120%;
+    /*background-color:red;*/
+}
 .change-theme {
     position: absolute;
     right: 30px;
@@ -36,13 +39,16 @@
     border: 2px solid rgb(32, 193, 204);
     padding: 10px;
     min-width: 90px;
+    text-decoration: none;
+    margin: 0px -176px;
+    padding-left: 4px;
 }
 
 .submitrequest {
     height: 70px;
     border-radius: 50px;
     /* max-width: 576px; */
-    width: 300px;
+    width: 350px;
     border: 2px;
     /*border-style: solid;*/
 }
@@ -52,23 +58,27 @@
 }
 
 #colorofrequest1 {
-    background-color: rgb(193, 198, 247);
-    color: rgb(72, 88, 236);
+    background-color: rgba(233,234,239,255);
+    color: rgba(125,142,200,255);
+    border: 2px solid #c8cbd7;
 }
 
 #colorofrequest2 {
-    background-color: rgb(196, 234, 247);
-    color: rgb(88, 174, 245);
+    background-color: #e5f3f9;
+    color: #3d9dc3;
+    border: 2px solid #c1dae1;
 }
 
 #colorofrequest3 {
-    background-color: rgb(186, 218, 179);
-    color: rgb(0, 109, 0);
+    background-color: rgba(233,241,232,255);
+    color: rgba(57,129,69,255);
+    border: 2px solid #c9dfca;
 }
 
 #colorofrequest4 {
-    background-color: rgb(231, 179, 229);
-    color: rgb(182, 0, 167);
+    background-color: rgba(248,230,238,255);
+    color: rgba(154,66,114,255);
+    border: 2px solid #d1bac8;
 }
 
 .t-and-c {
@@ -85,22 +95,60 @@
     min-height: 50px;
 }
 
-@media only screen and (max-width:850px) {
-    .titlee {
-        width: 70%;
-        background-color: #00ccff;
-    }
-}
-
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 858px) {
     #backdesign {
         margin-right: 100px;
     }
 }
 
+@media only screen and (max-width: 428px){
+/*    .my-nav{
+        max-width: 100%;
+    }*/
+}
+
+@media only screen and (max-width: 620px){
+    .submitrequest{
+        width: 280px;
+    }
+}
+
+@media only screen and (max-width: 450px){
+    #colorofrequest1{
+        margin-left: 15px;
+    }
+    #colorofrequest2 {
+        margin-left: 15px;
+    }
+    #colorofrequest3 {
+        margin-left: 15px;
+    }
+    #colorofrequest4 {
+        margin-left: 15px;
+    }
+}
+
+@media only screen and (max-width: 395px) {
+    #colorofrequest1 {
+        margin-left: 18px;
+    }
+
+    #colorofrequest2 {
+        margin-left: 18px;
+    }
+
+    #colorofrequest3 {
+        margin-left: 18px;
+    }
+
+    #colorofrequest4 {
+        margin-left: 18px;
+    }
+}
+
 .footercolor {
     background-color: black !important;
-    height: 75px !important;
+    height: 53px !important;
 }
 
 :root,

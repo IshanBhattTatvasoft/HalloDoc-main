@@ -67,3 +67,22 @@ input[type='radio']:checked + label {
     background-color: dodgerblue;
     color: white;
 }
+
+.nav-links a {
+    color: #333; /* Dark gray text color */
+    text-decoration: none; /* Remove underline */
+    padding: 5px 10px; /* Add some padding */
+    font-weight: bold; /* Bold text */
+    /* Optional: Add a hover effect to change the text color or background */
+    &:hover{
+    color: #007bff; /* Blue hover color */
+    background-color: #e9ecef; /* Light gray hover background */
+    }
+}
+
+/* Style the active anchor tag */
+.nav-links .active {
+    color: #fff; /* White text color */
+    background-color: #007bff; /* Blue background */
+    border-radius: 5px; /* Rounded corners for the active tab */
+}

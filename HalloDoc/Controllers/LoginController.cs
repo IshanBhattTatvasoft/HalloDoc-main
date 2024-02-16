@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 
 namespace HalloDoc.Controllers
 {
@@ -46,7 +47,7 @@ namespace HalloDoc.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("Password", "Incorrect Password");
+                        ModelState.AddModelError("PasswordHash", "Incorrect Password");
                     }
                 }
                 else
@@ -95,7 +96,224 @@ namespace HalloDoc.Controllers
 
         public IActionResult RequestForMe()
         {
-            return View();
+            var user_id = HttpContext.Session.GetInt32("id");
+            var user = _context.Users.FirstOrDefault(u => u.UserId == user_id);
+            int day = (int)user.IntDate;
+            string month = user.StrMonth;
+            int year = (int)user.IntYear;
+            int monthNumber = DateTime.ParseExact(month, "MMMM", null).Month;
+
+            string formattedDate = $"{user.IntDate:02}/{DateTime.ParseExact(user.StrMonth, "MMMM", CultureInfo.CurrentCulture).Month:02}/{user.IntYear}";
+            DateTime dob = DateTime.ParseExact(formattedDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+
+            PatientRequestModel mePatientRequest = new PatientRequestModel()
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                PhoneNumber = user.Mobile,
+                Email = user.Email,
+                DOB = DateOnly.FromDateTime(dob),
+                Street = user.Street,
+                City = user.City,
+                State = user.State,
+                Zipcode = user.ZipCode,
+            };
+            return View(mePatientRequest);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> MePatientRequest(PatientRequestModel model)
+        {
+            Models.Request request = new Models.Request();
+            RequestClient requestClient = new RequestClient();
+            RequestWiseFile requestWiseFile = new RequestWiseFile();
+            RequestStatusLog requestStatusLog = new RequestStatusLog();
+
+            var user = HttpContext.Session.GetInt32("id");
+            var temp = model.State.ToLower().Trim();
+            var region = _context.Regions.FirstOrDefault(u => u.Name.ToLower().Trim().Equals(temp));
+
+            if (region == null)
+            {
+                ModelState.AddModelError("State", "Currently we are not serving in this region");
+                return View(model);
+            }
+
+            var blockedUser = _context.BlockRequests.FirstOrDefault(u => u.Email == model.Email);
+            if (blockedUser != null)
+            {
+                ModelState.AddModelError("Email", "This patient is blocked.");
+                return View(model);
+            }
+
+            if (model.File != null && model.File.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.ImageContent.CopyToAsync(stream);
+                }
+            }
+
+            requestClient.FirstName = model.FirstName;
+            requestClient.LastName = model.LastName;
+            requestClient.PhoneNumber = model.PhoneNumber;
+            requestClient.Location = model.City;
+            requestClient.Address = model.Street;
+            requestClient.RegionId = 1;
+
+            if(model.Symptoms != null)
+            {
+                requestClient.Notes = model.Symptoms;
+            }
+
+            requestClient.Email = model.Email;
+            requestClient.IntDate = model.DOB.Day;
+            requestClient.StrMonth = model.DOB.Month.ToString();
+            requestClient.IntYear = model.DOB.Year;
+            requestClient.Street = model.Street;
+            requestClient.City = model.City;
+            requestClient.State = model.State;
+            requestClient.ZipCode = model.Zipcode;
+            _context.RequestClients.Add(requestClient);
+            await _context.SaveChangesAsync();
+
+            int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
+            string ConfirmationNumber = string.Concat(region.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+            request.RequestTypeId = 1;
+
+            request.UserId = user;
+            request.FirstName = model.FirstName;
+            request.LastName = model.LastName;
+            request.Email = model.Email;
+            request.PhoneNumber = model.PhoneNumber;
+            request.Status = 1;
+            request.CreatedDate = DateTime.Now;
+            request.RequestClientId = requestClient.RequestClientId;
+            request.ConfirmationNumber = ConfirmationNumber;
+            _context.Requests.Add(request);
+            await _context.SaveChangesAsync();
+
+            if (model.ImageContent != null && model.ImageContent.Length > 0)
+            {
+                var uploadPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads", model.ImageContent.FileName);
+
+                using (var stream = new FileStream(uploadPath, FileMode.Create))
+                {
+                    await model.ImageContent.CopyToAsync(stream);
+                }
+                var filePath = "/uploads/" + model.ImageContent.FileName;
+
+                requestWiseFile.RequestId = request.RequestId;
+                requestWiseFile.FileName = filePath;
+                requestWiseFile.CreatedDate = request.CreatedDate;
+                _context.RequestWiseFiles.Add(requestWiseFile);
+                await _context.SaveChangesAsync();
+            }
+
+            requestStatusLog.RequestId = request.RequestId;
+            requestStatusLog.Status = 1;
+            requestStatusLog.Notes = model.Symptoms;
+            requestStatusLog.CreatedDate = DateTime.Now;
+            _context.RequestStatusLogs.Add(requestStatusLog);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("PatientDashboardAndMedicalHistory");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RelativePatientRequest(PatientRequestSomeoneElse model)
+        {
+
+            Models.Request request = new Models.Request();
+            RequestClient requestClient = new RequestClient();
+            RequestWiseFile requestWiseFile = new RequestWiseFile();
+            RequestStatusLog requestStatusLog = new RequestStatusLog();
+            var user = HttpContext.Session.GetInt32("id");
+            var region = _context.Regions.FirstOrDefault(u => u.Name == model.State.Trim().ToLower().Replace(" ", ""));
+            var user_id = HttpContext.Session.GetInt32("id");
+            var users = _context.Users.FirstOrDefault(u => u.UserId == user_id);
+            int day = (int)users.IntDate;
+            string month = users.StrMonth;
+            int year = (int)users.IntYear;
+            int monthNumber = DateTime.ParseExact(month, "MMMM", null).Month;
+            if (region == null)
+            {
+                ModelState.AddModelError("State", "Currently we are not serving in this region");
+                return View(model);
+            }
+            var blockedUser = _context.BlockRequests.FirstOrDefault(u => u.Email == model.Email);
+            if (blockedUser != null)
+            {
+                ModelState.AddModelError("Email", "This patient is blocked.");
+                return View(model);
+            }
+
+            if (model.File != null && model.File.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.File.FileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.File.CopyToAsync(stream)
+;
+                }
+            }
+
+            requestClient.FirstName = model.FirstName;
+            requestClient.LastName = model.LastName;
+            requestClient.PhoneNumber = model.PhoneNumber;
+            requestClient.Location = model.City;
+            requestClient.Address = model.Street;
+            requestClient.RegionId = 1;
+            if (model.Symptoms != null)
+            {
+                requestClient.Notes = model.Symptoms;
+            }
+            requestClient.Email = model.Email;
+            requestClient.IntDate = model.DOB.Day;
+            requestClient.StrMonth = model.DOB.Month.ToString();
+            requestClient.IntYear = model.DOB.Year;
+            requestClient.Street = model.Street;
+            requestClient.City = model.City;
+            requestClient.State = model.State;
+            requestClient.ZipCode = model.ZipCode;
+            _context.RequestClients.Add(requestClient);
+            await _context.SaveChangesAsync();
+
+            int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
+            string ConfirmationNumber = string.Concat(region.Abbreviation, users.FirstName.Substring(0, 2).ToUpper(), users.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+            request.RequestTypeId = 2;
+
+            request.CreatedUserId = users.UserId;
+            request.FirstName = users.FirstName;
+            request.LastName = users.LastName;
+            request.Email = users.Email;
+            request.PhoneNumber = users.Mobile;
+            request.Status = 1;
+            request.CreatedDate = DateTime.Now;
+            request.RequestClientId = requestClient.RequestClientId;
+            request.ConfirmationNumber = ConfirmationNumber;
+            request.RelationName = model.Relation;
+            _context.Requests.Add(request);
+            await _context.SaveChangesAsync();
+
+            if (model.File != null)
+            {
+                requestWiseFile.RequestId = request.RequestId;
+                requestWiseFile.FileName = model.File.FileName;
+                requestWiseFile.CreatedDate = DateTime.Now;
+                _context.RequestWiseFiles.Add(requestWiseFile);
+                await _context.SaveChangesAsync();
+            }
+
+            requestStatusLog.RequestId = request.RequestId;
+            requestStatusLog.Status = 1;
+            requestStatusLog.Notes = model.Symptoms;
+            requestStatusLog.CreatedDate = DateTime.Now;
+            _context.RequestStatusLogs.Add(requestStatusLog);
+            await _context.SaveChangesAsync();
+            return RedirectToAction("PatientDashboardAndMedicalHistory");
         }
 
         public IActionResult RequestForSomeoneElse()
@@ -116,6 +334,7 @@ namespace HalloDoc.Controllers
 
             ViewDocumentModel viewDocumentModal = new ViewDocumentModel()
             {
+                requestId = requestid,
                 patient_name = string.Concat(request.RequestClient.FirstName, ' ', request.RequestClient.LastName),
                 name = string.Concat(user.FirstName, ' ', user.LastName),
                 confirmation_number = request.ConfirmationNumber,
@@ -124,6 +343,41 @@ namespace HalloDoc.Controllers
                 Username = _context.Users.FirstOrDefault(t => t.UserId == user_id).FirstName
             };
             return View(viewDocumentModal);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SetImageContent(ViewDocumentModel model, int requestId)
+        {
+            var user_id = HttpContext.Session.GetInt32("id");
+            var request = _context.Requests.Include(r => r.User).FirstOrDefault(u => u.RequestId == requestId);
+
+            var viewModel = new ViewDocumentModel
+            {
+                ImageContent = model.ImageContent,
+            };
+            if (model.ImageContent != null && model.ImageContent.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.ImageContent.CopyToAsync(stream);
+
+                }
+            }
+
+            if (model.ImageContent != null)
+            {
+                RequestWiseFile requestWiseFile = new RequestWiseFile
+                {
+
+                    FileName = model.ImageContent.FileName,
+                    CreatedDate = DateTime.Now,
+                    RequestId = request.RequestId
+                };
+                _context.RequestWiseFiles.Add(requestWiseFile);
+            }
+            _context.SaveChanges();
+
+            return RedirectToAction("PatientDashboardViewDocuments", new { requestID = model.requestId });
         }
 
         public IActionResult PatientProfile()
@@ -146,6 +400,7 @@ namespace HalloDoc.Controllers
                 City = user.City,
                 State = user.State,
                 ZipCode = user.ZipCode,
+                Username = user.FirstName
             };
             return View(ppv);
         }

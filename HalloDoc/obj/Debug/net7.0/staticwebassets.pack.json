@@ -345,8 +345,16 @@
       "PackagePath": "staticwebassets\\uploads\\SQL_Session.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees_12Feb24.pdf",
+      "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees_12Feb24.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",
       "PackagePath": "staticwebassets\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\success-26.svg",
+      "PackagePath": "staticwebassets\\uploads\\success-26.svg"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.HalloDoc.Microsoft.AspNetCore.StaticWebAssets.props",

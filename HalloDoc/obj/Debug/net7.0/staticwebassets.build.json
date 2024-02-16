@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "1nCSprlyu99Xg/f8p7J0al1dg+BtkUiQjg4R7NunFWI=",
+  "Hash": "5voi6XHgT7qkjGrRIkVqMxgveC+QNP9N5P/ZcRZFqK8=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -1494,6 +1494,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\SQL_Session.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees_12Feb24.pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "uploads/SRS-23-24-Trainees_12Feb24.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\SRS-23-24-Trainees_12Feb24.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\success-26.svg",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "uploads/success-26.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\success-26.svg"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",

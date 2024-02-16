@@ -1,4 +1,5 @@
-﻿@{
+﻿@model HalloDoc.Models.PatientRequestSomeoneElse
+@{
     ViewData["Title"] = "CreatePatientRequestForSomeoneElse";
 }
 @section Styles{
@@ -72,7 +73,7 @@
                     Back
                 </a>
             </div>
-
+            <form method="post" enctype="multipart/form-data" asp-action="PatientRequestSomeoneElse">
             <div class="row">
                 <div class="col mt-4">
                     <p class="h5 text-muted fw-bold" id="heading-one">
@@ -83,26 +84,26 @@
             <div class="row">
                 <div class="col mb-3">
                     <textarea class="form-control" id="firstTextArea"
-                              placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4"></textarea>
+                              placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4" asp-for="Symptoms"></textarea>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
                     <label for="floatingInput" class="ms-2 text-muted">First Name</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
                     <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 form-floating mt-3">
-                    <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth">
+                    <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
                     <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
                 </div>
                 <div class="col-sm-6 mt-3 form-floating">
-                    <input id="phone" class="form-control" type="tel" name="phone" />
+                    <input id="phone" class="form-control" type="tel" name="phone" asp-for="PhoneNumber"/>
                 </div>
 
             </div>
@@ -116,7 +117,7 @@
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
                     <label for="floatingInput" class="ms-2 text-muted">Email</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
@@ -132,27 +133,27 @@
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="street">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="street" asp-for="Street">
                     <label for="floatingInput" class="ms-2 text-muted">Street</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="city">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="city" asp-for="City">
                     <label for="floatingInput" class="ms-2 text-muted">City</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="state">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="state" asp-for="State">
                     <label for="floatingInput" class="ms-2 text-muted">State</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="zipcode">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" id="zipcode" asp-for="ZipCode">
                     <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
                 </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Room">
                     <label for="floatingInput" class="ms-2 text-muted">Room # / Suite (Optional)</label>
                 </div>
                 <a class="form-floating col-sm-1 mt-3" style="cursor:pointer;display: flex; align-items: center;height: 59px;width: 86px;justify-content: center;border: 1px solid #00ccff;border-radius:7px; text-decoration: none;" id="openBtn">
@@ -210,6 +211,7 @@
                     <button type="button" class="btn btn-info float-end me-3 mb-3">Submit</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
