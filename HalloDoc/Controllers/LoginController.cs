@@ -101,10 +101,10 @@ namespace HalloDoc.Controllers
             int day = (int)user.IntDate;
             string month = user.StrMonth;
             int year = (int)user.IntYear;
-            int monthNumber = DateTime.ParseExact(month, "MMMM", null).Month;
+            int monthNumber = Convert.ToInt32(user.StrMonth);
 
-            string formattedDate = $"{user.IntDate:02}/{DateTime.ParseExact(user.StrMonth, "MMMM", CultureInfo.CurrentCulture).Month:02}/{user.IntYear}";
-            DateTime dob = DateTime.ParseExact(formattedDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            string dateString = $"{day:00}/{monthNumber:00}/{year}";
+            DateTime dob = DateTime.ParseExact(dateString, "dd/MM/yyyy", CultureInfo.InvariantCulture);
 
 
             PatientRequestModel mePatientRequest = new PatientRequestModel()
@@ -433,6 +433,11 @@ namespace HalloDoc.Controllers
         }
 
         public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        public IActionResult CreatePassword()
         {
             return View();
         }

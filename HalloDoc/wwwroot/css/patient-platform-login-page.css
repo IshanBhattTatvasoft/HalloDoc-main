@@ -17,19 +17,35 @@ body{
     color: blue;
 }
 
-.person-icon{
+.person-icon {
     top: 18px;
     right: 10px;
     position: absolute;
     height: 23px;
     width: 23px;
-    border: 1.5px solid rgb(97, 97, 97);
+    border: 1.5px solid #54B4D3;
     border-radius: 10px;
     padding: 2px;
     cursor: pointer;
 }
 
-.hide-eye{
+.person-icon1 {
+    top: 18px;
+    right: 10px;
+    position: absolute;
+    height: 23px;
+    width: 23px;
+    border: 1.5px solid #54B4D3;
+    border-radius: 10px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.hide-eye {
+    display: none;
+}
+
+.hide-eye1 {
     display: none;
 }
 

@@ -8,16 +8,16 @@
 
 .change-theme {
     position: absolute;
-    right: 30px;
-    top: 30px;
+    right: 21px;
+    top: 11px;
     border: none;
     background-color: transparent;
 }
 
 .change-theme-mobile-view {
     position: absolute;
-    right: 5px;
-    top: 30px;
+    right: -20px;
+    top: 13px;
     border: none;
     background-color: transparent;
 }
@@ -25,6 +25,15 @@
 .night-mode-icon {
     height: 45px;
     width: 45px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.night-mode-icon-mobile {
+    height: 38px;
+    width: 38px;
     color: #00ccff;
     border: 2px solid #00ccff;
     border-radius: 10px;

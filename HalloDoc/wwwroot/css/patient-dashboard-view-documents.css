@@ -8,16 +8,16 @@
 
 .change-theme {
     position: absolute;
-    right: 30px;
-    top: 30px;
+    right: 21px;
+    top: 11px;
     border: none;
     background-color: transparent;
 }
 
 .change-theme-mobile-view {
     position: absolute;
-    right: 2px;
-    top: 87px;
+    right: -20px;
+    top: 13px;
     border: none;
     background-color: transparent;
 }
@@ -31,7 +31,16 @@
     padding: 10px;
 }
 
-.hide-icon{
+.night-mode-icon-mobile {
+    height: 38px;
+    width: 38px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.hide-icon {
     display: none;
 }
 

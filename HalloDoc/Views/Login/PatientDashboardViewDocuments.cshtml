@@ -11,104 +11,44 @@
 @section Scripts {
     <script src="~/js/bootstrap.bundle.min.js"></script>
 }
-
-<div class="bg-light">
-    <nav class="navbar navbar-expand-lg bg-white d-none d-sm-flex">
-        <div class="container-fluid">
-            <img src="~/images/logo1.png" alt="" style="height: 80px;" class="ms-5">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+<style>
+    .hide{
+        display:none;
+    }
+    </style>
+<div class="bg-light" style="overflow: hidden;">
+    <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
+        <div class="d-flex gap-1 align-items-center">
+            <button class="navbar-toggler d-block d-sm-none ms-1"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample"
+                    aria-expanded="false"
+                    aria-controls="collapseExample">
                 <span class="navbar-toggler-icon"></span>
+                <i class="bi bi-list" style="color: #27b5d2; border: 1px solid #ccf4fc;"></i>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto ">
-                    <li class="nav-item mt-4" style="margin-right:40px; margin-top: 30px !important;">
-                        <p class="h5">Welcome <span class="fw-bold">@Model.Username</span></p>
-                    </li>
-                    <li class="nav-item mt-4" style="margin-right:100px;">
-                        <button type="button" class="border border-info border-2 btn btn-outline-info">Logout</button>
-                    </li>
-                    <li class="nav-item">
-                        <div class="moon-flex">
-                            <button onclick="changeTheme()" class="change-theme">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                     class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
-                                    <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
-                                </svg>
-                            </button>
-                            <button onclick="changeTheme()" class="change-theme hide-icon">
 
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                     class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
-                                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
-                                </svg>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
+            <img src="~/images/logo1.png"
+                 class="Image ps-1 pt-1 ms-5"
+                 alt="Patient"
+                 style="height: 80px;" />
         </div>
-    </nav>
-
-
-    <!-- Navbar for mobile view -->
-
-    <nav class="navbar navbar-expand-lg navbar-light d-sm-none">
-        <div class="container-fluid" style="height: 88px;">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse mt-5" id="navbarNav">
-                <ul class="nav nav-tabs mb-3" id="pills-tab" role="tablist" style="margin-top: 10px;">
-                    <li class="nav-item me-3" role="presentation">
-                        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
-                                data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                                aria-selected="true">
-                            <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
-                        </button>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                                type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                            <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
-                        </button>
-                    </li>
-                </ul>
-            </div>
-
-            <img src="~/images/logo1.png" alt="" style="height: 80px; position: absolute; left: 75px;">
-
-            <button type="button" class="border border-info border-2 btn btn-outline-info logout-icon"
-                    style="height: 40px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="15px" height="15px"
-                     fill="currentColor" class="bi bi-box-arrow-right change-my-color d-flex justify-content-center"
-                     viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
-                    <path fill-rule="evenodd"
-                          d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                </svg>
-            </button>
-            <!-- <div class="logout-icon btn btn-outline-info">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-box-arrow-right change-my-color" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                        d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
-                    <path fill-rule="evenodd"
-                        d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
-                </svg>
-            </div> -->
-
-            <div class="moon-flex">
-                <button onclick="changeTheme()" class="change-theme-mobile-view">
+        <div class="d-flex align-items-center gap-1 flex-wrap">
+            <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block" style="margin-top: 20px !important;">welcome <strong> @Model.Username</strong></p>
+            <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="PatientSite" style="margin-right:100px;">Logout</a>
+            <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0" style="margin-right: 50px;"
+               asp-controller="Login" asp-action="PatientSite">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+            <div class="moon-flex d-none d-sm-flex">
+                <button onclick="changeTheme()" class="change-theme">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
                         <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
                     </svg>
                 </button>
-                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
+                <button onclick="changeTheme()" class="change-theme hide-icon">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
@@ -116,29 +56,48 @@
                     </svg>
                 </button>
             </div>
+            <div class="moon-flex d-sm-none flex-shrink-1 flex-sm-shrink-0">
+                <button onclick="changeTheme()" class="change-theme-mobile-view">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-moon night-mode-icon-mobile" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                    </svg>
+                </button>
+                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-brightness-high night-mode-icon-mobile" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <div class="card border-bottom-0 border-left-0 border-right-0 d-none d-sm-flex">
-        <div class="card-body nav-links ms-5">
-            <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-                <li class="nav-item me-3" role="presentation">
-                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                            aria-selected="true">
-                        <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                        <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
-                    </button>
-                </li>
-            </ul>
+    <nav class="shadow collpase" id="collapseExample">
+        <div class="nav nav-underline container-fluid ms-5"
+             id="nav-tab "
+             role="tablist">
+            <div class="nav-link active text-info me-4 ps-3 pe-3"
+                 id="nav-home-tab"
+                 data-bs-toggle="tab"
+                 data-bs-target="#nav-home"
+                 role="tab"
+                 aria-controls="nav-home"
+                 aria-selected="true">
+                Dashboard
+            </div>
+            <a class="nav-link text-info"
+               id="nav-profile-tab"
+               asp-controller="Login"
+               role="tab"
+               aria-controls="nav-profile"
+               aria-selected="false"
+               asp-action="PatientProfile">
+                Profile
+            </a>
         </div>
-    </div>
+    </nav>
 
     <div class="container" style="height: 81vh;">
         <div class="row">
@@ -232,11 +191,27 @@
                     {
                         <tr>
                             <td><input class="checkboxes" type="checkbox" style="height: 18px;width: 18px;" /></td>
-                            <td>
+                            @*<td>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ba1c1c" class="bi bi-file-earmark-pdf-fill" viewBox="0 0 16 16">
                                     <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z" />
                                     <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103" />
                                 </svg>  @item.FileName
+                            </td>*@
+                            <td>
+                                <svg data-obj="@item.FileName" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#ba1c1c" class="bi bi-file-earmark-pdf-fill appdata" viewBox="0 0 16 16">
+                                    <path d="M5.523 12.424q.21-.124.459-.238a8 8 0 0 1-.45.606c-.28.337-.498.516-.635.572l-.035.012a.3.3 0 0 1-.026-.044c-.056-.11-.054-.216.04-.36.106-.165.319-.354.647-.548m2.455-1.647q-.178.037-.356.078a21 21 0 0 0 .5-1.05 12 12 0 0 0 .51.858q-.326.048-.654.114m2.525.939a4 4 0 0 1-.435-.41q.344.007.612.054c.317.057.466.147.518.209a.1.1 0 0 1 .026.064.44.44 0 0 1-.06.2.3.3 0 0 1-.094.124.1.1 0 0 1-.069.015c-.09-.003-.258-.066-.498-.256M8.278 6.97c-.04.244-.108.524-.2.829a5 5 0 0 1-.089-.346c-.076-.353-.087-.63-.046-.822.038-.177.11-.248.196-.283a.5.5 0 0 1 .145-.04c.013.03.028.092.032.198q.008.183-.038.465z" />
+                                    <path fill-rule="evenodd" d="M4 0h5.293A1 1 0 0 1 10 .293L13.707 4a1 1 0 0 1 .293.707V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2m5.5 1.5v2a1 1 0 0 0 1 1h2zM4.165 13.668c.09.18.23.343.438.419.207.075.412.04.58-.03.318-.13.635-.436.926-.786.333-.401.683-.927 1.021-1.51a11.7 11.7 0 0 1 1.997-.406c.3.383.61.713.91.95.28.22.603.403.934.417a.86.86 0 0 0 .51-.138c.155-.101.27-.247.354-.416.09-.181.145-.37.138-.563a.84.84 0 0 0-.2-.518c-.226-.27-.596-.4-.96-.465a5.8 5.8 0 0 0-1.335-.05 11 11 0 0 1-.98-1.686c.25-.66.437-1.284.52-1.794.036-.218.055-.426.048-.614a1.24 1.24 0 0 0-.127-.538.7.7 0 0 0-.477-.365c-.202-.043-.41 0-.601.077-.377.15-.576.47-.651.823-.073.34-.04.736.046 1.136.088.406.238.848.43 1.295a20 20 0 0 1-1.062 2.227 7.7 7.7 0 0 0-1.482.645c-.37.22-.699.48-.897.787-.21.326-.275.714-.08 1.103" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#089c40" class="bi bi-file-earmark-spreadsheet-fill hide excel" viewBox="0 0 16 16">
+                                    <path d="M6 12v-2h3v2z" />
+                                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M3 9h10v1h-3v2h3v1h-3v2H9v-2H6v2H5v-2H3v-1h2v-2H3z" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#3cbbfa" class="bi bi-file-earmark-image hide simpleimage" viewBox="0 0 16 16">
+                                    <path d="M6.502 7a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3" />
+                                    <path d="M14 14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zM4 1a1 1 0 0 0-1 1v10l2.224-2.224a.5.5 0 0 1 .61-.075L8 11l2.157-3.02a.5.5 0 0 1 .76-.063L13 10V4.5h-2A1.5 1.5 0 0 1 9.5 3V1z" />
+                                </svg>
+
+                                @item.FileName
                             </td>
                             <td>
                                 @if (item.PhysicianId != null)
@@ -270,7 +245,25 @@
     </div>
 
     <script>
-        let eye = false;
+        var trial = document.getElementsByClassName("appdata");
+        console.log(trial.length);
+        for (var i = 0; i < trial.length; i++) {
+            var element = trial[i];
+            var dataFromModel = (element.getAttribute("data-obj"));
+            var extension = dataFromModel.split(".")[dataFromModel.split(".").length - 1];
+            console.log(extension);
+            if (extension == 'png' || extension == 'jpg' || extension == 'jpeg' || extension == 'svg') {
+                element.classList.add('hide');
+                document.getElementsByClassName('simpleimage')[i].classList.remove('hide');
+            } 
+            else if (extension == 'xlsx') {
+                element.classList.add('hide');
+                document.getElementsByClassName('excel')[i].classList.remove('hide');
+            }
+        }
+
+
+            let eye = false;
         function onpress() {
             if (!eye) {
                 document.getElementsByClassName('person-icon')[2].classList.add('hide-eye');
