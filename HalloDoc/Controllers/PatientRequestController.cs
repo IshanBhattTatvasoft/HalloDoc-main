@@ -52,12 +52,13 @@ namespace HalloDoc.Controllers
                 return View(model);
             }
 
-            if (model.File != null && model.File.Length > 0)
+            if (model.ImageContent != null && model.ImageContent.Length > 0)
             {
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     await model.ImageContent.CopyToAsync(stream);
+
                 }
             }
 

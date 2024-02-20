@@ -26,14 +26,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
-
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
+    options.IdleTimeout = TimeSpan.FromMinutes(720); // Set session timeout
 });
+
 
 //builder.Services is used to add services to the dependency injection container.
 //i) a dependency is when one object relies on another object to perform its function. For example, a Car object might depend on a Engine object to run.

@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.Net.Mail;
+using System.Net;
 
 namespace HalloDoc.Controllers
 {
@@ -18,10 +20,12 @@ namespace HalloDoc.Controllers
         //    _logger = logger;
         //}
         private readonly ApplicationDbContext _context;
-        public LoginController(ApplicationDbContext context)
+        private readonly IHttpContextAccessor _sescontext;
+        public LoginController(ApplicationDbContext context, IHttpContextAccessor sescontext)
         {
             /* _logger = logger;*/
             _context = context;
+            _sescontext = sescontext;
         }
 
         [HttpPost]
@@ -58,6 +62,89 @@ namespace HalloDoc.Controllers
 
             // If we reach here, something went wrong, return the same view with validation errors
             return View(model);
+        }
+
+        public async Task<IActionResult> SendMailForSetUpAccount(LoginViewModel model)
+        {
+            try
+            {
+
+                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                string senderPassword = "Ishan@1503";
+
+                SmtpClient client = new SmtpClient("smtp.office365.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(senderEmail, senderPassword),
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false
+                };
+                string resetToken = Guid.NewGuid().ToString();
+                string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePassword?token={resetToken}";
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress(senderEmail, "HalloDoc"),
+                    Subject = "Set up your Account",
+                    IsBodyHtml = true,
+                    Body = $"Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a>"
+                };
+                AspNetUser user = _context.AspNetUsers.FirstOrDefault(r => r.Email == model.UserName);
+                if (user != null)
+                {
+                    mailMessage.To.Add(model.UserName);
+                    _sescontext.HttpContext.Session.SetString("Token", resetToken);
+                    _sescontext.HttpContext.Session.SetString("UserEmail", model.UserName);
+                    await client.SendMailAsync(mailMessage);
+                    return RedirectToAction("PatientLoginPage");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Invalid Email");
+                    return RedirectToAction("ForgotPassword");
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("ForgotPassword");
+            }
+        }
+
+
+        public IActionResult CreatePassword(string token)
+        {
+
+            var useremail = _sescontext.HttpContext.Session.GetString("Token");
+
+            if (useremail == token)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("Forgot_Password");
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+
+            var useremail = _sescontext.HttpContext.Session.GetString("UserEmail");
+            AspNetUser user = _context.AspNetUsers.FirstOrDefault(x => x.Email == useremail);
+            if (user != null && model.Password == model.ConfirmPassword)
+            {
+                user.PasswordHash = model.Password;
+                _context.SaveChanges();
+                return RedirectToAction("PatientLoginPage");
+            }
+            else
+            {
+                ModelState.AddModelError("Password", "Password Missmatched");
+                return RedirectToAction("Forgot_Password");
+            }
+
         }
 
         public IActionResult PatientSite()
@@ -147,12 +234,13 @@ namespace HalloDoc.Controllers
                 return View(model);
             }
 
-            if (model.File != null && model.File.Length > 0)
+            if (model.ImageContent != null && model.ImageContent.Length > 0)
             {
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     await model.ImageContent.CopyToAsync(stream);
+
                 }
             }
 
@@ -433,11 +521,6 @@ namespace HalloDoc.Controllers
         }
 
         public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
-        public IActionResult CreatePassword()
         {
             return View();
         }
