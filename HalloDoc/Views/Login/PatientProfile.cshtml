@@ -1,4 +1,4 @@
-﻿@model HalloDoc.Models.PatientProfileView 
+﻿@model HalloDoc.DataLayer.ViewModels.PatientProfileView 
 @{
     ViewData["Title"] = "PatientProfile";
     Layout = "_Layout";
@@ -157,7 +157,7 @@
 
         <div class="container shadow-lg p-3 mb-5 bg-white rounded" id="main-container">
 
-            <form asp-action="EditPatientProfile" method="post" enctype="multipart/form-data">
+            <form asp-action="EditPatientProfile" method="post" enctype="multipart/form-data" asp-controller="Login">
                 <div class="row">
                     <div class="col mt-2 ps-4">
                         <p class="h5 fw-bold ms-0" id="heading-one">

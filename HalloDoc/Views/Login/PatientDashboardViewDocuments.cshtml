@@ -1,4 +1,4 @@
-﻿@model HalloDoc.Models.ViewDocumentModel
+﻿@model HalloDoc.DataLayer.ViewModels.ViewDocumentModel
 @{
     ViewData["Title"] = "PatientDashboardViewDocuments";
     Layout = "_Layout";
@@ -37,9 +37,12 @@
         <div class="d-flex align-items-center gap-1 flex-wrap">
             <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block" style="margin-top: 20px !important;">welcome <strong> @Model.Username</strong></p>
             <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="PatientSite" style="margin-right:100px;">Logout</a>
-            <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0" style="margin-right: 50px;"
+            <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0" style="margin-right: 50px; height: 35px;"
                asp-controller="Login" asp-action="PatientSite">
-                <i class="bi bi-box-arrow-right"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
+                    <path fill-rule="evenodd" d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708z" />
+                </svg>
             </a>
             <div class="moon-flex d-none d-sm-flex">
                 <button onclick="changeTheme()" class="change-theme">
@@ -103,8 +106,15 @@
         <div class="row">
 
             <div style="top: 42px; position: relative;" class="col me-5">
-                <a class="float-end text-info d-flex align-items-center" id="backdesign" style="text-decoration: none; border: 1px solid #20809d;"
-                   asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">
+                <a class="float-end text-info me-5" id="backdesign" asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory" style="text-decoration: none;
+    margin-right: 243px;
+    border: 1px solid;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px 2px;
+    width: 69px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                          class="bi bi-chevron-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -113,6 +123,7 @@
                     Back
                 </a>
             </div>
+            @*PatientDashboardAndMedicalHistory*@
 
             <div class="row">
                 <div class="col mt-2 ms-5">

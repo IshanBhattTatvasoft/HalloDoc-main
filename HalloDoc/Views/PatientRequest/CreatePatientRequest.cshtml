@@ -43,7 +43,7 @@
                     Back
                 </a>
             </div>
-            <form  asp-action="CreatePatientRequest" asp-controller="PatientRequest" enctype="multipart/form-data">
+            <form method="post" asp-action="CreatePatientRequest" asp-controller="PatientRequest" enctype="multipart/form-data">
             <div class="row">
                 <div class="col mt-4 ps-0">
                     <p class="h5 text-muted fw-bold ms-0" id="heading-one">
@@ -272,3 +272,9 @@
 
 
 </script>
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    }

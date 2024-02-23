@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\HalloDoc.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\css\\admin-dashboard.css",
+      "PackagePath": "staticwebassets\\css\\admin-dashboard.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
     },
@@ -65,8 +69,52 @@
       "PackagePath": "staticwebassets\\images\\LesfImage.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\active.svg",
+      "PackagePath": "staticwebassets\\images\\active.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\active_active.png",
+      "PackagePath": "staticwebassets\\images\\active_active.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\caret-down-fil3.svg",
+      "PackagePath": "staticwebassets\\images\\caret-down-fil3.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\caret-down-fill.svg",
+      "PackagePath": "staticwebassets\\images\\caret-down-fill.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\caret-down-fill1.svg",
+      "PackagePath": "staticwebassets\\images\\caret-down-fill1.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\caret-down-fill2.svg",
+      "PackagePath": "staticwebassets\\images\\caret-down-fill2.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\caret-down-fill4.svg",
+      "PackagePath": "staticwebassets\\images\\caret-down-fill4.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\caret-down-fill5.svg",
+      "PackagePath": "staticwebassets\\images\\caret-down-fill5.svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\clock.svg",
       "PackagePath": "staticwebassets\\images\\clock.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\conclude.svg",
+      "PackagePath": "staticwebassets\\images\\conclude.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\conclude_active.png",
+      "PackagePath": "staticwebassets\\images\\conclude_active.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\download.svg",
+      "PackagePath": "staticwebassets\\images\\download.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\hallodoc logo.png",
@@ -81,12 +129,44 @@
       "PackagePath": "staticwebassets\\images\\logo1.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\new.svg",
+      "PackagePath": "staticwebassets\\images\\new.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\new_active.png",
+      "PackagePath": "staticwebassets\\images\\new_active.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\pending.svg",
+      "PackagePath": "staticwebassets\\images\\pending.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\pending_active.png",
+      "PackagePath": "staticwebassets\\images\\pending_active.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\person-circle.svg",
       "PackagePath": "staticwebassets\\images\\person-circle.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\success-26.svg",
       "PackagePath": "staticwebassets\\images\\success-26.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\toclose.svg",
+      "PackagePath": "staticwebassets\\images\\toclose.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\toclose_active.png",
+      "PackagePath": "staticwebassets\\images\\toclose_active.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\unpaid.svg",
+      "PackagePath": "staticwebassets\\images\\unpaid.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\unpaid_active.png",
+      "PackagePath": "staticwebassets\\images\\unpaid_active.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\js\\bootstrap.bundle.min.js",
@@ -329,24 +409,68 @@
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\.NET coding standard.pdf",
+      "PackagePath": "staticwebassets\\uploads\\.NET coding standard.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234.pdf",
       "PackagePath": "staticwebassets\\uploads\\Assignment-1234.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC (1).pdf",
+      "PackagePath": "staticwebassets\\uploads\\MVC (1).pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC (2).pdf",
+      "PackagePath": "staticwebassets\\uploads\\MVC (2).pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC.pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (1).pdf",
+      "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (1).pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024.pdf",
       "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SQL Assignments-24.pdf",
+      "PackagePath": "staticwebassets\\uploads\\SQL Assignments-24.pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SQL_Session.pdf",
       "PackagePath": "staticwebassets\\uploads\\SQL_Session.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-14Feb24.pdf",
+      "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-14Feb24.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-21Feb24.pdf",
+      "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-21Feb24.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-2Feb24.pdf",
+      "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-2Feb24.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-30Jan.pdf",
+      "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-30Jan.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees_12Feb24.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees_12Feb24.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-01-16 143205.png",
+      "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-01-16 143205.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Session 2 (1).txt",
+      "PackagePath": "staticwebassets\\uploads\\Session 2 (1).txt"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",

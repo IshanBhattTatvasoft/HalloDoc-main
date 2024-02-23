@@ -1,0 +1,414 @@
+﻿
+@{
+    ViewData["Title"] = "AdminDashboard";
+}
+@section Styles {
+    <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+<div class="me-1 ms-1 main-body">
+    <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
+        <div class="d-flex gap-1 align-items-center">
+            <button class="navbar-toggler d-block d-sm-none ms-1" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                <span class="navbar-toggler-icon"></span>
+                <i class="bi bi-list" style="color: #27b5d2; border: 1px solid #ccf4fc;"></i>
+            </button>
+
+            <img src="~/images/logo1.png" class="Image ps-1 pt-1 ms-5 d-none d-sm-flex" alt="Patient"
+                 style="height: 80px;" />
+            <div>
+                <img src="~/images/logo1.png" class="d-sm-none d-flex align-items-center" alt="Patient"
+                     style="height: 80px;" />
+
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-1 flex-wrap">
+            <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block"
+               style="margin-top: 20px !important;">welcome <strong> Ishan Bhatt</strong></p>
+            <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="PatientSite"
+               style="margin-right:100px;">Logout</a>
+            <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0 logout-icon"
+               asp-controller="Login" asp-action="PatientSite">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+            <div class="moon-flex d-none d-sm-flex">
+                <button onclick="changeTheme()" class="change-theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                    </svg>
+                </button>
+                <button onclick="changeTheme()" class="change-theme hide-icon">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+            </div>
+            <div class="moon-flex d-sm-none d-flex flex-shrink-1 flex-sm-shrink-0">
+                <button onclick="changeTheme()" class="change-theme-mobile-view">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-moon night-mode-icon-mobile" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                    </svg>
+                </button>
+                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-brightness-high night-mode-icon-mobile" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Collapse navbar -->
+    <!-- <nav class="shadow collpase ps-5 g-2" id="collapseExample">
+        <div class="nav nav-underline container-fluid" id="nav-tab" role="tablist">
+
+            <a class="nav-link active text-info me-4 ps-3 pe-3" id="nav-home-tab" asp-controller="Home" role="tab"
+                aria-controls="nav-home" aria-selected="true" asp-action="Admin_dashboard">
+                Dashboard
+            </a>
+            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-profile-tab" asp-controller="Home" role="tab"
+                aria-controls="nav-profile" aria-selected="false" asp-action="ProviderLocation">
+                Provider Location
+            </a>
+            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
+                aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                My Profile
+            </a>
+            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
+                aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
+                Providers
+            </a>
+            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
+                aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
+                Partners
+            </a>
+            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
+                aria-controls="nav-Location" aria-selected="false" asp-action="Access">
+                Access
+            </a>
+            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
+                aria-controls="nav-Location" aria-selected="false" asp-action="Records">
+                Records
+            </a>
+        </div>
+    </nav> -->
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <a class="nav-link active text-info " id="nav-home-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-home" aria-selected="true" asp-action="Admin_dashboard">
+                Dashboard
+            </a>
+            <a class="nav-link text-info" id="nav-profile-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-profile" aria-selected="false" asp-action="ProviderLocation">
+                Proivder Location
+            </a>
+            <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                My Profile
+            </a>
+            <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
+                Providers
+            </a>
+            <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
+                Partners
+            </a>
+            <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Access">
+                Access
+            </a>
+            <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Records">
+                Records
+            </a>
+        </div>
+    </div>
+
+    <div id="main-sub-div" class="tabcontent">
+        <div class="row mt-5">
+
+            <!-- boxes of states -->
+
+
+            <a class="col-4 col-lg-2 rounded custom-btn cursor-pointer" style="text-decoration: none;">
+                <div class="state newState newState-active ms-2" onclick="changeStatus(this)">
+                    <div class="d-flex align-items-center state-sub-div">
+                        <img src="~/images/new.svg" id="newState" class="icon-size hide pe-1">
+                        <img src="~/images/new_active.png" id="newState-active" class="icon-size pe-1">
+                        <!-- <img src="./images/new_active.png" alt="" id="activeImage"> -->
+                        <span class="title-sub-div">NEW</span>
+                    </div>
+                    <span class="no">1234</span>
+                </div>
+                <img src="~/images/caret-down-fill.svg" id="newState-img" class="caret">
+            </a>
+            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+                <div class="state pendingState ms-2" onclick="changeStatus(this)">
+                    <div class="d-flex align-items-center state-sub-div">
+                        <img src="~/images/pending.svg" id="pendingState" class="icon-size pe-1">
+                        <img src="~/images/pending_active.png" id="pendingState-active" class="icon-size hide pe-1">
+                        <span class="title-sub-div">PENDING</span>
+                    </div>
+                    <span class="no">1234</span>
+                </div>
+                <img src="~/images/caret-down-fill1.svg" id="pendingState-img" class="caret hide-caret" />
+            </a>
+            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+                <div class="state activeState ms-2" onclick="changeStatus(this)">
+                    <div class="d-flex align-items-center state-sub-div">
+                        <img src="~/images/active.svg" id="activeState" class="icon-size pe-1">
+                        <img src="~/images/active_active.png" id="activeState-active" class="icon-size hide pe-1">
+                        <span class="title-sub-div">ACTIVE</span>
+                    </div>
+                    <span class="no">1234</span>
+                </div>
+                <img src="~/images/caret-down-fill2.svg" id="activeState-img" class="caret hide-caret" />
+            </a>
+            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+                <div class="state concludeState ms-2" onclick="changeStatus(this)">
+                    <div class="d-flex align-items-center state-sub-div">
+                        <img src="~/images/conclude.svg" id="concludeState" class="icon-size pe-1">
+                        <img src="~/images/conclude_active.png" id="concludeState-active" class="icon-size hide pe-1">
+                        <span class="title-sub-div">CONCLUDE</span>
+                    </div>
+                    <span class="no">1234</span>
+                </div>
+                <img src="~/images/caret-down-fil3.svg" id="concludeState-img" class="caret hide-caret" />
+            </a>
+            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+                <div class="state tocloseState ms-2" onclick="changeStatus(this)">
+                    <div class="d-flex align-items-center state-sub-div">
+                        <img src="~/images/toclose.svg" id="tocloseState" class="icon-size pe-1">
+                        <img src="~/images/toclose_active.png" id="tocloseState-active" class="icon-size hide pe-1">
+                        <span class="title-sub-div">TO CLOSE</span>
+                    </div>
+                    <span class="no">1234</span>
+                </div>
+                <img src="~/images/caret-down-fill4.svg" id="tocloseState-img" class="caret hide-caret" />
+            </a>
+            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+                <div class="state unpaidState ms-2" onclick="changeStatus(this)">
+                    <div class="d-flex align-items-center state-sub-div">
+                        <img src="~/images/unpaid.svg" id="unpaidState" class="icon-size pe-1">
+                        <img src="~/images/unpaid_active.png" id="unpaidState-active" class="icon-size hide pe-1">
+                        <span class="title-sub-div">UNPAID</span>
+                    </div>
+                    <span class="no">1234</span>
+                </div>
+                <img src="~/images/caret-down-fill5.svg" id="unpaidState-img" class="caret hide-caret" />
+            </a>
+        </div>
+        <!-- DONE TILL HERE (6 STATES) -->
+        <!-- Patient (new) and 5 buttons row -->
+
+        <div class="mt-5 ps-4 pe-4 dashboard-sub-div">
+            <h4 class="patient-title ms-3">Patients <span id="status-text">(New)</span></h4>
+            <div class="rounded d-flex">
+                <button class="five-blue-buttons">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                         class="bi bi-send dashboard-sub-div-icon" id="sub-div-icon-1" viewBox="0 0 16 16">
+                        <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
+                    </svg>
+                    <span class="five-blue-buttons-text me-2">Send Link</span>
+                </button>
+                <button class="five-blue-buttons">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                         class="bi bi-journal-medical dashboard-sub-div-icon" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4M5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
+                        <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
+                        <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
+                    </svg>
+                    <span class="five-blue-buttons-text me-2">Create Requests</span>
+                </button>
+                <button class="five-blue-buttons">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                         class="bi bi-arrow-up-right dashboard-sub-div-icon" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z" />
+                    </svg>
+                    <span class="five-blue-buttons-text me-2">Export</span>
+                </button>
+                <button class="five-blue-buttons">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                         class="bi bi-box-arrow-up-right dashboard-sub-div-icon" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                        <path fill-rule="evenodd"
+                              d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                    </svg>
+                    <span class="five-blue-buttons-text me-2">Export All</span>
+                </button>
+                <button class="five-blue-buttons me-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                         class="bi bi-person-plus dashboard-sub-div-icon" viewBox="0 0 16 16">
+                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                        <path fill-rule="evenodd"
+                              d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5" />
+                    </svg>
+                    <span class="five-blue-buttons-text me-2">Request DTY Support</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="dashboard-sub-div-2 mt-4 ms-3 me-3">
+            <!-- <div class="dashboard-sub-div-2-sub d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                <div class="search-div d-sm-flex d-block">
+                    <div class="search-div-sub d-flex align-items-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray"
+                            class="bi bi-search me-1" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                        <input placeholder="Search Patients" class="searchPatientInput" type="text" />
+                    </div>
+                    <div class="search-div-sub-2 d-flex align-items-center ms-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray"
+                            class="bi bi-search me-1" viewBox="0 0 16 16">
+                            <path
+                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
+                        </svg>
+                        <input placeholder="All Regions" type="text" class="searchPatientInput" />
+                    </div>
+                </div>
+                <div class="categories-div d-sm-flex d-inline-block align-items-center">
+                    <button class="categories-div-all-button ps-3 pe-3 me-2">All</button>
+                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
+                        <div class="categories-div-sub-sub" style="background-color: #10bb0d;"></div>
+                        <span style="color:gray" class="categories-div-sub-text">Patient</span>
+                    </div>
+                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
+                        <div class="categories-div-sub-sub" style="background-color: rgb(238, 196, 11);"></div>
+                        <span style="color:gray" class="categories-div-sub-text">Family/Friend</span>
+                    </div>
+                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
+                        <div class="categories-div-sub-sub" style="background-color: rgb(236, 91, 116);"></div>
+                        <span style="color:gray" class="categories-div-sub-text">Business</span>
+                    </div>
+                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
+                        <div class="categories-div-sub-sub" style="background-color: rgb(3, 87, 241);"></div>
+                        <span style="color:gray" class="categories-div-sub-text">Concierge</span>
+                    </div>
+                </div>
+            </div> -->
+            <div class="d-md-flex d-block justify-content-between align-items-center mb-3 dashboard-sub-div-2-sub">
+                <div class="search-div mt-3 gap-2 d-md-flex d-block">
+                    <div class="search-div-sub input-group h-50 mb-2">
+                        <input type="text" id="searchInput" class="form-control search-input"
+                               placeholder="Search Patients">
+                    </div>
+                    <div class="search-div-sub-2 input-group h-50">
+                        <input type="text" id="searchRegion" class="form-control" placeholder="All Regions">
+                    </div>
+
+                </div>
+                <div class="categories-div d-md-flex d-block gap-2 align-items-center">
+                    <button class="categories-div-all-button btn border border-dark mt-3 d-md-inline-block d-none">All</button>
+                    <div class="d-flex align-items-center justify-content-center mt-3 gap-2">
+
+                        <div class="d-flex align-items-center justify-content-center  mt-3 gap-2">
+                            <div class="categories-div-sub d-sm-flex flex-sm-row flex-column  align-items-center gap-1">
+                                <div class="categories-div-sub-sub m-auto"
+                                     style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
+                                <div>Patient</div>
+                            </div>
+                            <div class="categories-div-sub d-sm-flex align-items-center gap-1">
+                                <div class="categories-div-sub-sub m-auto"
+                                     style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></div>
+                                <div>Family/Friend</div>
+                            </div>
+                            <div class="categories-div-sub d-sm-flex align-items-center gap-1">
+                                <div class="categories-div-sub-sub m-auto"
+                                     style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></div>
+                                <div>Business</div>
+                            </div>
+                            <div class="categories-div-sub d-sm-flex align-items-center gap-1">
+                                <div class="categories-div-sub-sub m-auto"
+                                     style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></div>
+                                <div>Concierge</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <div id="AdminDashboardPartialView"></div>
+        </div>
+
+
+
+        <script>
+            const changeStatus = (element) => {
+                const states = document.getElementsByClassName("state");
+                const current_state = element.classList[1];
+                for (let i = 0; i < states.length; ++i) {
+                    if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
+                        break;
+                    }
+                    else if (states[i].classList[1] == current_state) {
+                        states[i].classList.add(`${states[i].classList[1]}-active`);
+                        document.getElementById(`${states[i].classList[1]}-active`).classList.remove('hide');
+                        document.getElementById(`${states[i].classList[1]}`).classList.add('hide');
+                        //console.log(document.getElementById(`${states[i].classList[1]}`));
+                        document.getElementById(`${states[i].classList[1]}-img`).classList.remove('hide-caret');
+                    }
+                    else if (states[i].classList.length == 4) {
+                        states[i].classList.remove(`${states[i].classList[1]}-active`);
+                        document.getElementById(`${states[i].classList[1]}-active`).classList.add('hide');
+                        document.getElementById(`${states[i].classList[1]}`).classList.remove('hide');
+                        //console.log(document.getElementById(`${states[i].classList[1]}`));
+                        document.getElementById(`${states[i].classList[1]}-img`).classList.add('hide-caret');
+                    }
+                }
+                let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
+                let finalName = name.split("State")[0];
+                console.log(finalName);
+                if (finalName == "toclose") {
+                    document.getElementById("status-text").innerHTML = "(To Close)";
+                } else {
+                    document.getElementById("status-text").innerHTML = `(${finalName.charAt(0).toUpperCase() + finalName.slice(1)})`;
+                }
+                 $.ajax({
+                     url: `/Admin/${finalName.charAt(0).toUpperCase() + finalName.slice(1)}`,
+                     type: 'POST',
+                     dataType: 'html',
+                     // Pass your data here
+                     success: function (response) {
+                         $("#AdminDashboardPartialView").html(response)
+                     },
+                     error: function () {
+                         alert('An error occurred.');
+                     }
+                 });
+            }
+
+            $.ajax({
+                url: `/Admin/New`,
+                type: 'POST',
+                dataType: 'html',
+                // Pass your data here
+                success: function (response) {
+                    $("#AdminDashboardPartialView").html(response)
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+            });
+        </script>
+</div>

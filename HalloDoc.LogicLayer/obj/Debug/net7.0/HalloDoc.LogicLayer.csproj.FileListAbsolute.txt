@@ -1,0 +1,17 @@
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\bin\Debug\net7.0\HalloDoc.LogicLayer.deps.json
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\bin\Debug\net7.0\HalloDoc.LogicLayer.runtimeconfig.json
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\bin\Debug\net7.0\HalloDoc.LogicLayer.dll
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\bin\Debug\net7.0\HalloDoc.LogicLayer.pdb
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\bin\Debug\net7.0\HalloDoc.DataLayer.dll
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\bin\Debug\net7.0\HalloDoc.DataLayer.pdb
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.csproj.AssemblyReference.cache
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.AssemblyInfoInputs.cache
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.AssemblyInfo.cs
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.csproj.CoreCompileInputs.cache
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.csproj.CopyComplete
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.dll
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\refint\HalloDoc.LogicLayer.dll
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.pdb
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\HalloDoc.LogicLayer.genruntimeconfig.cache
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc.LogicLayer\obj\Debug\net7.0\ref\HalloDoc.LogicLayer.dll

@@ -1,4 +1,4 @@
-﻿@model HalloDoc.Models.DashboardViewModel
+﻿@model HalloDoc.DataLayer.ViewModels.DashboardViewModel
 @{
     ViewData["Title"] = "PatientDashboardAndMedicalHistory";
     Layout = "_Layout";
@@ -248,7 +248,7 @@
                         {
                             <tr>
                                 <td>@item.CreatedDate.ToString("MMM dd, yyyy")</td>
-                                <td>@item.Status</td>
+                                <td>Unassigned</td>
                                 <td><a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@item.RequestId">(@item.Count) Documents</a></td>
                             </tr>
                         }
@@ -292,12 +292,14 @@
                                     <div class="inner-flex">
                                         <img src="~/images/success-26.svg" alt="" class="accordion-img-inner" style="height: 5px; width: 5px"> <span class="accordion-heading-inner">
                                             Current
-                                            Status: <span class="accordion-value-inner">@Model.requests[i].Status</span>
+                                            Status: <span class="accordion-value-inner">Unassigned</span>
                                         </span>
                                     </div>
-                                    <a class="document-mob" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@(Model.requests[i].RequestId)" style="text-decoration: none;">
-                                        <span class="logout-text">(@(Model.requests[i].Count ?? 0)) Documents</span>
-                                    </a>
+                                    <div style="margin-top: 4px;">
+                                        <a style="border:1px solid #00ccff;padding:6px;margin:auto; margin-top: 5px;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@(Model.requests[i].RequestId)" style="text-decoration: none;">
+                                            <span class="logout-text">(@(Model.requests[i].Count ?? 0)) Documents</span>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

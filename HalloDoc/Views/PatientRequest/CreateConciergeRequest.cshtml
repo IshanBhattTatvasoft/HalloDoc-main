@@ -65,7 +65,7 @@
             </div>
             <div class="row">
                 <div class="col-sm-6 mt-3 form-floating">
-                    <input id="phone" class="form-control" type="tel" name="phone" asp-for="ConciergePhoneNumber"/>
+                    <input id="phone" class="form-control" type="text" name="phone" asp-for="ConciergePhoneNumber"/>
                         <span asp-validation-for="ConciergePhoneNumber" class="text-danger"></span>
                     </div>
                 <div class="form-floating col-sm-6 mt-3">
@@ -161,7 +161,7 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                 <div class="col-sm-6 mt-3 form-floating">
-                    <input id="phone1" class="form-control" type="tel" name="phone" asp-for="PhoneNumber"/>
+                    <input id="phone1" class="form-control" type="text" name="phone" asp-for="PhoneNumber"/>
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
             </div>
@@ -260,4 +260,10 @@
                 "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
         });
     </script>
+
+    @section Scripts{
+        @{
+            <partial name="_ValidationScriptsPartial" />
+        }
+    }
 </div>
