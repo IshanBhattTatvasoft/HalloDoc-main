@@ -1,4 +1,4 @@
-﻿
+﻿@model HalloDoc.DataLayer.ViewModels.AdminDashboardTableView
 @{
     ViewData["Title"] = "AdminDashboard";
 }
@@ -152,8 +152,9 @@
                         <!-- <img src="./images/new_active.png" alt="" id="activeImage"> -->
                         <span class="title-sub-div">NEW</span>
                     </div>
-                    <span class="no">1234</span>
+                    <span class="no">@Model.new_count</span>
                 </div>
+
                 <img src="~/images/caret-down-fill.svg" id="newState-img" class="caret">
             </a>
             <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
@@ -163,7 +164,7 @@
                         <img src="~/images/pending_active.png" id="pendingState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">PENDING</span>
                     </div>
-                    <span class="no">1234</span>
+                    <span class="no">@Model.pending_count</span>
                 </div>
                 <img src="~/images/caret-down-fill1.svg" id="pendingState-img" class="caret hide-caret" />
             </a>
@@ -174,7 +175,7 @@
                         <img src="~/images/active_active.png" id="activeState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">ACTIVE</span>
                     </div>
-                    <span class="no">1234</span>
+                    <span class="no">@Model.active_count</span>
                 </div>
                 <img src="~/images/caret-down-fill2.svg" id="activeState-img" class="caret hide-caret" />
             </a>
@@ -185,7 +186,7 @@
                         <img src="~/images/conclude_active.png" id="concludeState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">CONCLUDE</span>
                     </div>
-                    <span class="no">1234</span>
+                    <span class="no">@Model.conclude_count</span>
                 </div>
                 <img src="~/images/caret-down-fil3.svg" id="concludeState-img" class="caret hide-caret" />
             </a>
@@ -196,7 +197,7 @@
                         <img src="~/images/toclose_active.png" id="tocloseState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">TO CLOSE</span>
                     </div>
-                    <span class="no">1234</span>
+                    <span class="no">@Model.toclose_count</span>
                 </div>
                 <img src="~/images/caret-down-fill4.svg" id="tocloseState-img" class="caret hide-caret" />
             </a>
@@ -207,7 +208,7 @@
                         <img src="~/images/unpaid_active.png" id="unpaidState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">UNPAID</span>
                     </div>
-                    <span class="no">1234</span>
+                    <span class="no">@Model.unpaid_count</span>
                 </div>
                 <img src="~/images/caret-down-fill5.svg" id="unpaidState-img" class="caret hide-caret" />
             </a>
@@ -243,16 +244,16 @@
                     </svg>
                     <span class="five-blue-buttons-text me-2">Export</span>
                 </button>
-                <button class="five-blue-buttons">
+                <a class="five-blue-buttons" asp-action="DownloadAll" asp-controller="Admin" style="text-decoration: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
-                         class="bi bi-box-arrow-up-right dashboard-sub-div-icon" viewBox="0 0 16 16">
+                         class="bi bi-box-arrow-up-right dashboard-sub-div-icon mt-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                               d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
                         <path fill-rule="evenodd"
                               d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
                     </svg>
-                    <span class="five-blue-buttons-text me-2">Export All</span>
-                </button>
+                    <span class="five-blue-buttons-text me-2" style="margin-top: 50px !important;">Export All</span>
+                </a>
                 <button class="five-blue-buttons me-4">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
                          class="bi bi-person-plus dashboard-sub-div-icon" viewBox="0 0 16 16">
@@ -305,25 +306,25 @@
                     </div>
                 </div>
             </div> -->
-            <div class="d-md-flex d-block justify-content-between align-items-center mb-3 dashboard-sub-div-2-sub">
+            <div class="d-flex justify-content-between align-items-center flex-row mb-3 dashboard-sub-div-2-sub">
                 <div class="search-div mt-3 gap-2 d-md-flex d-block">
                     <div class="search-div-sub input-group h-50 mb-2">
-                        <input type="text" id="searchInput" class="form-control search-input"
-                               placeholder="Search Patients">
+                        <input type="text" id="search" class="form-control search-input"
+                               placeholder="Search Patients" style="border: none !important;">
                     </div>
                     <div class="search-div-sub-2 input-group h-50">
-                        <input type="text" id="searchRegion" class="form-control" placeholder="All Regions">
+                        <input type="text" id="searchRegion" class="form-control" placeholder="All Regions" style="border: none !important;">
                     </div>
 
                 </div>
                 <div class="categories-div d-md-flex d-block gap-2 align-items-center">
-                    <button class="categories-div-all-button btn border border-dark mt-3 d-md-inline-block d-none">All</button>
-                    <div class="d-flex align-items-center justify-content-center mt-3 gap-2">
+                    <button class="categories-div-all-button btn border border-dark-subtle mt-3 d-md-inline-block d-none">All</button>
+                    <div class="d-flex align-items-center justify-content-center gap-2">
 
-                        <div class="d-flex align-items-center justify-content-center  mt-3 gap-2">
+                        <div class="d-flex align-items-center justify-content-center mt-3 gap-2">
                             <div class="categories-div-sub d-sm-flex flex-sm-row flex-column  align-items-center gap-1">
                                 <div class="categories-div-sub-sub m-auto"
-                                     style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
+                                     style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></div>
                                 <div>Patient</div>
                             </div>
                             <div class="categories-div-sub d-sm-flex align-items-center gap-1">
@@ -332,11 +333,11 @@
                                 <div>Family/Friend</div>
                             </div>
                             <div class="categories-div-sub d-sm-flex align-items-center gap-1">
-                                <div class="categories-div-sub-sub m-auto"
-                                     style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></div>
+                                <div class="categories-div-sub-sub m-auto" 
+                                     style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
                                 <div>Business</div>
                             </div>
-                            <div class="categories-div-sub d-sm-flex align-items-center gap-1">
+                            <div class="categories-div-sub d-sm-flex align-items-center gap-1 pe-2">
                                 <div class="categories-div-sub-sub m-auto"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></div>
                                 <div>Concierge</div>
@@ -347,7 +348,7 @@
             </div>
         </div>
 
-        <div class="table-responsive">
+        <div class="table-responsive mt-4 ms-3 me-3">
             <div id="AdminDashboardPartialView"></div>
         </div>
 
@@ -409,6 +410,15 @@
                 error: function () {
                     alert('An error occurred.');
                 }
+            });
+
+            $(document).ready(function () {
+                $("#search").on("keyup", function () {
+                    var value = $(this).val().toLowerCase();
+                    $("#abcd tr").filter(function () {
+                        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                    });
+                });
             });
         </script>
 </div>

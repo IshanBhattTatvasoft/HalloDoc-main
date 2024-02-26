@@ -36,6 +36,7 @@ namespace HalloDoc.Controllers
                 pending_count = count_pending,
                 active_count = count_active,
                 conclude_count = count_conclude,
+                unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
                 query_requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1),
                 requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList(),
@@ -43,8 +44,13 @@ namespace HalloDoc.Controllers
                 status = "New",
             };
 
+            
+
             return View(adminDashboardViewModel);
         }
+
+        
+
         [HttpPost]
         public IActionResult New()
         {
@@ -66,6 +72,7 @@ namespace HalloDoc.Controllers
                 active_count = count_active,
                 conclude_count = count_conclude,
                 toclose_count = count_toclose,
+                unpaid_count = count_unpaid,
                 query_requests = req,
                 requests = list,
                 regions = region,
@@ -94,6 +101,7 @@ namespace HalloDoc.Controllers
                 pending_count = count_pending,
                 active_count = count_active,
                 conclude_count = count_conclude,
+                unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
                 query_requests = req,
                 requests = list,
@@ -123,6 +131,7 @@ namespace HalloDoc.Controllers
                 pending_count = count_pending,
                 active_count = count_active,
                 conclude_count = count_conclude,
+                unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
                 query_requests = req,
                 requests = list,
@@ -152,6 +161,7 @@ namespace HalloDoc.Controllers
                 pending_count = count_pending,
                 active_count = count_active,
                 conclude_count = count_conclude,
+                unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
                 query_requests = req,
                 requests = list,
@@ -181,6 +191,7 @@ namespace HalloDoc.Controllers
                 pending_count = count_pending,
                 active_count = count_active,
                 conclude_count = count_conclude,
+                unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
                 query_requests = req,
                 requests = list,
@@ -210,6 +221,7 @@ namespace HalloDoc.Controllers
                 pending_count = count_pending,
                 active_count = count_active,
                 conclude_count = count_conclude,
+                unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
                 query_requests = req,
                 requests = list,
@@ -221,12 +233,13 @@ namespace HalloDoc.Controllers
         public List<Request> GetTableData()
         {
             List<Request> data = new List<Request>();
-            var user_id = HttpContext.Session.GetInt32("id");
-            data = _context.Requests.Include(r => r.RequestClient).Where(u => u.UserId == user_id).ToList();
+            //var user_id = HttpContext.Session.GetInt32("id");
+            //data = _context.Requests.Include(r => r.RequestClient).Where(u => u.UserId == user_id).ToList();
+            data = _context.Requests.Include(r => r.RequestClient).ToList();
             return data;
         }
 
-        public IActionResult DownloadExcel()
+        public IActionResult DownloadAll()
         {
             try
             {

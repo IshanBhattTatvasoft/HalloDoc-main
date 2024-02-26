@@ -1,4 +1,5 @@
-﻿<table id="dtBasicExample" class="table">
+﻿@model HalloDoc.DataLayer.ViewModels.AdminDashboardTableView
+<table id="dtBasicExample" class="table">
     <thead>
         <tr>
             <th scope="col" class="table-header">
@@ -34,7 +35,7 @@
             <th>Actions</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody id="abcd">
         @foreach (var item in Model.requests)
         {
             var statusClass = "";
@@ -42,11 +43,11 @@
             var notes = "";
             @if (item.RequestTypeId == 1)
             {
-                statusClass = "business";
+                statusClass = "patient";
             }
             else if (item.RequestTypeId == 4)
             {
-                statusClass = "patient";
+                statusClass = "business";
             }
             else if (item.RequestTypeId == 2)
             {
@@ -104,13 +105,7 @@
                         </div>
                         <span class="td-data">(Patient)</span>
 
-                        @*<span class="phone-container">
-                <img src="../../images/telephone.svg"
-                class=""
-                alt="" /><span class="phone-number">@item.RequestClient.PhoneNumber</span>
-                </span><br />
-                (Patient)<br />*@
-                        @if (item.RequestTypeId != 4)
+                        @if (item.RequestTypeId != 1)
                         {
                             <div class="phone-td" style="width:75%">
                                 <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
@@ -137,46 +132,46 @@
                         <div class="dropdown-content">
                             @if (Model.status == "New")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/list.png" alt="" class="action-img"><span>Assign Case</span></div></a>
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/x-mark.png" alt="" class="action-img"><span>Cancel Case</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Cancel Case</span></div></a>
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin"><div class="action-item"><img src="../../images/file.png" alt="" class="action-img"><span>View Case</span></div></a>
+                                <a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/paper.png" alt="" class="action-img"><span>View Notes</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/view-notes-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Notes</span></div></a>
                             }
                             @if (Model.status == "New")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/blocked.png" alt="" class="action-img"><span>Block Patient</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></a>
                             }
                             @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/upload.png" alt="" class="action-img"><span>View Uploads</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
                             }
                             @if (Model.status == "Pending")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/list.png" alt="" class="action-img"><span>Transfer</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></a>
                             }
                             @if (Model.status == "Pending" || Model.status == "ToClose")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/x-mark.png" alt="" class="action-img"><span>Clear Case</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></a>
                             }
                             @if (Model.status == "Pending")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/document-symbol-with-text-lines.png" alt="" class="action-img"><span>Send Agreement</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></a>
                             }
                             @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/list.png" alt="" class="action-img"><span>Orders</span></div></a>
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/document-symbol-with-text-lines.png" alt="" class="action-img"><span>Doctor Note</span></div></a>
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/document-symbol-with-text-lines.png" alt="" class="action-img"><span>Encounter</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Doctor Note</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Encounter</span></div></a>
                             }
                             @if (Model.status == "ToClose")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="../../images/x-mark.png" alt="" class="action-img"><span>Close Case</span></div></a>
+                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img"><span>Close Case</span></div></a>
                             }
                         </div>
                     </div>
@@ -185,6 +180,12 @@
         }
     </tbody>
 </table>
+
+<div class="d-md-none">
+    <p>Hello</p>
+</div>
+
+
 <script>
     let isDropdownActive = false;
 

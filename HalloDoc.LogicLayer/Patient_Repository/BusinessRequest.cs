@@ -30,10 +30,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Regions.FirstOrDefault(u => u.Name.ToLower().Trim().Equals(temp));
         }
 
-        public async void InsertDataBusinessRequest(BusinessRequestModel model)
+        public void InsertDataBusinessRequest(BusinessRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
-            User user = new User();
+            User user = _context.Users.SingleOrDefault(u => u.Email == model.Email);
             Request request = new Request();
             DataLayer.Models.Region region2 = new DataLayer.Models.Region();
             RequestClient requestClient = new RequestClient();
@@ -52,7 +52,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.CreatedDate = DateTime.Now;
                 aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
 
                 user.AspNetUserId = aspNetUser.Id;
                 user.FirstName = model.FirstName;
@@ -69,7 +69,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 user.CreatedBy = aspNetUser.Id;
                 user.CreatedDate = DateTime.Now;
                 _context.Users.Add(user);
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
             }
 
             requestClient.FirstName = model.FirstName;
@@ -88,7 +88,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             requestClient.State = model.State;
             requestClient.ZipCode = model.Zipcode;
             _context.RequestClients.Add(requestClient);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
 
             int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
             string ConfirmationNumber = string.Concat(region2.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
@@ -107,7 +107,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.CreatedDate = DateTime.Now;
             request.RequestClientId = requestClient.RequestClientId;
             _context.Requests.Add(request);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
 
             if (model.File != null)
             {
@@ -115,7 +115,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 requestWiseFile.FileName = model.File;
                 requestWiseFile.CreatedDate = DateTime.Now;
                 _context.RequestWiseFiles.Add(requestWiseFile);
-                await _context.SaveChangesAsync();
+                _context.SaveChangesAsync();
             }
 
             requestStatusLog.RequestId = request.RequestId;
@@ -123,7 +123,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             requestStatusLog.Notes = model.Symptoms;
             requestStatusLog.CreatedDate = DateTime.Now;
             _context.RequestStatusLogs.Add(requestStatusLog);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
 
             business.Name = model.BusinessFirstName + " " + model.BusinessLastName;
             business.Address1 = model.BusinessPropertyName;
@@ -134,12 +134,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             business.CreatedDate = DateTime.Now;
             business.RegionId = 1;
             _context.Businesses.Add(business);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
 
             requestBusiness.RequestId = request.RequestId;
             requestBusiness.BusinessId = business.BusinessId;
             _context.RequestBusinesses.Add(requestBusiness);
-            await _context.SaveChangesAsync();
+            _context.SaveChangesAsync();
         }
     }
 }

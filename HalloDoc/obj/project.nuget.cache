@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TF49rOumDBCuQnTgvjL82eSazlNpLCSQTeIjZJ1e7aBUE9Q2Ucdh7V8UF9L9zn91z3J9eNDmIcxyRrBbYOzumw==",
+  "dgSpecHash": "Kl9aPtJSGTVnDT5IiX/l0c7KxB6/JGREon2KfRDeaaBAengV+dE7gH3JhYorocn2ufad5Dm8x/ViKtr44pDRIw==",
   "success": true,
   "projectFilePath": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\HalloDoc.csproj",
   "expectedPackageFiles": [
@@ -100,6 +100,7 @@
     "C:\\Users\\pca141\\.nuget\\packages\\microsoft.net.stringtools\\17.3.2\\microsoft.net.stringtools.17.3.2.nupkg.sha512",
     "C:\\Users\\pca141\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.1\\microsoft.netcore.platforms.1.1.1.nupkg.sha512",
     "C:\\Users\\pca141\\.nuget\\packages\\microsoft.netcore.targets\\1.1.3\\microsoft.netcore.targets.1.1.3.nupkg.sha512",
+    "C:\\Users\\pca141\\.nuget\\packages\\microsoft.office.interop.excel\\15.0.4795.1001\\microsoft.office.interop.excel.15.0.4795.1001.nupkg.sha512",
     "C:\\Users\\pca141\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration\\7.0.11\\microsoft.visualstudio.web.codegeneration.7.0.11.nupkg.sha512",
     "C:\\Users\\pca141\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.core\\7.0.11\\microsoft.visualstudio.web.codegeneration.core.7.0.11.nupkg.sha512",
     "C:\\Users\\pca141\\.nuget\\packages\\microsoft.visualstudio.web.codegeneration.design\\7.0.11\\microsoft.visualstudio.web.codegeneration.design.7.0.11.nupkg.sha512",

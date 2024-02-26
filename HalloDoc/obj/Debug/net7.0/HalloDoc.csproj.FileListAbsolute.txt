@@ -241,3 +241,4 @@ C:\Users\pca141\Desktop\HalloDoc main\HalloDoc\bin\Debug\net7.0\Irony.dll
 C:\Users\pca141\Desktop\HalloDoc main\HalloDoc\bin\Debug\net7.0\SixLabors.Fonts.dll
 C:\Users\pca141\Desktop\HalloDoc main\HalloDoc\bin\Debug\net7.0\System.IO.Packaging.dll
 C:\Users\pca141\Desktop\HalloDoc main\HalloDoc\bin\Debug\net7.0\XLParser.dll
+C:\Users\pca141\Desktop\HalloDoc main\HalloDoc\bin\Debug\net7.0\Microsoft.Office.Interop.Excel.dll

@@ -77,6 +77,18 @@
       "PackagePath": "staticwebassets\\images\\active_active.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\assign-case-image.svg",
+      "PackagePath": "staticwebassets\\images\\assign-case-image.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\block-patient-image.png",
+      "PackagePath": "staticwebassets\\images\\block-patient-image.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\cancel-case-image.webp",
+      "PackagePath": "staticwebassets\\images\\cancel-case-image.webp"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\caret-down-fil3.svg",
       "PackagePath": "staticwebassets\\images\\caret-down-fil3.svg"
     },
@@ -137,6 +149,10 @@
       "PackagePath": "staticwebassets\\images\\new_active.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\orders-image.png",
+      "PackagePath": "staticwebassets\\images\\orders-image.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\pending.svg",
       "PackagePath": "staticwebassets\\images\\pending.svg"
     },
@@ -147,6 +163,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\person-circle.svg",
       "PackagePath": "staticwebassets\\images\\person-circle.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\send-agreement-image.svg",
+      "PackagePath": "staticwebassets\\images\\send-agreement-image.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\success-26.svg",
@@ -167,6 +187,18 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\unpaid_active.png",
       "PackagePath": "staticwebassets\\images\\unpaid_active.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\view-case-image.png",
+      "PackagePath": "staticwebassets\\images\\view-case-image.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\view-notes-image.png",
+      "PackagePath": "staticwebassets\\images\\view-notes-image.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\view-uploads-image.png",
+      "PackagePath": "staticwebassets\\images\\view-uploads-image.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\js\\bootstrap.bundle.min.js",
@@ -425,12 +457,28 @@
       "PackagePath": "staticwebassets\\uploads\\MVC (2).pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC (4).pdf",
+      "PackagePath": "staticwebassets\\uploads\\MVC (4).pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC (5).pdf",
+      "PackagePath": "staticwebassets\\uploads\\MVC (5).pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\MVC.pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC.pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (1).pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (3).pdf",
+      "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (3).pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (4).pdf",
+      "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (4).pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024.pdf",
@@ -479,6 +527,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\doc-img.jpg",
       "PackagePath": "staticwebassets\\uploads\\doc-img.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",
+      "PackagePath": "staticwebassets\\uploads\\person-circle.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\success-26.svg",
