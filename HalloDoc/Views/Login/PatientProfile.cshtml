@@ -73,27 +73,9 @@
     </nav>
 
     <nav class="shadow collpase" id="collapseExample">
-        <div class="nav nav-underline container-fluid ms-5"
-             id="nav-tab "
-             role="tablist">
-            <a class="nav-link text-info"
-               id="nav-profile-tab"
-               asp-controller="Login"
-               role="tab"
-               aria-controls="nav-profile"
-               aria-selected="false"
-               asp-action="PatientDashboardAndMedicalHistory">
-                Dashboard
-            </a>
-            <div class="nav-link active text-info me-4 ps-3 pe-3"
-                 id="nav-home-tab"
-                 data-bs-toggle="tab"
-                 data-bs-target="#nav-home"
-                 role="tab"
-                 aria-controls="nav-home"
-                 aria-selected="true">
-                Profile
-            </div>
+        <div class="nav nav-underline container-fluid ms-5" id="nav-tab" role="tablist">
+            <a class="nav-link text-info me-4 ps-3 pe-3" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
+            <div class="nav-link active text-info" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Profile</div>
         </div>
     </nav>
 

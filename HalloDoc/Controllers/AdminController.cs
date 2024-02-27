@@ -5,6 +5,11 @@ using System.Data;
 using ClosedXML.Excel;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
+using DocumentFormat.OpenXml.InkML;
+using System.Globalization;
+using DocumentFormat.OpenXml.Office2010.Excel;
+using HalloDocMvc.Entity.ViewModel;
+using Microsoft.Office.Interop.Excel;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -38,14 +43,12 @@ namespace HalloDoc.Controllers
                 conclude_count = count_conclude,
                 unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
-                query_requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1),
+                query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1),
                 requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList(),
                 regions = _context.Regions.ToList(),
                 status = "New",
             };
-
             
-
             return View(adminDashboardViewModel);
         }
 
@@ -314,6 +317,138 @@ namespace HalloDoc.Controllers
             }
         }
 
+        public IActionResult ViewCase(int requestId)
+        {
+            //var data = _context.Requests.Include(u => u.RequestClient).FirstOrDefault(u => u.RequestId == requestId);
+            //var user = _context.RequestClients.Include(v => v.Requests).FirstOrDefault(v => v.RequestClientId == data.RequestClientId);
+            var request = _context.Requests.Where(r => r.RequestId == requestId).FirstOrDefault();
+            var user = _context.RequestClients.FirstOrDefault(s => s.RequestClientId == request.RequestClientId);
+            int intYear = (int)user.IntYear;
+            int intDate = (int)user.IntDate;
+            string month = user.StrMonth;
+            var mon = 0;
+            if (month == "January")
+            {
+                mon = 1;
+            }
+            else if (month == "February")
+            {
+                mon = 2;
+            }
+            else if (month == "March")
+            {
+                mon = 3;
+            }
+            else if (month == "April")
+            {
+                mon = 4;
+            }
+            else if (month == "May")
+            {
+                mon = 5;
+            }
+            else if (month == "June")
+            {
+                mon = 6;
+            }
+            else if (month == "July")
+            {
+                mon = 7;
+            }
+            else if (month == "August")
+            {
+                mon = 8;
+            }
+            else if (month == "September")
+            {
+                mon = 9;
+            }
+            else if (month == "October")
+            {
+                mon = 10;
+            }
+            else if (month == "November")
+            {
+                mon = 11;
+            }
+            else if (month == "December")
+            {
+                mon = 12;
+            }
+            DateTime date = new DateTime(intYear, (int)mon, intDate);
+            ViewCaseModel viewCase = new ViewCaseModel
+            {
+                RequestId = requestId,
+                PatientNotes = user.Notes,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                DOB = date
+            };
+            
+            return View(viewCase);
+        }
+
+
+        [HttpPost]
+        public IActionResult EditViewCase(ViewCaseModel userProfile)
+        {
+            int requestId = userProfile.RequestId;
+            if (requestId != null)
+            {
+                var rid = _context.Requests.Where(u => u.RequestId == requestId).FirstOrDefault();
+                var userToUpdate = _context.RequestClients.Where(u => u.RequestClientId == rid.RequestClientId).FirstOrDefault();
+                if (userToUpdate != null)
+                {
+                    userToUpdate.FirstName = userProfile.FirstName;
+                    userToUpdate.LastName = userProfile.LastName;
+                    userToUpdate.PhoneNumber = userProfile.PhoneNumber;
+                    userToUpdate.Email = userProfile.Email;
+                    userToUpdate.IntDate = userProfile.DOB.Day;
+                    userToUpdate.IntYear = userProfile.DOB.Year;
+                    userToUpdate.StrMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(userProfile.DOB.Month);
+                    _context.RequestClients.Update(userToUpdate);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToAction("ViewCase", new { requestId = requestId });
+        }
+
+       public IActionResult ViewNotes(int requestId)
+       {
+            Request r = _context.Requests.Where(r => r.RequestId == requestId).FirstOrDefault();
+            RequestNote rn = _context.RequestNotes.FirstOrDefault(r => r.RequestId == requestId);
+            RequestStatusLog rsl = _context.RequestStatusLogs.FirstOrDefault(r => r.RequestId == requestId);
+
+            int id = (int)rsl.PhysicianId;
+
+            Physician py = _context.Physicians.FirstOrDefault(p => p.PhysicianId == id);
+
+            var viewModel = new ViewNotes
+            {
+                AdminNotes = rn.AdminNotes,
+                PhysicianNotes = rn.PhysicianNotes,
+                PhyName = py.FirstName,
+                Notes = rsl.Notes,
+                CreatedDate = rsl.CreatedDate,
+                RequestId = requestId,
+            };
+            return RedirectToAction("ViewNotes");
+       }
+
+        [HttpPost]
+        public IActionResult ViewNotes(int id, ViewNotes model)
+        {
+            RequestNote rn = _context.RequestNotes.FirstOrDefault(rq => rq.RequestId == id);
+
+            rn.AdminNotes = model.AdminNotes;
+            _context.RequestNotes.Update(rn);
+            _context.SaveChanges();
+
+            return RedirectToAction("ViewNotes", new { requestId = id });
+
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

@@ -1,0 +1,315 @@
+﻿@model HalloDoc.DataLayer.ViewModels.ViewCaseModel
+@{
+    ViewData["Title"] = "View Case";
+}
+
+@section Styles {
+    <link href="~/css/view-case.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+}
+
+<div>
+    <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
+        <button class="navbar-toggler d-flex d-md-none" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <i class="bi bi-layout-sidebar mt-4 ms-3" style="height: 20px; width: 20px;"></i>
+        </button>
+        <div class="d-flex gap-1 align-items-center">
+
+            <img src="~/images/logo1.png" class="Image ps-1 pt-1 ms-5 d-none d-sm-flex" alt="Patient"
+                 style="height: 80px;" />
+            <div>
+                <img src="~/images/logo1.png" class="d-sm-none d-flex align-items-center" alt="Patient"
+                     style="height: 80px;" />
+
+            </div>
+        </div>
+        <div class="d-flex align-items-center gap-1 flex-wrap">
+            <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block"
+               style="margin-top: 20px !important;">welcome <strong> Ishan Bhatt</strong></p>
+            <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="PatientSite"
+               style="margin-right:100px;">Logout</a>
+            <a class="btn btn-outline-info d-inline-block d-sm-none logout-icon" asp-controller="Login"
+               asp-action="PatientSite">
+                <i class="bi bi-box-arrow-right"></i>
+            </a>
+            <div class="moon-flex d-none d-sm-flex">
+                <button onclick="changeTheme()" class="change-theme">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                    </svg>
+                </button>
+                <button onclick="changeTheme()" class="change-theme hide-icon">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+            </div>
+            <div class="moon-flex d-sm-none d-flex flex-shrink-1 flex-sm-shrink-0">
+                <button onclick="changeTheme()" class="change-theme-mobile-view">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-moon night-mode-icon-mobile" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                    </svg>
+                </button>
+                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                         class="bi bi-brightness-high night-mode-icon-mobile" viewBox="0 0 16 16">
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+
+    </nav>
+
+    <nav class="shadow collpase d-none d-md-flex navbar-div" id="collapseExample">
+        <div class="nav nav-underline container-fluid ms-5" id="nav-tab" role="tablist">
+            <div class="nav-link active text-info ps-3 pe-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dashboard</div>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Provider Location</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">My Profile</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Providers</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Partners</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Access</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Records</a>
+        </div>
+    </nav>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <a class="nav-link active text-info mb-4" id="nav-home-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-home" aria-selected="true" asp-action="Admin_dashboard">
+                Dashboard
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-profile-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-profile" aria-selected="false" asp-action="ProviderLocation">
+                Provider Location
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                My Profile
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
+                Providers
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
+                Partners
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Access">
+                Access
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Records">
+                Records
+            </a>
+        </div>
+    </div>
+
+    <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
+        <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
+            <span>
+                New Request <button type="button" class=" patient-button rounded-pill"
+                                    style="height: 30px; width: 80px; padding: 2px;">
+                    Patient
+                </button>
+            </span>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <a class="text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen"
+               style="text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+
+
+        <div class="row px-3">
+            <div class="col ps-0">
+                <p class="text-secondary-emphasis fw-bold ms-0" id="heading-one">
+                    Patient Information
+                </p>
+            </div>
+        </div>
+        <div class="row px-3" style="margin-bottom: -10px;">
+            <div class="col ps-0">
+                <p class="text-muted ms-0" id="heading-one">
+                    Confirmation number
+                </p>
+            </div>
+        </div>
+        <div class="row px-3">
+            <div class="col mb-3 px-0">
+                <p class="text-info fw-bold" id="heading-one">
+                    Enter number here
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+        <form method="post" asp-action="EditViewCase" asp-controller="Admin"
+              enctype="multipart/form-data">
+            <div class="row px-3">
+                <textarea class="form-control" id="firstTextArea" placeholder="Patient Notes" rows="3"
+                          @*asp-for="Symptoms"*@ disabled></textarea>
+            </div
+            <div class="row px-3">
+                <input type="text" class="form-control d-none" asp-for="RequestId"/>
+            </div>
+            <p class="dots mt-3"></p>
+            <div class="row">
+                <div class="form-floating col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           readonly asp-for="FirstName">
+                    <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                </div>
+                <div class="form-floating col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           readonly asp-for="LastName">
+                    <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-6 form-floating mt-3">
+                    <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB"
+                           readonly>
+                    <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
+                    <span @*asp-validation-for="DOB"*@ class="text-danger"></span>
+                </div>
+                <div class="col-sm-4 mt-3 form-floating">
+                    <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" readonly style="height: 58px;" />
+                    <span @*asp-validation-for="PhoneNumber"*@ class="text-danger"></span>
+                </div>
+                <div class="col-sm-2 form-floating mt-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="#54B4D3"
+                         class="bi bi-telephone" viewBox="0 0 16 16" id="phone-design">
+                        <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 form-floating mt-3">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name"
+                           aria-label="First name" asp-for="Email" readonly>
+                    <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    <span @*asp-validation-for="Email"*@ class="text-danger"></span>
+                </div>
+
+                <div class="col-sm-2 mt-4">
+                    <button type="button" class="btn btn-info float-end me-3 mb-3" id="editButton">Edit</button>
+                </div>
+
+                <div class="col-sm-2 mt-4">
+                    <button class="btn btn-info text-white" type="submit" id="submitButton">Submit</button>
+                </div>
+                <div class="col-sm-2 mt-4" style="width: 86px;">
+                    <a class="btn border-info text-info" id="cancelButton" style="padding: 5px;">Cancel</a>
+                </div>
+                
+
+            </div>
+
+            <div class="row">
+                <div class="col mt-4">
+                    <p class="h5 text-muted fw-bold" id="heading-three">
+                        Location Information
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           @*asp-for="Street"*@ disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Region</label>
+
+                </div>
+                <div class="form-floating col-sm-4 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           @*asp-for="City"*@ disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Business Name/Address</label>
+                    <span @*asp-validation-for="City"*@ class="text-danger"></span>
+                </div>
+                <div class="form-floating col-sm-2 mt-3">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" id="phone-design" fill="currentColor"
+                         class="bi bi-geo-alt" viewBox="0 0 16 16">
+                        <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
+                        <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                    </svg>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           @*asp-for="Room"*@ disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Room # </label>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-danger float-end mb-3">Cancel</button>
+                    <button type="button" class="btn btn-info float-end me-3 mb-3">View Notes</button>
+                    <button type="button" class="btn btn-info float-end me-3 mb-3">Assign</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        var classCount = document.getElementsByClassName('form-control');
+
+        document.getElementById('editButton').addEventListener('click', function () {
+            document.getElementById('submitButton').style.display = "flex";
+            document.getElementById('cancelButton').style.display = "flex";
+            document.getElementById('editButton').style.display = "none";
+            for (var i = 1; i <= 5; i++) {
+                classCount[i].removeAttribute('readonly');
+            }
+        });
+        document.getElementById('cancelButton').addEventListener('click', function () {
+            document.getElementById('editButton').style.display = "flex";
+            document.getElementById('submitButton').style.display = "none";
+            document.getElementById('cancelButton').style.display = "none";
+            for (var i = 0; i < 5; i++) {
+                classCount[i].setAttribute('readonly', 'readonly');
+            }
+            location.reload();
+        });
+
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            innerHeight: 1,
+            utilsScript:
+                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
+
+    </script>
+</div>

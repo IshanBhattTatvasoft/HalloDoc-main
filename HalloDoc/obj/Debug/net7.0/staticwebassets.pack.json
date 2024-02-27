@@ -49,6 +49,10 @@
       "PackagePath": "staticwebassets\\css\\submit-request-screen.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\css\\view-case.css",
+      "PackagePath": "staticwebassets\\css\\view-case.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
@@ -125,6 +129,10 @@
       "PackagePath": "staticwebassets\\images\\conclude_active.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\doctor.png",
+      "PackagePath": "staticwebassets\\images\\doctor.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\download.svg",
       "PackagePath": "staticwebassets\\images\\download.svg"
     },
@@ -163,6 +171,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\person-circle.svg",
       "PackagePath": "staticwebassets\\images\\person-circle.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\person.svg",
+      "PackagePath": "staticwebassets\\images\\person.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\send-agreement-image.svg",

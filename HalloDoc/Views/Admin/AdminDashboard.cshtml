@@ -145,7 +145,7 @@
 
 
             <a class="col-4 col-lg-2 rounded custom-btn cursor-pointer" style="text-decoration: none;">
-                <div class="state newState newState-active ms-2" onclick="changeStatus(this)">
+                <div class="state newState newState-active ms-1" onclick="changeStatus(this)">
                     <div class="d-flex align-items-center state-sub-div">
                         <img src="~/images/new.svg" id="newState" class="icon-size hide pe-1">
                         <img src="~/images/new_active.png" id="newState-active" class="icon-size pe-1">
@@ -179,7 +179,7 @@
                 </div>
                 <img src="~/images/caret-down-fill2.svg" id="activeState-img" class="caret hide-caret" />
             </a>
-            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+            <a class="col-4 col-lg-2 rounded custom-btn lower-three-button" style="text-decoration: none;" id="conclude-state" onclick="changeStyle()">
                 <div class="state concludeState ms-2" onclick="changeStatus(this)">
                     <div class="d-flex align-items-center state-sub-div">
                         <img src="~/images/conclude.svg" id="concludeState" class="icon-size pe-1">
@@ -190,7 +190,7 @@
                 </div>
                 <img src="~/images/caret-down-fil3.svg" id="concludeState-img" class="caret hide-caret" />
             </a>
-            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+            <a class="col-4 col-lg-2 rounded custom-btn lower-three-button" style="text-decoration: none;" id="to-close-state" onclick="changeStyle()">
                 <div class="state tocloseState ms-2" onclick="changeStatus(this)">
                     <div class="d-flex align-items-center state-sub-div">
                         <img src="~/images/toclose.svg" id="tocloseState" class="icon-size pe-1">
@@ -201,7 +201,7 @@
                 </div>
                 <img src="~/images/caret-down-fill4.svg" id="tocloseState-img" class="caret hide-caret" />
             </a>
-            <a class="col-4 col-lg-2 rounded custom-btn" style="text-decoration: none;">
+            <a class="col-4 col-lg-2 rounded custom-btn lower-three-button" style="text-decoration: none;" id="unpaid-state" onclick="changeStyle()">
                 <div class="state unpaidState ms-2" onclick="changeStatus(this)">
                     <div class="d-flex align-items-center state-sub-div">
                         <img src="~/images/unpaid.svg" id="unpaidState" class="icon-size pe-1">
@@ -379,7 +379,7 @@
                 }
                 let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
                 let finalName = name.split("State")[0];
-                console.log(finalName);
+                //console.log(finalName);
                 if (finalName == "toclose") {
                     document.getElementById("status-text").innerHTML = "(To Close)";
                 } else {
@@ -420,5 +420,23 @@
                     });
                 });
             });
+
+            function changeStyle() {
+                if ($(window).width() < 992) {
+                    const classes = document.getElementsByClassName("lower-three-button");
+                    for (let i = 0; i < classes.length; i++) {
+                        console.log("hey");
+                        classes[i].style.marginTop = "20px";
+                    }
+                } else {
+                    const classes = document.getElementsByClassName("lower-three-button");
+                    for (let i = 0; i < classes.length; i++) {
+                        console.log("hey");
+                        classes[i].style.marginTop = "0px";
+                    }
+                }
+            }
+
+
         </script>
 </div>

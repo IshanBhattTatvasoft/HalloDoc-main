@@ -32,6 +32,7 @@
             {
                 <th>Notes</th>
             }
+            <th>Chat With</th>
             <th>Actions</th>
         </tr>
     </thead>
@@ -118,14 +119,29 @@
 
                     </td>
                 }
-                <td class="@statusClass">@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</td>
+                <td class="@statusClass" style="width: 80px !important;">@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</td>
                 @if (Model.status != "Conclude" || Model.status != "Unpaid")
                 {
-                    <td class="@statusClass">
+                    <td class="@statusClass" style="width: 80px !important;">
                         Admin transferred to Dr. AGOLA on 10\10\2023 at 4:11:38 AM :
                         test
                     </td>
                 }
+                <td class="@statusClass">
+                    @if (Model.status != "New")
+                    {
+                        <button type="button" class="btn btn-light text-white" style="background-color: transparent;
+    border-color: #ccc;"><img src="~/images/person.svg">
+                            Patient
+                        </button>
+
+                    }
+                    <button type="button" class="btn btn-light text-white" style="background-color: transparent;
+    border-color: #ccc;">
+                        <img src="~/images/doctor.png" style="height: 20px; width: 20px; background-color: transparent;">
+                        Provider
+                    </button>
+                </td>
                 <td class="@statusClass">
                     <div class="dropdown" style="height:100%;display:flex">
                         <button class="dropbtn @statusClass" onclick="toggleDropdown()">Action</button>
@@ -137,11 +153,11 @@
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
+                                <a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/view-notes-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Notes</span></div></a>
+                                <a class="dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-notes-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Notes</span></div></a>
                             }
                             @if (Model.status == "New")
                             {
