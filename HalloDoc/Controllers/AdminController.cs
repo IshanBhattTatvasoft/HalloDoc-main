@@ -10,6 +10,7 @@ using System.Globalization;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using HalloDocMvc.Entity.ViewModel;
 using Microsoft.Office.Interop.Excel;
+using HalloDoc.DataLayer.Data;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -54,7 +55,7 @@ namespace HalloDoc.Controllers
 
         
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult New()
         {
             var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -84,7 +85,7 @@ namespace HalloDoc.Controllers
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Pending()
         {
             var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -114,7 +115,7 @@ namespace HalloDoc.Controllers
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Active()
         {
             var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -144,7 +145,7 @@ namespace HalloDoc.Controllers
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Conclude()
         {
             var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -174,7 +175,7 @@ namespace HalloDoc.Controllers
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Toclose()
         {
             var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -204,7 +205,7 @@ namespace HalloDoc.Controllers
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
-        [HttpPost]
+        //[HttpPost]
         public IActionResult Unpaid()
         {
             var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -434,19 +435,20 @@ namespace HalloDoc.Controllers
                 CreatedDate = rsl.CreatedDate,
                 RequestId = requestId,
             };
-            return RedirectToAction("ViewNotes");
+            return View(viewModel);
        }
 
         [HttpPost]
-        public IActionResult ViewNotes(int id, ViewNotes model)
+        public IActionResult EditViewNotes(ViewNotes model)
         {
-            RequestNote rn = _context.RequestNotes.FirstOrDefault(rq => rq.RequestId == id);
+            //int id = model.RequestId;
+            RequestNote rn = _context.RequestNotes.FirstOrDefault(rq => rq.RequestId == model.RequestId);
 
             rn.AdminNotes = model.AdminNotes;
             _context.RequestNotes.Update(rn);
             _context.SaveChanges();
 
-            return RedirectToAction("ViewNotes", new { requestId = id });
+            return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
 
         }
 
@@ -454,6 +456,11 @@ namespace HalloDoc.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult modal_check()
+        {
+            return View();
         }
     }
 }

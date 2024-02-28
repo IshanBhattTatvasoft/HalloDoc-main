@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using HalloDoc.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HalloDoc.DataLayer.Models;
+namespace HalloDoc.DataLayer.Data;
 
 public partial class ApplicationDbContext : DbContext
 {
@@ -42,6 +43,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Menu> Menus { get; set; }
 
     public virtual DbSet<OrderDetail> OrderDetails { get; set; }
+
+    public virtual DbSet<PasswordReset> PasswordResets { get; set; }
 
     public virtual DbSet<Physician> Physicians { get; set; }
 
@@ -362,6 +365,24 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.FaxNumber).HasMaxLength(50);
+        });
+
+        modelBuilder.Entity<PasswordReset>(entity =>
+        {
+            entity.HasKey(e => e.Token).HasName("PasswordReset_pkey");
+
+            entity.ToTable("PasswordReset");
+
+            entity.Property(e => e.Token).HasMaxLength(256);
+            entity.Property(e => e.CreatedDate).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.Email).HasMaxLength(256);
+            entity.Property(e => e.IsModified).HasColumnName("isModified");
+
+            entity.HasOne(d => d.EmailNavigation).WithMany(p => p.PasswordResets)
+                .HasPrincipalKey(p => p.Email)
+                .HasForeignKey(d => d.Email)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("Email");
         });
 
         modelBuilder.Entity<Physician>(entity =>

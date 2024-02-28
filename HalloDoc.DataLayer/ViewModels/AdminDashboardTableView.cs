@@ -18,4 +18,9 @@ public class AdminDashboardTableView
     public IQueryable<Request> query_requests { get; set; }
     public List<Region> regions { get; set; } = new List<Region>();
     public string status { get; set; }
+    public string PatientName { get; set; }
+    public string? Reason { get; set; }
+    public string? AdditionalNotes { get; set; }
+    public int RequestId { get; set; }
+    public List<Models.CaseTag> caseTags { get; set; }
 }

@@ -1,4 +1,5 @@
-﻿using HalloDoc.DataLayer.Models;
+﻿using HalloDoc.DataLayer.Data;
+using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using Microsoft.AspNetCore.Mvc;
@@ -97,6 +98,7 @@ namespace HalloDoc.Controllers
             //{
             //    return RedirectToAction("ForgotPassword");
             //}
+            PasswordReset passwordReset = new PasswordReset();
 
             try
             {
@@ -114,6 +116,11 @@ namespace HalloDoc.Controllers
                 };
                 string resetToken = Guid.NewGuid().ToString();
                 string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePassword?token={resetToken}";
+
+                passwordReset.Token = resetToken;
+                passwordReset.CreatedDate = DateTime.Now;
+                passwordReset.Email = model.UserName;
+                passwordReset.IsModified = false;
 
                 MailMessage mailMessage = new MailMessage
                 {
@@ -146,17 +153,22 @@ namespace HalloDoc.Controllers
 
         public IActionResult CreatePassword(string token)
         {
-
+           
             var useremail = _sescontext.HttpContext.Session.GetString("Token");
+            PasswordReset pr = _context.PasswordResets.FirstOrDefault(pr => pr.Token == token);
 
-            if (useremail == token)
+            if(pr == null || pr.IsModified == true)
             {
-                return View();
+                return NotFound();
             }
-            else
+
+            TimeSpan diff = DateTime.Now.Subtract(pr.CreatedDate);
+            double hours = diff.TotalHours;
+            if (hours > 24)
             {
-                return RedirectToAction("Forgot_Password");
+                return NotFound();
             }
+            return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]

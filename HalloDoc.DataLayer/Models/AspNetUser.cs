@@ -11,7 +11,7 @@ public partial class AspNetUser
 
     public string? PasswordHash { get; set; }
 
-    public string? Email { get; set; }
+    public string Email { get; set; } = null!;
 
     public string? PhoneNumber { get; set; }
 
@@ -28,6 +28,8 @@ public partial class AspNetUser
     public virtual ICollection<Business> BusinessCreatedByNavigations { get; set; } = new List<Business>();
 
     public virtual ICollection<Business> BusinessModifiedByNavigations { get; set; } = new List<Business>();
+
+    public virtual ICollection<PasswordReset> PasswordResets { get; set; } = new List<PasswordReset>();
 
     public virtual ICollection<Physician> PhysicianAspNetUsers { get; set; } = new List<Physician>();
 

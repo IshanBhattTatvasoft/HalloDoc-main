@@ -4,11 +4,55 @@
 }
 @section Styles {
     <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
-    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 }
 
+
 <div class="me-1 ms-1 main-body">
+    @*Cancel Case Modal*@
+    
+    @*<div class="modal fade"
+         id="exampleModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">
+                        Confirm Cancellation
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm">
+                        <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold">test test</span></p>
+                        <div class="dropdown text-light mb-3 w-100">
+                            <button class="btn btn-outline-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person"></i> Reason For Cancellation</button>
+                            <ul class="dropdown-menu w-100" style="font-size:0.9rem;">
+                                <li><a class="dropdown-item" href="#">Reason-1</a></li>
+                                <li><a class="dropdown-item" href="#">Reason-2</a></li>
+                                <li><a class="dropdown-item" href="#">Reason-3</a></li>
+                                <li><a class="dropdown-item" href="#">Reason-3</a></li>
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Providers additional Notes" rows="5"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-end mb-3 me-3">
+                    <button type="button" class="btn btn-info text-white" id="continueBtn">Confirm</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>*@
     <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
         <div class="d-flex gap-1 align-items-center">
             <button class="navbar-toggler d-block d-sm-none ms-1" type="button" data-bs-toggle="collapse"
@@ -101,7 +145,7 @@
             </a>
         </div>
     </nav> -->
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+    @*<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -136,7 +180,11 @@
                 Records
             </a>
         </div>
-    </div>
+    </div>*@
+
+
+
+
 
     <div id="main-sub-div" class="tabcontent">
         <div class="row mt-5">
@@ -152,7 +200,7 @@
                         <!-- <img src="./images/new_active.png" alt="" id="activeImage"> -->
                         <span class="title-sub-div">NEW</span>
                     </div>
-                    <span class="no">@Model.new_count</span>
+                    <span class="state-count">@Model.new_count</span>
                 </div>
 
                 <img src="~/images/caret-down-fill.svg" id="newState-img" class="caret">
@@ -164,7 +212,7 @@
                         <img src="~/images/pending_active.png" id="pendingState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">PENDING</span>
                     </div>
-                    <span class="no">@Model.pending_count</span>
+                    <span class="state-count">@Model.pending_count</span>
                 </div>
                 <img src="~/images/caret-down-fill1.svg" id="pendingState-img" class="caret hide-caret" />
             </a>
@@ -175,7 +223,7 @@
                         <img src="~/images/active_active.png" id="activeState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">ACTIVE</span>
                     </div>
-                    <span class="no">@Model.active_count</span>
+                    <span class="state-count">@Model.active_count</span>
                 </div>
                 <img src="~/images/caret-down-fill2.svg" id="activeState-img" class="caret hide-caret" />
             </a>
@@ -186,7 +234,7 @@
                         <img src="~/images/conclude_active.png" id="concludeState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">CONCLUDE</span>
                     </div>
-                    <span class="no">@Model.conclude_count</span>
+                    <span class="state-count">@Model.conclude_count</span>
                 </div>
                 <img src="~/images/caret-down-fil3.svg" id="concludeState-img" class="caret hide-caret" />
             </a>
@@ -197,7 +245,7 @@
                         <img src="~/images/toclose_active.png" id="tocloseState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">TO CLOSE</span>
                     </div>
-                    <span class="no">@Model.toclose_count</span>
+                    <span class="state-count">@Model.toclose_count</span>
                 </div>
                 <img src="~/images/caret-down-fill4.svg" id="tocloseState-img" class="caret hide-caret" />
             </a>
@@ -208,7 +256,7 @@
                         <img src="~/images/unpaid_active.png" id="unpaidState-active" class="icon-size hide pe-1">
                         <span class="title-sub-div">UNPAID</span>
                     </div>
-                    <span class="no">@Model.unpaid_count</span>
+                    <span class="state-count">@Model.unpaid_count</span>
                 </div>
                 <img src="~/images/caret-down-fill5.svg" id="unpaidState-img" class="caret hide-caret" />
             </a>
@@ -317,6 +365,7 @@
                     </div>
 
                 </div>
+
                 <div class="categories-div d-md-flex d-block gap-2 align-items-center">
                     <button class="categories-div-all-button btn border border-dark-subtle mt-3 d-md-inline-block d-none">All</button>
                     <div class="d-flex align-items-center justify-content-center gap-2">
@@ -333,7 +382,7 @@
                                 <div>Family/Friend</div>
                             </div>
                             <div class="categories-div-sub d-sm-flex align-items-center gap-1">
-                                <div class="categories-div-sub-sub m-auto" 
+                                <div class="categories-div-sub-sub m-auto"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
                                 <div>Business</div>
                             </div>
@@ -344,18 +393,92 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
-
-        <div class="table-responsive mt-4 ms-3 me-3">
-            <div id="AdminDashboardPartialView"></div>
+        
+        <div>
+            <div class="table-responsive mt-4 ms-3 me-3" id="AdminDashboardPartialView"></div>
         </div>
 
 
+        <!-- Button trigger modal -->
+        
 
+        <!-- Modal -->
+        
+    </div>
+    @*<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="modal fade"
+         id="exampleModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">
+                        Confirm Cancellation
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm">
+                        <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold">@Model.PatientName</span></p>
+                        <div class="dropdown text-light mb-3 w-100">
+                            <button class="btn btn-outline-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person"></i> Reason For Cancellation</button>
+                            @*<ul class="dropdown-menu w-100" style="font-size:0.9rem;">
+                                <li><a class="dropdown-item" href="#">Reason-1</a></li>
+                                <li><a class="dropdown-item" href="#">Reason-2</a></li>
+                                <li><a class="dropdown-item" href="#">Reason-3</a></li>
+                                <li><a class="dropdown-item" href="#">Reason-3</a></li>
+                            </ul>*@
+                            <ul class="dropdown-menu w-100" style="font-size:0.9rem;">
+                                @foreach (var item in Model.caseTags)
+                                {
+                                    <li>@item.Name</li>
+                                }
+                            </ul>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Providers additional Notes" rows="5"></textarea>
+                        </div>
+                    </form>
+                </div>
+                <div class="text-end mb-3 me-3">
+                    <button type="button" class="btn btn-info text-white" id="continueBtn">Confirm</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                        Cancel
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
         <script>
             const changeStatus = (element) => {
+                debugger;
                 const states = document.getElementsByClassName("state");
                 const current_state = element.classList[1];
                 for (let i = 0; i < states.length; ++i) {
@@ -385,32 +508,23 @@
                 } else {
                     document.getElementById("status-text").innerHTML = `(${finalName.charAt(0).toUpperCase() + finalName.slice(1)})`;
                 }
-                 $.ajax({
-                     url: `/Admin/${finalName.charAt(0).toUpperCase() + finalName.slice(1)}`,
-                     type: 'POST',
-                     dataType: 'html',
-                     // Pass your data here
-                     success: function (response) {
-                         $("#AdminDashboardPartialView").html(response)
-                     },
-                     error: function () {
-                         alert('An error occurred.');
-                     }
-                 });
+
+                $.ajax({
+                    url: `/Admin/${finalName.charAt(0).toUpperCase() + finalName.slice(1)}`,
+                    type: 'GET',
+                    dataType: 'html',
+                    // Pass your data here
+                    success: function (response) {
+                        $("#AdminDashboardPartialView").html(response)
+                    },
+                    error: function () {
+                        alert('An error occurred.');
+                    }
+                });
+                
             }
 
-            $.ajax({
-                url: `/Admin/New`,
-                type: 'POST',
-                dataType: 'html',
-                // Pass your data here
-                success: function (response) {
-                    $("#AdminDashboardPartialView").html(response)
-                },
-                error: function () {
-                    alert('An error occurred.');
-                }
-            });
+            
 
             $(document).ready(function () {
                 $("#search").on("keyup", function () {
@@ -418,6 +532,19 @@
                     $("#abcd tr").filter(function () {
                         $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                     });
+                });
+
+                $.ajax({
+                    url: `/Admin/New`,
+                    type: 'POST',
+                    dataType: 'html',
+                    // Pass your data here
+                    success: function (response) {
+                        $("#AdminDashboardPartialView").html(response)
+                    },
+                    error: function () {
+                        alert('An error occurred.');
+                    }
                 });
             });
 
@@ -437,6 +564,11 @@
                 }
             }
 
+            function openModal() {
+                //debugger;
+                $('#exampleModal').modal('show');
+            $("#exampleModal").appendTo("body");
+            }
+
 
         </script>
-</div>

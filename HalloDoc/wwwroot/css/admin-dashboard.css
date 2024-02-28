@@ -165,7 +165,7 @@
     /* margin-left: 15px; */
 }
 
-.no {
+.state-count {
     font-weight: 700;
     margin-top: 8px;
     font-size: 28px;
@@ -495,3 +495,8 @@ td {
         display: none !important;
     }
 }
+
+
+
+
+/*Cancel Case Modal*/
