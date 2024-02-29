@@ -89,6 +89,10 @@
       "PackagePath": "staticwebassets\\images\\block-patient-image.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\calendar2-date.svg",
+      "PackagePath": "staticwebassets\\images\\calendar2-date.svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\cancel-case-image.webp",
       "PackagePath": "staticwebassets\\images\\cancel-case-image.webp"
     },
@@ -117,6 +121,10 @@
       "PackagePath": "staticwebassets\\images\\caret-down-fill5.svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\clock (1).svg",
+      "PackagePath": "staticwebassets\\images\\clock (1).svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\clock.svg",
       "PackagePath": "staticwebassets\\images\\clock.svg"
     },
@@ -135,6 +143,18 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\download.svg",
       "PackagePath": "staticwebassets\\images\\download.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\envelope.svg",
+      "PackagePath": "staticwebassets\\images\\envelope.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\file-earmark.svg",
+      "PackagePath": "staticwebassets\\images\\file-earmark.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\globe-central-south-asia.svg",
+      "PackagePath": "staticwebassets\\images\\globe-central-south-asia.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\hallodoc logo.png",
@@ -183,6 +203,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\success-26.svg",
       "PackagePath": "staticwebassets\\images\\success-26.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\telephone.svg",
+      "PackagePath": "staticwebassets\\images\\telephone.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\images\\toclose.svg",

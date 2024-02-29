@@ -48,6 +48,7 @@ namespace HalloDoc.Controllers
                 requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList(),
                 regions = _context.Regions.ToList(),
                 status = "New",
+                caseTags = _context.CaseTags.ToList()
             };
             
             return View(adminDashboardViewModel);
@@ -450,6 +451,56 @@ namespace HalloDoc.Controllers
 
             return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
 
+        }
+
+        [HttpPost]
+        public IActionResult CancelCase(AdminDashboardTableView model,  int selectedCaseTagId, string additionalNotes)
+        {
+            CaseTag ct = _context.CaseTags.Where(ct =>ct.CaseTagId == selectedCaseTagId).FirstOrDefault();
+            Request r = _context.Requests.Where(rt => rt.RequestId == model.RequestId).FirstOrDefault();
+            r.CaseTag = ct.Name;
+            RequestStatusLog rs = new RequestStatusLog();
+            rs.RequestId = model.RequestId;
+            rs.Notes = additionalNotes;
+            rs.Status = 3;
+            rs.CreatedDate = DateTime.Now;
+            _context.RequestStatusLogs.Add(rs);
+            _context.SaveChanges();
+            TempData["success"] = "Case cancelled successfully";
+            return RedirectToAction("AdminDashboard");
+        }
+
+        public List<Physician> GetPhysicianByRegion(AdminDashboardTableView model, int RegionId)
+        {
+            List<Physician> p = _context.Physicians.Where(p => p.RegionId == RegionId).ToList();
+            return p;
+        }
+
+        public IActionResult AssignCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription)
+        {
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = model.RequestId;
+            rsl.Notes = assignCaseDescription;
+            rsl.Status = 1;
+            rsl.CreatedDate = DateTime.Now;
+            _context.RequestStatusLogs.Add(rsl);
+            _context.SaveChanges();
+            TempData["success"] = "Successfully requested to assign the case";
+            return RedirectToAction("AdminDashboard");
+        }
+
+        [HttpPost]
+        public IActionResult BlockCase(AdminDashboardTableView model, string reasonForBlockRequest)
+        {
+            RequestStatusLog rs = new RequestStatusLog();
+            rs.Status = 11;
+            rs.CreatedDate = DateTime.Now;
+            rs.Notes = reasonForBlockRequest;
+            rs.RequestId = model.RequestId;
+            _context.RequestStatusLogs.Add(rs);
+            _context.SaveChanges();
+            TempData["success"] = "Case blocked successfully";
+            return RedirectToAction("AdminDashboard");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

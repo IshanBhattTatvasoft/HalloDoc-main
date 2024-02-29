@@ -32,7 +32,7 @@
             {
                 <th>Notes</th>
             }
-            <th>Chat With</th>
+            @*<th>Chat With</th>*@
             <th>Actions</th>
         </tr>
     </thead>
@@ -67,7 +67,7 @@
                 }
             }
             <tr class="@statusClass">
-                <td class="@statusClass">@(string.Concat(item.RequestClient.FirstName, ',', item.RequestClient.LastName))</td>
+                <td class="@statusClass first-col">@(string.Concat(item.RequestClient.FirstName, ',', item.RequestClient.LastName))</td>
                 <td class="@statusClass">
                     <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30"
                          fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
@@ -127,30 +127,31 @@
                         test
                     </td>
                 }
-                <td class="@statusClass">
-                    @if (Model.status != "New")
-                    {
-                        <button type="button" class="btn btn-light text-white" style="background-color: transparent;
-    border-color: #ccc;"><img src="~/images/person.svg">
-                            Patient
-                        </button>
+                @*<td class="@statusClass">
+            @if (Model.status != "New")
+            {
+            <button type="button" class="btn btn-light text-white" style="background-color: transparent;
+            border-color: #ccc;">
+            <img src="~/images/person.svg">
+            Patient
+            </button>
 
-                    }
-                    <button type="button" class="btn btn-light text-white" style="background-color: transparent;
-    border-color: #ccc;">
-                        <img src="~/images/doctor.png" style="height: 20px; width: 20px; background-color: transparent;">
-                        Provider
-                    </button>
-                </td>
+            }
+            <button type="button" class="btn btn-light text-white" style="background-color: transparent;
+            border-color: #ccc;">
+            <img src="~/images/doctor.png" style="height: 20px; width: 20px; background-color: transparent;">
+            Provider
+            </button>
+            </td>*@
                 <td class="@statusClass">
                     <div class="dropdown" style="height:100%;display:flex">
                         <button class="dropbtn @statusClass" onclick="toggleDropdown()">Action</button>
                         <div class="dropdown-content">
                             @if (Model.status == "New")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></a>
-                                <button type="button" class="dropdown-item text-dark" onclick="openModal()"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
-                                
+                                <button type="button" class="dropdown-item text-dark mb-2" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
+                                <button type="button" class="dropdown-item text-dark" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
+
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
@@ -162,7 +163,7 @@
                             }
                             @if (Model.status == "New")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></a>
+                                <button type="button" class="dropdown-item text-dark mb-2" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></button>
                             }
                             @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
@@ -199,43 +200,168 @@
 </table>
 
 <div class="d-md-none">
-    <div class="accordion" id="accordionExample">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                    Accordion Item #1
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
+    <div class="accordion accordion-flush" id="accordionExample">
+        @* <div class="accordion-item">
+        <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        <div class="d-flex justify-content-end">
+        <p>Agola Three, Bhumi</p>
+        <p>Patient</p>
+        </div>
+        </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        </div>
+        </div>
         </div>
         <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    Accordion Item #2
-                </button>
-            </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                </div>
-            </div>
+        <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Accordion Item #2
+        </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        </div>
+        </div>
         </div>
         <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    Accordion Item #3
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        <h2 class="accordion-header">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+        Accordion Item #3
+        </button>
+        </h2>
+        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+        </div>
+        </div>
+        </div> *@
+        @*@for (var i = 0; i < Model.requests.Count; i++)
+        {*@
+        @foreach (var item in Model.requests)
+        {
+            var statusClass = "";
+            var dos = "";
+            var notes = "";
+            @if (item.RequestTypeId == 1)
+            {
+                statusClass = "patient";
+            }
+            else if (item.RequestTypeId == 4)
+            {
+                statusClass = "business";
+            }
+            else if (item.RequestTypeId == 2)
+            {
+                statusClass = "family";
+            }
+            else
+            {
+                statusClass = "concierge";
+            }
+
+            @*@if (Model.status == "New")
+        {*@
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading@(item.RequestClientId)">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(@item.RequestClientId)" aria-expanded="false" aria-controls="collapseThree(@item.RequestClientId)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>@(string.Concat(item.RequestClient.FirstName, ',', item.RequestClient.LastName))</span>
+                                <div class="float-end">
+                                    <span class="me-3">@(statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower())</span>
+                                    @if (statusClass == "patient")
+                                    {
+                                        <span class="categories-div-sub-sub float-end"
+                                              style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                    }
+                                    else if (statusClass == "family")
+                                    {
+                                        <span class="categories-div-sub-sub float-end"
+                                              style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></span>
+                                    }
+                                    else if (statusClass == "business")
+                                    {
+                                        <span class="categories-div-sub-sub float-end"
+                                              style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></span>
+                                    }
+                                    else
+                                    {
+                                        <span class="categories-div-sub-sub float-end"
+                                              style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></span>
+                                    }
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</span>
+                                </div>
+                                <div class="float-end">
+                                    @*<a class="btn btn-outline-info rounded-3 fs-6 py-1 px-2 mt-0" href="#">Map Location</a>*@
+                                    <a class="btn btn-outline-info rounded-3 fs-small map-location-button" href="#">Map Location</a>
+                                </div>
+                            </div>
+                            @if (Model.status == "New")
+                            {
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z" />
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0" />
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                            }
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(@item.RequestClientId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.RequestClientId) data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div>
+                            @if (Model.status != "Unpaid")
+                            {
+                                <div><img src="~/images/calendar2-date.svg"><span class="ms-2">Date of birth:  @(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(12)</span></div>
+                            }
+                            <div class="mt-2"><img src="~/images/envelope.svg"><span class="ms-2">Email:  @item.RequestClient.Email</span></div>
+                            @if (Model.status != "ToClose")
+                            {
+                                <div class="mt-2"><img src="~/images/telephone.svg" /><span class="ms-2">Patient:  @item.RequestClient.PhoneNumber</span></div>
+                            }
+                            @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "ToClose")
+                            {
+                                <div class="mt-2">
+                                    <img src="~/images/file-earmark.svg" />
+                                    <span class="w-25">Transfer Notes: </span>
+                                    <span>
+                                        Admin transferred to Dr. AGOLA on 10\10\2023 at 4:11:38 AM :
+                                        test
+                                    </span>
+                                </div>
+                            }
+                            @if (Model.status != "New")
+                            {
+                                <div class="mt-2"><img src="~/images/calendar2-date.svg"><span class="ms-2">Date of service:  </span></div>
+                                <div class="mt-2"><img src="~/images/person.svg"><span class="ms-2">Physician:  </span></div>
+                            }
+                            @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active")
+                            {
+                                <div class="mt-2"><img src="~/images/person.svg" /><span class="ms-2">Requestor:  @(statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower()) @(string.Concat(item.FirstName, ',', item.LastName))</span></div>
+                            }
+                            @if (Model.status == "ToClose")
+                            {
+                                <div class="mt-2"><img src="~/images/globe-central-south-asia.svg"/><span class="ms-2">Region:  @item.RequestClient.State</span></div>
+                            }
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            @*}*@
+        }
+        @*}*@
     </div>
 </div>
 
@@ -243,18 +369,18 @@
 <script>
     let isDropdownActive = false;
 
-    function toggleDropdown() {
-        const dropdown = document.querySelector('.dropdown');
-        isDropdownActive = !isDropdownActive;
-        dropdown.classList.toggle('active');
-    }
-    document.addEventListener('click', (event) => {
-        const dropdown = document.querySelector('.dropdown');
-        if (isDropdownActive && !dropdown.contains(event.target)) {
-            isDropdownActive = false;
-            dropdown.classList.remove('active');
-        }
-    });
+    //function toggleDropdown() {
+    //    const dropdown = document.querySelector('.dropdown');
+    //    isDropdownActive = !isDropdownActive;
+    //    dropdown.classList.toggle('active');
+    //}
+    //document.addEventListener('click', (event) => {
+    //    const dropdown = document.querySelector('.dropdown');
+    //    if (isDropdownActive && !dropdown.contains(event.target)) {
+    //        isDropdownActive = false;
+    //        dropdown.classList.remove('active');
+    //    }
+    //});
     $(document).ready(function () {
         $("#dtBasicExample").DataTable();
     });

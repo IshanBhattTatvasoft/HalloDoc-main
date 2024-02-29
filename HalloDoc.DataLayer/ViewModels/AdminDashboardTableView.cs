@@ -22,5 +22,5 @@ public class AdminDashboardTableView
     public string? Reason { get; set; }
     public string? AdditionalNotes { get; set; }
     public int RequestId { get; set; }
-    public List<Models.CaseTag> caseTags { get; set; }
+    public List<CaseTag> caseTags { get; set; }
 }
