@@ -1,4 +1,50 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.AdminDashboardTableView
+
+
+@*Location Modal*@
+@*<div class="modal" id="myModal1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <section>
+                <div class="mapouter">
+                    <div class="gmap_canvas">
+                        <iframe width="600" height="500" id="gmap_canvas" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+
+                            <!-- </iframe><a href="https://123movies-to.org">123 movies</a><br> -->
+                            <style>
+                                .mapouter {
+                                    position: relative;
+                                    text-align: right;
+                                    height: 500px;
+                                    width: 600px;
+                                }</style>
+                            <!-- <a href="https://www.embedgooglemap.net">embedgooglemap.net</a> -->
+                            <style>
+                                .gmap_canvas {
+                                    overflow: hidden;
+                                    background: none !important;
+                                    height: 500px;
+                                    width: 600px;
+                                }
+                            </style>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>*@
+
+<div id="myModal6" class="modal6">
+    <div class="modal-content6" style="width:80%;margin-top:201px;height:50%">
+        <h5 style="text-align: center;">Your Location</h5>
+        <div class="gmap_canvas" style="height:80%;width:100%">
+            <iframe id="gmap_canvas" style="height:95%;width:100%;border-radius:15px;" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+            </iframe>
+        </div>
+        <span class="close6">Ok</span>
+    </div>
+</div>
+
 <table id="dtBasicExample" class="table">
     <thead>
         <tr>
@@ -149,47 +195,47 @@
                         <div class="dropdown-content">
                             @if (Model.status == "New")
                             {
-                                <button type="button" class="dropdown-item text-dark mb-2" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
-                                <button type="button" class="dropdown-item text-dark" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
+                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
+                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
 
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-notes-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Notes</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-notes-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Notes</span></div></a>
                             }
                             @if (Model.status == "New")
                             {
-                                <button type="button" class="dropdown-item text-dark mb-2" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></button>
+                                <button type="button" class="dropdown-item text-dark hover-dropdown-item" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></button>
                             }
                             @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
                             }
                             @if (Model.status == "Pending")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></a>
                             }
                             @if (Model.status == "Pending" || Model.status == "ToClose")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></a>
                             }
                             @if (Model.status == "Pending")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></a>
                             }
                             @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Doctor Note</span></div></a>
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Encounter</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Doctor Note</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Encounter</span></div></a>
                             }
                             @if (Model.status == "ToClose")
                             {
-                                <a class="dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img"><span>Close Case</span></div></a>
+                                <a class="dropdown-item hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img"><span>Close Case</span></div></a>
                             }
                         </div>
                     </div>
@@ -302,9 +348,15 @@
                                 <div class="w-25">
                                     <span>@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</span>
                                 </div>
-                                <div class="float-end">
+                                <div class="float-end mb-2 map-div">
                                     @*<a class="btn btn-outline-info rounded-3 fs-6 py-1 px-2 mt-0" href="#">Map Location</a>*@
-                                    <a class="btn btn-outline-info rounded-3 fs-small map-location-button" href="#">Map Location</a>
+                                    <a class="accordion-map map-abs-btn" data-address="@(string.Concat(item.RequestClient.Street, ", ", item.RequestClient.Address, ", ", item.RequestClient.City, ", ", item.RequestClient.State))">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
+                                        </svg>
+                                    </a>
                                 </div>
                             </div>
                             @if (Model.status == "New")
@@ -321,7 +373,8 @@
                 </h2>
                 <div id="collapseThree(@item.RequestClientId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.RequestClientId) data-bs-parent="#accordionExample">
                     <div class="accordion-body" style="background-color: #E5EEF5;">
-                        <div>
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
                             @if (Model.status != "Unpaid")
                             {
                                 <div><img src="~/images/calendar2-date.svg"><span class="ms-2">Date of birth:  @(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(12)</span></div>
@@ -353,8 +406,138 @@
                             }
                             @if (Model.status == "ToClose")
                             {
-                                <div class="mt-2"><img src="~/images/globe-central-south-asia.svg"/><span class="ms-2">Region:  @item.RequestClient.State</span></div>
+                                <div class="mt-2"><img src="~/images/globe-central-south-asia.svg" /><span class="ms-2">Region:  @item.RequestClient.State</span></div>
                             }
+                        </div>
+
+                        @*Buttons of accordion*@
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                @if (Model.status == "New")
+                                {
+
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">View Notes</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+                                }
+
+                                @if (Model.status == "Pending")
+                                {
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Send Agreement</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Notes</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 blue-button">Transfer</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Clear Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+                                }
+
+                                @if (Model.status == "Active")
+                                {
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Notes</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Encounter</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Orders</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+                                }
+
+                                @if (Model.status == "Conclude")
+                                {
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Notes</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Encounter</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Orders</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+                                }
+
+                                @if (Model.status == "ToClose")
+                                {
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill all-accordion-button w-100">Close Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button ggreen-button">View Notes</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Encounter</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Clear Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+                                }
+
+                                @if (Model.status == "Unpaid")
+                                {
+                                    <div class="col-6">
+                                        <button type="button" class="btn green-button rounded-pill all-accordion-button w-100">View Notes</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn green-button rounded-pill all-accordion-button w-100">View Uploads</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn green-button rounded-pill all-accordion-button w-100">Email</button>
+                                    </div>
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -384,5 +567,33 @@
     $(document).ready(function () {
         $("#dtBasicExample").DataTable();
     });
+
+    var modal6 = document.getElementById("myModal6");
+    //var btn = document.getElementsByClassName("map-button");
+    var spany6 = document.getElementsByClassName("close6")[0];
+    var map = document.getElementsByClassName("map-abs-btn");
+
+    for (let i = 0; i < map.length; ++i) {
+        map[i].onclick = function () {
+
+            var address = map[i].getAttribute("data-address");
+            MapFunc(address);
+        };
+    }
+
+    function MapFunc(address) {
+        console.log(address);
+        var address1 = `https://maps.google.com/maps?q= + ${address} + &t=&z=13&ie=UTF8&iwloc=&output=embed`;
+        document.getElementById('gmap_canvas').src = address1;
+        modal6.style.display = "block";
+    }
+    spany6.onclick = function () {
+        modal6.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal6) {
+            modal6.style.display = "none";
+        }
+    }
 
 </script>

@@ -27,7 +27,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Data\" />
+	  <Folder Include="DataOld\" />
 	  <Folder Include="wwwroot\uploads\" />
 	</ItemGroup>
 

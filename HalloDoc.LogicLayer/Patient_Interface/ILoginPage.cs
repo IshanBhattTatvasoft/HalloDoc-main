@@ -12,5 +12,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
     {
         public AspNetUser ValidateAspNetUser(LoginViewModel model);
         public User ValidateUsers(LoginViewModel model);
+        public PasswordReset ValidateToken(string token);
+        public AspNetUser ValidateUserForResetPassword(ResetPasswordViewModel model, string useremail);
+        public void SetPasswordForResetPassword(AspNetUser user, ResetPasswordViewModel model);
     }
 }

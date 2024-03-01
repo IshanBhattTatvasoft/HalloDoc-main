@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HalloDoc.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace HalloDoc.DataLayer.Data;
 
 public partial class ApplicationDbContext : DbContext
@@ -196,7 +197,11 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.IsActive).HasColumnType("bit(1)");
             entity.Property(e => e.ModifiedDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.PhoneNumber).HasMaxLength(50);
-            entity.Property(e => e.RequestId).HasMaxLength(50);
+
+            entity.HasOne(d => d.Request).WithMany(p => p.BlockRequests)
+                .HasForeignKey(d => d.RequestId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("RequestId");
         });
 
         modelBuilder.Entity<Business>(entity =>

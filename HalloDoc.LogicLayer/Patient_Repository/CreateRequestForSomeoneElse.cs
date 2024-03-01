@@ -28,6 +28,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Users.FirstOrDefault(u => u.UserId == user_id);
         }
 
+        public BlockRequest CheckForBlockedRequest(PatientRequestSomeoneElse model)
+        {
+            return _context.BlockRequests.FirstOrDefault(u => u.Email == model.Email);
+        }
+
         public void RequestForSomeoneElse(PatientRequestSomeoneElse model, int user, User users, Region region1)
         {
             Request request = new Request();

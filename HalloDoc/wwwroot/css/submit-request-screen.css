@@ -1,9 +1,13 @@
+* {
+    overflow: hidden;
+}
+
 .moon-flex {
     display: flex;
     justify-content: flex-end;
-    position: absolute;
+    /*position: absolute;*/
     top: 7px;
-    right: 15px;
+    right: 5px;
 }
 .my-nav{
     width:120%;
@@ -33,6 +37,7 @@
 .anchorcolor {
     color: rgb(32, 193, 204);
 }
+
 
 #backdesign {
     border-radius: 5px;

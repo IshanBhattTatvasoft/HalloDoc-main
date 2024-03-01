@@ -30,5 +30,21 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             //User user1 = new User { UserId = user.UserId };
             return user;
         }
+
+        public PasswordReset ValidateToken(string token)
+        {
+            return _context.PasswordResets.FirstOrDefault(pr => pr.Token == token);
+        }
+
+        public AspNetUser ValidateUserForResetPassword(ResetPasswordViewModel model, string useremail)
+        {
+            return _context.AspNetUsers.FirstOrDefault(x => x.Email == useremail);
+        }
+
+        public void SetPasswordForResetPassword(AspNetUser user, ResetPasswordViewModel model)
+        {
+            user.PasswordHash = model.Password;
+            _context.SaveChanges();
+        }
     }
 }

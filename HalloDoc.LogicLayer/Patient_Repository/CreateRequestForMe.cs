@@ -25,6 +25,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Regions.FirstOrDefault(u => u.Name.ToLower().Trim().Equals(temp));
         }
 
+        public User ValidateUser(int user_id)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserId == user_id);
+        }
+
         public void RequestForMe(PatientRequestModel model, int user, Region region)
         {
             Request request = new Request();

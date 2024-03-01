@@ -13,6 +13,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public Region ValidateRegion(PatientRequestSomeoneElse model);
         public User ValidateUser(PatientRequestSomeoneElse model, int user_id);
         public void RequestForSomeoneElse(PatientRequestSomeoneElse model, int user, User users, Region region);
+        public BlockRequest CheckForBlockedRequest(PatientRequestSomeoneElse model);
 
     }
 }

@@ -50,5 +50,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
         }
 
+        public void AddFile(RequestWiseFile requestWiseFile)
+        {
+            _context.RequestWiseFiles.Add(requestWiseFile);
+            _context.SaveChanges();
+        }
+
+        
     }
 }

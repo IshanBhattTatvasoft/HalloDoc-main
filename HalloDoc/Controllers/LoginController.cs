@@ -28,8 +28,9 @@ namespace HalloDoc.Controllers
         private readonly IViewDocuments _viewDocuments;
         private readonly IPatientProfile _profile;
         private readonly ICreateRequestForMe _createRequestForMe;
-        private readonly ICreateRequestForSomeoneElse _createRequestForSomeoneElse; 
-        public LoginController(ApplicationDbContext context, IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse)
+        private readonly ICreateRequestForSomeoneElse _createRequestForSomeoneElse;
+        private readonly IPatientRequest _patientRequest;
+        public LoginController(ApplicationDbContext context, IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse, IPatientRequest patientRequest)
         {
             /* _logger = logger;*/
             _context = context;
@@ -41,6 +42,7 @@ namespace HalloDoc.Controllers
             _profile = profile;
             _createRequestForMe = createRequestForMe;
             _createRequestForSomeoneElse = createRequestForSomeoneElse;
+            _patientRequest = patientRequest;
         }
 
         [HttpPost]
@@ -153,11 +155,11 @@ namespace HalloDoc.Controllers
 
         public IActionResult CreatePassword(string token)
         {
-           
-            var useremail = _sescontext.HttpContext.Session.GetString("Token");
-            PasswordReset pr = _context.PasswordResets.FirstOrDefault(pr => pr.Token == token);
 
-            if(pr == null || pr.IsModified == true)
+            var useremail = _sescontext.HttpContext.Session.GetString("Token");
+            PasswordReset pr = _loginPage.ValidateToken(token);
+
+            if (pr == null || pr.IsModified == true)
             {
                 return NotFound();
             }
@@ -176,11 +178,12 @@ namespace HalloDoc.Controllers
         {
 
             var useremail = _sescontext.HttpContext.Session.GetString("UserEmail");
-            AspNetUser user = _context.AspNetUsers.FirstOrDefault(x => x.Email == useremail);
+            AspNetUser user = _loginPage.ValidateUserForResetPassword(model, useremail);
             if (user != null && model.Password == model.ConfirmPassword)
             {
-                user.PasswordHash = model.Password;
-                _context.SaveChanges();
+                //user.PasswordHash = model.Password;
+                //_context.SaveChanges();
+                _loginPage.SetPasswordForResetPassword(user, model);
                 return RedirectToAction("PatientLoginPage");
             }
             else
@@ -216,7 +219,7 @@ namespace HalloDoc.Controllers
         public IActionResult RequestForMe()
         {
             var user_id = HttpContext.Session.GetInt32("id");
-            var user = _context.Users.FirstOrDefault(u => u.UserId == user_id);
+            User user = _createRequestForMe.ValidateUser((int)user_id);
             int day = (int)user.IntDate;
             string month = user.StrMonth;
             int year = (int)user.IntYear;
@@ -259,7 +262,7 @@ namespace HalloDoc.Controllers
                 return View(model);
             }
 
-            var blockedUser = _context.BlockRequests.FirstOrDefault(u => u.Email == model.Email);
+            var blockedUser = _patientRequest.ValidateBlockRequest(model);
             if (blockedUser != null)
             {
                 ModelState.AddModelError("Email", "This patient is blocked.");
@@ -302,7 +305,7 @@ namespace HalloDoc.Controllers
                 ModelState.AddModelError("State", "Currently we are not serving in this region");
                 return View(model);
             }
-            var blockedUser = _context.BlockRequests.FirstOrDefault(u => u.Email == model.Email);
+            BlockRequest blockedUser = _createRequestForSomeoneElse.CheckForBlockedRequest(model);
             if (blockedUser != null)
             {
                 ModelState.AddModelError("Email", "This patient is blocked.");
@@ -380,9 +383,10 @@ namespace HalloDoc.Controllers
                     CreatedDate = DateTime.Now,
                     RequestId = request.RequestId
                 };
-                _context.RequestWiseFiles.Add(requestWiseFile);
+                //_context.RequestWiseFiles.Add(requestWiseFile);
+                //_context.SaveChanges();
+                _viewDocuments.AddFile(requestWiseFile);
             }
-            _context.SaveChanges();
 
             return RedirectToAction("PatientDashboardViewDocuments", new { requestID = model.requestId });
         }

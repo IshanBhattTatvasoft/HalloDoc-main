@@ -11,6 +11,9 @@ using DocumentFormat.OpenXml.Office2010.Excel;
 using HalloDocMvc.Entity.ViewModel;
 using Microsoft.Office.Interop.Excel;
 using HalloDoc.DataLayer.Data;
+using HalloDoc.LogicLayer.Patient_Interface;
+using static HalloDoc.DataLayer.Models.Enums;
+using System.Collections;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -19,220 +22,91 @@ namespace HalloDoc.Controllers
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext _context;
-
+        private readonly IAdminInterface _adminInterface;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ApplicationDbContext context)
+        public AdminController(ApplicationDbContext context, IAdminInterface adminInterface)
         {
             _context = context;
+            _adminInterface = adminInterface;
         }
 
         public IActionResult AdminDashboard(string? status)
         {
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
+            //var count_new = _context.Requests.Count(r => r.Status == 1);
+            //var count_pending = _context.Requests.Count(r => r.Status == 2);
+            //var count_active = _context.Requests.Count(r => r.Status == 3);
+            //var count_conclude = _context.Requests.Count(r => r.Status == 4);
+            //var count_toclose = _context.Requests.Count(r => r.Status == 5);
+            //var count_unpaid = _context.Requests.Count(r => r.Status == 6);
 
-            AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
-            {
-                new_count = count_new,
-                pending_count = count_pending,
-                active_count = count_active,
-                conclude_count = count_conclude,
-                unpaid_count = count_unpaid,
-                toclose_count = count_toclose,
-                query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1),
-                requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList(),
-                regions = _context.Regions.ToList(),
-                status = "New",
-                caseTags = _context.CaseTags.ToList()
-            };
-            
+            //AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
+            //{
+            //    new_count = count_new,
+            //    pending_count = count_pending,
+            //    active_count = count_active,
+            //    conclude_count = count_conclude,
+            //    unpaid_count = count_unpaid,
+            //    toclose_count = count_toclose,
+            //    query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1),
+            //    requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList(),
+            //    regions = _context.Regions.ToList(),
+            //    status = "New",
+            //    caseTags = _context.CaseTags.ToList()
+            //};
+
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status);
+
+
             return View(adminDashboardViewModel);
         }
 
-        
+
 
         //[HttpPost]
         public IActionResult New()
         {
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
-
-            IQueryable<Request> req = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1);
-            List<Request> list = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList();
-            List<Region> region = _context.Regions.ToList();
-
-            AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
-            {
-                new_count = count_new,
-                pending_count = count_pending,
-                active_count = count_active,
-                conclude_count = count_conclude,
-                toclose_count = count_toclose,
-                unpaid_count = count_unpaid,
-                query_requests = req,
-                requests = list,
-                regions = region,
-                status = "New",
-            };
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New");
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         public IActionResult Pending()
         {
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending");
 
-            IQueryable<Request> req = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2);
-            List<Request> list = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2).ToList();
-            List<Region> region = _context.Regions.ToList();
-
-            AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
-            {
-                new_count = count_new,
-                pending_count = count_pending,
-                active_count = count_active,
-                conclude_count = count_conclude,
-                unpaid_count = count_unpaid,
-                toclose_count = count_toclose,
-                query_requests = req,
-                requests = list,
-                regions = region,
-                status = "Pending",
-            };
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         public IActionResult Active()
         {
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active");
 
-            IQueryable<Request> req = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3);
-            List<Request> list = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3).ToList();
-            List<Region> region = _context.Regions.ToList();
-
-            AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
-            {
-                new_count = count_new,
-                pending_count = count_pending,
-                active_count = count_active,
-                conclude_count = count_conclude,
-                unpaid_count = count_unpaid,
-                toclose_count = count_toclose,
-                query_requests = req,
-                requests = list,
-                regions = region,
-                status = "Active",
-            };
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         public IActionResult Conclude()
         {
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude");
 
-            IQueryable<Request> req = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4);
-            List<Request> list = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4).ToList();
-            List<Region> region = _context.Regions.ToList();
-
-            AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
-            {
-                new_count = count_new,
-                pending_count = count_pending,
-                active_count = count_active,
-                conclude_count = count_conclude,
-                unpaid_count = count_unpaid,
-                toclose_count = count_toclose,
-                query_requests = req,
-                requests = list,
-                regions = region,
-                status = "Conclude",
-            };
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         public IActionResult Toclose()
         {
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose");
 
-            IQueryable<Request> req = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 5);
-            List<Request> list = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 5).ToList();
-            List<Region> region = _context.Regions.ToList();
-
-            AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
-            {
-                new_count = count_new,
-                pending_count = count_pending,
-                active_count = count_active,
-                conclude_count = count_conclude,
-                unpaid_count = count_unpaid,
-                toclose_count = count_toclose,
-                query_requests = req,
-                requests = list,
-                regions = region,
-                status = "ToClose",
-            };
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         public IActionResult Unpaid()
         {
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid");
 
-            IQueryable<Request> req = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6);
-            List<Request> list = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6).ToList();
-            List<Region> region = _context.Regions.ToList();
-
-            AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
-            {
-                new_count = count_new,
-                pending_count = count_pending,
-                active_count = count_active,
-                conclude_count = count_conclude,
-                unpaid_count = count_unpaid,
-                toclose_count = count_toclose,
-                query_requests = req,
-                requests = list,
-                regions = region,
-                status = "Unpaid",
-            };
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
         public List<Request> GetTableData()
@@ -323,60 +197,63 @@ namespace HalloDoc.Controllers
         {
             //var data = _context.Requests.Include(u => u.RequestClient).FirstOrDefault(u => u.RequestId == requestId);
             //var user = _context.RequestClients.Include(v => v.Requests).FirstOrDefault(v => v.RequestClientId == data.RequestClientId);
-            var request = _context.Requests.Where(r => r.RequestId == requestId).FirstOrDefault();
-            var user = _context.RequestClients.FirstOrDefault(s => s.RequestClientId == request.RequestClientId);
+            Request request = _adminInterface.ValidateRequest(requestId);
+            RequestClient user = _adminInterface.ValidateRequestClient(request.RequestClientId);
             int intYear = (int)user.IntYear;
             int intDate = (int)user.IntDate;
             string month = user.StrMonth;
-            var mon = 0;
-            if (month == "January")
-            {
-                mon = 1;
-            }
-            else if (month == "February")
-            {
-                mon = 2;
-            }
-            else if (month == "March")
-            {
-                mon = 3;
-            }
-            else if (month == "April")
-            {
-                mon = 4;
-            }
-            else if (month == "May")
-            {
-                mon = 5;
-            }
-            else if (month == "June")
-            {
-                mon = 6;
-            }
-            else if (month == "July")
-            {
-                mon = 7;
-            }
-            else if (month == "August")
-            {
-                mon = 8;
-            }
-            else if (month == "September")
-            {
-                mon = 9;
-            }
-            else if (month == "October")
-            {
-                mon = 10;
-            }
-            else if (month == "November")
-            {
-                mon = 11;
-            }
-            else if (month == "December")
-            {
-                mon = 12;
-            }
+
+
+
+            var mon = int.Parse(month);
+            //if (month == "January")
+            //{
+            //    mon = 1;
+            //}
+            //else if (month == "February")
+            //{
+            //    mon = 2;
+            //}
+            //else if (month == "March")
+            //{
+            //    mon = 3;
+            //}
+            //else if (month == "April")
+            //{
+            //    mon = 4;
+            //}
+            //else if (month == "May")
+            //{
+            //    mon = 5;
+            //}
+            //else if (month == "June")
+            //{
+            //    mon = 6;
+            //}
+            //else if (month == "July")
+            //{
+            //    mon = 7;
+            //}
+            //else if (month == "August")
+            //{
+            //    mon = 8;
+            //}
+            //else if (month == "September")
+            //{
+            //    mon = 9;
+            //}
+            //else if (month == "October")
+            //{
+            //    mon = 10;
+            //}
+            //else if (month == "November")
+            //{
+            //    mon = 11;
+            //}
+            //else if (month == "December")
+            //{
+            //    mon = 12;
+            //}
             DateTime date = new DateTime(intYear, (int)mon, intDate);
             ViewCaseModel viewCase = new ViewCaseModel
             {
@@ -399,19 +276,20 @@ namespace HalloDoc.Controllers
             int requestId = userProfile.RequestId;
             if (requestId != null)
             {
-                var rid = _context.Requests.Where(u => u.RequestId == requestId).FirstOrDefault();
-                var userToUpdate = _context.RequestClients.Where(u => u.RequestClientId == rid.RequestClientId).FirstOrDefault();
+                Request rid = _adminInterface.ValidateRequest(requestId);
+                RequestClient userToUpdate = _adminInterface.ValidateRequestClient(rid.RequestClientId);
                 if (userToUpdate != null)
                 {
-                    userToUpdate.FirstName = userProfile.FirstName;
-                    userToUpdate.LastName = userProfile.LastName;
-                    userToUpdate.PhoneNumber = userProfile.PhoneNumber;
-                    userToUpdate.Email = userProfile.Email;
-                    userToUpdate.IntDate = userProfile.DOB.Day;
-                    userToUpdate.IntYear = userProfile.DOB.Year;
-                    userToUpdate.StrMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(userProfile.DOB.Month);
-                    _context.RequestClients.Update(userToUpdate);
-                    _context.SaveChanges();
+                    //userToUpdate.FirstName = userProfile.FirstName;
+                    //userToUpdate.LastName = userProfile.LastName;
+                    //userToUpdate.PhoneNumber = userProfile.PhoneNumber;
+                    //userToUpdate.Email = userProfile.Email;
+                    //userToUpdate.IntDate = userProfile.DOB.Day;
+                    //userToUpdate.IntYear = userProfile.DOB.Year;
+                    //userToUpdate.StrMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(userProfile.DOB.Month);
+                    //_context.RequestClients.Update(userToUpdate);
+                    //_context.SaveChanges();
+                    _adminInterface.EditViewCaseAction(userProfile, userToUpdate);
                 }
             }
             return RedirectToAction("ViewCase", new { requestId = requestId });
@@ -419,13 +297,13 @@ namespace HalloDoc.Controllers
 
        public IActionResult ViewNotes(int requestId)
        {
-            Request r = _context.Requests.Where(r => r.RequestId == requestId).FirstOrDefault();
-            RequestNote rn = _context.RequestNotes.FirstOrDefault(r => r.RequestId == requestId);
-            RequestStatusLog rsl = _context.RequestStatusLogs.FirstOrDefault(r => r.RequestId == requestId);
+            Request r = _adminInterface.ValidateRequest(requestId);
+            RequestNote rn = _adminInterface.FetchRequestNote(requestId);
+            RequestStatusLog rsl = _adminInterface.FetchRequestStatusLogs(requestId);
 
             int id = (int)rsl.PhysicianId;
 
-            Physician py = _context.Physicians.FirstOrDefault(p => p.PhysicianId == id);
+            Physician py = _adminInterface.FetchPhysician(id);
 
             var viewModel = new ViewNotes
             {
@@ -443,11 +321,12 @@ namespace HalloDoc.Controllers
         public IActionResult EditViewNotes(ViewNotes model)
         {
             //int id = model.RequestId;
-            RequestNote rn = _context.RequestNotes.FirstOrDefault(rq => rq.RequestId == model.RequestId);
+            RequestNote rn = _adminInterface.FetchRequestNote(model.RequestId);
 
-            rn.AdminNotes = model.AdminNotes;
-            _context.RequestNotes.Update(rn);
-            _context.SaveChanges();
+            //rn.AdminNotes = model.AdminNotes;
+            //_context.RequestNotes.Update(rn);
+            //_context.SaveChanges();
+            _adminInterface.EditViewNotesAction(rn, model);
 
             return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
 
@@ -456,35 +335,47 @@ namespace HalloDoc.Controllers
         [HttpPost]
         public IActionResult CancelCase(AdminDashboardTableView model,  int selectedCaseTagId, string additionalNotes)
         {
-            CaseTag ct = _context.CaseTags.Where(ct =>ct.CaseTagId == selectedCaseTagId).FirstOrDefault();
-            Request r = _context.Requests.Where(rt => rt.RequestId == model.RequestId).FirstOrDefault();
+            CaseTag ct = _adminInterface.FetchCaseTag(selectedCaseTagId);
+            Request r = _adminInterface.ValidateRequest(model.RequestId);
             r.CaseTag = ct.Name;
+            r.Status = 3;
             RequestStatusLog rs = new RequestStatusLog();
             rs.RequestId = model.RequestId;
             rs.Notes = additionalNotes;
             rs.Status = 3;
             rs.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(rs);
-            _context.SaveChanges();
+            //_context.RequestStatusLogs.Add(rs);
+            //_context.SaveChanges();
+            _adminInterface.AddRequestStatusLogFromCancelCase(rs);
             TempData["success"] = "Case cancelled successfully";
+
             return RedirectToAction("AdminDashboard");
         }
 
         public List<Physician> GetPhysicianByRegion(AdminDashboardTableView model, int RegionId)
         {
-            List<Physician> p = _context.Physicians.Where(p => p.RegionId == RegionId).ToList();
+            List<Physician> p = _adminInterface.FetchPhysicianByRegion(RegionId);
             return p;
         }
 
-        public IActionResult AssignCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription)
+        [HttpPost]
+        public IActionResult AssignCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription, int selectedPhysicianId)
         {
             RequestStatusLog rsl = new RequestStatusLog();
+            Request r = _adminInterface.ValidateRequest(model.RequestId);
+            r.Status = 1; //when a case is assigned, status is set to 1 currently
+            // but when the assigned case gets accepted, then its status can be 2 and will be shown in Pending state.
+            r.PhysicianId = selectedPhysicianId;
             rsl.RequestId = model.RequestId;
             rsl.Notes = assignCaseDescription;
             rsl.Status = 1;
             rsl.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(rsl);
-            _context.SaveChanges();
+            rsl.TransToPhysicianId = selectedPhysicianId;
+            rsl.PhysicianId = selectedPhysicianId;
+            //_context.RequestStatusLogs.Add(rsl);
+            //_context.SaveChanges();
+            _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
+            _adminInterface.UpdateRequest(r);
             TempData["success"] = "Successfully requested to assign the case";
             return RedirectToAction("AdminDashboard");
         }
@@ -492,13 +383,24 @@ namespace HalloDoc.Controllers
         [HttpPost]
         public IActionResult BlockCase(AdminDashboardTableView model, string reasonForBlockRequest)
         {
+            Request r = _adminInterface.ValidateRequest(model.RequestId);
             RequestStatusLog rs = new RequestStatusLog();
             rs.Status = 11;
             rs.CreatedDate = DateTime.Now;
             rs.Notes = reasonForBlockRequest;
             rs.RequestId = model.RequestId;
-            _context.RequestStatusLogs.Add(rs);
-            _context.SaveChanges();
+            //_context.RequestStatusLogs.Add(rs);
+            //_context.SaveChanges();
+            _adminInterface.AddRequestStatusLogFromCancelCase(rs);
+            BlockRequest br = new BlockRequest();
+            br.RequestId = model.RequestId;
+            br.Email = r.Email;
+            br.IsActive = new BitArray(1,true);
+            br.Reason = reasonForBlockRequest;
+            br.CreatedDate = DateTime.Now;
+            _adminInterface.AddBlockRequestData(br);
+             
+
             TempData["success"] = "Case blocked successfully";
             return RedirectToAction("AdminDashboard");
         }

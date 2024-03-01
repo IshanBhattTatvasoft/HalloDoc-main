@@ -45,6 +45,7 @@ builder.Services.AddScoped<IViewDocuments, ViewDocuments>();
 builder.Services.AddScoped<IPatientProfile,  PatientProfile>();
 builder.Services.AddScoped<ICreateRequestForMe, CreateRequestForMe>();
 builder.Services.AddScoped<ICreateRequestForSomeoneElse,  CreateRequestForSomeoneElse>();
+builder.Services.AddScoped<IAdminInterface, AdminInterface>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

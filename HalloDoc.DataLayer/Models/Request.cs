@@ -64,6 +64,8 @@ public partial class Request
 
     public int RequestClientId { get; set; }
 
+    public virtual ICollection<BlockRequest> BlockRequests { get; set; } = new List<BlockRequest>();
+
     public virtual Physician? Physician { get; set; }
 
     public virtual ICollection<RequestBusiness> RequestBusinesses { get; set; } = new List<RequestBusiness>();

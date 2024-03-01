@@ -172,13 +172,15 @@
                 </p>
             </div>
         </div>
-    </div>
-    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+
+        <div class="mt-4 shadow-lg p-3 mb-5 bg-white rounded w-100">
         <form method="post" asp-action="EditViewCase" asp-controller="Admin"
               enctype="multipart/form-data">
-            <div class="row px-3">
-                <textarea class="form-control" id="firstTextArea" placeholder="Patient Notes" rows="3"
+            <div class="row w-100">
+                <div class="col">
+                    <textarea class="form-control" id="firstTextArea" placeholder="Patient Notes" rows="3"
                           @*asp-for="Symptoms"*@ disabled></textarea>
+                </div>
             </div
             <div class="row px-3">
                 <input type="text" class="form-control d-none" asp-for="RequestId"/>
@@ -187,12 +189,12 @@
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
-                           readonly asp-for="FirstName">
+                           disabled asp-for="FirstName">
                     <label for="floatingInput" class="ms-2 text-muted">First Name</label>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
-                           readonly asp-for="LastName">
+                           disabled asp-for="LastName">
                     <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
                 </div>
             </div>
@@ -200,7 +202,7 @@
             <div class="row">
                 <div class="col-sm-6 form-floating mt-3">
                     <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB"
-                           readonly>
+                           disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
                     <span @*asp-validation-for="DOB"*@ class="text-danger"></span>
                 </div>
@@ -282,6 +284,8 @@
             </div>
         </form>
     </div>
+    </div>
+    
 
     <script>
         var classCount = document.getElementsByClassName('form-control');
