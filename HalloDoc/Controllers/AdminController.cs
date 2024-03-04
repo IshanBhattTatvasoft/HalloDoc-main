@@ -31,6 +31,37 @@ namespace HalloDoc.Controllers
             _adminInterface = adminInterface;
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult PlatformLoginPage(LoginViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                AspNetUser user = _adminInterface.ValidateAspNetUser(model);
+                if(user!=null)
+                {
+                    if(model.PasswordHash == user.PasswordHash)
+                    {
+                        User user2 = _adminInterface.ValidateUser(model);
+                        HttpContext.Session.SetInt32("id", user2.UserId);
+                        HttpContext.Session.SetString("name", user2.FirstName);
+                        HttpContext.Session.SetString("IsLoggedIn", "true");
+                        return RedirectToAction("AdminDashboard");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("PasswordHash", "Incorrect Password");
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("Username", "Incorrect Username");
+                }
+            }
+
+            return View(model);
+        }
+
         public IActionResult AdminDashboard(string? status)
         {
             //var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -203,57 +234,57 @@ namespace HalloDoc.Controllers
             int intDate = (int)user.IntDate;
             string month = user.StrMonth;
 
+            int mon = 0;
 
-
-            var mon = int.Parse(month);
-            //if (month == "January")
-            //{
-            //    mon = 1;
-            //}
-            //else if (month == "February")
-            //{
-            //    mon = 2;
-            //}
-            //else if (month == "March")
-            //{
-            //    mon = 3;
-            //}
-            //else if (month == "April")
-            //{
-            //    mon = 4;
-            //}
-            //else if (month == "May")
-            //{
-            //    mon = 5;
-            //}
-            //else if (month == "June")
-            //{
-            //    mon = 6;
-            //}
-            //else if (month == "July")
-            //{
-            //    mon = 7;
-            //}
-            //else if (month == "August")
-            //{
-            //    mon = 8;
-            //}
-            //else if (month == "September")
-            //{
-            //    mon = 9;
-            //}
-            //else if (month == "October")
-            //{
-            //    mon = 10;
-            //}
-            //else if (month == "November")
-            //{
-            //    mon = 11;
-            //}
-            //else if (month == "December")
-            //{
-            //    mon = 12;
-            //}
+            //var mon = int.Parse(month);
+            if (month == "January")
+            {
+                mon = 1;
+            }
+            else if (month == "February")
+            {
+                mon = 2;
+            }
+            else if (month == "March")
+            {
+                mon = 3;
+            }
+            else if (month == "April")
+            {
+                mon = 4;
+            }
+            else if (month == "May")
+            {
+                mon = 5;
+            }
+            else if (month == "June")
+            {
+                mon = 6;
+            }
+            else if (month == "July")
+            {
+                mon = 7;
+            }
+            else if (month == "August")
+            {
+                mon = 8;
+            }
+            else if (month == "September")
+            {
+                mon = 9;
+            }
+            else if (month == "October")
+            {
+                mon = 10;
+            }
+            else if (month == "November")
+            {
+                mon = 11;
+            }
+            else if (month == "December")
+            {
+                mon = 12;
+            }
             DateTime date = new DateTime(intYear, (int)mon, intDate);
             ViewCaseModel viewCase = new ViewCaseModel
             {
@@ -273,7 +304,7 @@ namespace HalloDoc.Controllers
         [HttpPost]
         public IActionResult EditViewCase(ViewCaseModel userProfile)
         {
-            int requestId = userProfile.RequestId;
+            int requestId = (int)userProfile.RequestId;
             if (requestId != null)
             {
                 Request rid = _adminInterface.ValidateRequest(requestId);
@@ -405,6 +436,60 @@ namespace HalloDoc.Controllers
             return RedirectToAction("AdminDashboard");
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateRequest(AdminCreateRequestModel model)
+        {
+            var region = _adminInterface.ValidateRegion(model);
+            if (region == null)
+            {
+                ModelState.AddModelError("State", "Currently we are not serving in this region");
+                return View(model);
+            }
+
+            var blockedUser = _adminInterface.ValidateBlockRequest(model);
+            if (blockedUser != null)
+            {
+                ModelState.AddModelError("Email", "This patient is blocked.");
+                return View(model);
+            }
+
+            var existingUser = _adminInterface.ValidateAspNetUser(model);
+
+            if(ModelState.IsValid)
+            {
+                _adminInterface.InsertDataOfRequest(model);
+            }
+            TempData["success"] = "Request created successfully";
+            return View("CreateRequest");
+        }
+
+        public IActionResult VerifyLocation(string state)
+        {
+            if(state == null)
+            {
+                return Json(new { isVerified = 2 });
+            }
+            bool isVerified = _adminInterface.VerifyLocation(state);
+            if(isVerified)
+            {
+                return Json(new {isVerified = 1});
+            }
+            else
+            {
+                return Json(new { isVerified = 2 });
+            }
+        }
+
+        public IActionResult CreateRequest()
+        {
+            return View();
+        }
+
+        public IActionResult PlatformLoginPage()
+        {
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -414,6 +499,21 @@ namespace HalloDoc.Controllers
         public IActionResult modal_check()
         {
             return View();
+        }
+
+        public IActionResult ViewUploads(int requestid)
+        {
+            Request request = _adminInterface.ValidateRequest(requestid);
+            User user = _adminInterface.ValidateUserByRequestId(request);
+            List<RequestWiseFile> rwf = _adminInterface.GetFileData(requestid);
+            ViewUploadsModel vum = new ViewUploadsModel()
+            {
+                confirmation_number = request.ConfirmationNumber,
+                requestId = requestid,
+                user = user,
+                requestWiseFiles = rwf
+        };
+            return View(vum);
         }
     }
 }

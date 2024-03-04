@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 namespace HalloDoc.DataLayer.ViewModels;
 
 
@@ -18,14 +19,14 @@ public class ConceirgeRequestModel
     [Required(ErrorMessage = "Phone number is required")]
     [Phone(ErrorMessage = "Please enter a valid phone number")]
     public string? PhoneNumber { get; set; }
-    [Required(ErrorMessage = "Street number is required")]
-    public string? Street { get; set; }
-    [Required(ErrorMessage = "City name is required")]
-    public string? City { get; set; }
-    [Required(ErrorMessage = "State name is required")]
-    public string? State { get; set; }
-    [Required(ErrorMessage = "Zipcode is required")]
-    public string? Zipcode { get; set; }
+    //[Required(ErrorMessage = "Street number is required")]
+    //public string? Street { get; set; }
+    //[Required(ErrorMessage = "City name is required")]
+    //public string? City { get; set; }
+    //[Required(ErrorMessage = "State name is required")]
+    //public string? State { get; set; }
+    //[Required(ErrorMessage = "Zipcode is required")]
+    //public string? Zipcode { get; set; }
     public string? Room { get; set; }
     [Required(ErrorMessage = "Concierge First Name is required")]
     public string? ConciergeFirstName { get; set; }
@@ -46,7 +47,6 @@ public class ConceirgeRequestModel
     [Required(ErrorMessage = "Concierge Zipcode is required")]
     public string? ConciergeZipcode { get; set; }
     public string? Password { get; set; }
-    public string? File { get; set; }
-    public bool isPassword { get; set; } = false;
+    public bool? isPassword { get; set; } = false;
 }
 

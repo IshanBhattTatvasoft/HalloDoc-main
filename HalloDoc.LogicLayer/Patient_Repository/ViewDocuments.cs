@@ -21,15 +21,16 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public Request? GetRequestWithClient(int requestId)
         {
-            using (_context)
-            {
-                return _context.Requests.Include(r => r.RequestClient).FirstOrDefault(u => u.RequestId == requestId);
-            }
+
+            return  _context.Requests.Include(r => r.RequestClient).FirstOrDefault(u => u.RequestId == requestId);
+
         }
 
-        public List<RequestWiseFile> ValidateFile(int requestid)
+        public List<RequestWiseFile>? ValidateFile(int requestid)
         {
-            return _context.RequestWiseFiles.Include(u => u.Admin).Include(u => u.Physician).Where(u => u.RequestId == requestid).ToList();
+            var rwf = _context.RequestWiseFiles.Include(u => u.Admin).Include(u => u.Physician).Where(u => u.RequestId == requestid).ToList();
+            return rwf;
+
         }
 
         public User ValidateUser(int user_id)
@@ -44,7 +45,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public Request? GetRequestWithUser(int requestId)
         {
-            using (_context) 
+            using (_context)
             {
                 return _context.Requests.Include(r => r.User).FirstOrDefault(u => u.RequestId == requestId);
             }
@@ -56,6 +57,6 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        
+
     }
 }

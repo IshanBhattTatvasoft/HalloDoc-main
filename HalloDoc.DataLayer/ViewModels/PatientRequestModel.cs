@@ -24,6 +24,7 @@ public class PatientRequestModel
     public string State { get; set; }
     [Required(ErrorMessage = "Zipcode is required")]
     public string Zipcode { get; set; }
+    public string? AdminRequestZipCode { get; set; }
     public string ?Room { get; set; }
 
     public string ?Password { get; set; }
@@ -32,7 +33,7 @@ public class PatientRequestModel
 
     public IFormFile? ImageContent { get; set; }
 
-
+    public string? AdminNotes { get; set; }
 
 
     //public string ConciergeFirstName { get; set; }

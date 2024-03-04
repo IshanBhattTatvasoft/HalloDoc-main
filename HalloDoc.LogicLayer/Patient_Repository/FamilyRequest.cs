@@ -39,7 +39,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
-            bool userExists = false;
+            bool userExists = true;
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;

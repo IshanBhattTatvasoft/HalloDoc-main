@@ -50,10 +50,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 user.LastName = model.LastName;
                 user.Email = model.Email;
                 user.Mobile = model.PhoneNumber;
-                user.Street = model.Street;
-                user.City = model.City;
-                user.State = model.State;
-                user.ZipCode = model.Zipcode;
+                user.Street = model.ConciergeStreet;
+                user.City = model.ConciergeCity;
+                user.State = model.ConciergeState;
+                user.ZipCode = model.ConciergeZipcode;
                 user.IntDate = model.DOB.Day;
                 user.StrMonth = model.DOB.Month.ToString();
                 user.IntYear = model.DOB.Year;
@@ -65,18 +65,18 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             requestClient.FirstName = model.FirstName;
             requestClient.LastName = model.LastName;
             requestClient.PhoneNumber = model.PhoneNumber;
-            requestClient.Location = model.City;
-            requestClient.Address = model.Street;
+            requestClient.Location = model.ConciergeCity;
+            requestClient.Address = model.ConciergeStreet;
             requestClient.RegionId = 1;
             requestClient.Notes = model.Symptoms;
             requestClient.Email = model.Email;
             requestClient.IntDate = model.DOB.Day;
             requestClient.StrMonth = model.DOB.Month.ToString();
             requestClient.IntYear = model.DOB.Year;
-            requestClient.Street = model.Street;
-            requestClient.City = model.City;
-            requestClient.State = model.State;
-            requestClient.ZipCode = model.Zipcode;
+            requestClient.Street = model.ConciergeStreet;
+            requestClient.City = model.ConciergeCity;
+            requestClient.State = model.ConciergeState;
+            requestClient.ZipCode = model.ConciergeZipcode;
             _context.RequestClients.AddAsync(requestClient);
             _context.SaveChangesAsync();
 
@@ -99,14 +99,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.Requests.Add(request);
             _context.SaveChangesAsync();
 
-            if (model.File != null)
-            {
-                requestWiseFile.RequestId = request.RequestId;
-                requestWiseFile.FileName = model.File;
-                requestWiseFile.CreatedDate = DateTime.Now;
-                _context.RequestWiseFiles.Add(requestWiseFile);
-                _context.SaveChangesAsync();
-            }
+            //if (model.File != null)
+            //{
+            //    requestWiseFile.RequestId = request.RequestId;
+            //    requestWiseFile.FileName = model.File;
+            //    requestWiseFile.CreatedDate = DateTime.Now;
+            //    _context.RequestWiseFiles.Add(requestWiseFile);
+            //    _context.SaveChangesAsync();
+            //}
 
             requestStatusLog.RequestId = request.RequestId;
             requestStatusLog.Status = 1;

@@ -1,0 +1,119 @@
+﻿.left-image {
+    width: 50%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.moon-flex {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    top: 7px;
+    right: 15px;
+}
+
+.change-theme {
+    border: none;
+    background-color: transparent;
+    margin-top: 10px;
+    margin-right: 20px;
+}
+
+.change-theme-mobile-view {
+    position: absolute;
+    right: -20px;
+    top: 13px;
+    border: none;
+    background-color: transparent;
+}
+
+.night-mode-icon {
+    height: 45px;
+    width: 45px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.hide-icon {
+    display: none;
+}
+
+.hide {
+    display: none;
+}
+
+.person-icon {
+    top: 18px;
+    right: 10px;
+    position: absolute;
+    height: 23px;
+    width: 23px;
+    border: 1.5px solid #54B4D3;
+    border-radius: 10px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.person-icon1 {
+    top: 18px;
+    right: 10px;
+    position: absolute;
+    height: 23px;
+    width: 23px;
+    border: 1.5px solid #54B4D3;
+    border-radius: 10px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.hide-eye {
+    display: none;
+}
+
+.hide-eye1 {
+    display: none;
+}
+
+.forgot {
+    text-decoration: none;
+}
+
+.t-and-c {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.content {
+    position: sticky !important;
+    bottom: 0 !important;
+    width: 100% !important;
+}
+
+.bg-image {
+    position: absolute;
+    top: 0;
+    width: 550px;
+    height: 100%;
+    opacity: 0.45;
+    filter: blur(2px);
+    max-width: 90%;
+    z-index: -1;
+}
+
+@media only screen and (max-width: 991px) {
+    .container-fluid {
+        flex-direction: column;
+    }
+
+    .bg-image {
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .left-image {
+        display: none;
+    }
+}

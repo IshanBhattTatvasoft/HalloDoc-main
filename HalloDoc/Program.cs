@@ -1,5 +1,6 @@
 //importing all the classes and structures defined in the Models namespace of a project HalloDoc.
 //By bringing these models into your current code scope, you can directly use them without having to specify the namespace repeatedly.This makes your code more concise and readable, especially when accessing these models frequently.
+using DocumentFormat.OpenXml.InkML;
 using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.LogicLayer.Patient_Interface;
@@ -18,7 +19,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(720); // Set session timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(60); // Set session timeout
 });
 
 
@@ -34,6 +35,7 @@ builder.Services.AddSession(options =>
 //builder.Configuration.GetConnectionString("HalloDocDbContext"): This retrieves the connection string named "HalloDocDbContext" from the application's configuration. The connection string typically contains information such as the server, database name, credentials, etc., needed to connect to the PostgreSQL database.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("HalloDocDbContext")));
+//builder.Services.AddTransient<ApplicationDbContext>();
 builder.Services.AddScoped<ILoginPage, LoginPage>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IPatientRequest, PatientRequest>();

@@ -66,6 +66,10 @@
     min-width: 90px;
 }
 
+.hide{
+    display: none;
+}
+
 
 th:first-child, td:first-child{
     width: 40%;

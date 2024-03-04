@@ -181,7 +181,7 @@
                     <textarea class="form-control" id="firstTextArea" placeholder="Patient Notes" rows="3"
                           @*asp-for="Symptoms"*@ disabled></textarea>
                 </div>
-            </div
+            </div>
             <div class="row px-3">
                 <input type="text" class="form-control d-none" asp-for="RequestId"/>
             </div>
@@ -204,11 +204,11 @@
                     <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB"
                            disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
-                    <span @*asp-validation-for="DOB"*@ class="text-danger"></span>
+                    <span class="text-danger"></span>
                 </div>
                 <div class="col-sm-4 mt-3 form-floating">
-                    <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" readonly style="height: 58px;" />
-                    <span @*asp-validation-for="PhoneNumber"*@ class="text-danger"></span>
+                    <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" disabled style="height: 58px;" />
+                    <span class="text-danger"></span>
                 </div>
                 <div class="col-sm-2 form-floating mt-3">
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="#54B4D3"
@@ -220,7 +220,7 @@
             <div class="row">
                 <div class="col-sm-6 form-floating mt-3">
                     <input type="text" class="form-control" id="emailInput" placeholder="Your First Name"
-                           aria-label="First name" asp-for="Email" readonly>
+                           aria-label="First name" asp-for="Email" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Email</label>
                     <span @*asp-validation-for="Email"*@ class="text-danger"></span>
                 </div>
@@ -295,7 +295,7 @@
             document.getElementById('cancelButton').style.display = "flex";
             document.getElementById('editButton').style.display = "none";
             for (var i = 1; i <= 5; i++) {
-                classCount[i].removeAttribute('readonly');
+                classCount[i].removeAttribute('disabled');
             }
         });
         document.getElementById('cancelButton').addEventListener('click', function () {
@@ -303,7 +303,7 @@
             document.getElementById('submitButton').style.display = "none";
             document.getElementById('cancelButton').style.display = "none";
             for (var i = 0; i < 5; i++) {
-                classCount[i].setAttribute('readonly', 'readonly');
+                classCount[i].setAttribute('disabled', 'disabled');
             }
             location.reload();
         });

@@ -11,7 +11,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
     public interface IViewDocuments
     {
         public Request? GetRequestWithClient(int requestId);
-        public List<RequestWiseFile> ValidateFile(int requestid);
+        public List<RequestWiseFile>? ValidateFile(int requestid);
+
         public User ValidateUser(int user_id);
         public string UserFirstName(int user_id);
         public Request? GetRequestWithUser(int requestId);

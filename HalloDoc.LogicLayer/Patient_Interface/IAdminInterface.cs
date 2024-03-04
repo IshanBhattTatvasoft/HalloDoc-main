@@ -24,7 +24,15 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<Physician> FetchPhysicianByRegion(int RegionId);
         public void AddBlockRequestData(BlockRequest br);
         public void UpdateRequest(Request r);
-
+        public DataLayer.Models.Region ValidateRegion(AdminCreateRequestModel model);
+        public BlockRequest ValidateBlockRequest(AdminCreateRequestModel model);
+        public AspNetUser ValidateAspNetUser(AdminCreateRequestModel model);
+        public void InsertDataOfRequest(AdminCreateRequestModel model);
+        public bool VerifyLocation(string state);
+        public AspNetUser ValidateAspNetUser(LoginViewModel model);
+        public User ValidateUser(LoginViewModel model);
+        public User ValidateUserByRequestId(Request r);
+        public List<RequestWiseFile> GetFileData(int requestid);
 
 
 

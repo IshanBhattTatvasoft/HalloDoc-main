@@ -20,7 +20,7 @@ namespace HalloDoc.Controllers
         //{
         //    _logger = logger;
         //}
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly IHttpContextAccessor _sescontext;
         private readonly ILoginPage _loginPage;
         private readonly IEmailSender _emailSender;
@@ -30,10 +30,10 @@ namespace HalloDoc.Controllers
         private readonly ICreateRequestForMe _createRequestForMe;
         private readonly ICreateRequestForSomeoneElse _createRequestForSomeoneElse;
         private readonly IPatientRequest _patientRequest;
-        public LoginController(ApplicationDbContext context, IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse, IPatientRequest patientRequest)
+        public LoginController(IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse, IPatientRequest patientRequest)
         {
             /* _logger = logger;*/
-            _context = context;
+            //_context = context;
             _sescontext = sescontext;
             _loginPage = loginPage;
             _emailSender = emailSender;
@@ -152,7 +152,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-
+        [HttpPost]
         public IActionResult CreatePassword(string token)
         {
 
@@ -355,7 +355,7 @@ namespace HalloDoc.Controllers
             return View(viewDocumentModal);
         }
         [HttpPost]
-        public async Task<IActionResult> SetImageContent(ViewDocumentModel model, int requestId)
+        public IActionResult SetImageContent(ViewDocumentModel model, int requestId)
         {
             var user_id = HttpContext.Session.GetInt32("id");
             var request = _viewDocuments.GetRequestWithUser(requestId);
@@ -369,7 +369,7 @@ namespace HalloDoc.Controllers
                 var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
                 using (var stream = System.IO.File.Create(filePath))
                 {
-                    await model.ImageContent.CopyToAsync(stream);
+                    model.ImageContent.CopyTo(stream);
 
                 }
             }
@@ -436,6 +436,11 @@ namespace HalloDoc.Controllers
         }
 
         public IActionResult SubmitRequestScreen()
+        {
+            return View();
+        }
+
+        public IActionResult CreatePassword()
         {
             return View();
         }

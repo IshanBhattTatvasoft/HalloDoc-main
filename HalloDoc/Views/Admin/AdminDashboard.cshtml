@@ -3,7 +3,7 @@
     ViewData["Title"] = "AdminDashboard";
 }
 @section Styles {
-    <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
+        <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
 }
 
 
@@ -57,12 +57,11 @@
     <partial name="Toast" />
 
     <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
+        <button class="navbar-toggler d-flex d-md-none" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <i class="bi bi-layout-sidebar mt-4 ms-3" style="height: 20px; width: 20px; z-index: 20;"></i>
+        </button>
         <div class="d-flex gap-1 align-items-center">
-            <button class="navbar-toggler d-block d-sm-none ms-1" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                <span class="navbar-toggler-icon"></span>
-                <i class="bi bi-list" style="color: #27b5d2; border: 1px solid #ccf4fc;"></i>
-            </button>
 
             <img src="~/images/logo1.png" class="Image ps-1 pt-1 ms-5 d-none d-sm-flex" alt="Patient"
                  style="height: 80px;" />
@@ -185,7 +184,54 @@
     </div>
     </div>*@
 
+    @* Navbar for desktop view and offcanvas for mobile view *@
+    <nav class="shadow collpase d-none d-md-flex navbar-div" id="collapseExample">
+        <div class="nav nav-underline container-fluid ms-5" id="nav-tab" role="tablist">
+            <div class="nav-link active text-info ps-3 pe-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dashboard</div>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Provider Location</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">My Profile</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Providers</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Partners</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Access</a>
+            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Records</a>
+        </div>
+    </nav>
 
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+        <div class="offcanvas-header">
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <a class="nav-link active text-info mb-4" id="nav-home-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-home" aria-selected="true" asp-action="Admin_dashboard">
+                Dashboard
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-profile-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-profile" aria-selected="false" asp-action="ProviderLocation">
+                Provider Location
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                My Profile
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
+                Providers
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
+                Partners
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Access">
+                Access
+            </a>
+            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="Records">
+                Records
+            </a>
+        </div>
+    </div>
 
 
 
@@ -277,7 +323,7 @@
                     </svg>
                     <span class="five-blue-buttons-text me-2">Send Link</span>
                 </button>
-                <button class="five-blue-buttons">
+                <a class="five-blue-buttons" asp-action="CreateRequest" asp-controller="Admin">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
                          class="bi bi-journal-medical dashboard-sub-div-icon" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -285,8 +331,9 @@
                         <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
                         <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
                     </svg>
-                    <span class="five-blue-buttons-text me-2">Create Requests</span>
-                </button>
+                    <p class="five-blue-buttons-text me-2" style="margin-top: -20px !important;
+                       padding-left: 10px;">Create Requests</p>
+                </a>
                 <button class="five-blue-buttons">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
                          class="bi bi-arrow-up-right dashboard-sub-div-icon" viewBox="0 0 16 16">
@@ -454,7 +501,7 @@
                                 <i class="bi bi-person"></i> Reason For Cancellation
                                 @foreach (var item in Model.caseTags)
                                 {
-                                    <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
+                                        <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
                                 }
                             </select>
                         </div>
@@ -500,14 +547,14 @@
                                 <i class="bi bi-person"></i> Narrow Search by Region
                                 @foreach (var item in Model.regions)
                                 {
-                                    <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                                        <option value="@item.RegionId" class="bg-white">@item.Name</option>
                                 }
                             </select>
                         </div>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician">
                                 <i class="bi bi-person"></i> Select Physician
-                                
+
                             </select>
                         </div>
                         <div class="form-group">

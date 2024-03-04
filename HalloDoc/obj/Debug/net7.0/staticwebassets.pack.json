@@ -41,6 +41,10 @@
       "PackagePath": "staticwebassets\\css\\patient-site.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\css\\platform-login.css",
+      "PackagePath": "staticwebassets\\css\\platform-login.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
@@ -561,8 +565,24 @@
       "PackagePath": "staticwebassets\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\calendar2-date.svg",
+      "PackagePath": "staticwebassets\\uploads\\calendar2-date.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\data.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\data.xlsx"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\doc-img.jpg",
       "PackagePath": "staticwebassets\\uploads\\doc-img.jpg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\envelope.svg",
+      "PackagePath": "staticwebassets\\uploads\\envelope.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\file-earmark.svg",
+      "PackagePath": "staticwebassets\\uploads\\file-earmark.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",
