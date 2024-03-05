@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 namespace HalloDoc.DataLayer.ViewModels;
 public class AdminDashboardTableView
 {
@@ -23,4 +25,9 @@ public class AdminDashboardTableView
     public string? AdditionalNotes { get; set; }
     public int RequestId { get; set; }
     public List<CaseTag> caseTags { get; set; }
+    public string FirstName { get; set; }
+    public string LastName { get; set; }
+    public string PhoneNumber { get; set; }
+    [Required(ErrorMessage = "Email is required")]
+    public required string email { get; set; }
 }

@@ -45,7 +45,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList(),
                 regions = _context.Regions.ToList(),
                 status = status,
-                caseTags = _context.CaseTags.ToList()
+                caseTags = _context.CaseTags.ToList(),
+                email="abc"
             };
             return adminDashboardViewModel;
         }
@@ -256,6 +257,27 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public List<RequestWiseFile> GetFileData(int requestid)
         {
             return _context.RequestWiseFiles.Where(r => r.RequestId == requestid).ToList();
+        }
+
+        public Request GetRequestWithUser(int requestid)
+        {
+            return _context.Requests.Include(r => r.User).FirstOrDefault(u => u.RequestId == requestid);
+        }
+
+        public void AddFile(RequestWiseFile requestWiseFile)
+        {
+            _context.RequestWiseFiles.Add(requestWiseFile);
+            _context.SaveChanges();
+        }
+
+        public AspNetUser ValidAspNetUser(string email)
+        {
+            return _context.AspNetUsers.Where(a => a.Email == email).FirstOrDefault();
+        }
+
+        public List<HealthProfessional> getBusinessData(int professionId)
+        {
+            return _context.HealthProfessionals.Where(hp => hp.Profession == professionId).ToList();
         }
     }
 }

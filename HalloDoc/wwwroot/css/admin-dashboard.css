@@ -631,3 +631,15 @@ td {
 .hover-dropdown-item:hover {
     background: #ded9d9;
 }
+
+.iti {
+    display: inline-block;
+    /* height:58px; */
+    /*width: 100%;*/
+    width: 465px;
+}
+
+#phone {
+    height: 55px;
+    /*width: 110px;*/
+}

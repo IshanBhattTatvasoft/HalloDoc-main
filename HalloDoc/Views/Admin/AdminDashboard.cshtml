@@ -3,7 +3,7 @@
     ViewData["Title"] = "AdminDashboard";
 }
 @section Styles {
-        <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
+    <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
 }
 
 
@@ -316,7 +316,7 @@
         <div class="mt-5 ps-4 pe-4 dashboard-sub-div">
             <h4 class="patient-title ms-3">Patients <span id="status-text">(New)</span></h4>
             <div class="rounded d-flex">
-                <button class="five-blue-buttons">
+                <button class="five-blue-buttons" data-bs-toggle="modal" data-bs-target="#sendLinkModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
                          class="bi bi-send dashboard-sub-div-icon" id="sub-div-icon-1" viewBox="0 0 16 16">
                         <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
@@ -501,7 +501,7 @@
                                 <i class="bi bi-person"></i> Reason For Cancellation
                                 @foreach (var item in Model.caseTags)
                                 {
-                                        <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
+                                    <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
                                 }
                             </select>
                         </div>
@@ -517,6 +517,114 @@
                         </div>
                     </form>
                 </div>
+
+            </div>
+        </div>
+    </div>
+
+    @*<div class="modal fade"
+         id="sendLinkModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel20"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <p class="modal-title text-white" id="exampleModalLabel20">
+                        Send mail to patient for submitting the request
+                    </p>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm" method="post" asp-action="SendLink" asp-controller="Admin">
+                        <input type="number" hidden asp-for="RequestId" id="r-id" />
+                        <div class="row">
+                            <div class="form-floating col-6">
+                                <input type="text" asp-for="FirstName" required />
+                                <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-floating col-6">
+                                <input type="text" asp-for="LastName" required />
+                                <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-floating col-6">
+                                <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" required />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-floating col-6">
+                                <input type="text" asp-for="email" required />
+                                <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                                <span asp-validation-for="email"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="text-end mb-3 me-3 mt-3">
+                                <button type="submit" class="btn btn-info text-white" id="continueBtn">Send</button>
+                                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                                    Cancel
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>*@
+
+    <div class="modal fade " id="sendLinkModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel20" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h4 class="modal-title fs-5 text-white" id="exampleModalLabel20">Send mail to patient for submitting the request</h4>
+                    <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></a>
+                </div>
+
+
+
+                <div class="modal-body">
+
+                    <form method="post" asp-action="SendLink" asp-controller="Admin">
+
+                        <div class="col-sm-12 ">
+                            <div class="form-floating mb-3">
+                                <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name" value="" required>
+                                <label for="floatingInput">First Name</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 ">
+                            <div class="form-floating mb-3">
+                                <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name" value="" required>
+                                <label for="floatingInput">Last Name</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 ">
+                            <div class="form-floating mb-3">
+                                <input id="phone" class="form-control" type="tel" value="" asp-for="PhoneNumber" required />
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-floating mb-3">
+                                <input asp-for="email" type="email" class="form-control" placeholder="Email" value="" required>
+                                <label for="floatingInput">Email</label>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-info text-white">Send</button>
+                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>S
+
 
             </div>
         </div>
@@ -547,7 +655,7 @@
                                 <i class="bi bi-person"></i> Narrow Search by Region
                                 @foreach (var item in Model.regions)
                                 {
-                                        <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                                    <option value="@item.RegionId" class="bg-white">@item.Name</option>
                                 }
                             </select>
                         </div>
@@ -705,16 +813,14 @@
         //    $("#exampleModal").appendTo("body");
         //}
 
-        function cancelCaseData(id, fname, lname)
-        {
+        function cancelCaseData(id, fname, lname) {
             document.getElementById("p-name").textContent = fname + " " + lname;
             document.getElementById("p-name-two").textContent = fname + " " + lname;
             document.getElementById("r-id").value = id;
             document.getElementById("r-id-three").value = id;
         }
 
-        function assignCaseData(id)
-        {
+        function assignCaseData(id) {
             document.getElementById("r-id-two").value = id;
         }
 
@@ -725,20 +831,28 @@
             $.ajax({
                 url: '/Admin/GetPhysicianByRegion',
                 type: 'GET',
-                data: {regionId: selectedRegionId}, // stores RegionId in regionId variable and this variable is passed to the controller
-                success: function(data){
+                data: { regionId: selectedRegionId }, // stores RegionId in regionId variable and this variable is passed to the controller
+                success: function (data) {
                     $("#select-physician").empty(); // to remove the previously present physicians selected based on a different region
                     $("#select-physician").append('<option value="" disabled selected>Select Physician</option>');
 
                     // Add each matched physician to the select element
-                    $.each(data, function(index, physician){
+                    $.each(data, function (index, physician) {
+                        console.log(physician);
                         $("#select-physician").append('<option value="' + physician.physicianId + '">' + physician.firstName + '</option>');
                     });
                 },
 
                 error: function (error) {
-                    console.error("Error fetching data:",error);
+                    console.error("Error fetching data:", error);
                 }
             });
         }
+
+        const phoneInputField = document.querySelector("#phone");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            innerHeight: 1,
+            utilsScript:
+                "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        });
     </script>

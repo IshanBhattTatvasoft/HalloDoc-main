@@ -33,7 +33,10 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public User ValidateUser(LoginViewModel model);
         public User ValidateUserByRequestId(Request r);
         public List<RequestWiseFile> GetFileData(int requestid);
-
+        public Request GetRequestWithUser(int requestid);
+        public void AddFile(RequestWiseFile requestWiseFile);
+        public AspNetUser ValidAspNetUser(string email);
+        public List<HealthProfessional> getBusinessData(int professionId);
 
 
     }

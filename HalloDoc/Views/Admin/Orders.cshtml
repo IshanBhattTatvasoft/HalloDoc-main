@@ -1,0 +1,139 @@
+﻿@model HalloDoc.DataLayer.ViewModels.SendOrder
+@{
+    ViewData["Title"] = "View Case";
+}
+
+@section Styles {
+    <link href="~/css/view-case.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+}
+
+<div>
+    <partial name="HeaderFooter" />
+
+    <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
+        <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
+            <span>
+                Send Order
+            </span>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <a class="text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen"
+               style="text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+
+        <div class="w-100">
+            <form method="post" asp-action="EditViewCase" asp-controller="Admin"
+                  enctype="multipart/form-data">
+                <div class="row w-100">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select class="form-select" aria-label="Default select example" onchange="selectBusiness()" id="select-profession">
+                            @foreach (var item in Model.hpType)
+                            {
+                                <option value="@item.HealthProfessionalId" class="bg-white">@item.ProfessionName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select class="form-select" aria-label="Default select example" id="select-business">
+                           
+                        </select>
+                    </div>
+                </div>
+                @*<div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                               disabled asp-for="FirstName">
+                        <label for="floatingInput" class="ms-2 text-muted">Business Contact</label>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                               disabled asp-for="LastName">
+                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    </div>
+                </div>*@
+
+                @*<div class="row">
+                    <div class="col-sm-6 form-floating mt-3">
+                        <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB"
+                               disabled>
+                        <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
+                        <span class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
+                    <label for="floatingTextarea">Prescription or Order Details</label>
+
+
+                </div>*@
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Number of Refill</option>
+                            <option value="1">Not Required</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-info float-end mb-3">Cancel</button>
+                        <button type="submit" class="btn btn-info float-end me-3 mb-3">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function selectBusiness()
+    {
+        const selectProfession = document.getElementById("select-profession").value;
+
+        $.ajax({
+            url: '/Admin/GetBusinessData',
+            type: 'GET',
+            data: {professionId: selectProfession},
+
+            success: function(data){
+                console.log(data);
+                $("#select-business").empty();
+                $("#select-business").append('<option value="" disabled selected>Business</option>');
+                $.each(data, function (index, healthProfessional) {
+                    console.log(healthProfessional.profession);
+                    console.log(healthProfessional.vendorName);
+                    $("#select-business").append('<option value="' + healthProfessional.profession + '">' + healthProfessional.vendorName + '</option>');
+                });
+            },
+
+            error: function (error) {
+                console.error("Error fetching data:", error);
+            }
+
+        });
+    }
+</script>

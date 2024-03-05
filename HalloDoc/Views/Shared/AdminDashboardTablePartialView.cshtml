@@ -229,7 +229,7 @@
                             }
                             @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
                             {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
+                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
                                 <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Doctor Note</span></div></a>
                                 <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Encounter</span></div></a>
                             }
