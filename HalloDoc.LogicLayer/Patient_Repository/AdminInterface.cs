@@ -1,11 +1,11 @@
 ﻿using DocumentFormat.OpenXml.Office2016.Excel;
-using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using HalloDocMvc.Entity.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -278,6 +278,35 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public List<HealthProfessional> getBusinessData(int professionId)
         {
             return _context.HealthProfessionals.Where(hp => hp.Profession == professionId).ToList();
+        }
+
+        public PasswordReset ValidateToken(string token)
+        {
+            return _context.PasswordResets.FirstOrDefault(pr => pr.Token == token);
+        }
+
+        public AspNetUser ValidateUserForResetPassword(ResetPasswordViewModel model, string useremail)
+        {
+            return _context.AspNetUsers.FirstOrDefault(x => x.Email == useremail);
+        }
+
+        public void SetPasswordForResetPassword(AspNetUser user, ResetPasswordViewModel model)
+        {
+            user.PasswordHash = model.Password;
+            _context.SaveChanges();
+        }
+
+        public List<Request> GetRequestDataInList()
+        {
+            return _context.Requests.Include(r => r.RequestClient).ToList();
+        }
+
+        public int SingleDelete(int id)
+        {
+            RequestWiseFile rwf = _context.RequestWiseFiles.Where(r => r.RequestWiseFileId == id).FirstOrDefault();
+            rwf.IsDeleted = new BitArray(1, true);
+            _context.SaveChanges();
+            return rwf.RequestId;
         }
     }
 }

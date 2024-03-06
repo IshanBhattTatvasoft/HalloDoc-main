@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using HalloDoc.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-
-namespace HalloDoc.DataLayer.Data;
+namespace HalloDoc.DataLayer.Models;
 
 public partial class ApplicationDbContext : DbContext
 {
@@ -24,6 +22,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
 
     public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
+
+    public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
 
     public virtual DbSet<BlockRequest> BlockRequests { get; set; }
 
@@ -166,23 +166,23 @@ public partial class ApplicationDbContext : DbContext
                 .HasMaxLength(20)
                 .HasColumnName("IP");
             entity.Property(e => e.UserName).HasMaxLength(256);
+        });
 
-            entity.HasMany(d => d.Roles).WithMany(p => p.Users)
-                .UsingEntity<Dictionary<string, object>>(
-                    "AspNetUserRole",
-                    r => r.HasOne<AspNetRole>().WithMany()
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("AspNetUserRoles_RoleId_fkey"),
-                    l => l.HasOne<AspNetUser>().WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("AspNetUserRoles_UserId_fkey"),
-                    j =>
-                    {
-                        j.HasKey("UserId", "RoleId").HasName("AspNetUserRoles_pkey");
-                        j.ToTable("AspNetUserRoles");
-                    });
+        modelBuilder.Entity<AspNetUserRole>(entity =>
+        {
+            entity.HasKey(e => e.UserId).HasName("AspNetUserRoles_pkey");
+
+            entity.Property(e => e.UserId).ValueGeneratedNever();
+
+            entity.HasOne(d => d.Role).WithMany(p => p.AspNetUserRoles)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("AspNetUserRoles_RoleId_fkey");
+
+            entity.HasOne(d => d.User).WithOne(p => p.AspNetUserRole)
+                .HasForeignKey<AspNetUserRole>(d => d.UserId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("AspNetUserRoles_UserId_fkey");
         });
 
         modelBuilder.Entity<BlockRequest>(entity =>

@@ -10,7 +10,6 @@ using System.Globalization;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using HalloDocMvc.Entity.ViewModel;
 using Microsoft.Office.Interop.Excel;
-using HalloDoc.DataLayer.Data;
 using HalloDoc.LogicLayer.Patient_Interface;
 using static HalloDoc.DataLayer.Models.Enums;
 using System.Collections;
@@ -26,12 +25,14 @@ namespace HalloDoc.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IAdminInterface _adminInterface;
+        private readonly IHttpContextAccessor _sescontext;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ApplicationDbContext context, IAdminInterface adminInterface)
+        public AdminController(ApplicationDbContext context, IAdminInterface adminInterface, IHttpContextAccessor sescontext)
         {
             _context = context;
             _adminInterface = adminInterface;
+            _sescontext = sescontext;
         }
 
         [HttpPost]
@@ -49,6 +50,7 @@ namespace HalloDoc.Controllers
                         HttpContext.Session.SetInt32("id", user2.UserId);
                         HttpContext.Session.SetString("name", user2.FirstName);
                         HttpContext.Session.SetString("IsLoggedIn", "true");
+                        TempData["success"] = "Logged in successfully";
                         return RedirectToAction("AdminDashboard");
                     }
                     else
@@ -63,6 +65,11 @@ namespace HalloDoc.Controllers
             }
 
             return View(model);
+        }
+
+        public IActionResult PlatformForgotPassword()
+        {
+            return View();
         }
 
         public IActionResult AdminDashboard(string? status)
@@ -148,7 +155,7 @@ namespace HalloDoc.Controllers
             List<Request> data = new List<Request>();
             //var user_id = HttpContext.Session.GetInt32("id");
             //data = _context.Requests.Include(r => r.RequestClient).Where(u => u.UserId == user_id).ToList();
-            data = _context.Requests.Include(r => r.RequestClient).ToList();
+            data = _adminInterface.GetRequestDataInList();
             return data;
         }
 
@@ -416,7 +423,7 @@ namespace HalloDoc.Controllers
             r.PhysicianId = selectedPhysicianId;
             rsl.RequestId = model.RequestId;
             rsl.Notes = assignCaseDescription;
-            rsl.Status = 1;
+            rsl.Status = 2;
             rsl.CreatedDate = DateTime.Now;
             rsl.TransToPhysicianId = selectedPhysicianId;
             rsl.PhysicianId = selectedPhysicianId;
@@ -433,6 +440,7 @@ namespace HalloDoc.Controllers
         {
             Request r = _adminInterface.ValidateRequest(model.RequestId);
             RequestStatusLog rs = new RequestStatusLog();
+            r.Status = 11;
             rs.Status = 11;
             rs.CreatedDate = DateTime.Now;
             rs.Notes = reasonForBlockRequest;
@@ -573,10 +581,8 @@ namespace HalloDoc.Controllers
 
         public IActionResult DeleteIndividual(int id)
         {
-            RequestWiseFile rwf = _context.RequestWiseFiles.Where(r => r.RequestWiseFileId == id).FirstOrDefault();
-            rwf.IsDeleted = new BitArray(1, true);
-            _context.SaveChanges();
-            return RedirectToAction("ViewUploads", new { requestID = rwf.RequestId });
+            int reqId = _adminInterface.SingleDelete(id);
+            return RedirectToAction("ViewUploads", new { requestID = reqId });
         }
 
         public IActionResult DeleteMultiple(int requestid, string fileId)
@@ -711,9 +717,137 @@ namespace HalloDoc.Controllers
         }
 
         public List<HealthProfessional> GetBusinessData(int professionId, SendOrder model)
+        
         {
             List<HealthProfessional> healthProfessionals = _context.HealthProfessionals.Where(h => h.Profession == professionId).ToList();
             return healthProfessionals;
+        }
+
+        public HealthProfessional GetOtherData(int businessId)
+        {
+            HealthProfessional hp = _context.HealthProfessionals.Where(h => h.VendorId == businessId).FirstOrDefault();
+            return hp;
+        }
+
+        [HttpPost]
+        public IActionResult SendOrder(SendOrder model, int vendorId, int noOfRefill)
+        {
+            OrderDetail orderDetail = new OrderDetail();
+            orderDetail.VendorId = vendorId;
+            orderDetail.RequestId = model.requestId;
+            orderDetail.FaxNumber = model.faxNumber;
+            orderDetail.Email = model.email;
+            orderDetail.BusinessContact = model.businessContact;
+            orderDetail.Prescription = model.prescription;
+            orderDetail.NoOfRefill = noOfRefill;
+            orderDetail.CreatedDate = DateTime.Now;
+            _context.OrderDetails.Add(orderDetail);
+            _context.SaveChanges();
+            TempData["success"] = "Order sent successfully";
+            return RedirectToAction("AdminDashboard");
+        }
+
+        public async Task<IActionResult> SendMailForSetUpAccount(LoginViewModel model)
+        {
+            PasswordReset passwordReset = new PasswordReset();
+
+            try
+            {
+
+                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                string senderPassword = "Ishan@1503";
+
+                SmtpClient client = new SmtpClient("smtp.office365.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(senderEmail, senderPassword),
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false
+                };
+                string resetToken = Guid.NewGuid().ToString();
+                string resetLink = $"{Request.Scheme}://{Request.Host}/Admin/CreatePassword?token={resetToken}";
+
+                passwordReset.Token = resetToken;
+                passwordReset.CreatedDate = DateTime.Now;
+                passwordReset.Email = model.UserName;
+                passwordReset.IsModified = false;
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress(senderEmail, "HalloDoc"),
+                    Subject = "Set up your Account",
+                    IsBodyHtml = true,
+                    Body = $"Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a>"
+                };
+                var user = _adminInterface.ValidateAspNetUser(model);
+                if (user != null)
+                {
+                    mailMessage.To.Add(model.UserName);
+                    _sescontext.HttpContext.Session.SetString("Token", resetToken);
+                    _sescontext.HttpContext.Session.SetString("UserEmail", model.UserName);
+                    await client.SendMailAsync(mailMessage);
+                    TempData["success"] = "Mail sent successfully. Please check it";
+                    return RedirectToAction("PlatfromLoginPage");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Invalid Email");
+                    return RedirectToAction("PlatformForgotPassword");
+                }
+            }
+            catch (Exception ex)
+            {
+                return RedirectToAction("PlatformForgotPassword");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult PlatformCreatePassword(string token)
+        {
+
+            var useremail = _sescontext.HttpContext.Session.GetString("Token");
+            PasswordReset pr = _adminInterface.ValidateToken(token);
+
+            if (pr == null || pr.IsModified == true)
+            {
+                return NotFound();
+            }
+
+            TimeSpan diff = DateTime.Now.Subtract(pr.CreatedDate);
+            double hours = diff.TotalHours;
+            if (hours > 24)
+            {
+                return NotFound();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult ResetPassword(ResetPasswordViewModel model)
+        {
+
+            var useremail = _sescontext.HttpContext.Session.GetString("UserEmail");
+            AspNetUser user = _adminInterface.ValidateUserForResetPassword(model, useremail);
+            if (user != null && model.Password == model.ConfirmPassword)
+            {
+                //user.PasswordHash = model.Password;
+                //_context.SaveChanges();
+                _adminInterface.SetPasswordForResetPassword(user, model);
+                return RedirectToAction("PlatformLoginPage");
+            }
+            else
+            {
+                ModelState.AddModelError("Password", "Password Missmatched");
+                return RedirectToAction("PlatformForgotPassword");
+            }
+
+        }
+
+        public IActionResult PlatformCreatePassword()
+        {
+            return View();
         }
     }
 }

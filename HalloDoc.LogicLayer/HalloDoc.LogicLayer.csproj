@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="ClosedXML" Version="0.102.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.16" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.15">
       <PrivateAssets>all</PrivateAssets>
@@ -17,7 +18,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="7.4.0" />
     <PackageReference Include="Microsoft.Office.Interop.Excel" Version="15.0.4795.1001" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.4.0" />
   </ItemGroup>
 
   <ItemGroup>

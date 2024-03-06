@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HalloDoc.DataLayer.Data;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {

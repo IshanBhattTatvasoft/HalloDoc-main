@@ -9,5 +9,5 @@ public partial class AspNetRole
 
     public string Name { get; set; } = null!;
 
-    public virtual ICollection<AspNetUser> Users { get; set; } = new List<AspNetUser>();
+    public virtual ICollection<AspNetUserRole> AspNetUserRoles { get; set; } = new List<AspNetUserRole>();
 }

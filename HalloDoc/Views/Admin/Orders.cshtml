@@ -41,9 +41,10 @@
     <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
 
         <div class="w-100">
-            <form method="post" asp-action="EditViewCase" asp-controller="Admin"
+            <form method="post" asp-action="SendOrder" asp-controller="Admin"
                   enctype="multipart/form-data">
-                <div class="row w-100">
+                <input type="number" hidden asp-for="requestId" id="r-id" />
+                <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <select class="form-select" aria-label="Default select example" onchange="selectBusiness()" id="select-profession">
                             @foreach (var item in Model.hpType)
@@ -53,44 +54,39 @@
                         </select>
                     </div>
                     <div class="form-floating col-sm-6 mt-3">
-                        <select class="form-select" aria-label="Default select example" id="select-business">
+                        <select class="form-select" aria-label="Default select example" id="select-business" onchange="fetchOtherData()" name="vendorId">
                            
                         </select>
                     </div>
                 </div>
-                @*<div class="row">
+                <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
-                               disabled asp-for="FirstName">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="businessContact" id="contact">
                         <label for="floatingInput" class="ms-2 text-muted">Business Contact</label>
                     </div>
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
-                               disabled asp-for="LastName">
+                    <div class="form-floating email-field col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="email" id="email">
                         <label for="floatingInput" class="ms-2 text-muted">Email</label>
                     </div>
-                </div>*@
+                </div>
 
-                @*<div class="row">
+                <div class="row">
                     <div class="col-sm-6 form-floating mt-3">
-                        <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB"
-                               disabled>
+                        <input id="fax-num" class="form-control" type="text" placeholder="Date Of Birth" asp-for="faxNumber">
                         <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
                         <span class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
-                    <textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea"></textarea>
-                    <label for="floatingTextarea">Prescription or Order Details</label>
-
-
-                </div>*@
+                    <div class="form-floating col-sm-10 mt-3"></div>
+                    <textarea class="form-control" placeholder="Prescription or Order Details" id="floatingTextarea" rows="4" asp-for="prescription"></textarea>
+                </div>
 
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
-                        <select class="form-select" aria-label="Default select example">
+                        <select class="form-select" aria-label="Default select example" name="noOfRefill">
                             <option selected>Number of Refill</option>
-                            <option value="1">Not Required</option>
+                            <option value="0">Zero</option>
                             <option value="1">One</option>
                             <option value="2">Two</option>
                             <option value="3">Three</option>
@@ -99,8 +95,8 @@
                 </div>
 
                 <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-outline-info float-end mb-3">Cancel</button>
+                    <div class="colabels mt-3">
+                        <a type="button" asp-controller="Admin" asp-action="AdminDashboard" class="btn btn-outline-info float-end mb-3">Cancel</a>
                         <button type="submit" class="btn btn-info float-end me-3 mb-3">Submit</button>
                     </div>
                 </div>
@@ -122,11 +118,11 @@
             success: function(data){
                 console.log(data);
                 $("#select-business").empty();
-                $("#select-business").append('<option value="" disabled selected>Business</option>');
+                $("#select-business").append('<option value="" class="business-dropdown" disabled selected>Business</option>');
                 $.each(data, function (index, healthProfessional) {
                     console.log(healthProfessional.profession);
                     console.log(healthProfessional.vendorName);
-                    $("#select-business").append('<option value="' + healthProfessional.profession + '">' + healthProfessional.vendorName + '</option>');
+                    $("#select-business").append('<option class="business-dropdown" value="' + healthProfessional.vendorId + '">' + healthProfessional.vendorName + '</option>');
                 });
             },
 
@@ -134,6 +130,24 @@
                 console.error("Error fetching data:", error);
             }
 
+        });
+    }
+
+    function fetchOtherData()
+    {
+        const selectBusiness = document.getElementById("select-business").value;
+
+        $.ajax({
+            url: '/Admin/GetOtherData',
+            type: 'GET',
+            data: {businessId: selectBusiness},
+
+            success: function(data){
+                console.log(data);
+                $("#contact").val(data.businessContact);
+                $("#email").val(data.email);
+                $("#fax-num").val(data.faxNumber);
+            }
         });
     }
 </script>

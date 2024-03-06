@@ -1,16 +1,19 @@
 //importing all the classes and structures defined in the Models namespace of a project HalloDoc.
 //By bringing these models into your current code scope, you can directly use them without having to specify the namespace repeatedly.This makes your code more concise and readable, especially when accessing these models frequently.
 using DocumentFormat.OpenXml.InkML;
-using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.LogicLayer.Patient_Interface;
 using HalloDoc.LogicLayer.Patient_Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 //This line imports the entire Microsoft.EntityFrameworkCore namespace into your code.Entity Framework Core(EF Core) is an object-relational mapper(ORM) framework from Microsoft that simplifies working with relational databases in .NET applications.It enables you to interact with database tables by creating corresponding C# classes (models) that map to those tables' columns.
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 //Following function marks the starting point for building an ASP.NET Core web application by providing a flexible and efficient configuration API.
 //It initializes a WebApplicationBuilder object and the parameter 'args' accepts an array of strings representing command-line arguments passed to your application when it starts.
 var builder = WebApplication.CreateBuilder(args);
+ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -36,6 +39,9 @@ builder.Services.AddSession(options =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseNpgsql(builder.Configuration.GetConnectionString("HalloDocDbContext")));
 //builder.Services.AddTransient<ApplicationDbContext>();
+
+builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddScoped<ILoginPage, LoginPage>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IPatientRequest, PatientRequest>();
@@ -48,6 +54,7 @@ builder.Services.AddScoped<IPatientProfile,  PatientProfile>();
 builder.Services.AddScoped<ICreateRequestForMe, CreateRequestForMe>();
 builder.Services.AddScoped<ICreateRequestForSomeoneElse,  CreateRequestForSomeoneElse>();
 builder.Services.AddScoped<IAdminInterface, AdminInterface>();
+builder.Services.AddScoped<IJwtToken, JwtToken>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

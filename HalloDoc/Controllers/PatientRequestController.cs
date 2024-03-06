@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
-using HalloDoc.DataLayer.Data;
 
 namespace HalloDoc.Controllers
 {

@@ -2,7 +2,6 @@
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using Microsoft.EntityFrameworkCore;
-using HalloDoc.DataLayer.Data;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {

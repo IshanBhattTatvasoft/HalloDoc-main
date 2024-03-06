@@ -7,12 +7,12 @@
     <link href="~/css/platform-login.css" rel="stylesheet" type="text/css" />
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 }
+<img src="~/images/11116016_415.jpg" class="img-fluid bg-image d-flex d-lg-none vh-100" alt="">
 
 <div class="container-fluid d-flex vh-100">
     <img src="~/images/11116016_415.jpg" alt="" class="left-image">
 
-    <div class="container">
-        <img src="~/images/11116016_415.jpg" class="bg-image d-flex d-lg-none" alt="">
+    <div class="container mt-5">
         <div class="moon-flex d-none d-sm-flex">
             <button onclick="changeTheme()" class="change-theme">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -48,8 +48,8 @@
             <p class="h4 text-secondary mt-5">Login To Your Account</p>
             <form method="post" asp-action="PlatformLoginPage" asp-controller="Admin">
 
-                <div class="form-floating mb-4 w-50 mt-5 input-icons first-input">
-                    <input asp-for="UserName" type="text" class="form-control bg-transparent" id="floatingInput"
+                <div class="form-floating mb-4 w-100 mt-5 input-icons first-input">
+                    <input asp-for="UserName" type="text" class="form-control bg-white" id="floatingInput"
                            placeholder="name@example.com" required>
                     <label for="floatingInput" class="text-muted inp">Username</label>
                     <span asp-validation-for="UserName" class="text-danger"></span>
@@ -59,9 +59,9 @@
                     </svg>
                 </div>
 
-                <div class="form-floating mb-4 w-50 input-icons first-input">
+                <div class="form-floating mb-4 w-100 input-icons first-input">
                     <i class="fa-solid fa-eye icon"></i>
-                    <input type="password" class="form-control bg-transparent" id="floatingPassword"
+                    <input type="password" class="form-control bg-white" id="floatingPassword"
                            placeholder="Password" asp-for="PasswordHash" required>
                     <label for="floatingPassword" class="text-muted inp">Password</label>
                     <span asp-validation-for="PasswordHash" class="text-danger"></span>
@@ -78,11 +78,11 @@
                     </svg>
                 </div>
 
-                <div class="text-center w-50">
+                <div class="text-center w-100">
                     <button type="submit" class="btn btn-info w-100 mb-3 text-white">Login</button>
                 </div>
                 <div class="text-center">
-                    <a asp-controller="Login" asp-action="ForgotPassword" class="forgot">
+                    <a asp-controller="Admin" asp-action="PlatformForgotPassword" class="forgot">
                         <strong class="text-info forgot">
                             Forgot Password?
                         </strong>

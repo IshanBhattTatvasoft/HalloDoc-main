@@ -25,6 +25,8 @@ public partial class AspNetUser
 
     public virtual ICollection<Admin> AdminModifiedByNavigations { get; set; } = new List<Admin>();
 
+    public virtual AspNetUserRole? AspNetUserRole { get; set; }
+
     public virtual ICollection<Business> BusinessCreatedByNavigations { get; set; } = new List<Business>();
 
     public virtual ICollection<Business> BusinessModifiedByNavigations { get; set; } = new List<Business>();
@@ -50,6 +52,4 @@ public partial class AspNetUser
     public virtual ICollection<User> UserCreatedByNavigations { get; set; } = new List<User>();
 
     public virtual ICollection<User> UserModifiedByNavigations { get; set; } = new List<User>();
-
-    public virtual ICollection<AspNetRole> Roles { get; set; } = new List<AspNetRole>();
 }

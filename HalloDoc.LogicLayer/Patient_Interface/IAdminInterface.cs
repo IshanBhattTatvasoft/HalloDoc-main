@@ -37,6 +37,12 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void AddFile(RequestWiseFile requestWiseFile);
         public AspNetUser ValidAspNetUser(string email);
         public List<HealthProfessional> getBusinessData(int professionId);
+        public PasswordReset ValidateToken(string token);
+        public AspNetUser ValidateUserForResetPassword(ResetPasswordViewModel model, string useremail);
+        public void SetPasswordForResetPassword(AspNetUser user, ResetPasswordViewModel model);
+        public List<Request> GetRequestDataInList();
+        public int SingleDelete(int id);
+
 
 
     }

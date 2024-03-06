@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 
 namespace HalloDoc.DataLayer.Models;
+
 public partial class AspNetUserRole
 {
-    public string UserId { get; set; } = null!;
+    public int UserId { get; set; }
 
-    public string RoleId { get; set; } = null!;
+    public int RoleId { get; set; }
+
+    public virtual AspNetRole Role { get; set; } = null!;
 
     public virtual AspNetUser User { get; set; } = null!;
 }

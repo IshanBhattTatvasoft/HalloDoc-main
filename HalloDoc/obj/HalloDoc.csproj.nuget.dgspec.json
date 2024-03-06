@@ -44,6 +44,10 @@
               "target": "Package",
               "version": "[0.102.2, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.16, )"
+            },
             "Microsoft.AspNetCore.Http": {
               "target": "Package",
               "version": "[2.1.34, )"
@@ -60,6 +64,10 @@
               "target": "Package",
               "version": "[7.0.15, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
             "Microsoft.Office.Interop.Excel": {
               "target": "Package",
               "version": "[15.0.4795.1001, )"
@@ -71,6 +79,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.11, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.4.0, )"
             }
           },
           "imports": [
@@ -137,6 +149,10 @@
               "target": "Package",
               "version": "[0.102.2, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.16, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.15, )"
@@ -153,9 +169,17 @@
               "target": "Package",
               "version": "[7.0.15, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
             "Microsoft.Office.Interop.Excel": {
               "target": "Package",
               "version": "[15.0.4795.1001, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.4.0, )"
             }
           },
           "imports": [
@@ -226,6 +250,10 @@
               "target": "Package",
               "version": "[0.102.2, )"
             },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[7.0.16, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.15, )"
@@ -242,6 +270,10 @@
               "target": "Package",
               "version": "[7.0.15, )"
             },
+            "Microsoft.IdentityModel.Tokens": {
+              "target": "Package",
+              "version": "[7.4.0, )"
+            },
             "Microsoft.Office.Interop.Excel": {
               "target": "Package",
               "version": "[15.0.4795.1001, )"
@@ -253,6 +285,10 @@
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
               "version": "[7.0.11, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[7.4.0, )"
             }
           },
           "imports": [

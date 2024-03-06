@@ -643,3 +643,11 @@ td {
     height: 55px;
     /*width: 110px;*/
 }
+
+.physician-dropdown{
+    z-index: 21;
+}
+
+.description{
+    z-index: 1;
+}

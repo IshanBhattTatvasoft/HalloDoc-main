@@ -1,14 +1,17 @@
-﻿using HalloDoc.DataLayer.Data;
-using HalloDoc.DataLayer.Models;
+﻿using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.Diagnostics;
 using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Mail;
-
+using System.Security.Claims;
+using System.Text;
+using Microsoft.Extensions.Configuration;
 
 namespace HalloDoc.Controllers
 {
@@ -30,7 +33,9 @@ namespace HalloDoc.Controllers
         private readonly ICreateRequestForMe _createRequestForMe;
         private readonly ICreateRequestForSomeoneElse _createRequestForSomeoneElse;
         private readonly IPatientRequest _patientRequest;
-        public LoginController(IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse, IPatientRequest patientRequest)
+        private readonly IConfiguration _configuration;
+        private readonly IJwtToken _jwtToken;
+        public LoginController(IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse, IPatientRequest patientRequest, IConfiguration configuration, IJwtToken jwtToken)
         {
             /* _logger = logger;*/
             //_context = context;
@@ -43,26 +48,29 @@ namespace HalloDoc.Controllers
             _createRequestForMe = createRequestForMe;
             _createRequestForSomeoneElse = createRequestForSomeoneElse;
             _patientRequest = patientRequest;
+            _configuration = configuration;
+            _jwtToken = jwtToken;
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult PatientLoginPage(LoginViewModel model)
         {
-
-
             if (ModelState.IsValid)
             {
-                Debug.WriteLine(model.UserName);
-                var user = _loginPage.ValidateAspNetUser(model);
+
+                //var user = _loginPage.ValidateAspNetUser(model);
+                var user = new AuthManager().Login(model.UserName, model.PasswordHash);
                 if (user != null)
                 {
+                    var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
                         var user2 = _loginPage.ValidateUsers(model);
                         HttpContext.Session.SetInt32("id", user2.UserId);
                         HttpContext.Session.SetString("Name", user2.FirstName);
                         HttpContext.Session.SetString("IsLoggedIn", "true");
+                        Response.Cookies.Append("token", token.ToString());
                         return RedirectToAction("PatientDashboardAndMedicalHistory");
                     }
                     else
@@ -79,6 +87,8 @@ namespace HalloDoc.Controllers
             // If we reach here, something went wrong, return the same view with validation errors
             return View(model);
         }
+
+        
 
         public async Task<IActionResult> SendMailForSetUpAccount(LoginViewModel model)
         {
@@ -199,6 +209,7 @@ namespace HalloDoc.Controllers
             return View();
         }
 
+        [CustomAuthorize("Patient")]
         public IActionResult PatientDashboardAndMedicalHistory()
         {
             var userId = HttpContext.Session.GetInt32("id");

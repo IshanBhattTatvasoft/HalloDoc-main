@@ -2,6 +2,7 @@
     width: 50%;
     height: 100%;
     object-fit: cover;
+    margin-left: 0% !important;
 }
 
 .moon-flex {
@@ -42,6 +43,10 @@
 
 .hide {
     display: none;
+}
+
+.inp {
+    position: relative;
 }
 
 .person-icon {
@@ -109,7 +114,7 @@
     }
 
     .bg-image {
-        width: 100vw;
+        width: 120%;
         height: 100vh;
     }
 

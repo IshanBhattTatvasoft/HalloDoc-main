@@ -195,7 +195,7 @@
                         <div class="dropdown-content">
                             @if (Model.status == "New")
                             {
-                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
+                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="transferRequestData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
                                 <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
 
                             }
@@ -217,7 +217,7 @@
                             }
                             @if (Model.status == "Pending")
                             {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></a>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></button>
                             }
                             @if (Model.status == "Pending" || Model.status == "ToClose")
                             {

@@ -392,6 +392,18 @@ textarea {
     }
 }
 
+textarea {
+    resize: none;
+}
+
+.business-dropdown{
+    z-index: 20;
+}
+
+.email-field{
+    z-index: 1;
+}
+
 /*@media only screen and (max-width: 850px)
 {
     .nav-link {
