@@ -183,6 +183,7 @@
     padding-left: 15px;
     padding-right: 15px;
     margin-right: 10px;
+    text-decoration: none;
 }
 
 .five-blue-buttons-text {
@@ -336,6 +337,25 @@ input[type="text"]:focus {
         /* height: 60px; */
         font-size: 13px;
     }
+    .dashboard-sub-div-2-sub{
+        flex-direction: column !important;
+    }
+    .search-div {
+        flex-direction: column !important;
+        width: 80%;
+        
+    }
+    .categories-div-all-button{
+        display: none !important;
+    }
+
+    .newState{
+        margin-left: 0px !important;
+    }
+
+    .concludeState{
+        margin-left: 0px !important;
+    }
 }
 
 @media only screen and (max-width: 767px) {
@@ -345,12 +365,12 @@ input[type="text"]:focus {
 }
 
 @media only screen and (max-width: 1134px) {
-    .five-blue-buttons {
+    /*.five-blue-buttons {
         height: 60px;
-    }
+    }*/
 }
 
-@media only screen and (max-width: 986px) {
+@media only screen and (max-width: 990px) {
     .five-blue-buttons-text {
         display: none;
     }
@@ -372,9 +392,53 @@ input[type="text"]:focus {
     .state {
         border-radius: 0px !important;
     }
-
+/*
     .newState {
         margin-left: 9px !important;
+    }*/
+}
+
+/*@media only screen and (max-width: 404px){
+    .title-sub-div{
+        font-size: 13px !important;
+    }
+}
+
+@media only screen and (max-width: 399px) {
+    .title-sub-div {
+        font-size: 11px !important;
+    }
+}
+
+@media only screen and (max-width: 365px) {
+    .title-sub-div {
+        font-size: 9px !important;
+    }
+}*/
+
+@media only screen and (max-width: 768px)
+{
+    .icon-size{
+        display: none !important;
+    }
+    .title-sub-div{
+        margin: auto;
+    }
+    .state-count{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: auto !important;
+    }
+    .dashboard-sub-div{
+        font-size: 14px !important;
+    }
+    .patient-title{
+        margin-left: 0px !important;
+        font-size: 13px !important;
+    }
+    .status-text{
+        font-size: 11px !important;
     }
 }
 

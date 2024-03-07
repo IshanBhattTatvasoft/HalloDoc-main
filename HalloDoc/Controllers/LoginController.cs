@@ -12,6 +12,7 @@ using System.Net.Mail;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
+using DocumentFormat.OpenXml.InkML;
 
 namespace HalloDoc.Controllers
 {
@@ -60,18 +61,29 @@ namespace HalloDoc.Controllers
             {
 
                 //var user = _loginPage.ValidateAspNetUser(model);
-                var user = new AuthManager().Login(model.UserName, model.PasswordHash);
+                AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
                 if (user != null)
                 {
                     var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
-                        var user2 = _loginPage.ValidateUsers(model);
+                        User user2 = _loginPage.ValidateUsers(model);
                         HttpContext.Session.SetInt32("id", user2.UserId);
                         HttpContext.Session.SetString("Name", user2.FirstName);
                         HttpContext.Session.SetString("IsLoggedIn", "true");
                         Response.Cookies.Append("token", token.ToString());
-                        return RedirectToAction("PatientDashboardAndMedicalHistory");
+                        AspNetUserRole anur = _loginPage.ValidateANUR(user);
+                        AspNetRole anr = _loginPage.ValidateRole(anur);
+                        if (anr.Name == "Patient")
+                        {
+                            TempData["success"] = "Logged in successfully";
+                            return RedirectToAction("PatientDashboardAndMedicalHistory");
+                        }
+                        else
+                        {
+                            TempData["success"] = "Logged in successfully";
+                            return RedirectToAction("AdminDashboard", "Admin");
+                        }
                     }
                     else
                     {
@@ -88,7 +100,12 @@ namespace HalloDoc.Controllers
             return View(model);
         }
 
-        
+        public IActionResult Logout()
+        {
+            _sescontext.HttpContext.Session.Clear();
+            Response.Cookies.Delete("token");
+            return RedirectToAction("PatientLoginPage");
+        }
 
         public async Task<IActionResult> SendMailForSetUpAccount(LoginViewModel model)
         {
@@ -227,6 +244,7 @@ namespace HalloDoc.Controllers
             return View(viewModel);
         }
 
+        [CustomAuthorize("Patient")]
         public IActionResult RequestForMe()
         {
             var user_id = HttpContext.Session.GetInt32("id");
@@ -256,6 +274,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Patient")]
         public async Task<IActionResult> MePatientRequest(PatientRequestModel model)
         {
             Request request = new Request();
@@ -296,6 +315,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Patient")]
         public async Task<IActionResult> RelativePatientRequest(PatientRequestSomeoneElse model)
         {
 
@@ -337,9 +357,11 @@ namespace HalloDoc.Controllers
             return RedirectToAction("PatientDashboardAndMedicalHistory");
         }
 
+        [CustomAuthorize("Patient")]
         public IActionResult RequestForSomeoneElse()
         { return View(); }
 
+        [CustomAuthorize("Patient")]
         public IActionResult PatientDashboardViewDocuments(int requestid)
         {
             var user_id = HttpContext.Session.GetInt32("id");
@@ -366,6 +388,7 @@ namespace HalloDoc.Controllers
             return View(viewDocumentModal);
         }
         [HttpPost]
+        [CustomAuthorize("Patient")]
         public IActionResult SetImageContent(ViewDocumentModel model, int requestId)
         {
             var user_id = HttpContext.Session.GetInt32("id");
@@ -402,6 +425,7 @@ namespace HalloDoc.Controllers
             return RedirectToAction("PatientDashboardViewDocuments", new { requestID = model.requestId });
         }
 
+        [CustomAuthorize("Patient")]
         public IActionResult PatientProfile()
         {
             var user_id = HttpContext.Session.GetInt32("id");
@@ -427,6 +451,7 @@ namespace HalloDoc.Controllers
             return View(ppv);
         }
 
+        [CustomAuthorize("Patient")]
         public IActionResult EditPatientProfile(PatientProfileView model)
         {
             var user_id = HttpContext.Session.GetInt32("id");

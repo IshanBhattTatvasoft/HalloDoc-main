@@ -398,9 +398,11 @@
 
                 var currentCheckBox = checkedBoxes[i];
                 var closestEntry = currentCheckBox.closest('tr');
+                console.log(closestEntry);
                 //var fileName = closestEntry.querySelector('#filename-display').textContent;
                 //console.log(fileName);
                 var requestWiseFileIdInput = closestEntry.querySelector('.request-wise-file-id');
+                console.log("ReqwiseFileId")
                 if (requestWiseFileIdInput) {
                     fileId.push(requestWiseFileIdInput.value);
                 }

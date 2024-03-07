@@ -45,5 +45,15 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             user.PasswordHash = model.Password;
             _context.SaveChanges();
         }
+
+        public AspNetUserRole ValidateANUR(AspNetUser user)
+        {
+            return _context.AspNetUserRoles.Where(a => a.UserId == user.Id).FirstOrDefault();
+        }
+
+        public AspNetRole ValidateRole(AspNetUserRole anur)
+        {
+            return _context.AspNetRoles.Where(b => b.Id == anur.RoleId).FirstOrDefault();
+        }
     }
 }

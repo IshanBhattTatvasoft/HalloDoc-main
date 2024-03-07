@@ -30,4 +30,5 @@ public class AdminDashboardTableView
     public string PhoneNumber { get; set; }
     [Required(ErrorMessage = "Email is required")]
     public required string email { get; set; }
+    public int? requestTypeId { get; set; }
 }

@@ -21,7 +21,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         }
         public AspNetUser ValidateAspNetUser(BusinessRequestModel model)
         {
-            return _context.AspNetUsers.SingleOrDefault(u => u.Email == model.Email);
+            return _context.AspNetUsers.SingleOrDefault(u => u.UserName == model.Email);
         }
 
         public DataLayer.Models.Region ValidateRegion(BusinessRequestModel model)
@@ -90,13 +90,19 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.RequestClients.Add(requestClient);
             _context.SaveChangesAsync();
 
-            int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
+            int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
             string ConfirmationNumber = string.Concat(region2.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
 
             request.RequestTypeId = 4;
             if (!userExists)
             {
                 request.UserId = user.UserId;
+            }
+            else
+            {
+                AspNetUser anu = _context.AspNetUsers.Where(a => a.Email == model.Email).FirstOrDefault();
+                User u = _context.Users.Where(u => u.UserId == anu.Id).FirstOrDefault();
+                request.UserId = u.UserId;
             }
             request.FirstName = model.BusinessFirstName;
             request.LastName = model.BusinessLastName;
@@ -109,14 +115,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.Requests.Add(request);
             _context.SaveChangesAsync();
 
-            if (model.File != null)
-            {
-                requestWiseFile.RequestId = request.RequestId;
-                requestWiseFile.FileName = model.File;
-                requestWiseFile.CreatedDate = DateTime.Now;
-                _context.RequestWiseFiles.Add(requestWiseFile);
-                _context.SaveChangesAsync();
-            }
+            //if (model.File != null)
+            //{
+            //    requestWiseFile.RequestId = request.RequestId;
+            //    requestWiseFile.FileName = model.File;
+            //    requestWiseFile.CreatedDate = DateTime.Now;
+            //    _context.RequestWiseFiles.Add(requestWiseFile);
+            //    _context.SaveChangesAsync();
+            //}
 
             requestStatusLog.RequestId = request.RequestId;
             requestStatusLog.Status = 1;

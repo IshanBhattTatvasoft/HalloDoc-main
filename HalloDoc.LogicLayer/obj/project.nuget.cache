@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "7m6YpZVGyYpy4stWitq3FEae0XcZFvYxSPC3XeB3ReZy2fQUe2twsmOOVjw9y+os1Dd/jLCVZ52sw5HzdH/zkA==",
+  "dgSpecHash": "azqrJcXlQbzK8prSIwjqSuBjfxQAt2BSvW1+vLWVK9oT8wN4OAtkNyRZJ32U6IfgH5jds654zLwe5HCXj26N+w==",
   "success": true,
-  "projectFilePath": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj",
+  "projectFilePath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pca141\\.nuget\\packages\\closedxml\\0.102.2\\closedxml.0.102.2.nupkg.sha512",
     "C:\\Users\\pca141\\.nuget\\packages\\documentformat.openxml\\2.16.0\\documentformat.openxml.2.16.0.nupkg.sha512",

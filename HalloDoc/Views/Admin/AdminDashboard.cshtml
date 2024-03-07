@@ -74,7 +74,7 @@
         <div class="d-flex align-items-center gap-1 flex-wrap">
             <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block"
                style="margin-top: 20px !important;">welcome <strong> Ishan Bhatt</strong></p>
-            <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="PatientSite"
+            <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Admin" asp-action="Logout"
                style="margin-right:100px;">Logout</a>
             <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0 logout-icon"
                asp-controller="Login" asp-action="PatientSite">
@@ -292,7 +292,7 @@
                     <div class="d-flex align-items-center state-sub-div">
                         <img src="~/images/toclose.svg" id="tocloseState" class="icon-size pe-1">
                         <img src="~/images/toclose_active.png" id="tocloseState-active" class="icon-size hide pe-1">
-                        <span class="title-sub-div">TO CLOSE</span>
+                        <span class="title-sub-div" id="to-close-text">TO CLOSE</span>
                     </div>
                     <span class="state-count">@Model.toclose_count</span>
                 </div>
@@ -325,14 +325,13 @@
                 </button>
                 <a class="five-blue-buttons" asp-action="CreateRequest" asp-controller="Admin">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
-                         class="bi bi-journal-medical dashboard-sub-div-icon" viewBox="0 0 16 16">
+                         class="bi bi-journal-medical dashboard-sub-div-icon mt-2" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
                               d="M8 4a.5.5 0 0 1 .5.5v.634l.549-.317a.5.5 0 1 1 .5.866L9 6l.549.317a.5.5 0 1 1-.5.866L8.5 6.866V7.5a.5.5 0 0 1-1 0v-.634l-.549.317a.5.5 0 1 1-.5-.866L7 6l-.549-.317a.5.5 0 0 1 .5-.866l.549.317V4.5A.5.5 0 0 1 8 4M5 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m0 2a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5" />
                         <path d="M3 0h10a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2v-1h1v1a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v1H1V2a2 2 0 0 1 2-2" />
                         <path d="M1 5v-.5a.5.5 0 0 1 1 0V5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0V8h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zm0 3v-.5a.5.5 0 0 1 1 0v.5h.5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1z" />
                     </svg>
-                    <p class="five-blue-buttons-text me-2" style="margin-top: -20px !important;
-                       padding-left: 10px;">Create Requests</p>
+                    <span class="five-blue-buttons-text me-2" style="padding-left: 10px;">Create Requests</span>
                 </a>
                 <button class="five-blue-buttons">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
@@ -630,11 +629,7 @@
         </div>
     </div>
 
-    <div class="modal fade"
-         id="example2Modal"
-         tabindex="-1"
-         aria-labelledby="exampleModal2Label"
-         aria-hidden="true">
+    <div class="modal fade" id="example2Modal" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
@@ -699,9 +694,9 @@
                             aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="AssignCaseSubmitAction" asp-controller="Admin">
+                    <form id="requestForm" method="post" asp-action="TransferCaseSubmitAction" asp-controller="Admin">
                         <input type="number" hidden asp-for="RequestId" id="r-id-four"/>
-                        <p class="h6 mb-3 text-muted fs-4">To transfer this request, search and select another physician</p>
+                        <p class="mb-3 text-muted fs-4">To transfer this request, search and select another physician</p>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region-for-transfer" onchange="fetchRegionData2()">
                                 <i class="bi bi-person"></i> Narrow Search by Region
@@ -770,6 +765,30 @@
             </div>
         </div>
     </div>
+
+    <div id="example10Modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModal10Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body d-flex flex-column justify-content-center align-items-center mt-5">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="#FFD43B" class="bi bi-exclamation-circle-fill mb-2 yellow-warning" viewBox="0 0 16 16" style="border: 2px solid #FFD43B;padding: 10px;border-radius: 50%;">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 4a.905.905 0 0 0-.9.995l.35 3.507a.552.552 0 0 0 1.1 0l.35-3.507A.905.905 0 0 0 8 4m.002 6a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
+                    </svg>
+                    <h3>Confirmation for clear case</h3>
+                    <p>
+                        Are you sure you want to clear this request? Once clear this request then you are not able to see the request
+                    </p>
+                    <form id="requestForm" method="post" asp-action="ClearCaseSubmitAction" asp-controller="Admin">
+                        <input type="number" asp-for="RequestId" hidden id="r-id-five"/>
+                        <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
+                         <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
     <script>
         const changeStatus = (element) => {
             //debugger;
@@ -929,6 +948,11 @@
         function transferRequestData(id)
         {
             document.getElementById("r-id-four").value = id;
+        }
+
+        function clearCaseData(id)
+        {
+            document.getElementById("r-id-five").value = id;
         }
 
         const phoneInputField = document.querySelector("#phone");

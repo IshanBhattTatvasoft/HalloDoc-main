@@ -47,14 +47,44 @@
     border-bottom: 2px solid #17a2b8;
 }
 
-.patient-button{
-    background-color: #60bc60;
+.patient-button {
+    background-color: #61B961;
     outline: none;
     border: none;
     color: white;
 }
 
-.logout-icon{
+.family-button {
+    background-color: #E69127;
+    outline: none;
+    border: none;
+    color: white;
+    height: 30px;
+    width: 80px;
+    padding: 2px;
+}
+
+.concierge-button {
+    background-color: #0A7CB8;
+    outline: none;
+    border: none;
+    color: white;
+    height: 30px;
+    width: 80px;
+    padding: 2px;
+}
+
+.business-button {
+    background-color: #D9677C;
+    outline: none;
+    border: none;
+    color: white;
+    height: 30px;
+    width: 80px;
+    padding: 2px;
+}
+
+.logout-icon {
     margin-right: 50px;
 }
 

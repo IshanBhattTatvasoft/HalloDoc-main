@@ -38,7 +38,14 @@ namespace HalloDoc.Controllers
             var jwtService = context.HttpContext.RequestServices.GetService<IJwtToken>();
             if (jwtService == null)
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Patient", action = "Index", }));
+                if(_role == "Patient")
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "PatientLoginPage", }));
+                }
+                else
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PlatformLoginPage", }));
+                }
                 return;
             }
             var request = context.HttpContext.Request;
@@ -46,26 +53,43 @@ namespace HalloDoc.Controllers
 
             if (token == null || !jwtService.ValidateToken(token, out JwtSecurityToken jwtToken))
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Patient", action = "Index", }));
+                if (_role == "Patient")
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "PatientLoginPage", }));
+                }
+                else
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PlatformLoginPage", }));
+                }
                 return;
             }
 
             var roleClaim = jwtToken.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Role);
             if (roleClaim == null)
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Patient", action = "Index", }));
+                if (_role == "Patient")
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "PatientLoginPage", }));
+                }
+                else
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PlatformLoginPage", }));
+                }
                 return;
             }
             if (string.IsNullOrWhiteSpace(_role) || roleClaim.Value != _role)
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Patient", action = "Index", }));
+                if (_role == "Patient")
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "PatientLoginPage", }));
+                }
+                else
+                {
+                    context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PlatformLoginPage", }));
+                }
                 return;
             }
-            if (roleClaim!.Value != _role)
-            {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Home", action = "PatientLogin" }));
-                return;
-            }
+            
         }
 
         

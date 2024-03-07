@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {}
+    "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {
+    "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
+        "projectUniqueName": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
         "projectName": "HalloDoc.DataLayer",
-        "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
+        "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
         "packagesPath": "C:\\Users\\pca141\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\pca141\\Desktop\\HalloDoc main\\HalloDoc.DataLayer\\obj\\",
+        "outputPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\pca141\\AppData\\Roaming\\NuGet\\NuGet.Config",

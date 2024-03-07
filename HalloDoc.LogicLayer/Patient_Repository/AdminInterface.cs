@@ -28,10 +28,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             var count_new = _context.Requests.Count(r => r.Status == 1);
             var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 3);
-            var count_conclude = _context.Requests.Count(r => r.Status == 4);
-            var count_toclose = _context.Requests.Count(r => r.Status == 5);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 6);
+            var count_active = _context.Requests.Count(r => r.Status == 4 || r.Status == 5);
+            var count_conclude = _context.Requests.Count(r => r.Status == 6);
+            var count_toclose = _context.Requests.Count(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
+            var count_unpaid = _context.Requests.Count(r => r.Status == 9);
 
             AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
             {
@@ -41,13 +41,41 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 conclude_count = count_conclude,
                 unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
-                query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1),
-                requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList(),
                 regions = _context.Regions.ToList(),
                 status = status,
                 caseTags = _context.CaseTags.ToList(),
                 email="abc"
             };
+            if (status == "New")
+            {
+                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1);
+                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList();
+            }
+            else if(status == "Pending")
+            {
+                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2);
+                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2).ToList();
+            }
+            else if (status == "Active")
+            {
+                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4 || r.Status == 5);
+                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4 || r.Status == 5).ToList();
+            }
+            else if (status == "Conclude")
+            {
+                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6);
+                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6).ToList();
+            }
+            else if (status == "ToClose")
+            {
+                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
+                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3 || r.Status == 7 || r.Status == 8).ToList();
+            }
+            else
+            {
+                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 9);
+                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 9).ToList();
+            }
             return adminDashboardViewModel;
         }
 

@@ -127,10 +127,40 @@
     <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
         <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
             <span>
-                New Request <button type="button" class=" patient-button rounded-pill"
-                                    style="height: 30px; width: 80px; padding: 2px;">
-                    Patient
-                </button>
+                View
+                @if(Model.Status == 1)
+                {
+                    <span>Patient</span>
+                }
+                else
+                {
+                    <span>Reservation</span>
+                }
+                @if(Model.reqTypeId == 1)
+                {
+                    <button type="button" class="patient-button rounded-pill ms-2"
+                            style="height: 30px; width: 80px; padding: 2px;">
+                        Patient
+                    </button>
+                }
+                else if(Model.reqTypeId == 2)
+                {
+                    <button type="button" class="family-button rounded-pill ms-2">
+                        Family
+                    </button>
+                }
+                else if(Model.reqTypeId == 3)
+                {
+                    <button type="button" class="concierge-button rounded-pill ms-2">
+                        Concierge
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="business-button rounded-pill ms-2">
+                        Business
+                    </button>
+                }
             </span>
         </div>
         <div class="col-6 d-flex justify-content-end">
@@ -168,15 +198,15 @@
         <div class="row px-3">
             <div class="col mb-3 px-0">
                 <p class="text-info fw-bold" id="heading-one">
-                    Enter number here
+                    @Model.ConfirmationNo
                 </p>
             </div>
         </div>
 
-        <div class="mt-4 shadow-lg p-3 mb-5 bg-white rounded w-100">
+        <div>
         <form method="post" asp-action="EditViewCase" asp-controller="Admin"
               enctype="multipart/form-data">
-            <div class="row w-100">
+            <div class="row">
                 <div class="col">
                     <textarea class="form-control" id="firstTextArea" placeholder="Patient Notes" rows="3"
                           @*asp-for="Symptoms"*@ disabled></textarea>
@@ -225,17 +255,20 @@
                     <span @*asp-validation-for="Email"*@ class="text-danger"></span>
                 </div>
 
-                <div class="col-sm-2 mt-4">
-                    <button type="button" class="btn btn-info float-end me-3 mb-3" id="editButton">Edit</button>
-                </div>
+                @if(Model.Status != 1)
+                    {
+                        <div class="col-sm-2 mt-4">
+                            <button type="button" class="btn btn-info float-end me-3 mb-3" id="editButton">Edit</button>
+                        </div>
 
-                <div class="col-sm-2 mt-4">
-                    <button class="btn btn-info text-white" type="submit" id="submitButton">Submit</button>
-                </div>
-                <div class="col-sm-2 mt-4" style="width: 86px;">
-                    <a class="btn border-info text-info" id="cancelButton" style="padding: 5px;">Cancel</a>
-                </div>
-                
+                        <div class="col-sm-2 mt-4">
+                            <button class="btn btn-info text-white" type="submit" id="submitButton">Submit</button>
+                        </div>
+                        <div class="col-sm-2 mt-4" style="width: 86px;">
+                            <a class="btn border-info text-info" id="cancelButton" style="padding: 5px;">Cancel</a>
+                        </div>
+                    }
+
 
             </div>
 
@@ -277,15 +310,111 @@
 
             <div class="row">
                 <div class="col">
-                    <button type="button" class="btn btn-danger float-end mb-3">Cancel</button>
-                    <button type="button" class="btn btn-info float-end me-3 mb-3">View Notes</button>
-                    <button type="button" class="btn btn-info float-end me-3 mb-3">Assign</button>
-                </div>
+                        <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData(@Model.RequestId, @Model.FirstName, @Model.LastName)" type="button" class="btn btn-danger float-end mb-3">Cancel</button>
+                    <a asp-action="ViewNotes" asp-route-requestId="@Model.RequestId" asp-controller="Admin" type="button" class="btn btn-info float-end me-3 mb-3">View Notes</a>
+                    @if (Model.Status == 1)
+                        {
+                            <button data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData(@Model.RequestId)" type="button" class="btn btn-info float-end me-3 mb-3">Assign</button>
+                        }
+                    </div>
             </div>
         </form>
     </div>
     </div>
+
+    <div class="modal fade" id="example2Modal" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white" id="exampleModal2Label">
+                        Assign Request
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm" method="post" asp-action="AssignCaseSubmitAction" asp-controller="Admin">
+                        <input type="number" hidden asp-for="RequestId" id="r-id-two" />
+                        <p class="mb-3 text-muted fs-4">To assign this request, search and select another Physician</p>
+                        <div class="dropdown text-light mb-3 w-100">
+                            <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region" onchange="fetchRegionData()">
+                                <i class="bi bi-person"></i> Narrow Search by Region
+                                @foreach (var item in Model.regions)
+                                {
+                                    <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="dropdown text-light mb-3 w-100">
+                            <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician">
+                                <i class="bi bi-person"></i> Select Physician
+
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
+                        </div>
+
+                        <div class="text-end mb-3 me-3 mt-3">
+                            <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
+                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
     
+    <div class="modal fade"
+         id="exampleModal"
+         tabindex="-1"
+         aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white" id="exampleModalLabel">
+                        Confirm Cancellation
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm" method="post" asp-action="CancelCase" asp-controller="Admin">
+                        <input type="number" hidden asp-for="RequestId" id="r-id" />
+                        <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold" id="p-name"></span></p>
+                        <div class="dropdown text-light mb-3 w-100">
+                            <select class="btn btn-outline-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedCaseTagId">
+                                <i class="bi bi-person"></i> Reason For Cancellation
+                                @foreach (var item in Model.caseTags)
+                                {
+                                    <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Providers additional Notes" rows="5" name="additionalNotes"></textarea>
+                        </div>
+
+                        <div class="text-end mb-3 me-3 mt-3">
+                            <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
+                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
 
     <script>
         var classCount = document.getElementsByClassName('form-control');
@@ -294,7 +423,7 @@
             document.getElementById('submitButton').style.display = "flex";
             document.getElementById('cancelButton').style.display = "flex";
             document.getElementById('editButton').style.display = "none";
-            for (var i = 1; i <= 5; i++) {
+            for (var i = 1; i < 7; i++) {
                 classCount[i].removeAttribute('disabled');
             }
         });
@@ -302,7 +431,7 @@
             document.getElementById('editButton').style.display = "flex";
             document.getElementById('submitButton').style.display = "none";
             document.getElementById('cancelButton').style.display = "none";
-            for (var i = 0; i < 5; i++) {
+            for (var i = 1; i < 7; i++) {
                 classCount[i].setAttribute('disabled', 'disabled');
             }
             location.reload();
@@ -314,6 +443,42 @@
             utilsScript:
                 "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
         });
+
+        function assignCaseData(id) {
+            document.getElementById("r-id-two").value = id;
+        }
+
+        function cancelCaseData(id, fname, lname)
+        {
+            document.getElementById("p-name").textContent = fname + " " + lname;
+            document.getElementById("p-name-two").textContent = fname + " " + lname;
+            document.getElementById("r-id").value = id;
+        }
+
+        function fetchRegionData() //when we change the value of dropdown of region, this function will be called
+        {
+            const selectedRegionId = document.getElementById("select-region").value; //this stores the RegionId of a region which is selected because here we have used select-region id (id of select tag) and fetched the value so whatever we are storing in the value of region dropdown will be fetched i.e. RegionId
+
+            $.ajax({
+                url: '/Admin/GetPhysicianByRegion',
+                type: 'GET',
+                data: { regionId: selectedRegionId }, // stores RegionId in regionId variable and this variable is passed to the controller
+                success: function (data) {
+                    $("#select-physician").empty(); // to remove the previously present physicians selected based on a different region
+                    $("#select-physician").append('<option value="" disabled selected>Select Physician</option>');
+
+                    // Add each matched physician to the select element
+                    $.each(data, function (index, physician) {
+                        console.log(physician);
+                        $("#select-physician").append('<option class="physician-dropdown" value="' + physician.physicianId + '">' + physician.firstName + '</option>');
+                    });
+                },
+
+                error: function (error) {
+                    console.error("Error fetching data:", error);
+                }
+            });
+        }
 
     </script>
 </div>

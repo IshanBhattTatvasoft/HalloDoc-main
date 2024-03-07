@@ -26,13 +26,15 @@ namespace HalloDoc.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IAdminInterface _adminInterface;
         private readonly IHttpContextAccessor _sescontext;
+        private readonly IJwtToken _jwtToken;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ApplicationDbContext context, IAdminInterface adminInterface, IHttpContextAccessor sescontext)
+        public AdminController(ApplicationDbContext context, IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken)
         {
             _context = context;
             _adminInterface = adminInterface;
             _sescontext = sescontext;
+            _jwtToken = jwtToken;
         }
 
         [HttpPost]
@@ -41,17 +43,18 @@ namespace HalloDoc.Controllers
         {
             if (ModelState.IsValid)
             {
-                AspNetUser user = _adminInterface.ValidateAspNetUser(model);
+                AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
                 if (user != null)
                 {
+                    var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
                         User user2 = _adminInterface.ValidateUser(model);
                         HttpContext.Session.SetInt32("id", user2.UserId);
                         HttpContext.Session.SetString("name", user2.FirstName);
+                        Response.Cookies.Append("token", token.ToString());
                         HttpContext.Session.SetString("IsLoggedIn", "true");
-                        TempData["success"] = "Logged in successfully";
-                        return RedirectToAction("AdminDashboard");
+                        
                     }
                     else
                     {
@@ -67,11 +70,18 @@ namespace HalloDoc.Controllers
             return View(model);
         }
 
+        public IActionResult Logout()
+        {
+            _sescontext.HttpContext.Session.Clear();
+            Response.Cookies.Delete("token");
+            return RedirectToAction("PatientLoginPage", "Login");
+        }
+
         public IActionResult PlatformForgotPassword()
         {
             return View();
         }
-
+        [CustomAuthorize("Admin")]
         public IActionResult AdminDashboard(string? status)
         {
             //var count_new = _context.Requests.Count(r => r.Status == 1);
@@ -98,13 +108,14 @@ namespace HalloDoc.Controllers
 
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status);
 
-
+            
             return View(adminDashboardViewModel);
         }
 
 
 
         //[HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult New()
         {
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New");
@@ -112,6 +123,7 @@ namespace HalloDoc.Controllers
         }
 
         //[HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult Pending()
         {
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending");
@@ -120,6 +132,7 @@ namespace HalloDoc.Controllers
         }
 
         //[HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult Active()
         {
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active");
@@ -128,6 +141,7 @@ namespace HalloDoc.Controllers
         }
 
         //[HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult Conclude()
         {
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude");
@@ -136,6 +150,7 @@ namespace HalloDoc.Controllers
         }
 
         //[HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult Toclose()
         {
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose");
@@ -144,12 +159,14 @@ namespace HalloDoc.Controllers
         }
 
         //[HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult Unpaid()
         {
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid");
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
+        [CustomAuthorize("Admin")]
         public List<Request> GetTableData()
         {
             List<Request> data = new List<Request>();
@@ -159,6 +176,7 @@ namespace HalloDoc.Controllers
             return data;
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult DownloadAll()
         {
             try
@@ -234,6 +252,7 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult ViewCase(int requestId)
         {
             //var data = _context.Requests.Include(u => u.RequestClient).FirstOrDefault(u => u.RequestId == requestId);
@@ -318,7 +337,12 @@ namespace HalloDoc.Controllers
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                DOB = date
+                DOB = date,
+                ConfirmationNo = request.ConfirmationNumber,
+                reqTypeId = request.RequestTypeId,
+                regions = _context.Regions.ToList(),
+                Status = request.Status,
+                caseTags = _context.CaseTags.ToList()
             };
 
             return View(viewCase);
@@ -326,6 +350,7 @@ namespace HalloDoc.Controllers
 
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult EditViewCase(ViewCaseModel userProfile)
         {
             int requestId = (int)userProfile.RequestId;
@@ -350,6 +375,7 @@ namespace HalloDoc.Controllers
             return RedirectToAction("ViewCase", new { requestId = requestId });
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult ViewNotes(int requestId)
         {
             Request r = _adminInterface.ValidateRequest(requestId);
@@ -373,6 +399,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult EditViewNotes(ViewNotes model)
         {
             //int id = model.RequestId;
@@ -388,6 +415,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult CancelCase(AdminDashboardTableView model, int selectedCaseTagId, string additionalNotes)
         {
             CaseTag ct = _adminInterface.FetchCaseTag(selectedCaseTagId);
@@ -407,18 +435,27 @@ namespace HalloDoc.Controllers
             return RedirectToAction("AdminDashboard");
         }
 
+        [CustomAuthorize("Admin")]
         public List<Physician> GetPhysicianByRegion(AdminDashboardTableView model, int RegionId)
         {
             List<Physician> p = _adminInterface.FetchPhysicianByRegion(RegionId);
             return p;
         }
 
+        [CustomAuthorize("Admin")]
+        public int sendAgreement2(int reqTypeId)
+        {
+            Request r = _context.Requests.Where(r => r.RequestId == reqTypeId).FirstOrDefault();
+            return r.RequestTypeId;
+        }
+
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult AssignCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription, int selectedPhysicianId)
         {
             RequestStatusLog rsl = new RequestStatusLog();
             Request r = _adminInterface.ValidateRequest(model.RequestId);
-            r.Status = 1; //when a case is assigned, status is set to 1 currently
+            r.Status = 2; //when a case is assigned, status is set to 1 currently
             // but when the assigned case gets accepted, then its status can be 2 and will be shown in Pending state.
             r.PhysicianId = selectedPhysicianId;
             rsl.RequestId = model.RequestId;
@@ -436,6 +473,45 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult TransferCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription, int selectedPhysicianId)
+        {
+            RequestStatusLog rsl = new RequestStatusLog();
+            Request r = _adminInterface.ValidateRequest(model.RequestId);
+            r.Status = 2; //when a case is assigned, status is set to 1 currently
+            // but when the assigned case gets accepted, then its status can be 2 and will be shown in Pending state.
+            r.PhysicianId = selectedPhysicianId;
+            rsl.RequestId = model.RequestId;
+            rsl.Notes = assignCaseDescription;
+            rsl.Status = 2;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.TransToPhysicianId = selectedPhysicianId;
+            rsl.PhysicianId = selectedPhysicianId;
+            //_context.RequestStatusLogs.Add(rsl);
+            //_context.SaveChanges();
+            _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
+            _adminInterface.UpdateRequest(r);
+            TempData["success"] = "Case transferred!!";
+            return RedirectToAction("AdminDashboard");
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult ClearCaseSubmitAction(AdminDashboardTableView model)
+        {
+            Request r = _context.Requests.Where(re => re.RequestId == model.RequestId).FirstOrDefault();
+            if(r!=null)
+            {
+                r.Status = 10;
+                TempData["success"] = "Case cleared successfully";
+                _context.Requests.Update(r);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("AdminDashboard");
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult BlockCase(AdminDashboardTableView model, string reasonForBlockRequest)
         {
             Request r = _adminInterface.ValidateRequest(model.RequestId);
@@ -462,6 +538,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public async Task<IActionResult> CreateRequest(AdminCreateRequestModel model)
         {
             var region = _adminInterface.ValidateRegion(model);
@@ -488,6 +565,7 @@ namespace HalloDoc.Controllers
             return View("CreateRequest");
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult VerifyLocation(string state)
         {
             if (state == null)
@@ -526,6 +604,7 @@ namespace HalloDoc.Controllers
             return View();
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult ViewUploads(int requestid)
         {
             Request request = _adminInterface.ValidateRequest(requestid);
@@ -542,6 +621,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult SetImageContent(ViewUploadsModel model, int requestId)
         {
             var request = _adminInterface.GetRequestWithUser(requestId);
@@ -579,12 +659,14 @@ namespace HalloDoc.Controllers
             return RedirectToAction("ViewUploads", new { requestID = model.requestId });
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult DeleteIndividual(int id)
         {
             int reqId = _adminInterface.SingleDelete(id);
             return RedirectToAction("ViewUploads", new { requestID = reqId });
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult DeleteMultiple(int requestid, string fileId)
         {
             RequestWiseFile rwf = _context.RequestWiseFiles.Where(r => r.RequestId == requestid).FirstOrDefault();
@@ -599,6 +681,7 @@ namespace HalloDoc.Controllers
             return RedirectToAction("ViewUploads", new { requestID = requestid });
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult SendSelectedFiles(int requestid, string fileName)
         {
             try
@@ -654,6 +737,7 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin")]
         public async Task<IActionResult> SendLink(AdminDashboardTableView model)
         {
 
@@ -703,6 +787,7 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin")]
         public IActionResult Orders(int id)
         {
             List<HealthProfessionalType> hPT = _context.HealthProfessionalTypes.ToList();
@@ -716,6 +801,7 @@ namespace HalloDoc.Controllers
             return View(so);
         }
 
+        [CustomAuthorize("Admin")]
         public List<HealthProfessional> GetBusinessData(int professionId, SendOrder model)
         
         {
@@ -723,6 +809,7 @@ namespace HalloDoc.Controllers
             return healthProfessionals;
         }
 
+        [CustomAuthorize("Admin")]
         public HealthProfessional GetOtherData(int businessId)
         {
             HealthProfessional hp = _context.HealthProfessionals.Where(h => h.VendorId == businessId).FirstOrDefault();
@@ -730,6 +817,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin")]
         public IActionResult SendOrder(SendOrder model, int vendorId, int noOfRefill)
         {
             OrderDetail orderDetail = new OrderDetail();

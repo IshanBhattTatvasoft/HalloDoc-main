@@ -201,7 +201,7 @@ namespace HalloDoc.Controllers
 
         public IActionResult PatientCheck(string email)
         {
-            var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == email);
+            var existingUser = _context.AspNetUsers.SingleOrDefault(u => u.UserName == email);
             bool isValidEmail;
             if (existingUser == null)
             {

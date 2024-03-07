@@ -195,7 +195,7 @@
                         <div class="dropdown-content">
                             @if (Model.status == "New")
                             {
-                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="transferRequestData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
+                                        <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
                                 <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
 
                             }
@@ -217,15 +217,15 @@
                             }
                             @if (Model.status == "Pending")
                             {
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></button>
+                                                <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferRequestData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></button>
                             }
                             @if (Model.status == "Pending" || Model.status == "ToClose")
                             {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></a>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></button>
                             }
                             @if (Model.status == "Pending")
                             {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></a>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item" href="#" onclick="sendAgreement('@item.RequestId')"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></button>
                             }
                             @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
                             {
@@ -548,6 +548,74 @@
     </div>
 </div>
 
+<div class="modal fade" id="SendAgreementModal" tabindex="-1" aria-labelledby="SendAgreementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <h5 class="modal-title text-white" id="SendAgreementModalLabel">
+                    Send Agreement
+                </h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="requestForm" method="post" asp-action="AssignCaseSubmitAction" asp-controller="Admin">
+                    <input type="number" hidden asp-for="RequestId" id="r-id-for-agree" />
+                    <input type="number" hidden id="r-type-id-two" />
+                    <div id="patient-data" style="display: none;">
+                        <div class="categories-div-sub-sub m-auto"
+                             style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></div>
+                        <div>Patient</div>
+                    </div>
+                    <div id="family-data" style="display: none;">
+                        <div class="categories-div-sub-sub m-auto"
+                             style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></div>
+                        <div>Family</div>
+                    </div>
+                    <div id="business-data" style="display: none;">
+                        <div class="categories-div-sub-sub m-auto"
+                             style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
+                        <div>Business</div>
+                    </div>
+                    <div id="concierge-data" style="display: none;">
+                        <div class="categories-div-sub-sub m-auto"
+                             style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></div>
+                        <div>Concierge</div>
+                    </div>
+                    <p class="mb-3 text-muted fs-4">To send agreement, please make sure you are updating the correct contact information below for the responsible party</p>
+                    <div class="dropdown text-light mb-3 w-100">
+                        <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region" onchange="fetchRegionData()">
+                            <i class="bi bi-person"></i> Narrow Search by Region
+                            @foreach (var item in Model.regions)
+                            {
+                                <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="dropdown text-light mb-3 w-100">
+                        <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician">
+                            <i class="bi bi-person"></i> Select Physician
+
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
+                    </div>
+
+                    <div class="text-end mb-3 me-3 mt-3">
+                        <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 <script>
     let isDropdownActive = false;
@@ -564,9 +632,11 @@
     //        dropdown.classList.remove('active');
     //    }
     //});
-    $(document).ready(function () {
-        $("#dtBasicExample").DataTable();
-    });
+    //$(document).ready(function () {
+    //    $("#dtBasicExample").DataTable();
+    //});
+
+
 
     var modal6 = document.getElementById("myModal6");
     //var btn = document.getElementsByClassName("map-button");
@@ -596,4 +666,38 @@
         }
     }
 
+    function sendAgreement(id)
+    {
+        console.log(id);
+        document.getElementById("r-id-for-agree").value = id;
+
+        $.ajax({
+            url: '/Admin/sendAgreement2',
+            type: 'GET',
+            data: {reqTypeId, id},
+            success: function(data){
+                document.getElementById("r-type-id-two").value = data;
+            },
+
+            error: function(error){
+                console.error("Error fetching data: ", error);
+            }
+        });
+
+        console.log(data);
+    }
+
+    const rtid = document.getElementById("r-type-id-two").value;
+    if (rtid == 1) {
+        document.getElementById("patient-data").style.display = "block";
+    }
+    else if (rtid == 2) {
+        document.getElementById("family-data").style.display = "block";
+    }
+    else if (rtid == 2) {
+        document.getElementById("concierge-data").style.display = "block";
+    }
+    else {
+        document.getElementById("business-data").style.display = "block";
+    }
 </script>

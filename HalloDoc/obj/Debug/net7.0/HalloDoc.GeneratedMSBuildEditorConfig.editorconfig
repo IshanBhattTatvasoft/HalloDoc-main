@@ -9,157 +9,157 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = HalloDoc
 build_property.RootNamespace = HalloDoc
-build_property.ProjectDir = C:\Users\pca141\Desktop\HalloDoc main\HalloDoc\
+build_property.ProjectDir = C:\Users\pca141\Desktop\HalloDoc-main\HalloDoc\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\pca141\Desktop\HalloDoc main\HalloDoc
+build_property.MSBuildProjectDirectory = C:\Users\pca141\Desktop\HalloDoc-main\HalloDoc
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/AdminDashboard.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/AdminDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5EYXNoYm9hcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/CreateRequest.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/CreateRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXRlUmVxdWVzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/modal_check.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/modal_check.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cbW9kYWxfY2hlY2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/Orders.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/Orders.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cT3JkZXJzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/PlatformCreatePassword.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/PlatformCreatePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGxhdGZvcm1DcmVhdGVQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/PlatformForgotPassword.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/PlatformForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGxhdGZvcm1Gb3Jnb3RQYXNzd29yZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/PlatformLoginPage.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/PlatformLoginPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGxhdGZvcm1Mb2dpblBhZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/ViewCase.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/ViewCase.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmlld0Nhc2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/ViewNotes.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/ViewNotes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmlld05vdGVzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Admin/ViewUploads.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/ViewUploads.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmlld1VwbG9hZHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Home/Index.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Home/Privacy.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Home/SubmitRequestScreen2.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Home/SubmitRequestScreen2.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdWJtaXRSZXF1ZXN0U2NyZWVuMi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Home/SubmitRequestScreen3.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Home/SubmitRequestScreen3.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxTdWJtaXRSZXF1ZXN0U2NyZWVuMy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/CreatePassword.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/CreatePassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cQ3JlYXRlUGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/ForgotPassword.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/ForgotPassword.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cRm9yZ290UGFzc3dvcmQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/PatientDashboardAndMedicalHistory.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/PatientDashboardAndMedicalHistory.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUGF0aWVudERhc2hib2FyZEFuZE1lZGljYWxIaXN0b3J5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/PatientDashboardViewDocuments.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/PatientDashboardViewDocuments.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUGF0aWVudERhc2hib2FyZFZpZXdEb2N1bWVudHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/PatientLoginPage.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/PatientLoginPage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUGF0aWVudExvZ2luUGFnZS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/PatientProfile.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/PatientProfile.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUGF0aWVudFByb2ZpbGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/PatientSite.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/PatientSite.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUGF0aWVudFNpdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/RequestForMe.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/RequestForMe.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUmVxdWVzdEZvck1lLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/RequestForSomeoneElse.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/RequestForSomeoneElse.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cUmVxdWVzdEZvclNvbWVvbmVFbHNlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Login/SubmitRequestScreen.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Login/SubmitRequestScreen.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cU3VibWl0UmVxdWVzdFNjcmVlbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/PatientRequest/CreateBusinessRequest.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/PatientRequest/CreateBusinessRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFJlcXVlc3RcQ3JlYXRlQnVzaW5lc3NSZXF1ZXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/PatientRequest/CreateConciergeRequest.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/PatientRequest/CreateConciergeRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFJlcXVlc3RcQ3JlYXRlQ29uY2llcmdlUmVxdWVzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/PatientRequest/CreateFamilyFriendRequest.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/PatientRequest/CreateFamilyFriendRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFJlcXVlc3RcQ3JlYXRlRmFtaWx5RnJpZW5kUmVxdWVzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/PatientRequest/CreatePatientRequest.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/PatientRequest/CreatePatientRequest.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFJlcXVlc3RcQ3JlYXRlUGF0aWVudFJlcXVlc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Shared/AdminDashboardTablePartialView.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/AdminDashboardTablePartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFkbWluRGFzaGJvYXJkVGFibGVQYXJ0aWFsVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Shared/Error.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Shared/HeaderFooter.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/HeaderFooter.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEhlYWRlckZvb3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Shared/Toast.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/Toast.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFRvYXN0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Shared/_Notification.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/_Notification.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Ob3RpZmljYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/_ViewImports.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/_ViewStart.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/pca141/Desktop/HalloDoc main/HalloDoc/Views/Shared/_Layout.cshtml]
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-285lmhujee
