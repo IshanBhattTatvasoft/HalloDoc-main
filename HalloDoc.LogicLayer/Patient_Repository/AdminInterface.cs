@@ -3,6 +3,7 @@ using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using HalloDocMvc.Entity.ViewModel;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
@@ -24,8 +25,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context = context;
         }
 
-        public AdminDashboardTableView ModelOfAdminDashboard(string? status)
+        public AdminDashboardTableView ModelOfAdminDashboard(string? status, int id)
         {
+            
+            Admin ad = _context.Admins.Where(a => a.AdminId == id).FirstOrDefault();
             var count_new = _context.Requests.Count(r => r.Status == 1);
             var count_pending = _context.Requests.Count(r => r.Status == 2);
             var count_active = _context.Requests.Count(r => r.Status == 4 || r.Status == 5);
@@ -44,8 +47,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 regions = _context.Regions.ToList(),
                 status = status,
                 caseTags = _context.CaseTags.ToList(),
-                email="abc"
-            };
+                email = "abc",
+                Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName)
+        };
             if (status == "New")
             {
                 adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1);
@@ -132,6 +136,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void AddRequestStatusLogFromCancelCase(RequestStatusLog rs)
         {
             _context.RequestStatusLogs.Add(rs);
+            _context.SaveChanges();
+        }
+
+        public void AddRequestStatusLogFromAgreement(RequestStatusLog rsl)
+        {
+            _context.RequestStatusLogs.Add(rsl);
             _context.SaveChanges();
         }
 
@@ -271,9 +281,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.AspNetUsers.FirstOrDefault(u => u.UserName == model.UserName);
         }
 
-        public User ValidateUser(LoginViewModel model)
+        public Admin ValidateUser(LoginViewModel model)
         {
-            User user = _context.Users.FirstOrDefault(x => x.Email == model.UserName);
+            Admin user = _context.Admins.FirstOrDefault(x => x.Email == model.UserName);
             return user;
         }
 
@@ -336,5 +346,93 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
             return rwf.RequestId;
         }
+
+        public List<DataLayer.Models.Region> GetAllRegion()
+        {
+            return _context.Regions.ToList();
+        }
+
+        public List<CaseTag> GetAllCaseTags()
+        {
+           return _context.CaseTags.ToList();
+        }
+
+        public Request GetReqFromReqType(int ReqId)
+        {
+            return _context.Requests.Where(r => r.RequestTypeId == ReqId).FirstOrDefault();
+        }
+
+        public Request GetReqFromModel(AdminDashboardTableView model)
+        {
+            return _context.Requests.Where(re => re.RequestId == model.RequestId).FirstOrDefault();
+        }
+
+        public void MultipleDelete(int requestid, string fileId)
+        {
+            RequestWiseFile rwf = _context.RequestWiseFiles.Where(r => r.RequestId == requestid).FirstOrDefault();
+            string[] fileid = fileId.Split(',').Select(x => x.Trim()).ToArray();
+            for (int i = 0; i < fileid.Length; i++)
+            {
+                RequestWiseFile r = _context.RequestWiseFiles.Where(r => r.RequestWiseFileId == int.Parse(fileid[i])).FirstOrDefault();
+                r.IsDeleted = new BitArray(1, true);
+            }
+            _context.SaveChanges();
+        }
+
+        public List<HealthProfessionalType> GetHealthProfessionalType() 
+        { 
+            return _context.HealthProfessionalTypes.ToList();
+        }
+
+        public List<HealthProfessional> GetHealthProfessional()
+        {
+            return _context.HealthProfessionals.ToList();
+        }
+
+        public List<HealthProfessional> GetBusinessDataFromProfession(int professionId)
+        {
+            return _context.HealthProfessionals.Where(h => h.Profession == professionId).ToList();
+        }
+
+        public HealthProfessional GetOtherDataFromBId(int businessId)
+        {
+           return _context.HealthProfessionals.Where(h => h.VendorId == businessId).FirstOrDefault();
+        }
+
+        public void AddOrderDetails(OrderDetail orderDetail)
+        {
+            _context.OrderDetails.Add(orderDetail);
+            _context.SaveChanges();
+        }
+
+        public RequestClient GetPatientData(int id)
+        {
+            Request r = _context.Requests.Where(re => re.RequestId == id).FirstOrDefault();
+            RequestClient rc = _context.RequestClients.Where(x => x.RequestClientId == r.RequestClientId).FirstOrDefault();
+            return rc;
+        }
+
+        public string GetMailToSentAgreement(int reqId)
+        {
+            Request r = _context.Requests.Where(re => re.RequestId == reqId).FirstOrDefault();
+            RequestClient rc = _context.RequestClients.Where(rct => rct.RequestClientId == r.RequestClientId).FirstOrDefault();
+            return rc.Email;
+        }
+
+        public RequestClient GetRequestClientFromId(int id)
+        {
+            return _context.RequestClients.Where(r => r.RequestClientId == id).FirstOrDefault();
+        }
+
+        public Request GetReqFromReqClient(int id)
+        {
+            return _context.Requests.Where(r => r.RequestClientId == id).FirstOrDefault();
+        }
+
+        public RequestStatusLog GetLogFromReqId(int reqId)
+        {
+            return _context.RequestStatusLogs.Where(r => r.RequestId == reqId).FirstOrDefault();
+        }
+
     }
 }

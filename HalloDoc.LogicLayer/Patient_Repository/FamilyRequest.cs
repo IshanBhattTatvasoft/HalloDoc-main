@@ -100,7 +100,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             else
             {
                 AspNetUser anu = _context.AspNetUsers.Where(a => a.Email == model.Email).FirstOrDefault();
-                User u = _context.Users.Where(u => u.UserId == anu.Id).FirstOrDefault();
+                User u = _context.Users.Where(u => u.AspNetUserId == anu.Id).FirstOrDefault();
                 request.UserId = u.UserId;
             }
             request.FirstName = model.FamilyFirstName;

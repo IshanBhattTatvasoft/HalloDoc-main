@@ -73,7 +73,7 @@
         </div>
         <div class="d-flex align-items-center gap-1 flex-wrap">
             <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block"
-               style="margin-top: 20px !important;">welcome <strong> Ishan Bhatt</strong></p>
+               style="margin-top: 20px !important;">welcome <strong> @Model.Admin_Name</strong></p>
             <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Admin" asp-action="Logout"
                style="margin-right:100px;">Logout</a>
             <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0 logout-icon"
@@ -787,7 +787,67 @@
         </div>
     </div>
 
-    
+    <div class="modal fade" id="SendAgreementModal" tabindex="-1" aria-labelledby="SendAgreementModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white" id="SendAgreementModalLabel">
+                        Send Agreement
+                    </h5>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm" method="post" asp-action="SendMailOfAgreement" asp-controller="Admin">
+                        <input type="number" hidden asp-for="RequestId" id="r-id-for-agree" />
+                        <input type="number" hidden id="r-type-id-two" />
+                        <div id="patient-data" style="display: none;">
+                            <div class="categories-div-sub-sub"
+                                 style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></div>
+                            <span>Patient</span>
+                        </div>
+                        <div id="family-data" style="display: none;">
+                            <div class="categories-div-sub-sub"
+                                 style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></div>
+                            <span>Family</span>
+                        </div>
+                        <div id="business-data" style="display: none;">
+                            <div class="categories-div-sub-sub"
+                                 style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
+                            <span>Business</span>
+                        </div>
+                        <div id="concierge-data" style="display: none;">
+                            <div class="categories-div-sub-sub"
+                                 style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;">
+                            </div>
+                            <span style="margin-top: -5px !important;">Concierge</span>
+                        </div>
+                        <p class="h5 mb-3 text-muted mt-2">To send agreement, please make sure you are updating the correct contact information below for the responsible party</p>
+                        <div class="form-floating text-light mb-3 w-100">
+                            <input type="tel" id="phoneForAgree" class="form-control" />
+                            <label for="floatingInput" class="ms-2 text-muted">Phone Number</label>
+                        </div>
+                        <div class="form-floating text-light mb-3 w-100">
+                            <input type="text" id="emailForAgree" class="form-control" />
+                            <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                        </div>
+
+                        <div class="text-end mb-3 me-3 mt-3">
+                            <button type="submit" class="btn btn-info text-white" id="continueBtn">Send</button>
+                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
 
     <script>
         const changeStatus = (element) => {
@@ -953,6 +1013,46 @@
         function clearCaseData(id)
         {
             document.getElementById("r-id-five").value = id;
+        }
+
+        function sendAgreementData(id, typeId, mail, num) {
+            //console.log(id);
+            //console.log(typeId);
+            document.getElementById("phoneForAgree").value = num;
+            document.getElementById("emailForAgree").value = mail;
+            document.getElementById("r-type-id-two").value = typeId;
+            document.getElementById("r-id-for-agree").value = id;
+            var x = document.getElementById("r-id-for-agree").value;
+            //console.log(x);
+
+            const rtid = document.getElementById("r-type-id-two").value;
+            const rid = document.getElementById("r-id-for-agree").value;
+            if (rtid == 1) {
+                document.getElementById("patient-data").style.display = "flex";
+                document.getElementById("family-data").style.display = "none";
+                document.getElementById("concierge-data").style.display = "none";
+                document.getElementById("business-data").style.display = "none";
+            }
+            else if (rtid == 2) {
+                document.getElementById("patient-data").style.display = "none";
+                document.getElementById("family-data").style.display = "flex";
+                document.getElementById("concierge-data").style.display = "none";
+                document.getElementById("business-data").style.display = "none";
+            }
+            else if (rtid == 3) {
+                document.getElementById("patient-data").style.display = "none";
+                document.getElementById("family-data").style.display = "none";
+                document.getElementById("concierge-data").style.display = "flex";
+                document.getElementById("business-data").style.display = "none";
+            }
+            else {
+                document.getElementById("patient-data").style.display = "none";
+                document.getElementById("family-data").style.display = "none";
+                document.getElementById("concierge-data").style.display = "none";
+                document.getElementById("business-data").style.display = "flex";
+            }
+            
+
         }
 
         const phoneInputField = document.querySelector("#phone");

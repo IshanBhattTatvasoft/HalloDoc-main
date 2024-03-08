@@ -11,7 +11,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
 {
     public interface IAdminInterface 
     {
-        public AdminDashboardTableView ModelOfAdminDashboard(string? status);
+        public AdminDashboardTableView ModelOfAdminDashboard(string? status, int userId);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);
@@ -30,7 +30,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void InsertDataOfRequest(AdminCreateRequestModel model);
         public bool VerifyLocation(string state);
         public AspNetUser ValidateAspNetUser(LoginViewModel model);
-        public User ValidateUser(LoginViewModel model);
+        public Admin ValidateUser(LoginViewModel model);
         public User ValidateUserByRequestId(Request r);
         public List<RequestWiseFile> GetFileData(int requestid);
         public Request GetRequestWithUser(int requestid);
@@ -42,6 +42,22 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void SetPasswordForResetPassword(AspNetUser user, ResetPasswordViewModel model);
         public List<Request> GetRequestDataInList();
         public int SingleDelete(int id);
+        public List<DataLayer.Models.Region> GetAllRegion();
+        public List<CaseTag> GetAllCaseTags();
+        public Request GetReqFromReqType(int ReqId);
+        public Request GetReqFromModel(AdminDashboardTableView model);
+        public void MultipleDelete(int requestid, string fileId);
+        public List<HealthProfessionalType> GetHealthProfessionalType();
+        public List<HealthProfessional> GetHealthProfessional();
+        public List<HealthProfessional> GetBusinessDataFromProfession(int professionId);
+        public HealthProfessional GetOtherDataFromBId(int businessId);
+        public void AddOrderDetails(OrderDetail orderDetail);
+        public RequestClient GetPatientData(int id);
+        public string GetMailToSentAgreement(int reqId);
+        public RequestClient GetRequestClientFromId(int id);
+        public Request GetReqFromReqClient(int id);
+        public RequestStatusLog GetLogFromReqId(int reqId);
+        public void AddRequestStatusLogFromAgreement(RequestStatusLog rsl);
 
 
 

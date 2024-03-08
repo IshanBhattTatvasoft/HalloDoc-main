@@ -16,6 +16,7 @@ using System.Collections;
 using HalloDoc.LogicLayer.Patient_Repository;
 using System.Net.Mail;
 using System.Net;
+using DocumentFormat.OpenXml.Spreadsheet;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -23,15 +24,13 @@ namespace HalloDoc.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IAdminInterface _adminInterface;
         private readonly IHttpContextAccessor _sescontext;
         private readonly IJwtToken _jwtToken;
         private readonly ILogger<AdminController> _logger;
 
-        public AdminController(ApplicationDbContext context, IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken)
+        public AdminController(IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken)
         {
-            _context = context;
             _adminInterface = adminInterface;
             _sescontext = sescontext;
             _jwtToken = jwtToken;
@@ -49,9 +48,9 @@ namespace HalloDoc.Controllers
                     var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
-                        User user2 = _adminInterface.ValidateUser(model);
-                        HttpContext.Session.SetInt32("id", user2.UserId);
-                        HttpContext.Session.SetString("name", user2.FirstName);
+                        Admin ad = _adminInterface.ValidateUser(model);
+                        HttpContext.Session.SetInt32("id", ad.AdminId);
+                        HttpContext.Session.SetString("name", ad.FirstName);
                         Response.Cookies.Append("token", token.ToString());
                         HttpContext.Session.SetString("IsLoggedIn", "true");
                         
@@ -105,8 +104,8 @@ namespace HalloDoc.Controllers
             //    status = "New",
             //    caseTags = _context.CaseTags.ToList()
             //};
-
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status);
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status, (int)userId);
 
             
             return View(adminDashboardViewModel);
@@ -118,7 +117,8 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult New()
         {
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New");
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId);
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
@@ -126,7 +126,8 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult Pending()
         {
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending");
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
@@ -135,7 +136,8 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult Active()
         {
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active");
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
@@ -144,7 +146,8 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult Conclude()
         {
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude");
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
@@ -153,7 +156,8 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult Toclose()
         {
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose");
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
@@ -162,7 +166,8 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult Unpaid()
         {
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid");
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
@@ -340,9 +345,9 @@ namespace HalloDoc.Controllers
                 DOB = date,
                 ConfirmationNo = request.ConfirmationNumber,
                 reqTypeId = request.RequestTypeId,
-                regions = _context.Regions.ToList(),
+                regions = _adminInterface.GetAllRegion(),
                 Status = request.Status,
-                caseTags = _context.CaseTags.ToList()
+                caseTags = _adminInterface.GetAllCaseTags()
             };
 
             return View(viewCase);
@@ -443,9 +448,9 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin")]
-        public int sendAgreement2(int reqTypeId)
+        public int sendAgreement2(int reqId)
         {
-            Request r = _context.Requests.Where(r => r.RequestId == reqTypeId).FirstOrDefault();
+            Request r = _adminInterface.GetReqFromReqType(reqId);
             return r.RequestTypeId;
         }
 
@@ -486,7 +491,7 @@ namespace HalloDoc.Controllers
             rsl.Status = 2;
             rsl.CreatedDate = DateTime.Now;
             rsl.TransToPhysicianId = selectedPhysicianId;
-            rsl.PhysicianId = selectedPhysicianId;
+            //rsl.PhysicianId = selectedPhysicianId;
             //_context.RequestStatusLogs.Add(rsl);
             //_context.SaveChanges();
             _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
@@ -499,13 +504,12 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult ClearCaseSubmitAction(AdminDashboardTableView model)
         {
-            Request r = _context.Requests.Where(re => re.RequestId == model.RequestId).FirstOrDefault();
+            Request r = _adminInterface.GetReqFromModel(model);
             if(r!=null)
             {
                 r.Status = 10;
                 TempData["success"] = "Case cleared successfully";
-                _context.Requests.Update(r);
-                _context.SaveChanges();
+                _adminInterface.UpdateRequest(r);
             }
             return RedirectToAction("AdminDashboard");
         }
@@ -669,14 +673,7 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult DeleteMultiple(int requestid, string fileId)
         {
-            RequestWiseFile rwf = _context.RequestWiseFiles.Where(r => r.RequestId == requestid).FirstOrDefault();
-            string[] fileid = fileId.Split(',').Select(x => x.Trim()).ToArray();
-            for (int i = 0; i < fileid.Length; i++)
-            {
-                RequestWiseFile r = _context.RequestWiseFiles.Where(r => r.RequestWiseFileId == int.Parse(fileid[i])).FirstOrDefault();
-                r.IsDeleted = new BitArray(1, true);
-            }
-            _context.SaveChanges();
+            _adminInterface.MultipleDelete(requestid, fileId);
             TempData["success"] = "File(s) deleted successfully";
             return RedirectToAction("ViewUploads", new { requestID = requestid });
         }
@@ -698,8 +695,8 @@ namespace HalloDoc.Controllers
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false
                 };
-                Request r = _context.Requests.Where(r => r.RequestId == requestid).FirstOrDefault();
-                RequestClient rc = _context.RequestClients.Where(cl => cl.RequestClientId == r.RequestClientId).FirstOrDefault();
+                Request r = _adminInterface.ValidateRequest(requestid);
+                RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
                 string name = rc.FirstName + " " + rc.LastName;
 
 
@@ -728,7 +725,7 @@ namespace HalloDoc.Controllers
                 {
                     ModelState.AddModelError("Email", "Invalid Email");
                     TempData["error"] = "Unable to send the mail";
-                    return RedirectToAction("ForgotPassword");
+                    return RedirectToAction("ViewUploads", new { requestID = requestid });
                 }
             }
             catch (Exception ex)
@@ -790,8 +787,8 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult Orders(int id)
         {
-            List<HealthProfessionalType> hPT = _context.HealthProfessionalTypes.ToList();
-            List<HealthProfessional> hP = _context.HealthProfessionals.ToList();
+            List<HealthProfessionalType> hPT = _adminInterface.GetHealthProfessionalType();
+            List<HealthProfessional> hP = _adminInterface.GetHealthProfessional();
             SendOrder so = new SendOrder
             {
                 hpType = hPT,
@@ -805,15 +802,22 @@ namespace HalloDoc.Controllers
         public List<HealthProfessional> GetBusinessData(int professionId, SendOrder model)
         
         {
-            List<HealthProfessional> healthProfessionals = _context.HealthProfessionals.Where(h => h.Profession == professionId).ToList();
+            List<HealthProfessional> healthProfessionals = _adminInterface.GetBusinessDataFromProfession(professionId);
             return healthProfessionals;
         }
 
         [CustomAuthorize("Admin")]
         public HealthProfessional GetOtherData(int businessId)
         {
-            HealthProfessional hp = _context.HealthProfessionals.Where(h => h.VendorId == businessId).FirstOrDefault();
+            HealthProfessional hp = _adminInterface.GetOtherDataFromBId(businessId);
             return hp;
+        }
+        //[HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult GetAgreementData(int reqId)
+        {
+            RequestClient rc = _adminInterface.GetPatientData(reqId);
+            return Json(new {response=rc });
         }
 
         [HttpPost]
@@ -829,8 +833,7 @@ namespace HalloDoc.Controllers
             orderDetail.Prescription = model.prescription;
             orderDetail.NoOfRefill = noOfRefill;
             orderDetail.CreatedDate = DateTime.Now;
-            _context.OrderDetails.Add(orderDetail);
-            _context.SaveChanges();
+            _adminInterface.AddOrderDetails(orderDetail);
             TempData["success"] = "Order sent successfully";
             return RedirectToAction("AdminDashboard");
         }
@@ -890,6 +893,56 @@ namespace HalloDoc.Controllers
             }
         }
 
+        public async Task<IActionResult> SendMailOfAgreement(AdminDashboardTableView model)
+        {
+            string email = _adminInterface.GetMailToSentAgreement(model.RequestId);
+            RequestClient rc = _adminInterface.GetPatientData(model.RequestId);
+            string url = $"{Request.Scheme}://{Request.Host}/Admin/ReviewAgreement?id={rc.RequestClientId}";
+            try
+            {
+                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                string senderPassword = "Ishan@1503";
+
+                SmtpClient client = new SmtpClient("smtp.office365.com")
+                {
+                    Port = 587,
+                    Credentials = new NetworkCredential(senderEmail, senderPassword),
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false
+                };
+
+                MailMessage mailMessage = new MailMessage
+                {
+                    From = new MailAddress(senderEmail, "HalloDoc"),
+                    Subject = "Review the agreement",
+                    IsBodyHtml = true,
+                    Body = $"Please click the following link to reset your password: <br><br><a href='{url}'>Click Here</a>"
+                };
+
+                AspNetUser anu = _adminInterface.ValidAspNetUser(email);
+                if (anu != null)
+                {
+                    mailMessage.To.Add(anu.Email);
+                    _sescontext.HttpContext.Session.SetString("UserEmail", anu.Email);
+                    await client.SendMailAsync(mailMessage);
+                    TempData["success"] = "Mail sent successfully. Please check it";
+                    return RedirectToAction("AdminDashboard");
+                }
+                else
+                {
+                    ModelState.AddModelError("Email", "Invalid Email");
+                    return RedirectToAction("AdminDashboard");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Failed to send the agreement to the provided mail";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
         [HttpPost]
         public IActionResult PlatformCreatePassword(string token)
         {
@@ -931,6 +984,40 @@ namespace HalloDoc.Controllers
                 return RedirectToAction("PlatformForgotPassword");
             }
 
+        }
+
+        public IActionResult ReviewAgreement(int id)
+        {
+            RequestClient rc = _adminInterface.GetRequestClientFromId(id);
+            return View(rc);
+        }
+
+        public IActionResult AcceptAgreement(int id)
+        {
+            Request r = _adminInterface.GetReqFromReqClient(id);
+            RequestStatusLog rsl = new RequestStatusLog();
+            rsl.RequestId = r.RequestId;
+            rsl.Status = 4;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.RequestId = r.RequestId;
+            _adminInterface.AddRequestStatusLogFromAgreement(rsl);
+            _adminInterface.UpdateRequest(r);
+            TempData["success"] = "Agreement accepted successfully";
+            return RedirectToAction("PatientLoginPage", "Login");
+        }
+
+        public IActionResult CancelAgreement(int id, string desc)
+        {
+            Request r = _adminInterface.GetReqFromReqClient(id);
+            RequestStatusLog rsl = _adminInterface.GetLogFromReqId(r.RequestId);
+            rsl.Status = 3;
+            rsl.Notes = desc;
+            rsl.CreatedDate = DateTime.Now;
+            rsl.RequestId = r.RequestId;
+            _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
+            _adminInterface.UpdateRequest(r);
+            TempData["success"] = "Agreement cancelled successfully";
+            return RedirectToAction("PatientLoginPage", "Login");
         }
 
         public IActionResult PlatformCreatePassword()

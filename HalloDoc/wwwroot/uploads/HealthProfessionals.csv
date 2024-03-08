@@ -1,0 +1,4 @@
+"VendorId","VendorName","Profession","FaxNumber","Address","City","State","Zip","RegionId","CreatedDate","ModifiedDate","PhoneNumber","IsDeleted","IP","Email","BusinessContact"
+1,"Piyush",1,"+1-907-555-1234","Panchvati Society","Jamnagar","Gujarat","361002",1,"2024-02-07 00:00:00",NULL,NULL,NULL,NULL,"abcde@gmail.com","9876543210"
+2,"Aman",2,"+1-907-555-1234","Mangrol Road","Keshod","Gujarat","362220",1,"2024-02-07 00:00:00",NULL,NULL,NULL,NULL,"ishan@gmail.com","9870123456"
+3,"Anupam",2,"+1-907-555-1235","Lake Palace","Udaipur","Rajasthan","313001",NULL,"2024-02-07 00:00:00",NULL,NULL,NULL,NULL,"qw@gmail.com","9123456780"

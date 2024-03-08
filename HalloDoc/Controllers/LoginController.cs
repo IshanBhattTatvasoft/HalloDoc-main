@@ -13,6 +13,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using DocumentFormat.OpenXml.InkML;
+using HalloDoc.LogicLayer.Patient_Repository;
 
 namespace HalloDoc.Controllers
 {
@@ -36,7 +37,8 @@ namespace HalloDoc.Controllers
         private readonly IPatientRequest _patientRequest;
         private readonly IConfiguration _configuration;
         private readonly IJwtToken _jwtToken;
-        public LoginController(IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse, IPatientRequest patientRequest, IConfiguration configuration, IJwtToken jwtToken)
+        private readonly IAdminInterface _adminInterface;
+        public LoginController(IHttpContextAccessor sescontext, ILoginPage loginPage, IEmailSender emailSender, IPatientDashboard patientDashboard, IViewDocuments viewDocuments, IPatientProfile profile, ICreateRequestForMe createRequestForMe, ICreateRequestForSomeoneElse createRequestForSomeoneElse, IPatientRequest patientRequest, IConfiguration configuration, IJwtToken jwtToken, IAdminInterface adminInterface)
         {
             /* _logger = logger;*/
             //_context = context;
@@ -51,6 +53,7 @@ namespace HalloDoc.Controllers
             _patientRequest = patientRequest;
             _configuration = configuration;
             _jwtToken = jwtToken;
+            _adminInterface = adminInterface;
         }
 
         [HttpPost]
@@ -67,11 +70,22 @@ namespace HalloDoc.Controllers
                     var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
+                        Admin ad = _adminInterface.ValidateUser(model);
                         User user2 = _loginPage.ValidateUsers(model);
-                        HttpContext.Session.SetInt32("id", user2.UserId);
-                        HttpContext.Session.SetString("Name", user2.FirstName);
-                        HttpContext.Session.SetString("IsLoggedIn", "true");
-                        Response.Cookies.Append("token", token.ToString());
+                        if(ad==null)
+                        {
+                            HttpContext.Session.SetInt32("id", user2.UserId);
+                            HttpContext.Session.SetString("Name", user2.FirstName);
+                            HttpContext.Session.SetString("IsLoggedIn", "true");
+                            Response.Cookies.Append("token", token.ToString());
+                        }
+                        if(ad!=null)
+                        {
+                            HttpContext.Session.SetInt32("id", ad.AdminId);
+                            HttpContext.Session.SetString("name", ad.FirstName);
+                            Response.Cookies.Append("token", token.ToString());
+                            HttpContext.Session.SetString("IsLoggedIn", "true");
+                        }
                         AspNetUserRole anur = _loginPage.ValidateANUR(user);
                         AspNetRole anr = _loginPage.ValidateRole(anur);
                         if (anr.Name == "Patient")

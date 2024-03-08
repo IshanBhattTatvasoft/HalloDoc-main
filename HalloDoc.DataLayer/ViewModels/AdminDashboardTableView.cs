@@ -31,4 +31,6 @@ public class AdminDashboardTableView
     [Required(ErrorMessage = "Email is required")]
     public required string email { get; set; }
     public int? requestTypeId { get; set; }
+    public string sendAgreeEmail { get; set; }
+    public string Admin_Name { get; set; }
 }
