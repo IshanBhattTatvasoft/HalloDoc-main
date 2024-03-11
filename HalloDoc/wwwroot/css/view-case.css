@@ -383,9 +383,6 @@ input.searchPatientInput:focus {
     min-width: 85px;
 }
 
-textarea {
-    resize: none;
-}
 
 .dots {
     border-bottom: 1px dotted grey;
@@ -423,7 +420,7 @@ textarea {
 }
 
 textarea {
-    resize: none;
+    resize: none !important;
 }
 
 .business-dropdown{
@@ -440,3 +437,16 @@ textarea {
         margin-left: 5px !important;
     }
 }*/
+
+
+.holder {
+    position: relative;
+    z-index: 20;
+    margin-left: 10px;
+    margin-top: 15px;
+    pointer-events: none; /* Allow clicks to pass through the label */
+}
+
+#phone{
+    height: 58px;
+}

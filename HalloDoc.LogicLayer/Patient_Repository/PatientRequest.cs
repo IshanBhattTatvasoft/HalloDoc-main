@@ -1,6 +1,7 @@
 ﻿using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
+using HalloDoc.DataLayer.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
@@ -69,12 +70,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.Users.Add(user);
                 _context.SaveChanges();
             }
+            Region r = _context.Regions.Where(re => re.Name == model.State).FirstOrDefault();
             requestClient.FirstName = model.FirstName;
             requestClient.LastName = model.LastName;
             requestClient.PhoneNumber = model.PhoneNumber;
             requestClient.Location = model.City;
             requestClient.Address = model.Street;
-            requestClient.RegionId = 1;
+            requestClient.RegionId = r.RegionId;
             requestClient.Notes = model.Symptoms;
             requestClient.Email = model.Email;
             requestClient.IntDate = model.DOB.Day;

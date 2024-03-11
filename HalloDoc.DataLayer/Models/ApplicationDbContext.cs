@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using HalloDoc.DataLayer.ViewModels;
+using HalloDoc.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HalloDoc.DataLayer.Models;
+namespace HalloDoc.DataLayer.Data;
 
 public partial class ApplicationDbContext : DbContext
 {
@@ -35,6 +35,8 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Concierge> Concierges { get; set; }
 
     public virtual DbSet<EmailLog> EmailLogs { get; set; }
+
+    public virtual DbSet<EncounterForm> EncounterForms { get; set; }
 
     public virtual DbSet<Family> Families { get; set; }
 
@@ -91,8 +93,6 @@ public partial class ApplicationDbContext : DbContext
     public virtual DbSet<Smslog> Smslogs { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
-
-    //public virtual DbSet<TableContent> TableContents { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
@@ -287,6 +287,37 @@ public partial class ApplicationDbContext : DbContext
             entity.Property(e => e.IsEmailSent).HasColumnType("bit(1)");
             entity.Property(e => e.SentDate).HasColumnType("timestamp without time zone");
             entity.Property(e => e.SubjectName).HasMaxLength(200);
+        });
+
+        modelBuilder.Entity<EncounterForm>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("EncounterForm_pkey");
+
+            entity.ToTable("EncounterForm");
+
+            entity.Property(e => e.Abd).HasColumnName("ABD");
+            entity.Property(e => e.BpD).HasColumnName("BP(D)");
+            entity.Property(e => e.BpS).HasColumnName("BP(S)");
+            entity.Property(e => e.Cv).HasColumnName("CV");
+            entity.Property(e => e.Date).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.FollowUp).HasColumnName("Follow_up");
+            entity.Property(e => e.Heent).HasColumnName("HEENT");
+            entity.Property(e => e.HistoryIllness).HasColumnName("history_illness");
+            entity.Property(e => e.Hr).HasColumnName("HR");
+            entity.Property(e => e.IsFinalized)
+                .HasDefaultValueSql("'0'::\"bit\"")
+                .HasColumnType("bit(1)")
+                .HasColumnName("isFinalized");
+            entity.Property(e => e.MedicalHistory).HasColumnName("medical_history");
+            entity.Property(e => e.MedicationDispensed).HasColumnName("medication_dispensed");
+            entity.Property(e => e.Procedures).HasColumnName("procedures");
+            entity.Property(e => e.Rr).HasColumnName("RR");
+            entity.Property(e => e.TreatmentPlan).HasColumnName("Treatment_Plan");
+
+            entity.HasOne(d => d.Request).WithMany(p => p.EncounterForms)
+                .HasForeignKey(d => d.RequestId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_encounter_request");
         });
 
         modelBuilder.Entity<Family>(entity =>
@@ -927,6 +958,6 @@ public partial class ApplicationDbContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
-    //modelBuilder.Entity<TableContent>().HasNoKey();
+
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

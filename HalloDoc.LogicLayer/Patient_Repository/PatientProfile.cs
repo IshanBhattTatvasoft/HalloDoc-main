@@ -4,6 +4,7 @@ using HalloDoc.LogicLayer.Patient_Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using HalloDoc.DataLayer.Data;
 using System.Text;
 using System.Threading.Tasks;
 

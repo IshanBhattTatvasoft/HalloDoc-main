@@ -408,39 +408,45 @@
                 <div class="search-div mt-3 gap-2 d-md-flex d-block">
                     <div class="search-div-sub input-group h-50 mb-2">
                         <input type="text" id="search" class="form-control search-input"
-                               placeholder="Search Patients" style="border: none !important;">
+                               placeholder="Search Patients" style="border: none !important;" onchange="changeFilter(this)">
                     </div>
                     <div class="search-div-sub-2 input-group h-50">
-                        <input type="text" id="searchRegion" class="form-control" placeholder="All Regions" style="border: none !important;">
+                        <select type="text" id="region" class="form-control" placeholder="All Regions" style="border: none !important;" onchange="changeFilter(this)">
+                            <option value="-1" class="bg-white" disabled selected>All Regions</option>
+                            @foreach (var item in Model.regions)
+                            {
+                                <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                            }
+                        </select>
                     </div>
 
                 </div>
 
                 <div class="categories-div d-md-flex d-block gap-2 align-items-center">
-                    <button class="categories-div-all-button btn border border-dark-subtle mt-3 d-md-inline-block d-none">All</button>
+                    <a class="req-filter All filter-active categories-div-all-button btn border border-dark-subtle mt-3 d-md-inline-block d-none text-decoration-none" onclick="changeFilter(this)">All</a>
                     <div class="d-flex align-items-center justify-content-center gap-2">
 
                         <div class="d-flex align-items-center justify-content-center mt-3 gap-2">
-                            <button type="button" class="btn border border-white categories-div-sub d-sm-flex flex-sm-row flex-column  align-items-center gap-1">
+                            <a class="req-filter Patient btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
                                 <div class="categories-div-sub-sub m-auto"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></div>
                                 <div>Patient</div>
-                            </button>
-                            <button type="button" class="btn border border-white categories-div-sub d-sm-flex align-items-center gap-1">
+                            </a>
+                            <a class="req-filter Family btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
                                 <div class="categories-div-sub-sub m-auto"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></div>
                                 <div>Family/Friend</div>
-                            </button>
-                            <button type="button" class="btn border border-white categories-div-sub d-sm-flex align-items-center gap-1">
+                            </a>
+                            <a class="req-filter Business btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
                                 <div class="categories-div-sub-sub m-auto"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
                                 <div>Business</div>
-                            </button>
-                            <button type="button" class="btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 pe-2">
+                            </a>
+                            <a class="req-filter Concierge btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
                                 <div class="categories-div-sub-sub m-auto"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></div>
                                 <div>Concierge</div>
-                            </button>
+                            </a>
                         </div>
                     </div>
 
@@ -850,6 +856,7 @@
 
 
     <script>
+        // code to show/hide triangle when a status is active/inactive
         const changeStatus = (element) => {
             //debugger;
             const states = document.getElementsByClassName("state");
@@ -875,6 +882,7 @@
             }
             let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
             let finalName = name.split("State")[0];
+            console.log("Final name : "+finalName);
             //console.log(finalName);
             if (finalName == "toclose") {
                 document.getElementById("status-text").innerHTML = "(To Close)";
@@ -897,6 +905,64 @@
 
         }
 
+
+        // code to add/remove class during filtering in admin dashboard
+        const changeFilter = (element) => {
+            const states = document.getElementsByClassName("req-filter");
+            const curr_state = element.classList[1];
+            console.log(curr_state);
+
+            const statesName = document.getElementsByClassName("state");
+            const current_state = element.classList[1];
+            let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
+            let finalName = name.split("State")[0];
+            console.log(finalName);
+
+            for(let i=0;i<states.length;i++){
+                if(states[i].classList.length == 11 && states[i].classList[1] == curr_state){
+                    break;
+                }
+                else if(states[i].classList[1] == curr_state)
+                {
+                    states[i].classList.add('filter-active');
+                }
+                else if(states[i].classList.length == 11){
+                    states[i].classList.remove('filter-active');
+                }
+            }
+
+            filter();
+        }
+
+        // code to show filtered data
+        const filter = () => {
+            
+            const states = document.getElementsByClassName("req-filter");
+            console.log(document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
+            for(let i=0;i<states.length;i++){
+                if(states[i].classList.length == 11)
+                {
+                    $.ajax({
+                        url: `/Admin/${document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)}`,
+                        type: 'POST',
+                        dataType: 'html',
+                        data: {search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1]},
+                        
+                        success: function(response){
+                            $("#AdminDashboardPartialView").html(response);
+                        },
+
+                        error: function(){
+                            alert("An error occurred");
+                        }
+                    });
+                }
+            }
+        }
+
+        document.getElementById("region").addEventListener("change", function () {
+            filter(this);
+        });
 
 
         $(document).ready(function () {

@@ -11,7 +11,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
 {
     public interface IAdminInterface 
     {
-        public AdminDashboardTableView ModelOfAdminDashboard(string? status, int userId);
+        public AdminDashboardTableView ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);
@@ -58,8 +58,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public Request GetReqFromReqClient(int id);
         public RequestStatusLog GetLogFromReqId(int reqId);
         public void AddRequestStatusLogFromAgreement(RequestStatusLog rsl);
-
-
-
+        //AdminDashboardTableView ModelOfAdminDashboard(string? status, int userId);
+        public EncounterForm GetEncounterFormData(int reqId);
+        public void UpdateEncounterFormData(EncounterFormModel model, RequestClient rc);
     }
 }

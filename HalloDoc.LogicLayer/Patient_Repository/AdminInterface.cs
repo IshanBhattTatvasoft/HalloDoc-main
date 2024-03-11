@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Office2016.Excel;
+using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,9 +27,35 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context = context;
         }
 
-        public AdminDashboardTableView ModelOfAdminDashboard(string? status, int id)
+        AdminDashboardTableView IAdminInterface.ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region)
         {
-            
+
+            Expression<Func<Request, bool>> exp;
+            if (status == "New")
+            {
+                exp = r => r.Status == 1;
+            }
+            else if (status == "Pending")
+            {
+                exp = r => r.Status == 2;
+            }
+            else if (status == "Active")
+            {
+                exp = r => r.Status == 5 || r.Status == 4;
+            }
+            else if (status == "Conclude")
+            {
+                exp = r => r.Status == 6;
+            }
+            else if (status == "ToClose")
+            {
+                exp = r => r.Status == 3 || r.Status == 7 || r.Status == 8;
+            }
+            else
+            {
+                exp = r => r.Status == 9;
+            }
+
             Admin ad = _context.Admins.Where(a => a.AdminId == id).FirstOrDefault();
             var count_new = _context.Requests.Count(r => r.Status == 1);
             var count_pending = _context.Requests.Count(r => r.Status == 2);
@@ -35,6 +63,39 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             var count_conclude = _context.Requests.Count(r => r.Status == 6);
             var count_toclose = _context.Requests.Count(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
             var count_unpaid = _context.Requests.Count(r => r.Status == 9);
+            List<HalloDoc.DataLayer.Models.Region> r = _context.Regions.ToList();
+            List<CaseTag> c = _context.CaseTags.ToList();
+
+            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(exp).OrderByDescending(e => e.CreatedDate);
+
+            if (search != null)
+            {
+                query = query.Where(r => r.RequestClient.FirstName.ToLower().Contains(search.ToLower()) || r.RequestClient.LastName.ToLower().Contains(search.ToLower()));
+            }
+
+            if (requestor == "Patient")
+            {
+                query = query.Where(r => r.RequestTypeId == 1);
+            }
+
+            if (requestor == "Family")
+            {
+                query = query.Where(r => r.RequestTypeId == 2);
+            }
+
+            if (requestor == "Concierge")
+            {
+                query = query.Where(r => r.RequestTypeId == 3);
+            }
+
+            if (requestor == "Business")
+            {
+                query = query.Where(r => r.RequestTypeId == 4);
+            }
+            if (region != null && region != -1)
+            {
+                query = query.Where(r => r.RequestClient.RegionId == region);
+            }
 
             AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
             {
@@ -44,42 +105,43 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 conclude_count = count_conclude,
                 unpaid_count = count_unpaid,
                 toclose_count = count_toclose,
-                regions = _context.Regions.ToList(),
+                regions = r,
                 status = status,
-                caseTags = _context.CaseTags.ToList(),
+                caseTags = c,
                 email = "abc",
-                Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName)
-        };
-            if (status == "New")
-            {
-                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1);
-                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1).ToList();
-            }
-            else if(status == "Pending")
-            {
-                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2);
-                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2).ToList();
-            }
-            else if (status == "Active")
-            {
-                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4 || r.Status == 5);
-                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4 || r.Status == 5).ToList();
-            }
-            else if (status == "Conclude")
-            {
-                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6);
-                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6).ToList();
-            }
-            else if (status == "ToClose")
-            {
-                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
-                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3 || r.Status == 7 || r.Status == 8).ToList();
-            }
-            else
-            {
-                adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 9);
-                adminDashboardViewModel.requests = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 9).ToList();
-            }
+                Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName),
+                requests = query.ToList(),
+            };
+            //if (status == "New")
+            //{
+            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1);
+            //    adminDashboardViewModel.requests = query.ToList();
+            //}
+            //else if (status == "Pending")
+            //{
+            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2);
+            //    adminDashboardViewModel.requests = query.ToList();
+            //}
+            //else if (status == "Active")
+            //{
+            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4 || r.Status == 5);
+            //    adminDashboardViewModel.requests = query.ToList();
+            //}
+            //else if (status == "Conclude")
+            //{
+            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6);
+            //    adminDashboardViewModel.requests = query.ToList();
+            //}
+            //else if (status == "ToClose")
+            //{
+            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
+            //    adminDashboardViewModel.requests = query.ToList();
+            //}
+            //else
+            //{
+            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 9);
+            //    adminDashboardViewModel.requests = query.ToList();
+            //}
             return adminDashboardViewModel;
         }
 
@@ -354,7 +416,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<CaseTag> GetAllCaseTags()
         {
-           return _context.CaseTags.ToList();
+            return _context.CaseTags.ToList();
         }
 
         public Request GetReqFromReqType(int ReqId)
@@ -379,8 +441,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        public List<HealthProfessionalType> GetHealthProfessionalType() 
-        { 
+        public List<HealthProfessionalType> GetHealthProfessionalType()
+        {
             return _context.HealthProfessionalTypes.ToList();
         }
 
@@ -396,7 +458,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public HealthProfessional GetOtherDataFromBId(int businessId)
         {
-           return _context.HealthProfessionals.Where(h => h.VendorId == businessId).FirstOrDefault();
+            return _context.HealthProfessionals.Where(h => h.VendorId == businessId).FirstOrDefault();
         }
 
         public void AddOrderDetails(OrderDetail orderDetail)
@@ -432,6 +494,42 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public RequestStatusLog GetLogFromReqId(int reqId)
         {
             return _context.RequestStatusLogs.Where(r => r.RequestId == reqId).FirstOrDefault();
+        }
+
+        public EncounterForm GetEncounterFormData(int reqId)
+        {
+            return _context.EncounterForms.Where(e => e.RequestId == reqId).FirstOrDefault();
+        }
+
+        public void UpdateEncounterFormData(EncounterFormModel model, RequestClient rc)
+        {
+            string address = model.Location;
+            int firstCom = address.IndexOf(',');
+            string street = firstCom >= 0 ? address.Substring(0, firstCom) : address;
+            int secondCom = address.IndexOf(',', firstCom+1);
+            string city = "";
+            if (secondCom != -1)
+            {
+                city = address.Substring(firstCom + 2, secondCom - (firstCom + 2));
+            }
+            string[] parts = address.Split(',');
+            string state = parts.Length >= 2 ? parts[parts.Length - 2].Trim() : "";
+            int lastCommaIndex = address.LastIndexOf(',');
+            string zipcode = address.Substring(lastCommaIndex + 1).Trim();
+
+            
+
+            rc.FirstName = model.FirstName;
+            rc.LastName = model.LastName;
+            rc.Email = model.Email;
+            rc.PhoneNumber = model.PhoneNumber;
+            rc.Street = street;
+            rc.City = city;
+            rc.State = state;
+            rc.ZipCode = zipcode;
+
+            _context.RequestClients.Update(rc);
+            _context.SaveChanges();
         }
 
     }

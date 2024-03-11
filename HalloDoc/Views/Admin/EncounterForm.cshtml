@@ -1,0 +1,274 @@
+﻿@model HalloDoc.DataLayer.ViewModels.EncounterFormModel
+@{
+    ViewData["Title"] = "Encounter Form";
+}
+
+@section Styles {
+    <link href="~/css/view-case.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+}
+
+<div>
+    <partial name="HeaderFooter" />
+
+    <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
+        <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
+            <span>
+                Encounter Form
+            </span>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <a class="text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen"
+               style="text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+        <form method="post" asp-action="EncounterFormSubmit" asp-controller="Admin">
+            <input type="num" hidden asp-for="reqId" id="encounter-req-id"/>
+            <div class="d-flex justify-content-center align-items-center">
+                <p class="h3 text-info fw-bolder">Medical Report - Confidential</p>
+            </div>
+
+            <div class="row">
+                <div class="form-floating col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           disabled asp-for="FirstName">
+                    <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                </div>
+                <div class="form-floating col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           disabled asp-for="LastName">
+                    <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <textarea class="form-control" id="firstTextArea" placeholder="Location" rows="1"
+                              asp-for="Location" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
+                    <span asp-validation-for="DOB" class="text-danger"></span>
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <input id="currDate" class="form-control" type="date" placeholder="Date" asp-for="Date" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Date</label>
+                    <span asp-validation-for="DOB" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="Email" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Email</label>
+
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" disabled />
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6">
+                    <textarea class="form-control" placeholder="History of Present Illness or Injury" rows="3" asp-for="HistoryOfIllness" disabled></textarea>
+                </div>
+                <div class="col-sm-6">
+                    <textarea class="form-control placeholder="Medical History" rows="3" asp-for="MedicalHistory" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6">
+                    <textarea class="form-control" placeholder="Medications" rows="2"
+                              asp-for="Medications" disabled></textarea>
+                </div>
+                <div class="col-sm-6">
+                    <textarea class="form-control" placeholder="Allergies" rows="2"
+                              asp-for="Allergies" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-4 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="Temp" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Temp</label>
+                </div>
+                <div class="col-sm-4 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="HR" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">HR</label>
+                </div>
+                <div class="col-sm-4 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="RR" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">RR</label>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-2 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="BPS" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Blood Pressure(S.</label>
+                </div>
+                <div class="col-sm-2 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="BPD" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Blood Pressure(D.</label>
+                </div>
+                <div class="col-sm-4 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="O2" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">O2</label>
+                </div>
+                <div class="col-sm-4 form-floating">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="Pain" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted">Pain</label>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Heent" rows="2"
+                              asp-for="Heent" disabled></textarea>
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="CV" rows="2"
+                              asp-for="CV" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Chest" rows="2" id="myTextArea"
+                              asp-for="Chest" disabled></textarea>
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="ABD" rows="2"
+                              asp-for="ABD" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Extr" rows="2"
+                              asp-for="Extr" disabled></textarea>
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Skin" rows="2"
+                              asp-for="Skin" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Neuro" rows="2"
+                              asp-for="Neuro" disabled></textarea>
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Other" rows="2"
+                              asp-for="Other" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Diagnosis" rows="2"
+                              asp-for="Diagnosis" disabled></textarea>
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Treatmen Plan" rows="2"
+                              asp-for="TreatmentPlan" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Medications Dispensed" rows="3"
+                              asp-for="MedicationsDispensed" disabled></textarea>
+                </div>
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Procedures" rows="3"
+                              asp-for="Procedures" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-12 form-floating">
+                    <textarea class="form-control" placeholder="Followup" rows="2"
+                              asp-for="FollowUp" disabled></textarea>
+                </div>
+            </div>
+
+            <div class="row mt-3 d-flex align-items-end justify-content-end">
+                <div class="col-sm-2 mt-4 d-inline-block w-auto">
+                    <button class="btn btn-info text-white" type="submit" id="submitButton">Submit</button>
+                </div>
+                <div class="col-sm-2 mt-4 d-inline-block w-auto" style="width: 86px;">
+                    <a class="btn border-info text-info" id="cancelButton" style="padding: 5px;">Cancel</a>
+                </div>
+                <div class="col-sm-2 mt-4 d-inline-block w-auto">
+                    <button type="button" class="btn btn-info float-end mb-3" id="editButton">Edit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    function ecnounterFormReqId(id)
+    {
+        document.getElementById("encounter-req-id").value = id;
+    }
+
+    window.onload = function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("startDate").setAttribute('max', today);
+    };
+
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        innerHeight: 1,
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    var classCount = document.getElementsByClassName('form-control');
+
+    document.getElementById('editButton').addEventListener('click', function () {
+        document.getElementById('submitButton').style.display = "flex";
+        document.getElementById('cancelButton').style.display = "flex";
+        document.getElementById('editButton').style.display = "none";
+        for (var i = 0; i < 7; i++) {
+            classCount[i].removeAttribute('disabled');
+        }
+    });
+    document.getElementById('cancelButton').addEventListener('click', function () {
+        document.getElementById('editButton').style.display = "flex";
+        document.getElementById('submitButton').style.display = "none";
+        document.getElementById('cancelButton').style.display = "none";
+        for (var i = 0; i < 7; i++) {
+            classCount[i].setAttribute('disabled', 'disabled');
+        }
+        location.reload();
+    });
+</script>

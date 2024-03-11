@@ -17,6 +17,7 @@ using HalloDoc.LogicLayer.Patient_Repository;
 using System.Net.Mail;
 using System.Net;
 using DocumentFormat.OpenXml.Spreadsheet;
+using System.Drawing;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -105,7 +106,7 @@ namespace HalloDoc.Controllers
             //    caseTags = _context.CaseTags.ToList()
             //};
             var userId = HttpContext.Session.GetInt32("id");
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status, (int)userId);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status, (int)userId, null, null, -1);
 
             
             return View(adminDashboardViewModel);
@@ -115,59 +116,59 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult New()
+        public IActionResult New(string? search="", string? requestor = "", int? region=-1)
         {
             var userId = HttpContext.Session.GetInt32("id");
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, search, requestor, (int)region);
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Pending()
+        public IActionResult Pending(string? search = "", string? requestor = "", int? region = -1)
         {
             var userId = HttpContext.Session.GetInt32("id");
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId);
-
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
-        }
-
-        //[HttpPost]
-        [CustomAuthorize("Admin")]
-        public IActionResult Active()
-        {
-            var userId = HttpContext.Session.GetInt32("id");
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending",(int)userId, search, requestor, (int)region);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Conclude()
+        public IActionResult Active(string? search="", string? requestor = "", int? region=-1)
         {
             var userId = HttpContext.Session.GetInt32("id");
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId, search, requestor, (int)region);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Toclose()
+        public IActionResult Conclude(string? search="", string? requestor = "", int? region=-1)
         {
             var userId = HttpContext.Session.GetInt32("id");
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId, search, requestor, (int)region);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Unpaid()
+        public IActionResult Toclose(string? search="", string? requestor = "", int? region=-1)
         {
             var userId = HttpContext.Session.GetInt32("id");
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId, search, requestor, (int)region);
+
+            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+        }
+
+        //[HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult Unpaid(string? search="", string? requestor = "", int? region=-1)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId, search, requestor, (int)region);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
@@ -1023,6 +1024,67 @@ namespace HalloDoc.Controllers
         public IActionResult PlatformCreatePassword()
         {
             return View();
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult EncounterForm(int reqId)
+        {
+            EncounterForm ef = _adminInterface.GetEncounterFormData(reqId);
+            Request r = _adminInterface.ValidateRequest(reqId);
+            RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
+            EncounterFormModel efm = new EncounterFormModel {
+                reqId = reqId,
+                FirstName = rc.FirstName,
+                LastName = rc.LastName,
+                Email = rc.Email,
+                Location = string.Concat(rc.Street, ", ", rc.City, ", ", rc.State, ", ", rc.ZipCode),
+                PhoneNumber = rc.PhoneNumber,
+                DOB = new DateOnly((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate),
+                Date = DateOnly.FromDateTime((DateTime)ef.Date),
+                Medications = ef.Medications,
+                Allergies = ef.Allergies,
+                Temp = (decimal)ef.Temp,
+                HR = (decimal)ef.Hr,
+                RR = (decimal)ef.Rr,
+                BPS = (int)ef.BpS,
+                BPD = (int)ef.BpD,
+                O2 = (decimal)ef.O2,
+                Pain = ef.Pain,
+                Heent = ef.Heent,
+                CV = ef.Cv,
+                Chest = ef.Chest,
+                ABD = ef.Abd,
+                Extr = ef.Extr,
+                Skin = ef.Skin,
+                Neuro = ef.Neuro,
+                Other = ef.Other,
+                Diagnosis = ef.Diagnosis,
+                TreatmentPlan = ef.TreatmentPlan,
+                MedicationsDispensed = ef.MedicationDispensed,
+                Procedures = ef.Procedures,
+                FollowUp = ef.FollowUp
+            };
+            return View(efm);
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult EncounterFormSubmit(EncounterFormModel model)
+        {
+            int requestId = (int)model.reqId;
+            if(requestId != null)
+            {
+                Request r = _adminInterface.ValidateRequest(requestId);
+                RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
+                if(rc!= null) 
+                {
+                    _adminInterface.UpdateEncounterFormData(model, rc);
+                    
+                }
+            }
+            TempData["success"] = "Welcome again!";
+            return RedirectToAction("AdminDashboard");
+
         }
     }
 }
