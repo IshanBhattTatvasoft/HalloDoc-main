@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HalloDoc.DataLayer.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace HalloDocMvc.Entity.ViewModel
         public string PhyName { get; set; }
 
         public int RequestId { get; set; }
+        public AdminNavbarModel? an { get; set; }
 
 
 

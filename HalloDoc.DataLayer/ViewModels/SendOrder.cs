@@ -16,5 +16,6 @@ public class SendOrder
     public string? faxNumber { get; set; }
     public string? prescription { get; set; }
     public int? numOfRefill { get; set; }
+    public AdminNavbarModel? an { get; set; }
 }
 

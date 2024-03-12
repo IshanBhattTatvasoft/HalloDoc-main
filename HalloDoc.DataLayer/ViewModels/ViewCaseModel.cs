@@ -24,5 +24,6 @@ public class ViewCaseModel
     public int? reqTypeId { get; set; }
     public List<Region> regions { get; set; } = new List<Region>();
     public List<CaseTag> caseTags { get; set; }
+    public AdminNavbarModel? an { get; set; }
 
 }

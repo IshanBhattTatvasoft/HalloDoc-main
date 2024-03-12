@@ -61,5 +61,11 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         //AdminDashboardTableView ModelOfAdminDashboard(string? status, int userId);
         public EncounterForm GetEncounterFormData(int reqId);
         public void UpdateEncounterFormData(EncounterFormModel model, RequestClient rc);
+        public void AddRequestClosedData(RequestClosed rc);
+        public void UpdateRequestClient(RequestClient rc);
+        public List<HalloDoc.DataLayer.Models.Region> GetAllRegions();
+        public Admin GetAdminFromId(int id);
+
+
     }
 }

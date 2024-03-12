@@ -1,0 +1,211 @@
+﻿@model HalloDoc.DataLayer.ViewModels.AdminProfile
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+@section Styles {
+    <link href="~/css/view-case.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+}
+
+<div>
+    <partial name="HeaderFooter" model="@Model.an" />
+
+    <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
+        <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
+            <span>
+                My Profile
+            </span>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <a class="text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen"
+               style="text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+        <div class="row">
+            <div class="col text-muted ms-3 mt-3 h6">My Profile</div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <input id="username" class="form-control" type="date" placeholder="Date Of Birth" asp-for="Username" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">User Name</label>
+            </div>
+            <div class="col-sm-6 form-floating">
+                <input id="pass" class="form-control" type="date" placeholder="Date" asp-for="Password">
+                <label for="floatingInput" class="ms-2 text-muted">Password</label>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Active</option>
+                    <option value="1">New</option>
+                    <option value="2">Pending</option>
+                    <option value="3">To-Close</option>
+                    <option value="4">Conclude</option>
+                    <option value="5">Unpaid</option>
+                </select>
+            </div>
+            <div class="col-sm-6 form-floating">
+                <select class="form-select" aria-label="Default select example">
+                    <option selected>Master Admin</option>
+                    <option value="1">Slave Admin</option>
+                    <option value="2">Pending</option>
+                    <option value="3">To-Close</option>
+                    <option value="4">Conclude</option>
+                    <option value="5">Unpaid</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-end">
+            <div class="col-sm-2 mt-4 d-flex flex-row mx-0" style="margin-bottom: 16px;">
+                <button class="btn btn-info text-white me-2" type="submit" id="submitButton">Submit</button>
+                <a class="btn border-info text-info" id="cancelButton">Cancel</a>
+            </div>
+            <div class="col-sm-2 mt-4 d-inline-block w-auto" id="editDiv">
+                <button type="button" class="btn btn-info mb-3" id="editButton">Save</button>
+            </div>
+            <a asp-action="ClickOnCloseCase" asp-controller="Admin" class="btn border-info text-info" id="closeCaseButton" style="padding: 5px;">Reset Password</a>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col text-muted ms-3 mt-3 h6">Administrator Information</div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <input id="firstname" class="form-control" type="date" placeholder="Date Of Birth" asp-for="firstName" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+            </div>
+            <div class="col-sm-6 form-floating">
+                <input id="lastName" class="form-control" type="date" placeholder="Date" asp-for="lastName" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <input id="email" class="form-control" type="date" placeholder="Date Of Birth" asp-for="email" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">Email</label>
+            </div>
+            <div class="col-sm-6 form-floating">
+                <input id="confemail" class="form-control" type="date" placeholder="Date" asp-for="confEmail" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">Confirm Email</label>
+                <span asp-validation-for="confEmail"></span>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <input id="phone" class="form-control" type="tel" asp-for="phoneNo" disabled style="height: 58px;" />
+            </div>
+            <div class="col-sm-6 form-floating">
+                <p>region checkboxes</p>
+            </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-end align-items-end">
+            <div class="col-sm-2 mt-4 d-flex flex-row mx-0" style="margin-bottom: 16px;">
+                <button class="btn btn-info text-white me-2" type="submit" id="submitButton">Submit</button>
+                <a class="btn border-info text-info" id="cancelButton">Cancel</a>
+            </div>
+            <div class="col-sm-2 mt-4 d-inline-block w-auto" id="editDiv">
+                <button type="button" class="btn btn-info mb-3" id="editButton">Edit</button>
+            </div>
+            <div class="col-sm-2 mt-4 d-inline-block w-auto" style="width: 86px; margin-bottom: 16px;">
+                <a asp-action="ClickOnCloseCase" asp-controller="Admin" class="btn border-info text-info" id="closeCaseButton" style="padding: 5px;">Submit</a>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col text-muted ms-3 mt-3 h6">Mailing and Billing Information</div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <input id="add1" class="form-control" type="date" placeholder="Date Of Birth" asp-for="address1" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">Address 1</label>
+            </div>
+            <div class="col-sm-6 form-floating">
+                <input id="add2" class="form-control" type="date" placeholder="Date" asp-for="address2" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">Address 2</label>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <input id="city" class="form-control" type="date" placeholder="Date Of Birth" asp-for="city" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">City</label>
+            </div>
+            <div class="col-sm-6 form-floating">
+                <option value="-1" class="bg-white" selected>Selected Region</option>
+                @foreach (var item in Model.regions)
+                {
+                    <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                }
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-sm-6 form-floating">
+                <input id="zipcode" class="form-control" type="date" placeholder="Date Of Birth" asp-for="zipcode" disabled>
+                <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
+            </div>
+            <div class="col-sm-6 form-floating">
+                <input id="phone1" class="form-control" type="tel" asp-for="altPhoneNo" disabled style="height: 58px;"/>
+            </div>
+        </div>
+
+        <div class="row mt-3 d-flex justify-content-end align-items-end">
+            <div class="col-sm-2 mt-4 d-flex flex-row mx-0" style="margin-bottom: 16px;">
+                <button class="btn btn-info text-white me-2" type="submit" id="submitButton">Submit</button>
+                <a class="btn border-info text-info" id="cancelButton">Cancel</a>
+            </div>
+            <div class="col-sm-2 mt-4 d-inline-block w-auto" id="editDiv">
+                <button type="button" class="btn btn-info mb-3" id="editButton">Edit</button>
+            </div>
+            <div class="col-sm-2 mt-4 d-inline-block w-auto" style="width: 86px; margin-bottom: 16px;">
+                <a asp-action="ClickOnCloseCase" asp-controller="Admin" class="btn border-info text-info" id="closeCaseButton" style="padding: 5px;">Submit</a>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        innerHeight: 1,
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    const phoneInputField1 = document.querySelector("#phone1");
+    const phoneInput1 = window.intlTelInput(phoneInputField1, {
+        innerHeight: 1,
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>

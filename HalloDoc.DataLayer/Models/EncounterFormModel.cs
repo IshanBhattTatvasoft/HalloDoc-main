@@ -35,5 +35,6 @@ public class EncounterFormModel
     public string Procedures { get; set; }
     public string FollowUp { get; set; }
     public int reqId { get; set; }
+    public AdminNavbarModel? an { get; set; }
 }
 

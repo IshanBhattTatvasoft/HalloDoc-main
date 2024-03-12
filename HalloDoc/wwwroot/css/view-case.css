@@ -450,3 +450,9 @@ textarea {
 #phone{
     height: 58px;
 }
+
+.create-invoice{
+    /*width: max-content !important;*/
+    display: inline-block !important;
+    float: right !important;
+}

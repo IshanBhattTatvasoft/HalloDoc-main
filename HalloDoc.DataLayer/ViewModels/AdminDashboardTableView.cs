@@ -33,5 +33,5 @@ public class AdminDashboardTableView
     public required string email { get; set; }
     public int? requestTypeId { get; set; }
     public string sendAgreeEmail { get; set; }
-    public string Admin_Name { get; set; }
+    public AdminNavbarModel? an { get; set; }
 }

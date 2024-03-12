@@ -122,7 +122,7 @@
                 </td>
                 @if (Model.status != "Unpaid")
                 {
-                    <td class="@statusClass">@(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(12)</td>
+                    <td class="@statusClass">@(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@(DateTime.Now.Year - item.RequestClient.IntYear))</td>
                 }
                 @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active")
                 {
@@ -195,13 +195,17 @@
                         <div class="dropdown-content">
                             @if (Model.status == "New")
                             {
-                                        <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
+                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
                                 <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
 
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
                                 <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
+                            }
+                            @if (Model.status == "ToClose")
+                            {
+                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
                             }
                             @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                             {
@@ -211,15 +215,15 @@
                             {
                                 <button type="button" class="dropdown-item text-dark hover-dropdown-item" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></button>
                             }
-                            @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
+                            @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "Unpaid")
                             {
                                 <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
                             }
                             @if (Model.status == "Pending")
                             {
-                                                <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferRequestData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></button>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferRequestData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></button>
                             }
-                            @if (Model.status == "Pending" || Model.status == "ToClose")
+                            @if (Model.status == "Pending")
                             {
                                 <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></button>
                             }
@@ -230,13 +234,21 @@
                             @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
                             {
                                 <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
+                                @if (Model.status == "ToClose")
+                                {
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="CloseCase" asp-controller="Admin" asp-route-id="@item.RequestId"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Close Case</span></div></a>
+                                }
                                 <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Doctor Note</span></div></a>
+                                @if (Model.status == "ToClose")
+                                {
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></button>
+                                }
                                 <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Encounter</span></div></a>
-                            }
-                            @if (Model.status == "ToClose")
-                            {
-                                <a class="dropdown-item hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img"><span>Close Case</span></div></a>
-                            }
+                            }@*
+                        @if (Model.status == "ToClose")
+                        {
+                        <a class="dropdown-item hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img"><span>Close Case</span></div></a>
+                        }*@
                         </div>
                     </div>
                 </td>
@@ -245,11 +257,11 @@
     </tbody>
 </table>
 
-                                          @*Admin Dashboard Mobile View*@
+@*Admin Dashboard Mobile View*@
 
 <div class="d-md-none">
     <div class="accordion accordion-flush" id="accordionExample">
-        
+
         @foreach (var item in Model.requests)
         {
             var statusClass = "";
@@ -309,7 +321,7 @@
                                     <span>@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</span>
                                 </div>
                                 <div class="float-end mb-2 map-div">
-                                    
+
                                     <a class="accordion-map map-abs-btn" data-address="@(string.Concat(item.RequestClient.Street, ", ", item.RequestClient.Address, ", ", item.RequestClient.City, ", ", item.RequestClient.State))">
                                         <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
                                         <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
@@ -337,7 +349,7 @@
                             <button type="button" class="btn btn-light view-case-button">View Case</button>
                             @if (Model.status != "Unpaid")
                             {
-                                <div><img src="~/images/calendar2-date.svg"><span class="ms-2">Date of birth:  @(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(12)</span></div>
+                                <div><img src="~/images/calendar2-date.svg"><span class="ms-2">Date of birth:  @(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@DateTime.Now.Year - @item.RequestClient.IntYear)</span></div>
                             }
                             <div class="mt-2"><img src="~/images/envelope.svg"><span class="ms-2">Email:  @item.RequestClient.Email</span></div>
                             @if (Model.status != "ToClose")
@@ -377,16 +389,16 @@
                                 {
 
                                     <div class="col-6">
-                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button">Assign Case</button>
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')">Assign Case</button>
                                     </div>
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100">Cancel Case</button>
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">Cancel Case</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">View Notes</button>
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100">Block Patient</button>
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">Block Patient</button>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
@@ -400,16 +412,16 @@
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Send Agreement</button>
                                     </div>
                                     <div class="col-6">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Notes</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 blue-button">Transfer</button>
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 blue-button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferRequestData('@item.RequestId')">Transfer</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Clear Case</button>
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')">Clear Case</button>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
@@ -419,19 +431,19 @@
                                 @if (Model.status == "Active")
                                 {
                                     <div class="col-6">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Notes</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Encounter</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Orders</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId">Orders</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
@@ -441,19 +453,19 @@
                                 @if (Model.status == "Conclude")
                                 {
                                     <div class="col-6">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Notes</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Encounter</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Orders</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId">Orders</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
@@ -463,22 +475,22 @@
                                 @if (Model.status == "ToClose")
                                 {
                                     <div class="col-6">
-                                        <button type="button" class="btn btn-danger rounded-pill all-accordion-button w-100">Close Case</button>
+                                        <a type="button" class="btn btn-danger rounded-pill all-accordion-button w-100" asp-action="CloseCase" asp-controller="Admin" asp-route-id="@item.RequestId">Close Case</a>
                                     </div>
                                     <div class="col-6">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button ggreen-button">View Notes</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button ggreen-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">View Uploads</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Encounter</button>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Clear Case</button>
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')">Clear Case</button>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 green-button">Email</button>
@@ -488,10 +500,10 @@
                                 @if (Model.status == "Unpaid")
                                 {
                                     <div class="col-6">
-                                        <button type="button" class="btn green-button rounded-pill all-accordion-button w-100">View Notes</button>
+                                        <a type="button" class="btn green-button rounded-pill all-accordion-button w-100" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6">
-                                        <button type="button" class="btn green-button rounded-pill all-accordion-button w-100">View Uploads</button>
+                                        <a type="button" class="btn green-button rounded-pill all-accordion-button w-100" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn green-button rounded-pill all-accordion-button w-100">Email</button>
@@ -511,7 +523,7 @@
 
 
 <script>
-    let isDropdownActive = false;
+    
 
     //function toggleDropdown() {
     //    const dropdown = document.querySelector('.dropdown');
@@ -559,62 +571,62 @@
         }
     }
 
-    //function sendAgreement(id, typeId)
-    //{
-    //    //console.log(id);
-    //    //console.log(typeId);
-    //    document.getElementById("r-type-id-two").value = typeId;
-    //    document.getElementById("r-id-for-agree").value = id;
-    //    var x = document.getElementById("r-id-for-agree").value;
-    //    //console.log(x);
+            //function sendAgreement(id, typeId)
+            //{
+            //    //console.log(id);
+            //    //console.log(typeId);
+            //    document.getElementById("r-type-id-two").value = typeId;
+            //    document.getElementById("r-id-for-agree").value = id;
+            //    var x = document.getElementById("r-id-for-agree").value;
+            //    //console.log(x);
 
-    //    const rtid = document.getElementById("r-type-id-two").value;
-    //    const rid = document.getElementById("r-id-for-agree").value;
-    //    if (rtid == 1) {
-    //        document.getElementById("patient-data").style.display = "flex";
-    //        document.getElementById("family-data").style.display = "none";
-    //        document.getElementById("concierge-data").style.display = "none";
-    //        document.getElementById("business-data").style.display = "none";
-    //    }
-    //    else if (rtid == 2) {
-    //        document.getElementById("patient-data").style.display = "none";
-    //        document.getElementById("family-data").style.display = "flex";
-    //        document.getElementById("concierge-data").style.display = "none";
-    //        document.getElementById("business-data").style.display = "none";
-    //    }
-    //    else if (rtid == 3) {
-    //        document.getElementById("patient-data").style.display = "none";
-    //        document.getElementById("family-data").style.display = "none"; 
-    //        document.getElementById("concierge-data").style.display = "flex";
-    //        document.getElementById("business-data").style.display = "none";
-    //    }
-    //    else {
-    //        document.getElementById("patient-data").style.display = "none";
-    //        document.getElementById("family-data").style.display = "none";
-    //        document.getElementById("concierge-data").style.display = "none"; 
-    //        document.getElementById("business-data").style.display = "flex";
-    //    }
-    //    fetch(`/Admin/GetAgreementData?reqId=${id}`, {
-    //        method: 'GET',
-    //    })
-    //        .then(response => {
-    //            if (!response.ok) {
-    //                throw new Error('Network response was not ok');
-    //            }
-    //            return response.json();
-    //        })
-    //        .then(data => {
-    //            console.log(data);
-    //            // You can perform further operations with the received data here
-    //            // For example:
-    //            // document.getElementById("phoneForAgree").value = data.phoneNumber;
-    //            // document.getElementById("emailForAgree").value = data.email;
-    //        })
-    //        .catch(error => {
-    //            console.error('There has been a problem with your fetch operation:', error);
-    //        });
+            //    const rtid = document.getElementById("r-type-id-two").value;
+            //    const rid = document.getElementById("r-id-for-agree").value;
+            //    if (rtid == 1) {
+            //        document.getElementById("patient-data").style.display = "flex";
+            //        document.getElementById("family-data").style.display = "none";
+            //        document.getElementById("concierge-data").style.display = "none";
+            //        document.getElementById("business-data").style.display = "none";
+            //    }
+            //    else if (rtid == 2) {
+            //        document.getElementById("patient-data").style.display = "none";
+            //        document.getElementById("family-data").style.display = "flex";
+            //        document.getElementById("concierge-data").style.display = "none";
+            //        document.getElementById("business-data").style.display = "none";
+            //    }
+            //    else if (rtid == 3) {
+            //        document.getElementById("patient-data").style.display = "none";
+            //        document.getElementById("family-data").style.display = "none";
+            //        document.getElementById("concierge-data").style.display = "flex";
+            //        document.getElementById("business-data").style.display = "none";
+            //    }
+            //    else {
+            //        document.getElementById("patient-data").style.display = "none";
+            //        document.getElementById("family-data").style.display = "none";
+            //        document.getElementById("concierge-data").style.display = "none";
+            //        document.getElementById("business-data").style.display = "flex";
+            //    }
+            //    fetch(`/Admin/GetAgreementData?reqId=${id}`, {
+            //        method: 'GET',
+            //    })
+            //        .then(response => {
+            //            if (!response.ok) {
+            //                throw new Error('Network response was not ok');
+            //            }
+            //            return response.json();
+            //        })
+            //        .then(data => {
+            //            console.log(data);
+            //            // You can perform further operations with the received data here
+            //            // For example:
+            //            // document.getElementById("phoneForAgree").value = data.phoneNumber;
+            //            // document.getElementById("emailForAgree").value = data.email;
+            //        })
+            //        .catch(error => {
+            //            console.error('There has been a problem with your fetch operation:', error);
+            //        });
 
-    //}
+            //}
 
-    
+
 </script>

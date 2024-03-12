@@ -97,6 +97,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 query = query.Where(r => r.RequestClient.RegionId == region);
             }
 
+            string ad_name = string.Concat(ad.FirstName, " ", ad.LastName);
+            AdminNavbarModel adminNavbarModel = new AdminNavbarModel();
+            adminNavbarModel.Admin_Name = ad_name;
+            adminNavbarModel.Tab = 1;
             AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
             {
                 new_count = count_new,
@@ -109,8 +113,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 status = status,
                 caseTags = c,
                 email = "abc",
-                Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName),
                 requests = query.ToList(),
+                an = adminNavbarModel
             };
             //if (status == "New")
             //{
@@ -198,6 +202,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void AddRequestStatusLogFromCancelCase(RequestStatusLog rs)
         {
             _context.RequestStatusLogs.Add(rs);
+            _context.SaveChanges();
+        }
+
+        public void AddRequestClosedData(RequestClosed rc)
+        {
+            _context.RequestCloseds.Add(rc);
             _context.SaveChanges();
         }
 
@@ -530,6 +540,22 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             _context.RequestClients.Update(rc);
             _context.SaveChanges();
+        }
+
+        public void UpdateRequestClient(RequestClient rc)
+        {
+            _context.RequestClients.Update(rc);
+            _context.SaveChanges();
+        }
+
+        public Admin GetAdminFromId(int id)
+        {
+            return _context.Admins.Where(a => a.AdminId == id).FirstOrDefault();
+        }
+
+        public List<HalloDoc.DataLayer.Models.Region> GetAllRegions()
+        {
+            return _context.Regions.ToList();
         }
 
     }

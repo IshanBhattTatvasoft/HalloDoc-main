@@ -56,182 +56,7 @@
 
     <partial name="Toast" />
 
-    <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
-        <button class="navbar-toggler d-flex d-md-none" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            <i class="bi bi-layout-sidebar mt-4 ms-3" style="height: 20px; width: 20px; z-index: 20;"></i>
-        </button>
-        <div class="d-flex gap-1 align-items-center">
-
-            <img src="~/images/logo1.png" class="Image ps-1 pt-1 ms-5 d-none d-sm-flex" alt="Patient"
-                 style="height: 80px;" />
-            <div>
-                <img src="~/images/logo1.png" class="d-sm-none d-flex align-items-center" alt="Patient"
-                     style="height: 80px;" />
-
-            </div>
-        </div>
-        <div class="d-flex align-items-center gap-1 flex-wrap">
-            <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block"
-               style="margin-top: 20px !important;">welcome <strong> @Model.Admin_Name</strong></p>
-            <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Admin" asp-action="Logout"
-               style="margin-right:100px;">Logout</a>
-            <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0 logout-icon"
-               asp-controller="Login" asp-action="PatientSite">
-                <i class="bi bi-box-arrow-right"></i>
-            </a>
-            <div class="moon-flex d-none d-sm-flex">
-                <button onclick="changeTheme()" class="change-theme">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
-                    </svg>
-                </button>
-                <button onclick="changeTheme()" class="change-theme hide-icon">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
-                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
-                    </svg>
-                </button>
-            </div>
-            <div class="moon-flex d-sm-none d-flex flex-shrink-1 flex-sm-shrink-0">
-                <button onclick="changeTheme()" class="change-theme-mobile-view">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-moon night-mode-icon-mobile" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
-                    </svg>
-                </button>
-                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-brightness-high night-mode-icon-mobile" viewBox="0 0 16 16">
-                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Collapse navbar -->
-    <!-- <nav class="shadow collpase ps-5 g-2" id="collapseExample">
-        <div class="nav nav-underline container-fluid" id="nav-tab" role="tablist">
-
-            <a class="nav-link active text-info me-4 ps-3 pe-3" id="nav-home-tab" asp-controller="Home" role="tab"
-                aria-controls="nav-home" aria-selected="true" asp-action="Admin_dashboard">
-                Dashboard
-            </a>
-            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-profile-tab" asp-controller="Home" role="tab"
-                aria-controls="nav-profile" aria-selected="false" asp-action="ProviderLocation">
-                Provider Location
-            </a>
-            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
-                aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
-                My Profile
-            </a>
-            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
-                aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
-                Providers
-            </a>
-            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
-                aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
-                Partners
-            </a>
-            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
-                aria-controls="nav-Location" aria-selected="false" asp-action="Access">
-                Access
-            </a>
-            <a class="nav-link text-muted me-4 ps-3 pe-3" id="nav-Location-tab" asp-controller="Home" role="tab"
-                aria-controls="nav-Location" aria-selected="false" asp-action="Records">
-                Records
-            </a>
-        </div>
-    </nav> -->
-    @*<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Offcanvas</h5>
-    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-    <a class="nav-link active text-info " id="nav-home-tab" asp-controller="Home" role="tab"
-    aria-controls="nav-home" aria-selected="true" asp-action="Admin_dashboard">
-    Dashboard
-    </a>
-    <a class="nav-link text-info" id="nav-profile-tab" asp-controller="Home" role="tab"
-    aria-controls="nav-profile" aria-selected="false" asp-action="ProviderLocation">
-    Proivder Location
-    </a>
-    <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
-    aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
-    My Profile
-    </a>
-    <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
-    aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
-    Providers
-    </a>
-    <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
-    aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
-    Partners
-    </a>
-    <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
-    aria-controls="nav-Location" aria-selected="false" asp-action="Access">
-    Access
-    </a>
-    <a class="nav-link text-info" id="nav-Location-tab" asp-controller="Home" role="tab"
-    aria-controls="nav-Location" aria-selected="false" asp-action="Records">
-    Records
-    </a>
-    </div>
-    </div>*@
-
-    @* Navbar for desktop view and offcanvas for mobile view *@
-    <nav class="shadow collpase d-none d-md-flex navbar-div" id="collapseExample">
-        <div class="nav nav-underline container-fluid ms-5" id="nav-tab" role="tablist">
-            <div class="nav-link active text-info ps-3 pe-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dashboard</div>
-            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Provider Location</a>
-            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">My Profile</a>
-            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Providers</a>
-            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Partners</a>
-            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Access</a>
-            <a class="nav-link text-muted ms-4" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Records</a>
-        </div>
-    </nav>
-
-    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-        <div class="offcanvas-header">
-            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <a class="nav-link active text-info mb-4" id="nav-home-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-home" aria-selected="true" asp-action="Admin_dashboard">
-                Dashboard
-            </a>
-            <a class="nav-link text-info mb-4" id="nav-profile-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-profile" aria-selected="false" asp-action="ProviderLocation">
-                Provider Location
-            </a>
-            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
-                My Profile
-            </a>
-            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
-                Providers
-            </a>
-            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
-                Partners
-            </a>
-            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="Access">
-                Access
-            </a>
-            <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="Records">
-                Records
-            </a>
-        </div>
-    </div>
+    <partial name="HeaderFooter" model="@Model.an"/>
 
 
 
@@ -408,11 +233,11 @@
                 <div class="search-div mt-3 gap-2 d-md-flex d-block">
                     <div class="search-div-sub input-group h-50 mb-2">
                         <input type="text" id="search" class="form-control search-input"
-                               placeholder="Search Patients" style="border: none !important;" onchange="changeFilter(this)">
+                               placeholder="Search Patients" style="border: none !important;" onkeyup="filter()">
                     </div>
                     <div class="search-div-sub-2 input-group h-50">
-                        <select type="text" id="region" class="form-control" placeholder="All Regions" style="border: none !important;" onchange="changeFilter(this)">
-                            <option value="-1" class="bg-white" disabled selected>All Regions</option>
+                        <select type="text" id="region" class="form-control" placeholder="All Regions" style="border: none !important;" onchange="filter()">
+                            <option value="-1" class="bg-white" selected>All Regions</option>
                             @foreach (var item in Model.regions)
                             {
                                 <option value="@item.RegionId" class="bg-white">@item.Name</option>
@@ -896,7 +721,8 @@
                 dataType: 'html',
                 // Pass your data here
                 success: function (response) {
-                    $("#AdminDashboardPartialView").html(response)
+                    $("#AdminDashboardPartialView").html(response);
+                    
                 },
                 error: function () {
                     alert('An error occurred.');
@@ -910,13 +736,13 @@
         const changeFilter = (element) => {
             const states = document.getElementsByClassName("req-filter");
             const curr_state = element.classList[1];
-            console.log(curr_state);
+            console.log("Current filter : "+curr_state);
 
             const statesName = document.getElementsByClassName("state");
             const current_state = element.classList[1];
-            let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
-            let finalName = name.split("State")[0];
-            console.log(finalName);
+            //let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
+            //let finalName = name.split("State")[0];
+            //console.log(finalName);
 
             for(let i=0;i<states.length;i++){
                 if(states[i].classList.length == 11 && states[i].classList[1] == curr_state){
@@ -938,7 +764,7 @@
         const filter = () => {
             
             const states = document.getElementsByClassName("req-filter");
-            console.log(document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
+            console.log("Status: "+document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
             for(let i=0;i<states.length;i++){
                 if(states[i].classList.length == 11)
                 {
@@ -950,6 +776,7 @@
                         
                         success: function(response){
                             $("#AdminDashboardPartialView").html(response);
+                            
                         },
 
                         error: function(){
@@ -980,7 +807,8 @@
                 dataType: 'html',
                 // Pass your data here
                 success: function (response) {
-                    $("#AdminDashboardPartialView").html(response)
+                    $("#AdminDashboardPartialView").html(response);
+                    
                 },
                 error: function () {
                     alert('An error occurred.');
