@@ -9,9 +9,9 @@ namespace HalloDocMvc.Entity.ViewModel
 {
     public class ViewNotes
     {
-        public string AdminNotes { get; set; }
+        public string? AdminNotes { get; set; }
 
-        public string PhysicianNotes { get; set; }
+        public string? PhysicianNotes { get; set; }
 
         public string Notes { get; set; }
 

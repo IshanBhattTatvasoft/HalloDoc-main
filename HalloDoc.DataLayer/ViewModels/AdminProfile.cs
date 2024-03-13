@@ -11,6 +11,7 @@ namespace HalloDoc.DataLayer.ViewModels
     public class AdminProfile
     {
         public string Username { get; set; }
+        [Required(ErrorMessage = "Password is empty")]
         public string Password { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -27,8 +28,11 @@ namespace HalloDoc.DataLayer.ViewModels
         public string state { get; set; }
         public string zipcode { get; set; }
         public string phoneNo { get; set; }
-        public List<Region> regions { get; set; } = new List<Region>();
+        public List<AdminRegion> regions { get; set; } = new List<AdminRegion>();
+        public List<Region> allRegions { get; set; } = new List<Region>();
+        public List<AdminRegion> regionOfAdmin { get; set; } = new List<AdminRegion>();
         public string altPhoneNo { get; set; }
         public AdminNavbarModel? an { get; set; }
+        public int adminId { get; set; }
     }
 }

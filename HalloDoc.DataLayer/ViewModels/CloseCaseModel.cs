@@ -19,5 +19,7 @@ namespace HalloDoc.DataLayer.ViewModels
         public DateOnly DOB { get; set; }
         public string phoneNumber { get; set; }
         public string email { get; set; }
+        public AdminNavbarModel? an { get; set; }
+
     }
 }

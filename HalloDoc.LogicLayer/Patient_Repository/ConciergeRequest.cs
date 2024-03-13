@@ -31,6 +31,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Concierge concierge = new Concierge();
             RequestConcierge requestConcierge = new RequestConcierge();
 
+            int atIndex = model.Email.IndexOf("@");
 
             bool userExists = true;
 
@@ -41,7 +42,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
+                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChangesAsync();
 

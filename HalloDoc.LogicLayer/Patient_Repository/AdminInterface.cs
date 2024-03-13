@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2016.Excel;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Office2016.Excel;
 using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
@@ -265,7 +266,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             RequestClient requestClient = new RequestClient();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
             RequestNote requestNote = new RequestNote();
-
+            int atIndex = model.Email.IndexOf("@");
             bool userExists = true;
             if (ValidateAspNetUser(model) == null)
             {
@@ -274,7 +275,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
+                aspNetUser.PasswordHash = atIndex >=0 ? model.Email.Substring(0, atIndex) : model.Email;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChanges();
 
@@ -558,5 +559,103 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Regions.ToList();
         }
 
+        public AspNetUser GetAdminDataFromId(int id)
+        {
+            return _context.AspNetUsers.Where(a => a.Id == id).FirstOrDefault();
+        }
+
+        public HalloDoc.DataLayer.Models.Region GetRegFromId(int id)
+        {
+            return _context.Regions.Where(r => r.RegionId == id).FirstOrDefault();
+        }
+
+        public AspNetUser GetAspNetFromAdminId(int id)
+        {
+            Admin a = _context.Admins.Where(ad => ad.AdminId == id).FirstOrDefault();
+            int anid = a.AspNetUserId;
+            return _context.AspNetUsers.Where(x => x.Id == anid).FirstOrDefault();
+        }
+
+        public void AdminResetPassword(AspNetUser anur, string pass)
+        {
+            anur.PasswordHash = pass;
+            _context.AspNetUsers.Update(anur);
+            _context.SaveChanges();
+        }
+
+        public void UpdateAdminDataFromId(AdminProfile model, int id, string selectedRegion)
+        {
+            List<int> selectedRegionIds = null;
+            if (!string.IsNullOrEmpty(selectedRegion))
+            {
+                selectedRegionIds = selectedRegion.Split(',').Select(int.Parse).ToList();
+            }
+            // for newly selected region
+            foreach (var item in selectedRegionIds)
+            {
+                //check if selected region exists in AdminRegion
+                bool isPresent = _context.AdminRegions.Any(r => r.RegionId == item);
+                
+                //if exists, no need to do any change
+                if(isPresent)
+                {
+                    continue;
+                }
+                // if does not exist, add record for that adminId and regionId
+                else
+                {
+                    AdminRegion ar = new AdminRegion();
+                    ar.AdminId = model.adminId;
+                    ar.RegionId = item;
+                    _context.AdminRegions.Add(ar);
+                    _context.SaveChanges();
+                }
+            }
+
+            // when an already selected region needs to be removed
+
+            // fetch all regionId from AdminRegion
+            List<int> idInDb = _context.AdminRegions.Select(r => r.RegionId).ToList();
+
+            foreach (var item in idInDb)
+            {
+                // if regionId from AdminRegion table does not exist in rId, remove it from AdminRegion table 
+                if(!selectedRegionIds.Contains(item))
+                {
+                    AdminRegion ar = _context.AdminRegions.Where(a => a.RegionId == item).FirstOrDefault();
+                    _context.AdminRegions.Remove(ar);
+                }
+            }
+
+            Admin ad = _context.Admins.Where(ad => ad.AdminId == id).FirstOrDefault();
+            ad.FirstName = model.firstName;
+            ad.LastName = model.lastName;
+            ad.Email = model.email;
+            ad.Mobile = model.phoneNo;
+            _context.Admins.Update(ad);
+            _context.SaveChanges();
+        }
+
+        public List<AdminRegion> GetAdminRegionFromId(int id)
+        {
+            return _context.AdminRegions.Where(a => a.AdminId == id).ToList();
+        }
+
+        public List<AdminRegion> GetAvailableRegionOfAdmin(int id)
+        {
+            return _context.AdminRegions.Include(ad => ad.Region).Where(a => a.AdminId==id).ToList();
+        }
+
+        public void UpdateMailingInfo(AdminProfile model, int aid)
+        {
+            Admin ad = _context.Admins.Where(ad => ad.AdminId == aid).FirstOrDefault();
+            ad.Address1 = model.address1;
+            ad.Address2 = model.address2;
+            ad.City = model.city;
+            ad.Zip = model.zipcode;
+            ad.AltPhone = model.altPhoneNo;
+            _context.Admins.Update(ad);
+            _context.SaveChanges();
+        }
     }
 }

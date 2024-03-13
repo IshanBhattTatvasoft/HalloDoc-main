@@ -38,7 +38,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             DataLayer.Models.Region region2 = new DataLayer.Models.Region();
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
-
+            int atIndex = model.Email.IndexOf("@");
             bool userExists = true;
             if (ValidateAspNetUser(model) == null)
             {
@@ -47,7 +47,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
+                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChangesAsync();
 

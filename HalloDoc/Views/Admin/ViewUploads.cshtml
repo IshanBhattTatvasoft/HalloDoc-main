@@ -138,7 +138,9 @@
 
                                     @item.FileName
                                 </td>
-                                <td>@item.CreatedDate</td>
+                                    <td>
+                                        <span class="ms-2">@item.CreatedDate.Date.ToString("dd-MM-yyyy")</span>
+                                    </td>
                                 <td>
                                     <a class="link me-2" download href="~/uploads/@item.FileName" style="border: 1px solid #00ccff; padding:4px;border-radius:5px;text-decoration:none">
 

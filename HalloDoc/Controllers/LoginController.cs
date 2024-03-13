@@ -244,7 +244,7 @@ namespace HalloDoc.Controllers
         public IActionResult PatientDashboardAndMedicalHistory()
         {
             var userId = HttpContext.Session.GetInt32("id");
-
+            var userName = HttpContext.Session.GetString("Name");
             var data = _patientDashboard.GetDashboardData((int)userId);
 
 

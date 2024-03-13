@@ -169,8 +169,10 @@
                 @if (Model.status != "Conclude" || Model.status != "Unpaid")
                 {
                     <td class="@statusClass" style="width: 80px !important;">
-                        Admin transferred to Dr. AGOLA on 10\10\2023 at 4:11:38 AM :
-                        test
+                        @foreach (var x in item.RequestStatusLogs)
+                        {
+                            <span>@x.Notes</span>
+                        }
                     </td>
                 }
                 @*<td class="@statusClass">
@@ -229,7 +231,7 @@
                             }
                             @if (Model.status == "Pending")
                             {
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item" href="#" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></button>
+                                <button type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></button>
                             }
                             @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
                             {
@@ -322,7 +324,7 @@
                                 </div>
                                 <div class="float-end mb-2 map-div">
 
-                                    <a class="accordion-map map-abs-btn" data-address="@(string.Concat(item.RequestClient.Street, ", ", item.RequestClient.Address, ", ", item.RequestClient.City, ", ", item.RequestClient.State))">
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="@(string.Concat(item.RequestClient.Street, ", ", item.RequestClient.Address, ", ", item.RequestClient.City, ", ", item.RequestClient.State))">
                                         <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
                                         <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
                                             <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10" />
@@ -360,10 +362,11 @@
                             {
                                 <div class="mt-2">
                                     <img src="~/images/file-earmark.svg" />
-                                    <span class="w-25">Transfer Notes: </span>
                                     <span>
-                                        Admin transferred to Dr. AGOLA on 10\10\2023 at 4:11:38 AM :
-                                        test
+                                        @foreach (var x in item.RequestStatusLogs)
+                                        {
+                                            <span>@x.Notes</span>
+                                        }
                                     </span>
                                 </div>
                             }
@@ -409,7 +412,7 @@
                                 @if (Model.status == "Pending")
                                 {
                                     <div class="col-6">
-                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button">Send Agreement</button>
+                                        <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button text-dark">Send Agreement</button>
                                     </div>
                                     <div class="col-6">
                                         <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>

@@ -69,19 +69,19 @@
     <div class="nav nav-underline container-fluid ms-5" id="nav-tab" role="tablist">
         @if(Model.Tab == 1)
         {
-            <a class="nav-link active text-info ps-3 pe-3 dashboard" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
+            <a class="nav-link active text-info ps-3 pe-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
         }
         else
         {
-            <a class="nav-link text-info ps-3 pe-3 dashboard" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
+            <a class="nav-link text-info ps-3 pe-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
         }
         @if(Model.Tab == 3)
         {
-            <a class="nav-link active text-muted ms-4 provider-location" id="nav-profile-tab" asp-controller="Admin" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="MyProfile">My Profile</a>
+            <a class="nav-link active text-muted ms-4 my-profile" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Profile</a>
         }
         else
         {
-        <a class="nav-link text-muted ms-4 my-profile" id="nav-profile-tab" asp-controller="Admin" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="MyProfile">My Profile</a>
+        <a class="nav-link text-muted ms-4 my-profile" id="nav-profile-tab" asp-controller="Admin"  asp-action="MyProfile">My Profile</a>
         }
         <a class="nav-link text-muted ms-4 providers" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Providers</a>
         <a class="nav-link text-muted ms-4 partners" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Partners</a>
@@ -97,29 +97,25 @@
     <div class="offcanvas-body">
         @if (Model.Tab == 1)
         {
-            <a class="nav-link active text-info mb-4" id="nav-home-tab" asp-controller="Admin" role="tab"
-               aria-controls="nav-home" aria-selected="true" asp-action="AdminDashboard">
+            <a class="nav-link active text-info mb-4" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
                 Dashboard
             </a>
         }
         else
         {
-            <a class="nav-link text-info mb-4" id="nav-home-tab" asp-controller="Admin" role="tab"
-               aria-controls="nav-home" aria-selected="true" asp-action="AdminDashboard">
+            <a class="nav-link text-info mb-4" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
                 Dashboard
             </a>
         }
         @if (Model.Tab == 3)
         {
-            <a class="nav-link active text-info mb-4" id="nav-profile-tab" asp-controller="Admin" role="tab"
-               aria-controls="nav-profile" aria-selected="false" asp-action="MyProfile">
+            <a class="nav-link active text-info mb-4" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
                 My Profile
             </a>
         }
         else
         {
-            <a class="nav-link text-info mb-4" id="nav-profile-tab" asp-controller="Admin" role="tab"
-               aria-controls="nav-profile" aria-selected="false" asp-action="MyProfile">
+            <a class="nav-link text-info mb-4" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
                 My Profile 
             </a>
         }

@@ -415,7 +415,7 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Admin")]
         public IActionResult ViewNotes(int requestId)
-        {
+         {
             var userId = HttpContext.Session.GetInt32("id");
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
@@ -1324,6 +1324,7 @@ namespace HalloDoc.Controllers
             cc.DOB = new DateOnly((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate);
             cc.reqId = id;
             cc.requestWiseFiles = rwf;
+            cc.an = an;
             return View(cc);
         }
 
@@ -1374,14 +1375,75 @@ namespace HalloDoc.Controllers
         public IActionResult MyProfile()
         {
             var userId = HttpContext.Session.GetInt32("id");
+            //var name = HttpContext.Session.GetString("name");
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad.RegionId);
+            AspNetUser anur = _adminInterface.GetAdminDataFromId(ad.AspNetUserId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 3;
-            AdminProfile ap = new AdminProfile();
-            ap.regions = _adminInterface.GetAllRegion();
-            ap.an = an;
+            AdminProfile ap = new AdminProfile {
+                Username = anur.UserName,
+                Password = anur.PasswordHash,
+                firstName = ad.FirstName,
+                lastName = ad.LastName,
+                email = ad.Email,
+                confEmail = ad.Email,
+                phone = ad.Mobile,
+                address1 = ad.Address1,
+                address2 = ad.Address2,
+                city = ad.City,
+                state = r.Name,
+                adminId = ad.AdminId,
+                zipcode = ad.Zip,
+                allRegions = _adminInterface.GetAllRegion(),
+                an = an,
+            };
+            ap.regions = _adminInterface.GetAdminRegionFromId(ad.AdminId);
+            ap.regionOfAdmin = _adminInterface.GetAvailableRegionOfAdmin(ad.AdminId);
             return View(ap);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult ProfilePasswordReset(AdminProfile model, int aid)
+        {
+            AspNetUser anur = _adminInterface.GetAspNetFromAdminId(aid);
+            _adminInterface.AdminResetPassword(anur, model.Password);
+            TempData["success"] = "Password Updated Successfully";
+            return RedirectToAction("MyProfile");
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult ProfileAdministratorInfo(AdminProfile model, int aid, string selectedRegion)
+        {
+            string[] regionArr = selectedRegion.Split(',');
+            char[] rId = selectedRegion.ToCharArray();
+            //for(int i = 0; i < regionArr.Length; i++)
+            //{
+            //    if (regionArr[i].Length == 1)
+            //    {
+            //        rId[i] = regionArr[i][0];
+            //    }
+            //}
+            //rId = selectedRegion.Replace(",", "").ToCharArray();
+
+            //for(int i=0;i<regionArr.Length;i++)
+            //{
+            //    rId[i] = Convert.ToChar(regionArr[i]);
+            //}
+
+            _adminInterface.UpdateAdminDataFromId(model, aid, selectedRegion);
+
+            TempData["success"] = "Administrator info updated successfully";
+            return RedirectToAction("MyProfile");
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult ProfileMailingInfo(AdminProfile model, int aid)
+        {
+            _adminInterface.UpdateMailingInfo(model, aid);
+            TempData["success"] = "Mailing info updated successfully";
+            return RedirectToAction("MyProfile");
         }
     }
 }

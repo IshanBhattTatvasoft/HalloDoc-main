@@ -65,6 +65,14 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void UpdateRequestClient(RequestClient rc);
         public List<HalloDoc.DataLayer.Models.Region> GetAllRegions();
         public Admin GetAdminFromId(int id);
+        public AspNetUser GetAdminDataFromId(int id);
+        public HalloDoc.DataLayer.Models.Region GetRegFromId(int id);
+        public AspNetUser GetAspNetFromAdminId(int id);
+        public void AdminResetPassword(AspNetUser anur, string pass);
+        public void UpdateAdminDataFromId(AdminProfile model, int id, string selectedRegion);
+        public List<AdminRegion> GetAdminRegionFromId(int id);
+        public List<AdminRegion> GetAvailableRegionOfAdmin(int id);
+        public void UpdateMailingInfo(AdminProfile model, int aid);
 
 
     }
