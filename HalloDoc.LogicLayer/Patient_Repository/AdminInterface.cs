@@ -117,37 +117,34 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 requests = query.ToList(),
                 an = adminNavbarModel
             };
-            //if (status == "New")
-            //{
-            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 1);
-            //    adminDashboardViewModel.requests = query.ToList();
-            //}
-            //else if (status == "Pending")
-            //{
-            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 2);
-            //    adminDashboardViewModel.requests = query.ToList();
-            //}
-            //else if (status == "Active")
-            //{
-            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 4 || r.Status == 5);
-            //    adminDashboardViewModel.requests = query.ToList();
-            //}
-            //else if (status == "Conclude")
-            //{
-            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 6);
-            //    adminDashboardViewModel.requests = query.ToList();
-            //}
-            //else if (status == "ToClose")
-            //{
-            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
-            //    adminDashboardViewModel.requests = query.ToList();
-            //}
-            //else
-            //{
-            //    adminDashboardViewModel.query_requests = _context.Requests.Include(r => r.RequestWiseFiles).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(r => r.Status == 9);
-            //    adminDashboardViewModel.requests = query.ToList();
-            //}
             return adminDashboardViewModel;
+        }
+
+        PatientHistoryViewModel IAdminInterface.PatientHistoryFilteredData(AdminNavbarModel an, string fname, string lname, string pno, string email)
+        {
+            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient);
+            if (fname != null)
+            {
+                query = query.Where(r => r.RequestClient.FirstName.ToLower().Contains(fname.ToLower()));
+            }
+            if (lname != null)
+            {
+                query = query.Where(r => r.RequestClient.LastName.ToLower().Contains(lname.ToLower()));
+            }
+            if (pno != null)
+            {
+                query = query.Where(r => r.RequestClient.PhoneNumber.Contains(pno));
+            }
+            if (email != null)
+            {
+                query = query.Where(r => r.RequestClient.Email.Contains(email));
+            }
+            PatientHistoryViewModel ph = new PatientHistoryViewModel
+            {
+                AdminNavbarModel = an,
+                requests = query.ToList(),
+            };
+            return ph;
         }
 
         public Request ValidateRequest(int requestId)
@@ -275,7 +272,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = atIndex >=0 ? model.Email.Substring(0, atIndex) : model.Email;
+                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChanges();
 
@@ -411,7 +408,6 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             return _context.Requests.Include(r => r.RequestClient).ToList();
         }
-
         public int SingleDelete(int id)
         {
             RequestWiseFile rwf = _context.RequestWiseFiles.Where(r => r.RequestWiseFileId == id).FirstOrDefault();
@@ -517,7 +513,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             string address = model.Location;
             int firstCom = address.IndexOf(',');
             string street = firstCom >= 0 ? address.Substring(0, firstCom) : address;
-            int secondCom = address.IndexOf(',', firstCom+1);
+            int secondCom = address.IndexOf(',', firstCom + 1);
             string city = "";
             if (secondCom != -1)
             {
@@ -528,7 +524,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             int lastCommaIndex = address.LastIndexOf(',');
             string zipcode = address.Substring(lastCommaIndex + 1).Trim();
 
-            
+
 
             rc.FirstName = model.FirstName;
             rc.LastName = model.LastName;
@@ -595,9 +591,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             {
                 //check if selected region exists in AdminRegion
                 bool isPresent = _context.AdminRegions.Any(r => r.RegionId == item);
-                
+
                 //if exists, no need to do any change
-                if(isPresent)
+                if (isPresent)
                 {
                     continue;
                 }
@@ -620,7 +616,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             foreach (var item in idInDb)
             {
                 // if regionId from AdminRegion table does not exist in rId, remove it from AdminRegion table 
-                if(!selectedRegionIds.Contains(item))
+                if (!selectedRegionIds.Contains(item))
                 {
                     AdminRegion ar = _context.AdminRegions.Where(a => a.RegionId == item).FirstOrDefault();
                     _context.AdminRegions.Remove(ar);
@@ -643,7 +639,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<AdminRegion> GetAvailableRegionOfAdmin(int id)
         {
-            return _context.AdminRegions.Include(ad => ad.Region).Where(a => a.AdminId==id).ToList();
+            return _context.AdminRegions.Include(ad => ad.Region).Where(a => a.AdminId == id).ToList();
         }
 
         public void UpdateMailingInfo(AdminProfile model, int aid)

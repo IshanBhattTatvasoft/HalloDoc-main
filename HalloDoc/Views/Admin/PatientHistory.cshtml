@@ -1,0 +1,138 @@
+﻿@model HalloDoc.DataLayer.ViewModels.PatientHistoryViewModel
+@{
+    ViewData["Title"] = "Patient History";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/patient-history.css" />
+}
+
+<div class="bg-light" style="overflow: hidden;">
+    <partial name="HeaderFooter" model="@Model.AdminNavbarModel" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col me-5">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory" style="text-decoration: none;margin-right: 243px;border: 1px solid;height: 40px;display: flex;align-items: center;justify-content: center;padding: 2px 2px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+            @*PatientDashboardAndMedicalHistory*@
+
+            <div class="row">
+                <div class="col mt-2 ms-5">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Patient History
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white mt-4 rounded ms-5 me-5">
+            <div class="row">
+                <div class="col mt-2 ms-1">
+                    <input type="text" id="first-name" class="form-control search-input"
+                           placeholder="First Name" >
+                </div>
+                <div class="col mt-2">
+                    <input type="text" id="last-name" class="form-control search-input"
+                           placeholder="Last Name" >
+                </div>
+                <div class="col mt-2">
+                    <input type="text" id="email" class="form-control search-input"
+                           placeholder="Email" >
+                </div>
+                <div class="col mt-2 me-1">
+                    <input type="text" id="phone-number" class="form-control search-input"
+                           placeholder="Phone Number" >
+                </div>
+            </div>
+
+            <div class="row mt-4 d-flex align-items-end justify-content-end">
+                <div class="d-inline-block w-auto">
+                    <button type="button" class="btn btn-outline-info" id="cancelButton" onclick="removeFilter()">Clear</button>
+                </div>
+                <div class="d-inline-block w-auto me-3">
+                    <button type="button" class="btn btn-info text-white" id="searchButton" onclick="filter()">Search</button>
+                </div>
+            </div>
+
+            
+
+            <div>
+                <div class="table-responsive mt-4 ms-3 me-3 myTable" id="PatientHistoryPartialView"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function()
+        {
+            $.ajax({
+                url: '/Admin/PatientHistoryFilter',
+                type: 'POST',
+                datatype: 'html',
+                data: {
+                    firstName: document.getElementById("first-name").value, lastName: document.getElementById("last-name").value, email: document.getElementById("email").value, phoneNumber: document.getElementById("phone-number").value
+                },
+                success: function (response) {
+                    $("#PatientHistoryPartialView").html(response);
+
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+
+            });
+        }
+        
+        function filter()
+        {
+            $.ajax({
+                url: '/Admin/PatientHistoryFilter',
+                type: 'POST',
+                datatype: 'html',
+                data: {
+                    firstName: document.getElementById("first-name").value, lastName: document.getElementById("last-name").value, email: document.getElementById("email").value, phoneNumber: document.getElementById("phone-number").value},
+                success: function (response) {
+                    $("#PatientHistoryPartialView").html(response);
+
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+
+            });
+        }
+
+        function removeFilter()
+        {
+            document.getElementById("first-name").value = "";
+            document.getElementById("last-name").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("phone-number").value = "";
+
+            $.ajax({
+                url: '/Admin/PatientHistoryFilter',
+                type: 'POST',
+                datatype: 'html',
+                data: {
+                    firstName: "", lastName: "", email: "", phoneNumber: ""
+                },
+                success: function (response) {
+                    $("#PatientHistoryPartialView").html(response);
+
+                },
+                error: function () {
+                    alert('An error occurred.');
+                }
+
+            });
+        }
+    </script>
+</div>

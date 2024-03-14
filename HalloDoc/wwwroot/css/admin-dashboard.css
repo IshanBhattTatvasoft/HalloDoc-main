@@ -17,7 +17,7 @@
 .change-theme {
     border: none;
     background-color: transparent;
-    margin-top: 10px;
+    margin-top: 13px;
     margin-right: 20px;
 }
 
@@ -30,8 +30,8 @@
 }
 
 .night-mode-icon {
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
     color: #00ccff;
     border: 2px solid #00ccff;
     border-radius: 10px;
@@ -714,4 +714,8 @@ td {
 
 .description{
     z-index: 1;
+}
+
+.textarea-class{
+    resize: none;
 }

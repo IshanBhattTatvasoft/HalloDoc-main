@@ -34,6 +34,43 @@
     </div>
 </div>*@
 
+<form asp-action="DownloadSpecificExcel" asp-controller="Admin" method="post">
+    @Html.HiddenFor(m => m.status)
+    @for (int i = 0; i < Model.regions.Count; i++)
+    {
+        @Html.HiddenFor(m => m.regions[i].Name)
+        @Html.HiddenFor(m => m.regions[i].RegionId)
+    }
+    @for (int i = 0; i < Model.requests.Count; i++)
+    {
+        @Html.HiddenFor(m => m.requests[i].FirstName)
+        @Html.HiddenFor(m => m.requests[i].LastName)
+        @Html.HiddenFor(m => m.requests[i].PhoneNumber)
+        @Html.HiddenFor(m => m.requests[i].RequestTypeId)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.FirstName)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.LastName)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.PhoneNumber)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.Street)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.Address)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.ZipCode)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.State)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.City)
+        @Html.HiddenFor(m => m.requests[i].CreatedDate)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.IntYear)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.StrMonth)
+        @Html.HiddenFor(m => m.requests[i].RequestClient.IntDate)
+        @Html.HiddenFor(m => m.requests[i].Physician.FirstName)
+        for (int j = 0; j < Model.requests[i].RequestStatusLogs.ToList().Count; ++j)
+        {
+            @Html.HiddenFor(m => m.requests[i].RequestStatusLogs.ToList()[j].Status)
+            @Html.HiddenFor(m => m.requests[i].RequestStatusLogs.ToList()[j].CreatedDate)
+            @Html.HiddenFor(m => m.requests[i].RequestStatusLogs.ToList()[j].Notes)
+
+        }
+    }
+    <button type="submit" class="d-none" id="submit-button-for-excel">Submit</button>
+</form>
+
 <div id="myModal6" class="modal6">
     <div class="modal-content6" style="width:80%;margin-top:201px;height:50%">
         <h5 style="text-align: center;">Your Location</h5>
@@ -45,7 +82,7 @@
     </div>
 </div>
 
-<table id="dtBasicExample" class="table">
+<table class="table">
     <thead>
         <tr>
             <th scope="col" class="table-header">
@@ -166,9 +203,15 @@
                     </td>
                 }
                 <td class="@statusClass" style="width: 80px !important;">@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</td>
-                @if (Model.status != "Conclude" || Model.status != "Unpaid")
+                @if (Model.status == "New")
                 {
                     <td class="@statusClass" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                }
+                else if (Model.status != "Conclude" || Model.status != "Unpaid")
+                {
+                    <td class="@statusClass" style="width: 80px !important">
                         @foreach (var x in item.RequestStatusLogs)
                         {
                             <span>@x.Notes</span>
@@ -348,7 +391,7 @@
                 <div id="collapseThree(@item.RequestClientId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.RequestClientId) data-bs-parent="#accordionExample">
                     <div class="accordion-body" style="background-color: #E5EEF5;">
                         <div style="position: relative;">
-                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                            <a asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId" type="button" class="btn btn-light view-case-button">View Case</a>
                             @if (Model.status != "Unpaid")
                             {
                                 <div><img src="~/images/calendar2-date.svg"><span class="ms-2">Date of birth:  @(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@DateTime.Now.Year - @item.RequestClient.IntYear)</span></div>

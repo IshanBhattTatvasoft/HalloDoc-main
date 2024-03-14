@@ -1,8 +1,29 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.AdminNavbarModel
 
 <style>
-    .offcanvas-body .active{
+    .offcanvas-body .active {
         border-bottom: 2px solid #54B4D3;
+    }
+
+    .active {
+        color: #00CCFF !important;
+        border-bottom: 2px solid #00CCFF !important;
+    }
+
+    .mobile-active{
+        background-color: #E5F8FD !important;
+    }
+
+    .sidebar{
+        height: 50px !important;
+    }
+
+    .records:hover{
+        border-bottom: none !important;
+    }
+
+    .dropdown-toggle:focus {
+        outline: none !important;
     }
 </style>
 
@@ -32,14 +53,14 @@
         </a>
         <div class="moon-flex d-none d-sm-flex">
             <button onclick="changeTheme()" class="change-theme">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
                      class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
                     <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
                 </svg>
             </button>
             <button onclick="changeTheme()" class="change-theme hide-icon">
 
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
                      class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
                     <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
                 </svg>
@@ -67,78 +88,122 @@
 
 <nav class="shadow collpase d-none d-md-flex navbar-div" id="collapseExample">
     <div class="nav nav-underline container-fluid ms-5" id="nav-tab" role="tablist">
-        @if(Model.Tab == 1)
+
+        @if (Model.Tab == 1)
         {
-            <a class="nav-link active text-info ps-3 pe-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
+            <a class="nav-link active text-muted ps-3 pe-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
         }
         else
         {
-            <a class="nav-link text-info ps-3 pe-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
+            <a class="nav-link text-muted ps-3 pe-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
         }
-        @if(Model.Tab == 3)
+
+        @if (Model.Tab == 2)
+        {
+            <a class="nav-link text-muted" id="nav-Location-tab" asp-controller="Admin" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                Provider Location
+            </a>
+        }
+        else
+        {
+            <a class="nav-link text-muted" id="nav-Location-tab" asp-controller="Admin" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                Provider Location
+            </a>
+        }
+
+        @if (Model.Tab == 3)
         {
             <a class="nav-link active text-muted ms-4 my-profile" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Profile</a>
         }
         else
         {
-        <a class="nav-link text-muted ms-4 my-profile" id="nav-profile-tab" asp-controller="Admin"  asp-action="MyProfile">My Profile</a>
+            <a class="nav-link text-muted ms-4 my-profile" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Profile</a>
         }
+
         <a class="nav-link text-muted ms-4 providers" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Providers</a>
         <a class="nav-link text-muted ms-4 partners" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Partners</a>
         <a class="nav-link text-muted ms-4 access" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Access</a>
-        <a class="nav-link text-muted ms-4 records" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Records</a>
+        <div class="dropdown">
+            <button class="btn dropdown-toggle nav-link text-muted ms-4 records" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Records</button>
+            <ul class="dropdown-menu">
+                <li><a class="text-muted dropdown-item mb-2" href="#">Search Records</a></li>
+                <li><a class="text-muted dropdown-item mb-2" href="#">Email Logs</a></li>
+                <li><a class="text-muted dropdown-item mb-2" href="#">SMS Logs</a></li>
+                <li><a class="text-muted dropdown-item mb-2" asp-action="PatientHistory" asp-controller="Admin">Patient Records</a></li>
+                <li><a class="text-muted dropdown-item mb-2" href="#">Blocked History</a></li>
+            </ul>
+        </div>
     </div>
 </nav>
 
-<div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+                                             @*Navbar Mobile View*@
+
+<div class="offcanvas offcanvas-start w-50" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
         <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
+        <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block ps-4 h5 mb-3"
+           style="margin-top: 20px !important;">Welcome, <strong> @Model.Admin_Name</strong></p>
         @if (Model.Tab == 1)
         {
-            <a class="nav-link active text-info mb-4" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
-                Dashboard
+            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
+                <span class="h5">Dashboard</span>
             </a>
         }
         else
         {
-            <a class="nav-link text-info mb-4" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
-                Dashboard
-            </a>
-        }
-        @if (Model.Tab == 3)
-        {
-            <a class="nav-link active text-info mb-4" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                My Profile
-            </a>
-        }
-        else
-        {
-            <a class="nav-link text-info mb-4" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                My Profile 
+            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
+                <span class="h5">Dashboard</span>
             </a>
         }
 
-        <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Admin" role="tab"
-           aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
-            Provider Location
-        </a>
-        <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+        @if (Model.Tab == 2)
+        {
+            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                <span class="h5">Provider Location</span>
+            </a>
+        }
+        else
+        {
+            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
+               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                <span class="h5">Provider Location</span>
+            </a>
+        }
+
+        @if (Model.Tab == 3)
+        {
+            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                <span class="h5">My Profile</span>
+            </a>
+        }
+        else
+        {
+            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                <span class="h5">My Profile</span>
+            </a>
+        }
+
+
+        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
            aria-controls="nav-Location" aria-selected="false" asp-action="Providers">
-            Providers
+            <span class="h5">Providers</span>
         </a>
-        <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
            aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
-            Partners
+            <span class="h5">Partners</span>
         </a>
-        <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
            aria-controls="nav-Location" aria-selected="false" asp-action="Access">
-            Access
+            <span class="h5">Access</span>
         </a>
-        <a class="nav-link text-info mb-4" id="nav-Location-tab" asp-controller="Home" role="tab"
+        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
            aria-controls="nav-Location" aria-selected="false" asp-action="Records">
-            Records
+            <span class="h5">Records</span>
         </a>
     </div>
 </div>
@@ -152,9 +217,36 @@
 </div>
 
 <script>
-    function clickOnProfile()
-    {
+    function clickOnProfile() {
         document.getElementsByClassName("dashboard")[0].classList.remove("active");
         document.getElementsByClassName("my-profile")[0].classList.add("active");
+    }
+
+    function changeTheme() {
+        let theme = localStorage.getItem('theme');
+        if (theme == null || theme == 'light') {
+            localStorage.setItem('theme', 'dark');
+            console.log('theme changed to dark');
+            document.getElementById('main-page').style.backgroundColor = 'black';
+            document.getElementById('navigation').style.backgroundColor = 'black';
+            document.getElementById('heading-one').style.color = 'white';
+            document.getElementById('heading-two').style.color = 'white';
+            document.getElementById('heading-three').style.color = 'white';
+            document.getElementById('heading-four').style.color = 'white';
+            document.getElementsByClassName('change-theme')[0].classList.add('hide-icon');
+            document.getElementsByClassName('change-theme')[1].classList.remove('hide-icon');
+        }
+        else if (theme == 'dark') {
+            localStorage.setItem('theme', 'light');
+            console.log('theme changed to light');
+            document.getElementById('main-page').style.backgroundColor = 'white';
+            document.getElementById('navigation').style.backgroundColor = 'white';
+            document.getElementById('heading-one').style.color = 'black';
+            document.getElementById('heading-two').style.color = 'black';
+            document.getElementById('heading-three').style.color = 'black';
+            document.getElementById('heading-four').style.color = 'black';
+            document.getElementsByClassName('change-theme')[1].classList.add('hide-icon');
+            document.getElementsByClassName('change-theme')[0].classList.remove('hide-icon');
+        }
     }
 </script>

@@ -4,8 +4,16 @@
 }
 @section Styles {
     <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
+    <style>
+        textarea{
+            resize: none !; 
+        }
+    </style>
 }
 
+@section Scripts {
+    <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+}
 
 <div class="me-1 ms-1 main-body">
     @*Cancel Case Modal*@
@@ -56,7 +64,7 @@
 
     <partial name="Toast" />
 
-    <partial name="HeaderFooter" model="@Model.an"/>
+    <partial name="HeaderFooter" model="@Model.an" />
 
 
 
@@ -158,7 +166,7 @@
                     </svg>
                     <span class="five-blue-buttons-text me-2" style="padding-left: 10px;">Create Requests</span>
                 </a>
-                <button class="five-blue-buttons">
+                <button class="five-blue-buttons" id="downloadExcelButton" onclick="downloadSpecificExcel()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
                          class="bi bi-arrow-up-right dashboard-sub-div-icon" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -177,7 +185,7 @@
                     <p class="five-blue-buttons-text me-2 mt-3" style="margin-top: -20px !important;
                        padding-left: 10px;">Export All</p>
                 </a>
-                <button class="five-blue-buttons me-4">
+                <button type="button" class="five-blue-buttons me-4" data-bs-toggle="modal" data-bs-target="#requestSupportModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
                          class="bi bi-person-plus dashboard-sub-div-icon" viewBox="0 0 16 16">
                         <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
@@ -280,7 +288,7 @@
         </div>
 
         <div>
-            <div class="table-responsive mt-4 ms-3 me-3" id="AdminDashboardPartialView"></div>
+            <div class="table-responsive mt-4 ms-3 me-3 myTable" id="AdminDashboardPartialView"></div>
         </div>
 
 
@@ -353,61 +361,61 @@
     </div>
 
     @*<div class="modal fade"
-         id="sendLinkModal"
-         tabindex="-1"
-         aria-labelledby="exampleModalLabel20"
-         aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <p class="modal-title text-white" id="exampleModalLabel20">
-                        Send mail to patient for submitting the request
-                    </p>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="SendLink" asp-controller="Admin">
-                        <input type="number" hidden asp-for="RequestId" id="r-id" />
-                        <div class="row">
-                            <div class="form-floating col-6">
-                                <input type="text" asp-for="FirstName" required />
-                                <label for="floatingInput" class="ms-2 text-muted">First Name</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-floating col-6">
-                                <input type="text" asp-for="LastName" required />
-                                <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-floating col-6">
-                                <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" required />
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="form-floating col-6">
-                                <input type="text" asp-for="email" required />
-                                <label for="floatingInput" class="ms-2 text-muted">Email</label>
-                                <span asp-validation-for="email"></span>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="text-end mb-3 me-3 mt-3">
-                                <button type="submit" class="btn btn-info text-white" id="continueBtn">Send</button>
-                                <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
+    id="sendLinkModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel20"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+    <div class="modal-header bg-info">
+    <p class="modal-title text-white" id="exampleModalLabel20">
+    Send mail to patient for submitting the request
+    </p>
+    <button type="button"
+    class="btn-close"
+    data-bs-dismiss="modal"
+    aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+    <form id="requestForm" method="post" asp-action="SendLink" asp-controller="Admin">
+    <input type="number" hidden asp-for="RequestId" id="r-id" />
+    <div class="row">
+    <div class="form-floating col-6">
+    <input type="text" asp-for="FirstName" required />
+    <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+    </div>
+    </div>
+    <div class="row">
+    <div class="form-floating col-6">
+    <input type="text" asp-for="LastName" required />
+    <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+    </div>
+    </div>
+    <div class="row">
+    <div class="form-floating col-6">
+    <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" required />
+    </div>
+    </div>
+    <div class="row">
+    <div class="form-floating col-6">
+    <input type="text" asp-for="email" required />
+    <label for="floatingInput" class="ms-2 text-muted">Email</label>
+    <span asp-validation-for="email"></span>
+    </div>
+    </div>
+    <div class="row">
+    <div class="text-end mb-3 me-3 mt-3">
+    <button type="submit" class="btn btn-info text-white" id="continueBtn">Send</button>
+    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+    Cancel
+    </button>
+    </div>
+    </div>
+    </form>
+    </div>
 
-            </div>
-        </div>
+    </div>
+    </div>
     </div>*@
 
     <div class="modal fade " id="sendLinkModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel20" aria-hidden="true">
@@ -526,7 +534,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="requestForm" method="post" asp-action="TransferCaseSubmitAction" asp-controller="Admin">
-                        <input type="number" hidden asp-for="RequestId" id="r-id-four"/>
+                        <input type="number" hidden asp-for="RequestId" id="r-id-four" />
                         <p class="mb-3 text-muted fs-4">To transfer this request, search and select another physician</p>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region-for-transfer" onchange="fetchRegionData2()">
@@ -609,9 +617,9 @@
                         Are you sure you want to clear this request? Once clear this request then you are not able to see the request
                     </p>
                     <form id="requestForm" method="post" asp-action="ClearCaseSubmitAction" asp-controller="Admin">
-                        <input type="number" asp-for="RequestId" hidden id="r-id-five"/>
+                        <input type="number" asp-for="RequestId" hidden id="r-id-five" />
                         <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
-                         <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
                     </form>
                 </div>
             </div>
@@ -678,6 +686,30 @@
         </div>
     </div>
 
+    <div class="modal fade" id="requestSupportModal" tabindex="-1" aria-labelledby="requestSupportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h1 class="modal-title fs-5 text-white" id="requestSupportModalLabel">Request Support</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <span>To all unscheduled physicians: We are short on coverage and needs additional support on call to respond to requests.</span>
+
+                        <div class="form-group">
+                            <textarea class="form-control border border-muted mt-3 textarea-class" id="requestSupportTextarea" placeholder="Message" rows="5" name="reasonForBlockRequest"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Send</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
     <script>
@@ -707,7 +739,7 @@
             }
             let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
             let finalName = name.split("State")[0];
-            console.log("Final name : "+finalName);
+            console.log("Final name : " + finalName);
             //console.log(finalName);
             if (finalName == "toclose") {
                 document.getElementById("status-text").innerHTML = "(To Close)";
@@ -722,7 +754,7 @@
                 // Pass your data here
                 success: function (response) {
                     $("#AdminDashboardPartialView").html(response);
-                    
+
                 },
                 error: function () {
                     alert('An error occurred.');
@@ -736,7 +768,7 @@
         const changeFilter = (element) => {
             const states = document.getElementsByClassName("req-filter");
             const curr_state = element.classList[1];
-            console.log("Current filter : "+curr_state);
+            console.log("Current filter : " + curr_state);
 
             const statesName = document.getElementsByClassName("state");
             const current_state = element.classList[1];
@@ -744,15 +776,14 @@
             //let finalName = name.split("State")[0];
             //console.log(finalName);
 
-            for(let i=0;i<states.length;i++){
-                if(states[i].classList.length == 11 && states[i].classList[1] == curr_state){
+            for (let i = 0; i < states.length; i++) {
+                if (states[i].classList.length == 11 && states[i].classList[1] == curr_state) {
                     break;
                 }
-                else if(states[i].classList[1] == curr_state)
-                {
+                else if (states[i].classList[1] == curr_state) {
                     states[i].classList.add('filter-active');
                 }
-                else if(states[i].classList.length == 11){
+                else if (states[i].classList.length == 11) {
                     states[i].classList.remove('filter-active');
                 }
             }
@@ -762,24 +793,23 @@
 
         // code to show filtered data
         const filter = () => {
-            
+
             const states = document.getElementsByClassName("req-filter");
-            console.log("Status: "+document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
-            for(let i=0;i<states.length;i++){
-                if(states[i].classList.length == 11)
-                {
+            console.log("Status: " + document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
+            for (let i = 0; i < states.length; i++) {
+                if (states[i].classList.length == 11) {
                     $.ajax({
                         url: `/Admin/${document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)}`,
                         type: 'POST',
                         dataType: 'html',
-                        data: {search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1]},
-                        
-                        success: function(response){
+                        data: { search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1] },
+
+                        success: function (response) {
                             $("#AdminDashboardPartialView").html(response);
-                            
+
                         },
 
-                        error: function(){
+                        error: function () {
                             alert("An error occurred");
                         }
                     });
@@ -808,7 +838,7 @@
                 // Pass your data here
                 success: function (response) {
                     $("#AdminDashboardPartialView").html(response);
-                    
+
                 },
                 error: function () {
                     alert('An error occurred.');
@@ -899,13 +929,11 @@
             });
         }
 
-        function transferRequestData(id)
-        {
+        function transferRequestData(id) {
             document.getElementById("r-id-four").value = id;
         }
 
-        function clearCaseData(id)
-        {
+        function clearCaseData(id) {
             document.getElementById("r-id-five").value = id;
         }
 
@@ -945,7 +973,7 @@
                 document.getElementById("concierge-data").style.display = "none";
                 document.getElementById("business-data").style.display = "flex";
             }
-            
+
 
         }
 
@@ -955,4 +983,10 @@
             utilsScript:
                 "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
         });
+
+        function downloadSpecificExcel() {
+            document.getElementById("submit-button-for-excel").click();
+        }
+
     </script>
+</div>

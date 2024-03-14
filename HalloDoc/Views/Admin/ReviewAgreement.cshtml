@@ -11,12 +11,12 @@
     </style>
 }
 
-<div>
-    <div class="container mt-5">
+<div class="mx-auto d-flex text-center">
+    <div class="mt-5">
         <div class="row">
             <div class="col-3"></div>
             <form method="post" asp-action="AcceptAgreement" asp-controller="Admin" asp-route-id="@Model.RequestClientId">
-                <div class="col-6">
+                <div class="col-6 mx-auto my-auto">
                     <p class="fw-normal">
                         To provide best medical service, we cannot determine the cost right away. If you
                         agree to our service, so we will provide care and follow-up until all care is completed. So with
@@ -24,7 +24,7 @@
                         immediately, if you do not agree simply click "Cancel".
                     </p>
                     <button type="submit" class="btn btn-success mt-5 ms-5 float-start">I Agree</button>
-                    <button type="button" class="btn btn-danger mt-5 me-5 float-end" data-bs-toggle="modal"
+                    <button type="button" class="btn btn-danger mt-5 me-5 ms-md-0 ms-3 float-end" data-bs-toggle="modal"
                             data-bs-target="#centeredModal">
                         Cancel
                     </button>
@@ -42,9 +42,9 @@
                                 style="color: white;"></button>
                     </div>
                     <div>
-                        <form method="post" asp-action="CancelAgreement" asp-controller="Admin" asp-route-id="@Model.RequestClientId">
+                        <form method="post" asp-action="CancelAgreement" asp-controller="Admin" >
                             <div class="modal-body">
-                                <p>@Model.FirstName + " " + @Model.LastName</p>
+                                <p>@Model.FirstName.Concat(@Model.LastName)</p>
                                 <textarea name="desc" id="" cols="60" rows="3" class="py-2"
                                           placeholder="Please provide a brief explanation for your cancelation" required></textarea>
                             </div>

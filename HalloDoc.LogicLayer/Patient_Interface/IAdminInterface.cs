@@ -12,6 +12,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
     public interface IAdminInterface 
     {
         public AdminDashboardTableView ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region);
+        public PatientHistoryViewModel PatientHistoryFilteredData(AdminNavbarModel an, string fname, string lname, string pno, string email);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);

@@ -29,6 +29,10 @@
       "PackagePath": "staticwebassets\\css\\patient-dashboard-view-documents.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-history.css",
+      "PackagePath": "staticwebassets\\css\\patient-history.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-platform-login-page.css",
       "PackagePath": "staticwebassets\\css\\patient-platform-login-page.css"
     },
