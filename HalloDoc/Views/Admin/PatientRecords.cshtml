@@ -1,0 +1,80 @@
+﻿@model HalloDoc.DataLayer.ViewModels.PatientHistoryViewModel
+@{
+    ViewData["Title"] = "Patient Records";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/patient-history.css" />
+}
+
+<div class="bg-light" style="overflow: hidden;">
+
+    <partial name="HeaderFooter" model="@Model.AdminNavbarModel" />
+
+    <partial name="Toast" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col me-5">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+            @*PatientDashboardAndMedicalHistory*@
+
+            <div class="row">
+                <div class="col mt-2 ms-5">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Patient Record
+                    </p>
+                </div>
+            </div>
+
+            <div class="table-responsive mt-3">
+                <table class="table mb-0">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>Client/Member</th>
+                            <th>Created Date <img src="~/images/arrow-down.svg" /></th>
+                            <th>Confirmation</th>
+                            <th>Provider Name</th>
+                            <th>Concluded Date</th>
+                            <th>Status</th>
+                            <th>Final Report</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    @foreach (var item in Model.requests)
+                    {
+                        <tr>
+                            <td>@($"{item.FirstName} {item.LastName}")</td>
+                            <td>@item.CreatedDate</td>
+                            <td>@item.ConfirmationNumber</td>
+                            <td>Dr. + " " + item.Physician.FirstName</td>
+                            <td>
+                                @if (item.ModifiedDate == null)
+                                {
+                                    <span>nothing</span>
+                                }
+                                else
+                                {
+                                    @item.ModifiedDate
+                                }
+                            </td>
+                            <td>@item.Status</td>
+                            <td><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">View</a></td>
+                            <td><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">Actions</a></td>
+                        </tr>
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>

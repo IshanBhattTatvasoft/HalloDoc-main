@@ -35,7 +35,7 @@
 
         <div class="container mt-4 shadow-lg p-3 mb-4 bg-white rounded">
             <div>
-                <a class="float-end text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen">
+                <a class="float-end text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen" style="text-decoration: none;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
                     </svg>
@@ -53,12 +53,12 @@
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessFirstName">
-                    <label for="floatingInput" class="ms-2 text-muted">Your First Name</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Your First Name</label>
                         <span asp-validation-for="BusinessFirstName" class="text-danger"></span>
                     </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessLastName">
-                    <label for="floatingInput" class="ms-2 text-muted">Your Last Name</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Your Last Name</label>
                         <span asp-validation-for="BusinessLastName" class="text-danger"></span>
                     </div>
             </div>
@@ -69,7 +69,7 @@
                     </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessEmail">
-                    <label for="floatingInput" class="ms-2 text-muted">Your Email</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Your Email</label>
                         <span asp-validation-for="BusinessEmail" class="text-danger"></span>
                     </div>
             </div>
@@ -77,12 +77,12 @@
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessPropertyName">
-                    <label for="floatingInput" class="ms-2 text-muted">Business Property Name</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Business Property Name</label>
                         <span asp-validation-for="BusinessPropertyName" class="text-danger"></span>
                     </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessCaseNumber">
-                    <label for="floatingInput" class="ms-2 text-muted">Case Number (Optional)</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Case Number (Optional)</label>
                 </div>
             </div>
 
@@ -102,19 +102,19 @@
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
-                    <label for="floatingInput" class="ms-2 text-muted">Your First Name</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Your First Name</label>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
-                    <label for="floatingInput" class="ms-2 text-muted">Your Last Name</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Your Last Name</label>
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
             </div>
             <div class="row">
                 <div class="col-sm-6 form-floating mt-3">
                     <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
-                    <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Date Of Birth</label>
                         <span asp-validation-for="DOB" class="text-danger"></span>
                     </div>
             </div>
@@ -129,7 +129,7 @@
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
-                    <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Email</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
                     <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-4 col-12">
@@ -148,31 +148,31 @@
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Street">
-                    <label for="floatingInput" class="ms-2 text-muted">Street</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Street</label>
                         <span asp-validation-for="Street" class="text-danger"></span>
                     </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
-                    <label for="floatingInput" class="ms-2 text-muted">City</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">City</label>
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="State">
-                    <label for="floatingInput" class="ms-2 text-muted">State</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">State</label>
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zipcode">
-                    <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Zipcode</label>
                         <span asp-validation-for="Zipcode" class="text-danger"></span>
                     </div>
             </div>
             <div class="row">
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Room">
-                    <label for="floatingInput" class="ms-2 text-muted">Room # / Suite (Optional)</label>
+                    <label for="floatingInput" class="ms-2 text-muted  ">Room # / Suite (Optional)</label>
                 </div>
             </div>
 

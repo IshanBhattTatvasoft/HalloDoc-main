@@ -28,7 +28,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context = context;
         }
 
-        AdminDashboardTableView IAdminInterface.ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region)
+        AdminDashboardTableView IAdminInterface.ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region, int page = 1, int pageSize = 10)
         {
 
             Expression<Func<Request, bool>> exp;
@@ -114,8 +114,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 status = status,
                 caseTags = c,
                 email = "abc",
-                requests = query.ToList(),
-                an = adminNavbarModel
+                requests = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                an = adminNavbarModel,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = query.Count(),
+                TotalPages = (int)Math.Ceiling((double)query.Count()/pageSize),
             };
             return adminDashboardViewModel;
         }
@@ -652,6 +656,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             ad.AltPhone = model.altPhoneNo;
             _context.Admins.Update(ad);
             _context.SaveChanges();
+        }
+
+        public List<Request> GetPatientRecordsData(int userId)
+        {
+            return _context.Requests.Where(r => r.UserId ==  userId).ToList();
         }
     }
 }

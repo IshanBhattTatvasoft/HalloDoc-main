@@ -44,7 +44,18 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void SetPasswordForResetPassword(AspNetUser user, ResetPasswordViewModel model)
         {
             user.PasswordHash = model.Password;
-            _context.SaveChanges();
+            _context.AspNetUsers.Update(user);
+        }
+
+        public bool FindEmailInAspNetUser(string email)
+        {
+            AspNetUser existingUser = _context.AspNetUsers.SingleOrDefault(u => u.Email == email);
+            bool isValidEmail = true;
+            if (existingUser == null)
+            {
+                isValidEmail = false;
+            }
+            return isValidEmail;
         }
 
         public AspNetUserRole ValidateANUR(AspNetUser user)

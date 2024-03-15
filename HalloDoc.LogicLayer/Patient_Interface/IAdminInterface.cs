@@ -11,7 +11,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
 {
     public interface IAdminInterface 
     {
-        public AdminDashboardTableView ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region);
+        //public AdminDashboardTableView ModelOfAdminDashboard(int page = 1, int pageSize = 10, string status, int id, string? search, string? requestor, int? region)
+        public AdminDashboardTableView ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region, int page = 1, int pageSize = 10);
         public PatientHistoryViewModel PatientHistoryFilteredData(AdminNavbarModel an, string fname, string lname, string pno, string email);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
@@ -74,7 +75,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<AdminRegion> GetAdminRegionFromId(int id);
         public List<AdminRegion> GetAvailableRegionOfAdmin(int id);
         public void UpdateMailingInfo(AdminProfile model, int aid);
-
+        public List<Request> GetPatientRecordsData(int userId);
 
     }
 }

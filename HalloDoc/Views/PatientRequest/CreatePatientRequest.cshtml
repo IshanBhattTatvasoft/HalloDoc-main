@@ -60,12 +60,12 @@
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
-                        <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">First Name</label>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
-                        <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Last Name</label>
                         <span asp-validation-for="LastName" class="text-danger"></span>
 
                     </div>
@@ -73,7 +73,7 @@
                 <div class="row">
                     <div class="col-sm-6 form-floating mt-3">
                         <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
-                        <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Date Of Birth</label>
                         <span asp-validation-for="DOB" class="text-danger"></span>
                     </div>
                 </div>
@@ -88,7 +88,7 @@
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="Email">
-                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Email</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
 
                     </div>
@@ -101,14 +101,14 @@
                 <div class="row hidden-pass" style="display:none;">
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="password" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Password">
-                        <label for="floatingInput" class="ms-2 text-muted">Create Password</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Create Password</label>
                         <span asp-validation-for="Password" class="text-danger"></span>
 
                     </div>
                     <div class="form-floating col-sm-6 mt-3">
-                        <input type="password" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Password">
-                        <label for="floatingInput" class="ms-2 text-muted">Confirm Password</label>
-                        <span asp-validation-for="Password" class="text-danger"></span>
+                        <input type="password" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="ConfirmPassword">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Confirm Password</label>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 
                     </div>
                 </div>
@@ -123,32 +123,32 @@
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Street">
-                        <label for="floatingInput" class="ms-2 text-muted">Street</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Street</label>
                         <span asp-validation-for="Street" class="text-danger"></span>
 
                     </div>
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
-                        <label for="floatingInput" class="ms-2 text-muted">City</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">City</label>
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="State">
-                        <label for="floatingInput" class="ms-2 text-muted">State</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">State</label>
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zipcode">
-                        <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Zipcode</label>
                         <span asp-validation-for="Zipcode" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Room">
-                        <label for="floatingInput" class="ms-2 text-muted">Room # / Suite (Optional)</label>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Room # / Suite (Optional)</label>
                     </div>
                 </div>
 
@@ -191,17 +191,27 @@
 <script>
     $(document).ready(function () {
         $('#emailInput').on('blur', function () {
-            var inputValue = $('#emailInput').val();
+            console.log("hey");
+            var inputValue = document.getElementById("emailInput").value;
 
-            $.get('/PatientRequest/PatientCheck', { email: inputValue }, function (response) {
-                console.log(response);
-                if (!response.isValid) {
-                    document.getElementsByClassName("hidden-pass")[0].style.display = "block";
-                }
-                else {
-                    document.getElementsByClassName("hidden-pass")[0].style.display = "none";
+            $.ajax({
+                url: '/PatientRequest/PatientCheck',
+                data: {email: inputValue},
+                success: function(response){
+                    if(response==true)
+                    {
+                        document.getElementsByClassName("hidden-pass")[0].style.display = "none";
+                    }
+                    else
+                    {
+                        document.getElementsByClassName("hidden-pass")[0].style.display = "flex";
+                    }
+                },
+                error: function(error){
+                    alert("An error occurred");
                 }
             });
+
         });
     });
 

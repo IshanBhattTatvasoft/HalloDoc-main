@@ -89,6 +89,10 @@
       "PackagePath": "staticwebassets\\images\\active_active.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\arrow-down.svg",
+      "PackagePath": "staticwebassets\\images\\arrow-down.svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\assign-case-image.svg",
       "PackagePath": "staticwebassets\\images\\assign-case-image.svg"
     },
@@ -537,6 +541,10 @@
       "PackagePath": "staticwebassets\\uploads\\MVC.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\New.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\New.xlsx"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (1).pdf"
     },
@@ -595,6 +603,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Session 2 (1).txt",
       "PackagePath": "staticwebassets\\uploads\\Session 2 (1).txt"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Unpaid.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\Unpaid.xlsx"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",
@@ -661,6 +673,10 @@
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (3) (1).svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3) (2).svg",
+      "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (3) (2).svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3).svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (3).svg"
     },
@@ -675,6 +691,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\success-26.svg",
       "PackagePath": "staticwebassets\\uploads\\success-26.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\tableData (3).xlsx",
+      "PackagePath": "staticwebassets\\uploads\\tableData (3).xlsx"
     },
     {
       "Id": "obj\\Debug\\net7.0\\staticwebassets\\msbuild.HalloDoc.Microsoft.AspNetCore.StaticWebAssets.props",

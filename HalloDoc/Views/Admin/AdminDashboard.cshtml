@@ -6,7 +6,7 @@
     <link href="~/css/admin-dashboard.css" rel="stylesheet" type="text/css" />
     <style>
         textarea{
-            resize: none !; 
+            resize: none !important; 
         }
     </style>
 }
@@ -288,8 +288,10 @@
         </div>
 
         <div>
-            <div class="table-responsive mt-4 ms-3 me-3 myTable" id="AdminDashboardPartialView"></div>
+            <div class="mt-4 ms-3 me-3 myTable" id="AdminDashboardPartialView"></div>
         </div>
+
+        
 
 
         <!-- Button trigger modal -->
@@ -713,6 +715,18 @@
 
 
     <script>
+        // pagination
+        $(document).ready(function () {
+            $('.pagination a').click(function (e) {
+                e.preventDefault();
+                //console.log("hiiiiiii");
+                var page = $(this).attr('data-page');
+
+                filter(page, 10);
+            });
+        });
+
+
         // code to show/hide triangle when a status is active/inactive
         const changeStatus = (element) => {
             //debugger;
@@ -788,11 +802,11 @@
                 }
             }
 
-            filter();
+            filter(1, 10);
         }
 
         // code to show filtered data
-        const filter = () => {
+        const filter = (page, pageSize) => {
 
             const states = document.getElementsByClassName("req-filter");
             console.log("Status: " + document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
@@ -802,7 +816,7 @@
                         url: `/Admin/${document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)}`,
                         type: 'POST',
                         dataType: 'html',
-                        data: { search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1] },
+                        data: { search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1], page: page, pageSize: pageSize },
 
                         success: function (response) {
                             $("#AdminDashboardPartialView").html(response);

@@ -7,7 +7,7 @@ public class ResetPasswordViewModel
     [Compare("Password", ErrorMessage = "Password is Mismatch")]
     public string? Password { get; set; }
 
-    [Required(ErrorMessage = "Enter ConfirmPassword")]
+    [Required(ErrorMessage = "Confirm the entered password")]
     [Compare("Password", ErrorMessage = "Password is Mismatch")]
     public string? ConfirmPassword { get; set; }
 }

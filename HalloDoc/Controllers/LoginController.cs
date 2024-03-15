@@ -235,6 +235,22 @@ namespace HalloDoc.Controllers
 
         }
 
+        public IActionResult CreateAccount(CreatePatientAccountViewModel model)
+        {
+            if(_patientRequest.GetEmailFromAspNet(model.email) == null)
+            {
+                _patientRequest.InsertIntoAspNetUser(model);
+                _patientRequest.InsertPatientIntoUserRoles(model);
+                TempData["success"] = "New account created successfully";
+            }
+            else
+            {
+                _patientRequest.UpdateAspNetUserPass(model);
+                TempData["success"] = "Account already exists. Password is updated";
+            }
+            return RedirectToAction("CreatePatientAccount");
+        }
+
         public IActionResult PatientSite()
         {
             return View();
@@ -475,6 +491,7 @@ namespace HalloDoc.Controllers
             return RedirectToAction("PatientProfile");
         }
 
+
         public IActionResult PatientLoginPage()
         {
             return View();
@@ -491,6 +508,11 @@ namespace HalloDoc.Controllers
         }
 
         public IActionResult CreatePassword()
+        {
+            return View();
+        }
+
+        public IActionResult CreatePatientAccount()
         {
             return View();
         }

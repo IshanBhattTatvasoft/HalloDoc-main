@@ -19,7 +19,7 @@
             <td>@item.RequestClient.Email</td>
             <td>@item.RequestClient.PhoneNumber</td>
             <td>&nbsp;</td>
-            <td class="text-end"><button type="button" class="btn btn-outline-info ps-auto pe-auto">Explore</button></td>
+            <td class="text-end"><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">Explore</a></td>
         </tr>
     }
 </table>

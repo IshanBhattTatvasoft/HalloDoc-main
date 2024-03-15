@@ -34,4 +34,8 @@ public class AdminDashboardTableView
     public int? requestTypeId { get; set; }
     public string sendAgreeEmail { get; set; }
     public AdminNavbarModel? an { get; set; }
+    public int CurrentPage { get; set; }
+    public int PageSize { get; set; }
+    public int TotalItems { get; set; }
+    public int TotalPages { get; set; }
 }

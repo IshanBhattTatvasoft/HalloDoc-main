@@ -82,225 +82,231 @@
     </div>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th scope="col" class="table-header">
-                Name
-            </th>
-            <th></th>
-            @if (Model.status != "Unpaid")
-            {
-                <th>Date Of Birth</th>
-            }
-            @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active")
-            {
-                <th>Requestor</th>
-            }
-            @if (Model.status != "New")
-            {
-                <th>Physician Name</th>
-                <th>Date Of Service</th>
-            }
-            @if (Model.status == "New")
-            {
-                <th>Requested Date</th>
-            }
-            @if (Model.status != "ToClose")
-            {
-                <th style="min-width: 175px;">Phone</th>
-            }
-            <th>Address</th>
-            @if (Model.status != "Conclude" || Model.status != "Unpaid")
-            {
-                <th>Notes</th>
-            }
-            @*<th>Chat With</th>*@
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody id="abcd">
-        @foreach (var item in Model.requests)
-        {
-            var statusClass = "";
-            var dos = "";
-            var notes = "";
-            @if (item.RequestTypeId == 1)
-            {
-                statusClass = "patient";
-            }
-            else if (item.RequestTypeId == 4)
-            {
-                statusClass = "business";
-            }
-            else if (item.RequestTypeId == 2)
-            {
-                statusClass = "family";
-            }
-            else
-            {
-                statusClass = "concierge";
-            }
-            foreach (var stat in item.RequestStatusLogs)
-            {
-                if (stat.Status == 2)
-                {
-                    dos = stat.CreatedDate.ToString("MMMM dd,yyyy");
-                    notes = stat.Notes ?? "";
-                }
-            }
-            <tr class="@statusClass">
-                <td class="@statusClass first-col">@(string.Concat(item.RequestClient.FirstName, ',', item.RequestClient.LastName))</td>
-                <td class="@statusClass">
-                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30"
-                         fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
-                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
-                    </svg>
-                </td>
+<div class="table-responsive d-none d-md-block">
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col" class="table-header">
+                    Name
+                </th>
+                <th></th>
                 @if (Model.status != "Unpaid")
                 {
-                    <td class="@statusClass">@(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@(DateTime.Now.Year - item.RequestClient.IntYear))</td>
+                    <th>Date Of Birth</th>
                 }
                 @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active")
                 {
-                    <td class="@statusClass">@(statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower()) @(string.Concat(item.FirstName, ',', item.LastName))</td>
+                    <th>Requestor</th>
                 }
                 @if (Model.status != "New")
                 {
-                    <td class="@statusClass">Dr. @(item.Physician == null ? "" : item.Physician.FirstName)</td>
+                    <th>Physician Name</th>
+                    <th>Date Of Service</th>
                 }
                 @if (Model.status == "New")
                 {
-                    <td class="@statusClass">@(item.CreatedDate.ToString("MMMM dd,yyyy"))</td>
-                }
-                @if (Model.status != "New")
-                {
-                    <td class="@statusClass">@dos</td>
+                    <th>Requested Date</th>
                 }
                 @if (Model.status != "ToClose")
                 {
+                    <th style="min-width: 175px;">Phone</th>
+                }
+                <th>Address</th>
+                @if (Model.status != "Conclude" || Model.status != "Unpaid")
+                {
+                    <th>Notes</th>
+                }
+                @*<th>Chat With</th>*@
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="abcd">
+            @foreach (var item in Model.requests)
+            {
+                var statusClass = "";
+                var dos = "";
+                var notes = "";
+                @if (item.RequestTypeId == 1)
+                {
+                    statusClass = "patient";
+                }
+                else if (item.RequestTypeId == 4)
+                {
+                    statusClass = "business";
+                }
+                else if (item.RequestTypeId == 2)
+                {
+                    statusClass = "family";
+                }
+                else
+                {
+                    statusClass = "concierge";
+                }
+                foreach (var stat in item.RequestStatusLogs)
+                {
+                    if (stat.Status == 2)
+                    {
+                        dos = stat.CreatedDate.ToString("MMMM dd,yyyy");
+                        notes = stat.Notes ?? "";
+                    }
+                }
+                <tr class="@statusClass">
+                    <td class="@statusClass first-col">@(string.Concat(item.RequestClient.FirstName, ',', item.RequestClient.LastName))</td>
                     <td class="@statusClass">
+                        <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30"
+                             fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                            <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                        </svg>
+                    </td>
+                    @if (Model.status != "Unpaid")
+                    {
+                        <td class="@statusClass">@(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@(DateTime.Now.Year - item.RequestClient.IntYear))</td>
+                    }
+                    @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active")
+                    {
+                        <td class="@statusClass">@(statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower()) @(string.Concat(item.FirstName, ',', item.LastName))</td>
+                    }
+                    @if (Model.status != "New")
+                    {
+                        <td class="@statusClass">Dr. @(item.Physician == null ? "" : item.Physician.FirstName)</td>
+                    }
+                    @if (Model.status == "New")
+                    {
+                        <td class="@statusClass">@(item.CreatedDate.ToString("MMMM dd,yyyy"))</td>
+                    }
+                    @if (Model.status != "New")
+                    {
+                        <td class="@statusClass">@dos</td>
+                    }
+                    @if (Model.status != "ToClose")
+                    {
+                        <td class="@statusClass">
 
-                        <div class="phone-td" style="width:75%">
-                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
-                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
-                            </svg>
-                            <span class="td-data">@item.RequestClient.PhoneNumber</span>
-                        </div>
-                        <span class="td-data">(Patient)</span>
-
-                        @if (item.RequestTypeId != 1)
-                        {
                             <div class="phone-td" style="width:75%">
                                 <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
                                     <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
                                 </svg>
-                                <span class="td-data">@item.PhoneNumber</span>
+                                <span class="td-data">@item.RequestClient.PhoneNumber</span>
                             </div>
-                            @($"({statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower()})")
-                        }
+                            <span class="td-data">(Patient)</span>
 
-                    </td>
-                }
-                <td class="@statusClass" style="width: 80px !important;">@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</td>
-                @if (Model.status == "New")
+                            @if (item.RequestTypeId != 1)
+                            {
+                                <div class="phone-td" style="width:75%">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                        <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z" />
+                                    </svg>
+                                    <span class="td-data">@item.PhoneNumber</span>
+                                </div>
+                                @($"({statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower()})")
+                            }
+
+                        </td>
+                    }
+                    <td class="@statusClass" style="width: 80px !important;">@(item.RequestClient.Address == null ? string.Concat(item.RequestClient.Address, ',', item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode) : string.Concat(item.RequestClient.Street, ',', item.RequestClient.City, ',', item.RequestClient.State, ',', item.RequestClient.ZipCode))</td>
+                    @if (Model.status == "New")
+                    {
+                        <td class="@statusClass" style="width: 80px !important;">
+                            <span>-</span>
+                        </td>
+                    }
+                    else if (Model.status != "Conclude" || Model.status != "Unpaid")
+                    {
+                        <td class="@statusClass" style="width: 80px !important">
+                            @foreach (var x in item.RequestStatusLogs)
+                            {
+                                <span>@x.Notes</span>
+                            }
+                        </td>
+                    }
+                    @*<td class="@statusClass">
+                @if (Model.status != "New")
                 {
-                    <td class="@statusClass" style="width: 80px !important;">
-                        <span>-</span>
-                    </td>
-                }
-                else if (Model.status != "Conclude" || Model.status != "Unpaid")
-                {
-                    <td class="@statusClass" style="width: 80px !important">
-                        @foreach (var x in item.RequestStatusLogs)
-                        {
-                            <span>@x.Notes</span>
-                        }
-                    </td>
-                }
-                @*<td class="@statusClass">
-            @if (Model.status != "New")
-            {
-            <button type="button" class="btn btn-light text-white" style="background-color: transparent;
-            border-color: #ccc;">
-            <img src="~/images/person.svg">
-            Patient
-            </button>
+                <button type="button" class="btn btn-light text-white" style="background-color: transparent;
+                border-color: #ccc;">
+                <img src="~/images/person.svg">
+                Patient
+                </button>
 
-            }
-            <button type="button" class="btn btn-light text-white" style="background-color: transparent;
-            border-color: #ccc;">
-            <img src="~/images/doctor.png" style="height: 20px; width: 20px; background-color: transparent;">
-            Provider
-            </button>
-            </td>*@
-                <td class="@statusClass">
-                    <div class="dropdown" style="height:100%;display:flex">
-                        <button class="dropbtn @statusClass" onclick="toggleDropdown()">Action</button>
-                        <div class="dropdown-content">
-                            @if (Model.status == "New")
-                            {
-                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
-                                <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
+                }
+                <button type="button" class="btn btn-light text-white" style="background-color: transparent;
+                border-color: #ccc;">
+                <img src="~/images/doctor.png" style="height: 20px; width: 20px; background-color: transparent;">
+                Provider
+                </button>
+                </td>*@
+                    <td class="@statusClass">
+                        <div class="dropdown" style="height:100%;display:flex">
+                            <button class="dropbtn @statusClass" onclick="toggleDropdown()">Action</button>
+                            <div class="dropdown-content">
+                                @if (Model.status == "New")
+                                {
+                                    <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Assign Case</span></div></button>
+                                    <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span class="text-dark">Cancel Case</span></div></button>
 
-                            }
-                            @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
-                            {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
-                            }
-                            @if (Model.status == "ToClose")
-                            {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
-                            }
-                            @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
-                            {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-notes-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Notes</span></div></a>
-                            }
-                            @if (Model.status == "New")
-                            {
-                                <button type="button" class="dropdown-item text-dark hover-dropdown-item" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></button>
-                            }
-                            @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "Unpaid")
-                            {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
-                            }
-                            @if (Model.status == "Pending")
-                            {
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferRequestData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></button>
-                            }
-                            @if (Model.status == "Pending")
-                            {
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></button>
-                            }
-                            @if (Model.status == "Pending")
-                            {
-                                <button type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></button>
-                            }
-                            @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
-                            {
-                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
+                                }
+                                @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
+                                {
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>View Case</span></div></a>
+                                }
                                 @if (Model.status == "ToClose")
                                 {
-                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="CloseCase" asp-controller="Admin" asp-route-id="@item.RequestId"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Close Case</span></div></a>
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
                                 }
-                                <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Doctor Note</span></div></a>
-                                @if (Model.status == "ToClose")
+                                @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
+                                {
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId"><div class="action-item"><img src="~/images/view-notes-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Notes</span></div></a>
+                                }
+                                @if (Model.status == "New")
+                                {
+                                    <button type="button" class="dropdown-item text-dark hover-dropdown-item" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/block-patient-image.png" alt="" class="action-img px-1" style="height: 20px; width: 30px;"><span>Block Patient</span></div></button>
+                                }
+                                @if (Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "Unpaid")
+                                {
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')"><div class="action-item"><img src="~/images/view-uploads-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>View Uploads</span></div></a>
+                                }
+                                @if (Model.status == "Pending")
+                                {
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferRequestData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Transfer</span></div></button>
+                                }
+                                @if (Model.status == "Pending")
                                 {
                                     <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></button>
                                 }
-                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Encounter</span></div></a>
-                            }@*
-                        @if (Model.status == "ToClose")
-                        {
-                        <a class="dropdown-item hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img"><span>Close Case</span></div></a>
-                        }*@
+                                @if (Model.status == "Pending")
+                                {
+                                    <button type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')"><div class="action-item"><img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span></div></button>
+                                }
+                                @if (Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Active")
+                                {
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId"><div class="action-item"><img src="~/images/orders-image.png" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Orders</span></div></a>
+                                    @if (Model.status == "ToClose")
+                                    {
+                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="CloseCase" asp-controller="Admin" asp-route-id="@item.RequestId"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Close Case</span></div></a>
+                                    }
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Doctor Note</span></div></a>
+                                    @if (Model.status == "ToClose")
+                                    {
+                                        <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')"><div class="action-item ms-2"><img src="~/images/cancel-case-image.webp" alt="" class="action-img pe-1 ps-1" style="height: 20px; width: 30px;"><span>Clear Case</span></div></button>
+                                    }
+                                    <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')"><div class="action-item"><img src="~/images/assign-case-image.svg" alt="" class="action-img pe-1"><span>Encounter</span></div></a>
+                                }@*
+                            @if (Model.status == "ToClose")
+                            {
+                            <a class="dropdown-item hover-dropdown-item" href="#"><div class="action-item"><img src="~/images/cancel-case-image.webp" alt="" class="action-img"><span>Close Case</span></div></a>
+                            }*@
+                            </div>
                         </div>
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
 
 @*Admin Dashboard Mobile View*@
 
@@ -566,10 +572,28 @@
     </div>
 </div>
 
+<div class="pagination">
+    <span style="margin-right:10px;">Page No:</span>
+    @if (Model.CurrentPage > 1)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@(Model.CurrentPage - 1)" class="mx-4 text-decoration-none pagination-text">Previous</a>
+    }
 
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@i" class="@(i == Model.CurrentPage ? "pagination-active" : "") mx-4 text-decoration-none pagination-text">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important;" data-page="@(Model.CurrentPage + 1)" class="mx-4 text-decoration-none pagination-text">Next</a>
+    }
+</div>
 
 <script>
+
     
+
 
     //function toggleDropdown() {
     //    const dropdown = document.querySelector('.dropdown');
@@ -617,62 +641,63 @@
         }
     }
 
-            //function sendAgreement(id, typeId)
-            //{
-            //    //console.log(id);
-            //    //console.log(typeId);
-            //    document.getElementById("r-type-id-two").value = typeId;
-            //    document.getElementById("r-id-for-agree").value = id;
-            //    var x = document.getElementById("r-id-for-agree").value;
-            //    //console.log(x);
+                //function sendAgreement(id, typeId)
+                //{
+                //    //console.log(id);
+                //    //console.log(typeId);
+                //    document.getElementById("r-type-id-two").value = typeId;
+                //    document.getElementById("r-id-for-agree").value = id;
+                //    var x = document.getElementById("r-id-for-agree").value;
+                //    //console.log(x);
 
-            //    const rtid = document.getElementById("r-type-id-two").value;
-            //    const rid = document.getElementById("r-id-for-agree").value;
-            //    if (rtid == 1) {
-            //        document.getElementById("patient-data").style.display = "flex";
-            //        document.getElementById("family-data").style.display = "none";
-            //        document.getElementById("concierge-data").style.display = "none";
-            //        document.getElementById("business-data").style.display = "none";
-            //    }
-            //    else if (rtid == 2) {
-            //        document.getElementById("patient-data").style.display = "none";
-            //        document.getElementById("family-data").style.display = "flex";
-            //        document.getElementById("concierge-data").style.display = "none";
-            //        document.getElementById("business-data").style.display = "none";
-            //    }
-            //    else if (rtid == 3) {
-            //        document.getElementById("patient-data").style.display = "none";
-            //        document.getElementById("family-data").style.display = "none";
-            //        document.getElementById("concierge-data").style.display = "flex";
-            //        document.getElementById("business-data").style.display = "none";
-            //    }
-            //    else {
-            //        document.getElementById("patient-data").style.display = "none";
-            //        document.getElementById("family-data").style.display = "none";
-            //        document.getElementById("concierge-data").style.display = "none";
-            //        document.getElementById("business-data").style.display = "flex";
-            //    }
-            //    fetch(`/Admin/GetAgreementData?reqId=${id}`, {
-            //        method: 'GET',
-            //    })
-            //        .then(response => {
-            //            if (!response.ok) {
-            //                throw new Error('Network response was not ok');
-            //            }
-            //            return response.json();
-            //        })
-            //        .then(data => {
-            //            console.log(data);
-            //            // You can perform further operations with the received data here
-            //            // For example:
-            //            // document.getElementById("phoneForAgree").value = data.phoneNumber;
-            //            // document.getElementById("emailForAgree").value = data.email;
-            //        })
-            //        .catch(error => {
-            //            console.error('There has been a problem with your fetch operation:', error);
-            //        });
+                //    const rtid = document.getElementById("r-type-id-two").value;
+                //    const rid = document.getElementById("r-id-for-agree").value;
+                //    if (rtid == 1) {
+                //        document.getElementById("patient-data").style.display = "flex";
+                //        document.getElementById("family-data").style.display = "none";
+                //        document.getElementById("concierge-data").style.display = "none";
+                //        document.getElementById("business-data").style.display = "none";
+                //    }
+                //    else if (rtid == 2) {
+                //        document.getElementById("patient-data").style.display = "none";
+                //        document.getElementById("family-data").style.display = "flex";
+                //        document.getElementById("concierge-data").style.display = "none";
+                //        document.getElementById("business-data").style.display = "none";
+                //    }
+                //    else if (rtid == 3) {
+                //        document.getElementById("patient-data").style.display = "none";
+                //        document.getElementById("family-data").style.display = "none";
+                //        document.getElementById("concierge-data").style.display = "flex";
+                //        document.getElementById("business-data").style.display = "none";
+                //    }
+                //    else {
+                //        document.getElementById("patient-data").style.display = "none";
+                //        document.getElementById("family-data").style.display = "none";
+                //        document.getElementById("concierge-data").style.display = "none";
+                //        document.getElementById("business-data").style.display = "flex";
+                //    }
+                //    fetch(`/Admin/GetAgreementData?reqId=${id}`, {
+                //        method: 'GET',
+                //    })
+                //        .then(response => {
+                //            if (!response.ok) {
+                //                throw new Error('Network response was not ok');
+                //            }
+                //            return response.json();
+                //        })
+                //        .then(data => {
+                //            console.log(data);
+                //            // You can perform further operations with the received data here
+                //            // For example:
+                //            // document.getElementById("phoneForAgree").value = data.phoneNumber;
+                //            // document.getElementById("emailForAgree").value = data.email;
+                //        })
+                //        .catch(error => {
+                //            console.error('There has been a problem with your fetch operation:', error);
+                //        });
 
-            //}
+                //}
 
 
 </script>
+

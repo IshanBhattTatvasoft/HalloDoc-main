@@ -20,6 +20,8 @@ using DocumentFormat.OpenXml.Spreadsheet;
 using System.Drawing;
 using System.Linq;
 using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Drawing.Printing;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -112,7 +114,7 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status, (int)userId, null, null, -1);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status, (int)userId, null, null, -1, 1, 10);
 
 
             return View(adminDashboardViewModel);
@@ -122,65 +124,65 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult New(string? search = "", string? requestor = "", int? region = -1)
+        public IActionResult New(string? search = "", string? requestor = "", int? region = -1, int page=1, int pageSize=10)
         {
             var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, search, requestor, (int)region);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, search, requestor, (int)region, page, pageSize);
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Pending(string? search = "", string? requestor = "", int? region = -1)
+        public IActionResult Pending(string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
             var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId, search, requestor, (int)region);
-
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
-        }
-
-        //[HttpPost]
-        [CustomAuthorize("Admin")]
-        public IActionResult Active(string? search = "", string? requestor = "", int? region = -1)
-        {
-            var userId = HttpContext.Session.GetInt32("id");
-
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId, search, requestor, (int)region);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId, search, requestor, (int)region, page, pageSize);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Conclude(string? search = "", string? requestor = "", int? region = -1)
+        public IActionResult Active(string? search = "", string? requestor = "", int? region = -1, int page=1, int pageSize=10)
         {
             var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId, search, requestor, (int)region);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId, search, requestor, (int)region, page, pageSize);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Toclose(string? search = "", string? requestor = "", int? region = -1)
+        public IActionResult Conclude(string? search = "", string? requestor = "", int? region = -1, int page=1, int pageSize=10)
         {
             var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId, search, requestor, (int)region);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId, search, requestor, (int)region, page, pageSize);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
 
         //[HttpPost]
         [CustomAuthorize("Admin")]
-        public IActionResult Unpaid(string? search = "", string? requestor = "", int? region = -1)
+        public IActionResult Toclose(string? search = "", string? requestor = "", int? region = -1, int page=1, int pageSize=10)
         {
             var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId, search, requestor, (int)region);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId, search, requestor, (int)region, page, pageSize);
+
+            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+        }
+
+        //[HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult Unpaid(string? search = "", string? requestor = "", int? region = -1, int page=1, int pageSize=10)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId, search, requestor, (int)region, page, pageSize);
 
             return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
         }
@@ -1811,6 +1813,22 @@ namespace HalloDoc.Controllers
             an.Tab = 3;
             PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, firstName, lastName, phoneNumber, email);
             return PartialView("PatientHistoryPagePartialView", pr);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult PatientRecords(int userid)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 3;
+            PatientHistoryViewModel pr = new PatientHistoryViewModel
+            {
+                AdminNavbarModel = an,
+                requests = _adminInterface.GetPatientRecordsData(userid),
+            };
+            return View(pr);
         }
     }
 }

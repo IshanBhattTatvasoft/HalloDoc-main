@@ -45,11 +45,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;
-                aspNetUser.UserName = model.Email;
+                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email; ;
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
+                aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChanges();
 
@@ -123,7 +123,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 {
                     model.ImageContent.CopyToAsync(stream);
                 }
-                var filePath = "/uploads/" + model.ImageContent.FileName;
+                var filePath = model.ImageContent.FileName;
 
                 requestWiseFile.RequestId = request.RequestId;
                 requestWiseFile.FileName = filePath;
@@ -140,6 +140,41 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
+        public AspNetUser GetEmailFromAspNet(string email)
+        {
+            return _context.AspNetUsers.SingleOrDefault(u => u.UserName == email);
+        }
+
+        public void InsertIntoAspNetUser(CreatePatientAccountViewModel model)
+        {
+            AspNetUser aspNetUser = new AspNetUser();
+            int atIndex = model.email.IndexOf("@");
+            aspNetUser.UserName = atIndex >= 0 ? model.email.Substring(0, atIndex) : model.email; ;
+            aspNetUser.Email = model.email;
+            aspNetUser.CreatedDate = DateTime.Now;
+            aspNetUser.PasswordHash = model.Password;
+            _context.AspNetUsers.Add(aspNetUser);
+            _context.SaveChanges();
+        }
+
+        public void UpdateAspNetUserPass(CreatePatientAccountViewModel model)
+        {
+            AspNetUser anu = _context.AspNetUsers.SingleOrDefault(u => u.Email == model.email);
+            anu.PasswordHash = model.Password;
+            anu.CreatedDate = DateTime.Now;
+            _context.AspNetUsers.Update(anu);
+            _context.SaveChanges();
+        }
+
+        public void InsertPatientIntoUserRoles(CreatePatientAccountViewModel model)
+        {
+            AspNetUserRole anur = new AspNetUserRole();
+            anur.RoleId = 3;
+            AspNetUser anu = _context.AspNetUsers.Where(u => u.Email == model.email).SingleOrDefault();
+            anur.UserId = anu.Id;
+            _context.AspNetUserRoles.Add(anur);
+            _context.SaveChanges();
+        }
 
     }
 }

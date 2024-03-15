@@ -1,0 +1,1513 @@
+<div class="table-responsive mt-4 ms-3 me-3 myTable" id="AdminDashboardPartialView">
+
+
+<div id="myModal6" class="modal6">
+    <div class="modal-content6" style="width:80%;margin-top:201px;height:50%">
+        <h5 style="text-align: center;">Your Location</h5>
+        <div class="gmap_canvas" style="height:80%;width:100%">
+            <iframe id="gmap_canvas" style="height:95%;width:100%;border-radius:15px;" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
+            </iframe>
+        </div>
+        <span class="close6">Ok</span>
+    </div>
+</div>
+
+<table id="dtBasicExample" class="table">
+    <thead>
+        <tr>
+            <th scope="col" class="table-header">
+                Name
+            </th>
+            <th></th>
+                <th>Date Of Birth</th>
+                <th>Requestor</th>
+                <th>Requested Date</th>
+                <th style="min-width: 175px;">Phone</th>
+            <th>Address</th>
+                <th>Notes</th>
+            
+        </tr>
+    </thead>
+    <tbody id="abcd">
+            <tr class="patient">
+                <td class="patient first-col">meet,patel</td>
+                <td class="patient">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="patient">March 06,2024(0)</td>
+                    <td class="patient">Patient meet,patel</td>
+                    <td class="patient">March 11,2024</td>
+                    <td class="patient">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">121212122</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+
+                    </td>
+                <td class="patient" style="width: 80px !important;">ishan,Ujjain,Madhya Pradesh,456001</td>
+                    <td class="patient" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="patient">
+                <td class="patient first-col">harshit,batra</td>
+                <td class="patient">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="patient">March 03,2024(0)</td>
+                    <td class="patient">Patient harshit,batra</td>
+                    <td class="patient">March 07,2024</td>
+                    <td class="patient">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">2426224123</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+
+                    </td>
+                <td class="patient" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,362220</td>
+                    <td class="patient" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="business">
+                <td class="business first-col">wag,bhatt</td>
+                <td class="business">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="business">March 04,2024(0)</td>
+                    <td class="business">Business fname,lname</td>
+                    <td class="business">March 07,2024</td>
+                    <td class="business">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">1246347683</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+                            <div class="phone-td" style="width:75%">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                                </svg>
+                                <span class="td-data">1234567890</span>
+                            </div>
+(Business)
+                    </td>
+                <td class="business" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,362220</td>
+                    <td class="business" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="patient">
+                <td class="patient first-col">jaimin,bhojani</td>
+                <td class="patient">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="patient">March 04,2024(0)</td>
+                    <td class="patient">Patient jaimin,bhojani</td>
+                    <td class="patient">March 07,2024</td>
+                    <td class="patient">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">2133231233</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+
+                    </td>
+                <td class="patient" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,362220</td>
+                    <td class="patient" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="patient">
+                <td class="patient first-col">wag,gfadfg</td>
+                <td class="patient">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="patient">February 26,2024(0)</td>
+                    <td class="patient">Patient wag,gfadfg</td>
+                    <td class="patient">March 04,2024</td>
+                    <td class="patient">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">23525453</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+
+                    </td>
+                <td class="patient" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,</td>
+                    <td class="patient" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="patient">
+                <td class="patient first-col">wag,gfadfg</td>
+                <td class="patient">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="patient">February 28,2024(0)</td>
+                    <td class="patient">Patient wag,gfadfg</td>
+                    <td class="patient">March 04,2024</td>
+                    <td class="patient">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">2112315</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+
+                    </td>
+                <td class="patient" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,</td>
+                    <td class="patient" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="patient">
+                <td class="patient first-col">ishan,gfadfg</td>
+                <td class="patient">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="patient">February 12,2024(0)</td>
+                    <td class="patient">Patient ishan,gfadfg</td>
+                    <td class="patient">March 04,2024</td>
+                    <td class="patient">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">1221221212</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+
+                    </td>
+                <td class="patient" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,</td>
+                    <td class="patient" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="patient">
+                <td class="patient first-col">wag,bhatt</td>
+                <td class="patient">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="patient">February 29,2024(0)</td>
+                    <td class="patient">Patient wag,bhatt</td>
+                    <td class="patient">March 04,2024</td>
+                    <td class="patient">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">1234123412</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+
+                    </td>
+                <td class="patient" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,</td>
+                    <td class="patient" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="concierge">
+                <td class="concierge first-col">ishan,dgfdhgfdh</td>
+                <td class="concierge">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="concierge">February 29,2024(0)</td>
+                    <td class="concierge">Concierge wasdwasd,dsjnasdj</td>
+                    <td class="concierge">March 04,2024</td>
+                    <td class="concierge">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">9807654321</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+                            <div class="phone-td" style="width:75%">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                                </svg>
+                                <span class="td-data">9807654321</span>
+                            </div>
+(Concierge)
+                    </td>
+                <td class="concierge" style="width: 80px !important;">Khijadiya Bird Sanctuary,Jamnagar,Gujarat,361120</td>
+                    <td class="concierge" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="concierge">
+                <td class="concierge first-col">wag,bhatt</td>
+                <td class="concierge">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="concierge">February 27,2024(0)</td>
+                    <td class="concierge">Concierge wasd,wasd</td>
+                    <td class="concierge">March 04,2024</td>
+                    <td class="concierge">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">5234543</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+                            <div class="phone-td" style="width:75%">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                                </svg>
+                                <span class="td-data">1234124312</span>
+                            </div>
+(Concierge)
+                    </td>
+                <td class="concierge" style="width: 80px !important;">Khijadiya Bird Sanctuary,Jamnagar,Gujarat,361120</td>
+                    <td class="concierge" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="concierge">
+                <td class="concierge first-col">ishan,gfadfg</td>
+                <td class="concierge">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="concierge">March 12,2024(0)</td>
+                    <td class="concierge">Concierge wasd,wasd</td>
+                    <td class="concierge">March 04,2024</td>
+                    <td class="concierge">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">3523545</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+                            <div class="phone-td" style="width:75%">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                                </svg>
+                                <span class="td-data">1231231231</span>
+                            </div>
+(Concierge)
+                    </td>
+                <td class="concierge" style="width: 80px !important;">Khijadiya Bird Sanctuary,Jamnagar,Gujarat,361120</td>
+                    <td class="concierge" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="family">
+                <td class="family first-col">ishan,gfadfg</td>
+                <td class="family">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="family">February 29,2024(0)</td>
+                    <td class="family">Family raj,vaghela</td>
+                    <td class="family">March 04,2024</td>
+                    <td class="family">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">1232123321</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+                            <div class="phone-td" style="width:75%">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                                </svg>
+                                <span class="td-data">13123123</span>
+                            </div>
+(Family)
+                    </td>
+                <td class="family" style="width: 80px !important;">Panchvati Society,Jamnagar,Gujarat,361002</td>
+                    <td class="family" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+            <tr class="family">
+                <td class="family first-col">wag,bhatt</td>
+                <td class="family">
+                    <svg xmlns="http://www.w3.org/2000/svg" style="padding:5px;border: 1px solid white;border-radius: 5px;margin: auto 5px;" width="30" height="30" fill="white" class="bi bi-envelope" viewBox="0 0 16 16">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"></path>
+                    </svg>
+                </td>
+                    <td class="family">February 28,2024(0)</td>
+                    <td class="family">Family raj,vaghela</td>
+                    <td class="family">March 04,2024</td>
+                    <td class="family">
+
+                        <div class="phone-td" style="width:75%">
+                            <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                            </svg>
+                            <span class="td-data">363652342</span>
+                        </div>
+                        <span class="td-data">(Patient)</span>
+
+                            <div class="phone-td" style="width:75%">
+                                <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 5px;" width="16" height="16" fill="white" class="bi bi-telephone" viewBox="0 0 16 16">
+                                    <path d="M3.654 1.328a.678.678 0 0 0-1.015-.063L1.605 2.3c-.483.484-.661 1.169-.45 1.77a17.6 17.6 0 0 0 4.168 6.608 17.6 17.6 0 0 0 6.608 4.168c.601.211 1.286.033 1.77-.45l1.034-1.034a.678.678 0 0 0-.063-1.015l-2.307-1.794a.68.68 0 0 0-.58-.122l-2.19.547a1.75 1.75 0 0 1-1.657-.459L5.482 8.062a1.75 1.75 0 0 1-.46-1.657l.548-2.19a.68.68 0 0 0-.122-.58zM1.884.511a1.745 1.745 0 0 1 2.612.163L6.29 2.98c.329.423.445.974.315 1.494l-.547 2.19a.68.68 0 0 0 .178.643l2.457 2.457a.68.68 0 0 0 .644.178l2.189-.547a1.75 1.75 0 0 1 1.494.315l2.306 1.794c.829.645.905 1.87.163 2.611l-1.034 1.034c-.74.74-1.846 1.065-2.877.702a18.6 18.6 0 0 1-7.01-4.42 18.6 18.6 0 0 1-4.42-7.009c-.362-1.03-.037-2.137.703-2.877z"></path>
+                                </svg>
+                                <span class="td-data">451653665</span>
+                            </div>
+(Family)
+                    </td>
+                <td class="family" style="width: 80px !important;">Mangrol Road,Keshod,Gujarat,362220</td>
+                    <td class="family" style="width: 80px !important;">
+                        <span>-</span>
+                    </td>
+                
+            </tr>
+    </tbody>
+</table>
+
+
+<div class="d-md-none">
+    <div class="accordion accordion-flush" id="accordionExample">
+
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading98">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(98)" aria-expanded="false" aria-controls="collapseThree(98)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>meet,patel</span>
+                                <div class="float-end">
+                                    <span class="me-3">Patient</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>ishan,Ujjain,Madhya Pradesh,456001</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="ishan, ishan, Ujjain, Madhya Pradesh">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(98)" class="accordion-collapse collapse" aria-labelledby="flush-heading98 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  March 06,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  hb@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  121212122</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Patient meet,patel</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('75')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('75', 'meet', 'patel')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=75">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('75', 'meet', 'patel')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading92">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(92)" aria-expanded="false" aria-controls="collapseThree(92)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>harshit,batra</span>
+                                <div class="float-end">
+                                    <span class="me-3">Patient</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,362220</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(92)" class="accordion-collapse collapse" aria-labelledby="flush-heading92 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  March 03,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  hb@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  2426224123</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Patient harshit,batra</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('72')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('72', 'harshit', 'batra')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=72">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('72', 'harshit', 'batra')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading91">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(91)" aria-expanded="false" aria-controls="collapseThree(91)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>wag,bhatt</span>
+                                <div class="float-end">
+                                    <span class="me-3">Business</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,362220</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(91)" class="accordion-collapse collapse" aria-labelledby="flush-heading91 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  March 04,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  1246347683</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Business fname,lname</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('71')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('71', 'wag', 'bhatt')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=71">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('71', 'wag', 'bhatt')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading80">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(80)" aria-expanded="false" aria-controls="collapseThree(80)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>jaimin,bhojani</span>
+                                <div class="float-end">
+                                    <span class="me-3">Patient</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,362220</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(80)" class="accordion-collapse collapse" aria-labelledby="flush-heading80 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  March 04,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  fdsa@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  2133231233</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Patient jaimin,bhojani</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('62')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('62', 'jaimin', 'bhojani')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=62">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('62', 'jaimin', 'bhojani')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading79">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(79)" aria-expanded="false" aria-controls="collapseThree(79)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>wag,gfadfg</span>
+                                <div class="float-end">
+                                    <span class="me-3">Patient</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(79)" class="accordion-collapse collapse" aria-labelledby="flush-heading79 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 26,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  23525453</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Patient wag,gfadfg</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('61')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('61', 'wag', 'gfadfg')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=61">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('61', 'wag', 'gfadfg')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading78">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(78)" aria-expanded="false" aria-controls="collapseThree(78)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>wag,gfadfg</span>
+                                <div class="float-end">
+                                    <span class="me-3">Patient</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(78)" class="accordion-collapse collapse" aria-labelledby="flush-heading78 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 28,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  2112315</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Patient wag,gfadfg</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('60')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('60', 'wag', 'gfadfg')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=60">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('60', 'wag', 'gfadfg')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading77">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(77)" aria-expanded="false" aria-controls="collapseThree(77)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>ishan,gfadfg</span>
+                                <div class="float-end">
+                                    <span class="me-3">Patient</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(77)" class="accordion-collapse collapse" aria-labelledby="flush-heading77 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 12,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  1221221212</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Patient ishan,gfadfg</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('59')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('59', 'ishan', 'gfadfg')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=59">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('59', 'ishan', 'gfadfg')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading76">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(76)" aria-expanded="false" aria-controls="collapseThree(76)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>wag,bhatt</span>
+                                <div class="float-end">
+                                    <span class="me-3">Patient</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(76)" class="accordion-collapse collapse" aria-labelledby="flush-heading76 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 29,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  1234123412</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Patient wag,bhatt</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('58')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('58', 'wag', 'bhatt')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=58">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('58', 'wag', 'bhatt')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading75">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(75)" aria-expanded="false" aria-controls="collapseThree(75)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>ishan,dgfdhgfdh</span>
+                                <div class="float-end">
+                                    <span class="me-3">Concierge</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Khijadiya Bird Sanctuary,Jamnagar,Gujarat,361120</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Khijadiya Bird Sanctuary, Khijadiya Bird Sanctuary, Jamnagar, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(75)" class="accordion-collapse collapse" aria-labelledby="flush-heading75 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 29,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  9807654321</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Concierge wasdwasd,dsjnasdj</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('57')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('57', 'ishan', 'dgfdhgfdh')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=57">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('57', 'ishan', 'dgfdhgfdh')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading74">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(74)" aria-expanded="false" aria-controls="collapseThree(74)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>wag,bhatt</span>
+                                <div class="float-end">
+                                    <span class="me-3">Concierge</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Khijadiya Bird Sanctuary,Jamnagar,Gujarat,361120</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Khijadiya Bird Sanctuary, Khijadiya Bird Sanctuary, Jamnagar, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(74)" class="accordion-collapse collapse" aria-labelledby="flush-heading74 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 27,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  fdsa@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  5234543</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Concierge wasd,wasd</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('56')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('56', 'wag', 'bhatt')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=56">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('56', 'wag', 'bhatt')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading73">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(73)" aria-expanded="false" aria-controls="collapseThree(73)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>ishan,gfadfg</span>
+                                <div class="float-end">
+                                    <span class="me-3">Concierge</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Khijadiya Bird Sanctuary,Jamnagar,Gujarat,361120</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Khijadiya Bird Sanctuary, Khijadiya Bird Sanctuary, Jamnagar, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(73)" class="accordion-collapse collapse" aria-labelledby="flush-heading73 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  March 12,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  3523545</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Concierge wasd,wasd</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('55')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('55', 'ishan', 'gfadfg')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=55">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('55', 'ishan', 'gfadfg')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading72">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(72)" aria-expanded="false" aria-controls="collapseThree(72)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>ishan,gfadfg</span>
+                                <div class="float-end">
+                                    <span class="me-3">Family</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Panchvati Society,Jamnagar,Gujarat,361002</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Panchvati Society, Panchvati Society, Jamnagar, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(72)" class="accordion-collapse collapse" aria-labelledby="flush-heading72 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 29,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  iishanbhatt@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  1232123321</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Family raj,vaghela</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('54')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('54', 'ishan', 'gfadfg')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=54">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('54', 'ishan', 'gfadfg')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+
+                <h2 class="accordion-header" id="flush-heading69">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(69)" aria-expanded="false" aria-controls="collapseThree(69)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>wag,bhatt</span>
+                                <div class="float-end">
+                                    <span class="me-3">Family</span>
+                                        <span class="categories-div-sub-sub float-end" style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></span>
+                                </div>
+                            </div>
+                            <div class="w-100 mt-3">
+
+                                <div class="w-25">
+                                    <span>Mangrol Road,Keshod,Gujarat,362220</span>
+                                </div>
+                                <div class="float-end mb-2 map-div">
+
+                                    <a class="accordion-map map-abs-btn text-decoration-none" data-address="Mangrol Road, Mangrol Road, Keshod, Gujarat">
+                                        <span id="map-ttle" class="d-none d-sm-block map-location-text">Map Location</span>
+                                        <svg id="map-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#00ccff" class="bi bi-geo-alt d-sm-none" viewBox="0 0 16 16">
+                                            <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A32 32 0 0 1 8 14.58a32 32 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10"></path>
+                                            <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4m0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6"></path>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                                <div>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3" class="bi bi-clock" viewBox="0 0 16 16">
+                                        <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                                        <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16m7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0"></path>
+                                    </svg><span class="text-muted ms-2">Wait Time: </span>
+                                </div>
+                        </div>
+                    </button>
+                </h2>
+                <div id="collapseThree(69)" class="accordion-collapse collapse" aria-labelledby="flush-heading69 data-bs-parent=" #accordionexample"="">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <button type="button" class="btn btn-light view-case-button">View Case</button>
+                                <div><img src="/images/calendar2-date.svg"><span class="ms-2">Date of birth:  February 28,2024(2024 - 2024)</span></div>
+                            <div class="mt-2"><img src="/images/envelope.svg"><span class="ms-2">Email:  fdsa@gmail.com</span></div>
+                                <div class="mt-2"><img src="/images/telephone.svg"><span class="ms-2">Patient:  363652342</span></div>
+                                <div class="mt-2"><img src="/images/person.svg"><span class="ms-2">Requestor:  Family raj,vaghela</span></div>
+                        </div>
+
+                        <div class="d-flex justify-content-center align-items-center">
+                            <div class="row mt-3">
+                                    <div class="col-6">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('53')">Assign Case</button>
+                                    </div>
+                                    <div class="col-6">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('53', 'wag', 'bhatt')">Cancel Case</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" href="/Admin/ViewNotes?requestId=53">View Notes</a>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('53', 'wag', 'bhatt')">Block Patient</button>
+                                    </div>
+                                    <div class="col-6 mt-2">
+                                        <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button">Email</button>
+                                    </div>
+
+
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+
+
+
+<script>
+    
+
+    //function toggleDropdown() {
+    //    const dropdown = document.querySelector('.dropdown');
+    //    isDropdownActive = !isDropdownActive;
+    //    dropdown.classList.toggle('active');
+    //}
+    //document.addEventListener('click', (event) => {
+    //    const dropdown = document.querySelector('.dropdown');
+    //    if (isDropdownActive && !dropdown.contains(event.target)) {
+    //        isDropdownActive = false;
+    //        dropdown.classList.remove('active');
+    //    }
+    //});
+    //$(document).ready(function () {
+    //    $("#dtBasicExample").DataTable();
+    //});
+
+
+
+    var modal6 = document.getElementById("myModal6");
+    //var btn = document.getElementsByClassName("map-button");
+    var spany6 = document.getElementsByClassName("close6")[0];
+    var map = document.getElementsByClassName("map-abs-btn");
+
+    for (let i = 0; i < map.length; ++i) {
+        map[i].onclick = function () {
+
+            var address = map[i].getAttribute("data-address");
+            MapFunc(address);
+        };
+    }
+
+    function MapFunc(address) {
+        console.log(address);
+        var address1 = `https://maps.google.com/maps?q= + ${address} + &t=&z=13&ie=UTF8&iwloc=&output=embed`;
+        document.getElementById('gmap_canvas').src = address1;
+        modal6.style.display = "block";
+    }
+    spany6.onclick = function () {
+        modal6.style.display = "none";
+    }
+    window.onclick = function (event) {
+        if (event.target == modal6) {
+            modal6.style.display = "none";
+        }
+    }
+
+            //function sendAgreement(id, typeId)
+            //{
+            //    //console.log(id);
+            //    //console.log(typeId);
+            //    document.getElementById("r-type-id-two").value = typeId;
+            //    document.getElementById("r-id-for-agree").value = id;
+            //    var x = document.getElementById("r-id-for-agree").value;
+            //    //console.log(x);
+
+            //    const rtid = document.getElementById("r-type-id-two").value;
+            //    const rid = document.getElementById("r-id-for-agree").value;
+            //    if (rtid == 1) {
+            //        document.getElementById("patient-data").style.display = "flex";
+            //        document.getElementById("family-data").style.display = "none";
+            //        document.getElementById("concierge-data").style.display = "none";
+            //        document.getElementById("business-data").style.display = "none";
+            //    }
+            //    else if (rtid == 2) {
+            //        document.getElementById("patient-data").style.display = "none";
+            //        document.getElementById("family-data").style.display = "flex";
+            //        document.getElementById("concierge-data").style.display = "none";
+            //        document.getElementById("business-data").style.display = "none";
+            //    }
+            //    else if (rtid == 3) {
+            //        document.getElementById("patient-data").style.display = "none";
+            //        document.getElementById("family-data").style.display = "none";
+            //        document.getElementById("concierge-data").style.display = "flex";
+            //        document.getElementById("business-data").style.display = "none";
+            //    }
+            //    else {
+            //        document.getElementById("patient-data").style.display = "none";
+            //        document.getElementById("family-data").style.display = "none";
+            //        document.getElementById("concierge-data").style.display = "none";
+            //        document.getElementById("business-data").style.display = "flex";
+            //    }
+            //    fetch(`/Admin/GetAgreementData?reqId=${id}`, {
+            //        method: 'GET',
+            //    })
+            //        .then(response => {
+            //            if (!response.ok) {
+            //                throw new Error('Network response was not ok');
+            //            }
+            //            return response.json();
+            //        })
+            //        .then(data => {
+            //            console.log(data);
+            //            // You can perform further operations with the received data here
+            //            // For example:
+            //            // document.getElementById("phoneForAgree").value = data.phoneNumber;
+            //            // document.getElementById("emailForAgree").value = data.email;
+            //        })
+            //        .catch(error => {
+            //            console.error('There has been a problem with your fetch operation:', error);
+            //        });
+
+            //}
+
+
+</script></div>

@@ -84,7 +84,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 {
                     model.ImageContent.CopyToAsync(stream);
                 }
-                var filePath = "/uploads/" + model.ImageContent.FileName;
+                var filePath = model.ImageContent.FileName;
 
                 requestWiseFile.RequestId = request.RequestId;
                 requestWiseFile.FileName = filePath;

@@ -68,10 +68,24 @@
     border: 2px solid #c8cbd7;
 }
 
+#colorofrequest1:hover{
+    background-color: rgba(125, 142, 200, 255);
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
 #colorofrequest2 {
     background-color: #e5f3f9;
     color: #3d9dc3;
     border: 2px solid #c1dae1;
+}
+
+#colorofrequest2:hover {
+    background-color: #3d9dc3;
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
 }
 
 #colorofrequest3 {
@@ -80,10 +94,24 @@
     border: 2px solid #c9dfca;
 }
 
+#colorofrequest3:hover {
+    background-color: rgba(57,129,69,255);
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
+}
+
 #colorofrequest4 {
     background-color: rgba(248,230,238,255);
     color: rgba(154,66,114,255);
     border: 2px solid #d1bac8;
+}
+
+#colorofrequest4:hover {
+    background-color: rgba(154,66,114,255);
+    color: white;
+    border: 2px solid white;
+    cursor: pointer;
 }
 
 .t-and-c {

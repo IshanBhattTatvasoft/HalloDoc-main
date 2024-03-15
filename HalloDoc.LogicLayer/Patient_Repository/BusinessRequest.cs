@@ -1,15 +1,8 @@
 ﻿using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
-using HalloDoc.LogicLayer.Patient_Interface;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using HalloDoc.DataLayer.Data;
-using System.Threading.Tasks;
+using HalloDoc.LogicLayer.Patient_Interface;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {
@@ -35,7 +28,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void InsertDataBusinessRequest(BusinessRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
-            User user = _context.Users.SingleOrDefault(u => u.Email == model.Email);
+            User user = new User();
             Request request = new Request();
             DataLayer.Models.Region region2 = new DataLayer.Models.Region();
             RequestClient requestClient = new RequestClient();
@@ -49,11 +42,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;
-                aspNetUser.UserName = model.Email;
+                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
+                aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChangesAsync();
 
@@ -74,7 +67,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.Users.Add(user);
                 _context.SaveChangesAsync();
             }
-            HalloDoc.DataLayer.Models.Region r = _context.Regions.Where(re => re.Name == model.State).FirstOrDefault();
+            Region r = _context.Regions.Where(re => re.Name == model.State).FirstOrDefault();
             requestClient.FirstName = model.FirstName;
             requestClient.LastName = model.LastName;
             requestClient.PhoneNumber = model.PhoneNumber;

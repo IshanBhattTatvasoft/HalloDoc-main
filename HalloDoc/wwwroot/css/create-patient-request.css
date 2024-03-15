@@ -77,4 +77,48 @@
     height: 55px;
 }
 
+/*input:focus + .  {
+    color: #1BA9FF !important;
+    font-weight: normal;
+}
+
+input[type="text"], input[type="password"], textarea, input[type="tel"] {
+    outline: none;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+}
+
+textarea:focus::placeholder {
+    color: #1BA9FF;
+    font-weight: normal;
+}*/
+
+/*input:focus{
+    border: none !important;
+}*/
+
+/*.controls > input {
+    float: right;
+}*/
+
+input:focus {
+    outline: none !important;
+    /*border: 2px solid white !important;*/
+    box-shadow: none !important;
+    /*color: red !important;*/
+}
+
+textarea:focus{
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+textarea:focus::placeholder {
+    color: #3DB6FF !important;
+}
+
+.form-floating:focus-within label {
+    color: #3DB6FF !important;
+}
+
 

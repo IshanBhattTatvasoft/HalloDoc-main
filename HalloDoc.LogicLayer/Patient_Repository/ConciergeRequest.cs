@@ -22,7 +22,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void InsertDataConciergeRequest(ConceirgeRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
-            User user = _context.Users.SingleOrDefault(u => u.Email == model.Email);
+            User user = new User();
             Request request = new Request();
             DataLayer.Models.Region region2 = new DataLayer.Models.Region();
             RequestClient requestClient = new RequestClient();
@@ -38,11 +38,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;
-                aspNetUser.UserName = model.Email;
+                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
+                aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChangesAsync();
 

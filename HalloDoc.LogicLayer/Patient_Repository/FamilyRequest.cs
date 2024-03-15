@@ -32,7 +32,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void InsertDataFamilyRequest(FamilyRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
-            User user = _context.Users.SingleOrDefault(u => u.Email == model.Email);
+            User user = new User();
             Request request = new Request();
             RequestClient requestClient = new RequestClient();
             DataLayer.Models.Region region2 = new DataLayer.Models.Region();
@@ -43,11 +43,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;
-                aspNetUser.UserName = model.Email;
+                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
+                aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChangesAsync();
 
@@ -123,7 +123,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 {
                     model.ImageContent.CopyToAsync(stream);
                 }
-                var filePath = "/uploads/" + model.ImageContent.FileName;
+                var filePath = model.ImageContent.FileName;
 
                 requestWiseFile.RequestId = request.RequestId;
                 requestWiseFile.FileName = filePath;
