@@ -1,0 +1,33 @@
+﻿@model HalloDoc.DataLayer.ViewModels.ProviderMenuViewModel
+
+<div class="table-responsive d-none d-md-block">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Stop Notification</th>
+                <th>Provider Name <i class="bi bi-arrow-up"></i></th>
+                <th>Role</th>
+                <th>On Call Status</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+           @foreach (var item in Model.physician)
+            {
+                <tr>
+                    <td><input class="checkboxes" type="checkbox" style="height: 18px;width: 18px;" /></td>
+                    <td>First Name, Last Name</td>
+                    <td>Physician</td>
+                    <td>On Call Status</td>
+                    <td>Status</td>
+                    <td>
+                        <button type="button" class="btn btn-outline-info">Contact</button>
+                        <button type="button" class="btn btn-outline-info">Edit</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

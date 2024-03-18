@@ -143,7 +143,7 @@ namespace HalloDoc.Controllers
                             UseDefaultCredentials = false
                         };
                         string resetToken = Guid.NewGuid().ToString();
-                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePassword?token={resetToken}";
+                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount?token={resetToken}";
 
                         //passwordReset.Token = resetToken;
                         //passwordReset.CreatedDate = DateTime.Now;
@@ -153,9 +153,9 @@ namespace HalloDoc.Controllers
                         MailMessage mailMessage = new MailMessage
                         {
                             From = new MailAddress(senderEmail, "HalloDoc"),
-                            Subject = "Set up your Account",
+                            Subject = "Create account for patient " + model.FirstName,
                             IsBodyHtml = true,
-                            Body = $"Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a>"
+                            Body = $"<h3>Hey {model.FamilyFirstName + " " + model.FamilyLastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a>"
                         };
                         mailMessage.To.Add(model.Email);
 
@@ -214,7 +214,7 @@ namespace HalloDoc.Controllers
                             UseDefaultCredentials = false
                         };
                         string resetToken = Guid.NewGuid().ToString();
-                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePassword?token={resetToken}";
+                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount?token={resetToken}";
 
                         //passwordReset.Token = resetToken;
                         //passwordReset.CreatedDate = DateTime.Now;
@@ -224,9 +224,9 @@ namespace HalloDoc.Controllers
                         MailMessage mailMessage = new MailMessage
                         {
                             From = new MailAddress(senderEmail, "HalloDoc"),
-                            Subject = "Mail from Ishan",
+                            Subject = "Create account for patient " + model.FirstName,
                             IsBodyHtml = true,
-                            Body = $"Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a>"
+                            Body = $"<h3>Hey {model.ConciergeFirstName + " " + model.ConciergeLastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a>"
                         };
                         mailMessage.To.Add(model.Email);
 
@@ -294,7 +294,7 @@ namespace HalloDoc.Controllers
                             UseDefaultCredentials = false
                         };
                         string resetToken = Guid.NewGuid().ToString();
-                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePassword?token={resetToken}";
+                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount?token={resetToken}";
 
                         //passwordReset.Token = resetToken;
                         //passwordReset.CreatedDate = DateTime.Now;
@@ -304,9 +304,9 @@ namespace HalloDoc.Controllers
                         MailMessage mailMessage = new MailMessage
                         {
                             From = new MailAddress(senderEmail, "HalloDoc"),
-                            Subject = "Mail from Ishan",
+                            Subject = "Create account for patient " + model.FirstName,
                             IsBodyHtml = true,
-                            Body = $"Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a>"
+                            Body = $"<h3>Hey {model.BusinessFirstName + " " + model.BusinessLastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a>"
                         };
                         mailMessage.To.Add(model.Email);
 

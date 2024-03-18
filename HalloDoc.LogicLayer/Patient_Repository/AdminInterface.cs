@@ -124,7 +124,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return adminDashboardViewModel;
         }
 
-        PatientHistoryViewModel IAdminInterface.PatientHistoryFilteredData(AdminNavbarModel an, string fname, string lname, string pno, string email)
+        PatientHistoryViewModel IAdminInterface.PatientHistoryFilteredData(AdminNavbarModel an, string fname, string lname, string pno, string email, int page = 1, int pageSize = 10)
         {
             IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient);
             if (fname != null)
@@ -146,7 +146,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             PatientHistoryViewModel ph = new PatientHistoryViewModel
             {
                 AdminNavbarModel = an,
-                requests = query.ToList(),
+                requests = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = query.Count(),
+                TotalPages = (int)Math.Ceiling((double)query.Count() / pageSize),
             };
             return ph;
         }
@@ -660,7 +664,20 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<Request> GetPatientRecordsData(int userId)
         {
-            return _context.Requests.Where(r => r.UserId ==  userId).ToList();
+            return _context.Requests.Where(r => r.UserId == userId).ToList();
         }
+
+        public List<Physician> GetAllPhysicians()
+        {
+            return _context.Physicians.ToList();
+        }
+
+        public List<RequestWiseFile> GetAllFiles()
+        {
+            return _context.RequestWiseFiles.ToList();
+        }
+
+        
+        
     }
 }

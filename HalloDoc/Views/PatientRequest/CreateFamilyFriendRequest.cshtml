@@ -310,6 +310,11 @@
             utilsScript:
                 "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
         });
+
+        window.onload = function () {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById("startDate").setAttribute('max', today);
+        };
     </script>
 
     @section Scripts{

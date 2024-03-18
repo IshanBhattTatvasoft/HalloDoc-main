@@ -16,101 +16,6 @@
 }
 
 <div style="overflow-x: hidden; overflow-y: auto;">
-    @*<nav class="navbar navbar-expand-lg navbar-light d-none d-sm-flex">
-        <div class="container-fluid">
-            <img src="~/images/logo1.png" alt="" style="height: 80px;" class="ms-5">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto ">
-                    <li class="nav-item mt-4" style="margin-right:40px; margin-top: 30px !important;">
-                        <p class="h5">Welcome <span class="fw-bold">@Model.Username</span></p>
-                    </li>
-                    <li class="nav-item mt-4" style="margin-right:100px;">
-                        <a class="border border-info border-2 btn btn-outline-info" asp-controller="Login" asp-action="PatientSite">Logout</a>
-                    </li>
-                    <li class="nav-item">
-                        <div class="moon-flex">
-                            <button onclick="changeTheme()" class="change-theme">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                     class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
-                                    <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
-                                </svg>
-                            </button>
-                            <button onclick="changeTheme()" class="change-theme hide-icon">
-
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                     class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
-                                    <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
-                                </svg>
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Navbar</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                    </li>
-                </ul>
-                <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
-                </form>
-            </div>
-        </div>
-    </nav>
-
-
-    @*<div class="card border-bottom-0 border-left-0 border-right-0 d-none d-sm-flex">
-        <div class="card-body nav-links ms-5">
-            <ul class="nav nav-tabs mb-3 nav-links" id="pills-tab" role="tablist">
-                <li class="nav-item me-3" role="presentation">
-                    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
-                            data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
-                            aria-selected="true">
-                        <a asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory">Dashboard</a>
-                    </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home"
-                            type="button" role="tab" aria-controls="nav-home" aria-selected="true">
-                        <a asp-controller="Login" asp-action="PatientProfile">Profile</a>
-                    </button>
-                </li>
-            </ul>
-        </div>
-    </div>*@
-
     <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
         <div class="d-flex gap-1 align-items-center">
             <button class="navbar-toggler d-block d-sm-none ms-1"
@@ -153,15 +58,15 @@
             <div class="moon-flex d-sm-none flex-shrink-1 flex-sm-shrink-0">
                 <button onclick="changeTheme()" class="change-theme-mobile-view">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                             class="bi bi-moon night-mode-icon-mobile" viewBox="0 0 16 16">
-                            <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
+                         class="bi bi-moon night-mode-icon-mobile" viewBox="0 0 16 16">
+                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
                     </svg>
                 </button>
                 <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          class="bi bi-brightness-high night-mode-icon-mobile" viewBox="0 0 16 16">
-                            <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
+                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
                     </svg>
                 </button>
             </div>
@@ -175,7 +80,7 @@
         </div>
     </nav>
 
-    <div class="d-flex flex-column bg-light" style="margin: 5px auto; padding: 0px 35px; height: 782px;">
+    <div class="d-flex flex-column bg-light" style="margin: 5px auto; padding: 0px 35px;">
         <div class="bg-light">
             <div class="mx-5 py-5 px-3">
                 <p class="h4 text-muted">Medical History</p>
@@ -230,7 +135,52 @@
                         {
                             <tr>
                                 <td>@item.CreatedDate.ToString("MMM dd, yyyy")</td>
-                                <td>Unassigned</td>
+                                <td>
+                                    @if (item.Status == 1)
+                                    {
+                                        <span>Unassigned</span>
+                                    }
+                                    else if (item.Status == 2)
+                                    {
+                                        <span>Accepted</span>
+                                    }
+                                    else if (item.Status == 3 || item.Status == 8)
+                                    {
+                                        <span>Cancelled</span>
+                                    }
+                                    else if (item.Status == 4)
+                                    {
+                                        <span>MDenRoute</span>
+                                    }
+                                    else if (item.Status == 5)
+                                    {
+                                        <span>MDONSite</span>
+                                    }
+                                    else if(item.Status == 6)
+                                    {
+                                        <span>Conclude</span>
+                                    }
+                                    else if (item.Status == 7)
+                                    {
+                                        <span>Cancelled By Patient</span>
+                                    }
+                                    else if(item.Status == 8)
+                                    {
+                                        <span>Closed</span>
+                                    }
+                                    else if(item.Status == 9)
+                                    {
+                                        <span>Unpaid</span>
+                                    }
+                                    else if(item.Status == 10)
+                                    {
+                                        <span>Clear</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Block</span>
+                                    }
+                                </td>
                                 <td><a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@item.RequestId">(@item.Count) Documents</a></td>
                             </tr>
                         }
@@ -254,31 +204,78 @@
                         <div class="accordion-item">
                             <h2 class="accordion-header" id="flush-heading@(i)">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapse@(i)" aria-expanded="false" aria-controls="flush-collapse@(i)">
+                                        data-bs-target="#flush-collapse@(i)"
+                                        aria-expanded="false" aria-controls="flush-collapse@(i)">
                                     <img src="~/images/clock.svg" alt="" class="accordion-img"> <span class="accordion-heading">
-                                        Created
-                                        Date: <span class="accordion-value">@Model.requests[i].CreatedDate</span>
+                                        <span class="ms-2">Created
+                                            Date:
+                                        </span><span class="accordion-value">@Model.requests[i].CreatedDate.ToString("MMM dd, yyyy")</span>
                                     </span>
                                 </button>
                             </h2>
                             <div id="flush-collapse@(i)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(i)"
                                  data-bs-parent="#accordionFlushExample">
                                 <div class="accordion-body main-flex">
-                                    <div class="inner-flex">
+                                    <div class="inner-flex mb-2">
                                         <img src="~/images/person-circle.svg" alt="" class="accordion-img-inner">
                                         <span class="accordion-heading-inner">
                                             Provider :
                                             <span class="accordion-value-inner">@Model.requests[i].Name</span>
                                         </span>
                                     </div>
-                                    <div class="inner-flex">
-                                        <img src="~/images/success-26.svg" alt="" class="accordion-img-inner" style="height: 5px; width: 5px"> <span class="accordion-heading-inner">
+                                    <div class="inner-flex mb-2">
+                                        <img src="~/images/success-26.svg" alt="" class="accordion-img-inner" style="height: 15px; width: 15px"> <span class="accordion-heading-inner">
                                             Current
-                                            Status: <span class="accordion-value-inner">Unassigned</span>
+                                            Status: <span class="accordion-value-inner">
+                                                @if (Model.requests[i].Status == 1)
+                                                {
+                                                    <span>Unassigned</span>
+                                                }
+                                                else if (Model.requests[i].Status == 2)
+                                                {
+                                                    <span>Accepted</span>
+                                                }
+                                                else if (Model.requests[i].Status == 3 || Model.requests[i].Status == 8)
+                                                {
+                                                    <span>Cancelled</span>
+                                                }
+                                                else if (Model.requests[i].Status == 4)
+                                                {
+                                                    <span>MDenRoute</span>
+                                                }
+                                                else if (Model.requests[i].Status == 5)
+                                                {
+                                                    <span>MDONSite</span>
+                                                }
+                                                else if (Model.requests[i].Status == 6)
+                                                {
+                                                    <span>Conclude</span>
+                                                }
+                                                else if (Model.requests[i].Status == 7)
+                                                {
+                                                    <span>Cancelled By Patient</span>
+                                                }
+                                                else if (Model.requests[i].Status == 8)
+                                                {
+                                                    <span>Closed</span>
+                                                }
+                                                else if (Model.requests[i].Status == 9)
+                                                {
+                                                    <span>Unpaid</span>
+                                                }
+                                                else if (Model.requests[i].Status == 10)
+                                                {
+                                                    <span>Clear</span>
+                                                }
+                                                else
+                                                {
+                                                    <span>Block</span>
+                                                }
+                                            </span>
                                         </span>
                                     </div>
                                     <div style="margin-top: 4px;">
-                                        <a style="border:1px solid #00ccff;padding:6px;margin:auto; margin-top: 5px;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@(Model.requests[i].RequestId)" style="text-decoration: none;">
+                                        <a style="border:1px solid #00ccff;padding:3px;margin-top: 3px;  color:#00ccff;border-radius:5px; text-decoration: none; height: 31px; width: 101px; display: inline-block;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@(Model.requests[i].RequestId)" style="text-decoration: none;">
                                             <span class="logout-text">(@(Model.requests[i].Count ?? 0)) Documents</span>
                                         </a>
                                     </div>

@@ -12,5 +12,11 @@ public class PatientHistoryViewModel
 {
     public AdminNavbarModel? AdminNavbarModel { get; set; }
     public List<Request> requests { get; set; } = new List<Request>();
+    public List<Physician> p { get; set;} = new List<Physician>();
+    public List<RequestWiseFile> Rwf { get; set; } = new List<RequestWiseFile>();
+    public int CurrentPage { get; set; }
+    public int PageSize { get; set; }
+    public int TotalItems { get; set; }
+    public int TotalPages { get; set; }
 }
 

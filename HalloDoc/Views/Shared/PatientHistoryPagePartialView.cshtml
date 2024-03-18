@@ -23,3 +23,33 @@
         </tr>
     }
 </table>
+
+<div class="pagination">
+    <span style="margin-right:10px;">Page No:</span>
+    @if (Model.CurrentPage > 1)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@(Model.CurrentPage - 1)" class="mx-4 text-decoration-none pagination-text">Previous</a>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@i" class="@(i == Model.CurrentPage ? "pagination-active" : "") mx-4 text-decoration-none pagination-text">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important;" data-page="@(Model.CurrentPage + 1)" class="mx-4 text-decoration-none pagination-text">Next</a>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.pagination a').click(function (e) {
+            e.preventDefault();
+            //console.log("hiiiiiii");
+            var page = $(this).attr('data-page');
+
+            filter(page,10);
+        });
+    });
+</script>

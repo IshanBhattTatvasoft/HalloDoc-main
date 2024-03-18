@@ -258,6 +258,11 @@
         $('#cancelbutton').on('click', function () {
             $("#myForm").reset();
         });
+
+        window.onload = function () {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById("startDate").setAttribute('max', today);
+        };
     </script>
 
     @section Scripts{

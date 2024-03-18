@@ -122,7 +122,14 @@
             <a class="nav-link text-muted ms-4 my-profile" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Profile</a>
         }
 
-        <a class="nav-link text-muted ms-4 providers" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Providers</a>
+        <div class="dropdown">
+            <button class="btn dropdown-toggle nav-link text-muted ms-4 records" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
+            <ul class="dropdown-menu">
+                <li><a asp-action="ProviderMenu" asp-controller="Admin" class="text-muted dropdown-item mb-2">Provider</a></li>
+                <li><a class="text-muted dropdown-item mb-2" href="#">Scheduling</a></li>
+                <li><a class="text-muted dropdown-item mb-2" href="#">Invoicing</a></li>
+            </ul>
+        </div>
         <a class="nav-link text-muted ms-4 partners" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Partners</a>
         <a class="nav-link text-muted ms-4 access" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Access</a>
         <div class="dropdown">

@@ -31,8 +31,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             RequestId = fileGroup.Key.RequestId,
             CreatedDate = fileGroup.Key.CreatedDate,
             Status = fileGroup.Key.Status,
-            Count = fileGroup.Count()
+            Count = fileGroup.Count(),
         }).ToList();
+
+            
             return data;
         }
         public string ValidateUsername(int id)

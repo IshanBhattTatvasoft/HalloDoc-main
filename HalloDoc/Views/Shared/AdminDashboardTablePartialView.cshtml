@@ -593,7 +593,16 @@
 <script>
 
     
+    // pagination
+    $(document).ready(function () {
+        $('.pagination a').click(function (e) {
+            e.preventDefault();
+            //console.log("hiiiiiii");
+            var page = $(this).attr('data-page');
 
+            filter(page, 10);
+        });
+    });
 
     //function toggleDropdown() {
     //    const dropdown = document.querySelector('.dropdown');
@@ -641,63 +650,7 @@
         }
     }
 
-                //function sendAgreement(id, typeId)
-                //{
-                //    //console.log(id);
-                //    //console.log(typeId);
-                //    document.getElementById("r-type-id-two").value = typeId;
-                //    document.getElementById("r-id-for-agree").value = id;
-                //    var x = document.getElementById("r-id-for-agree").value;
-                //    //console.log(x);
-
-                //    const rtid = document.getElementById("r-type-id-two").value;
-                //    const rid = document.getElementById("r-id-for-agree").value;
-                //    if (rtid == 1) {
-                //        document.getElementById("patient-data").style.display = "flex";
-                //        document.getElementById("family-data").style.display = "none";
-                //        document.getElementById("concierge-data").style.display = "none";
-                //        document.getElementById("business-data").style.display = "none";
-                //    }
-                //    else if (rtid == 2) {
-                //        document.getElementById("patient-data").style.display = "none";
-                //        document.getElementById("family-data").style.display = "flex";
-                //        document.getElementById("concierge-data").style.display = "none";
-                //        document.getElementById("business-data").style.display = "none";
-                //    }
-                //    else if (rtid == 3) {
-                //        document.getElementById("patient-data").style.display = "none";
-                //        document.getElementById("family-data").style.display = "none";
-                //        document.getElementById("concierge-data").style.display = "flex";
-                //        document.getElementById("business-data").style.display = "none";
-                //    }
-                //    else {
-                //        document.getElementById("patient-data").style.display = "none";
-                //        document.getElementById("family-data").style.display = "none";
-                //        document.getElementById("concierge-data").style.display = "none";
-                //        document.getElementById("business-data").style.display = "flex";
-                //    }
-                //    fetch(`/Admin/GetAgreementData?reqId=${id}`, {
-                //        method: 'GET',
-                //    })
-                //        .then(response => {
-                //            if (!response.ok) {
-                //                throw new Error('Network response was not ok');
-                //            }
-                //            return response.json();
-                //        })
-                //        .then(data => {
-                //            console.log(data);
-                //            // You can perform further operations with the received data here
-                //            // For example:
-                //            // document.getElementById("phoneForAgree").value = data.phoneNumber;
-                //            // document.getElementById("emailForAgree").value = data.email;
-                //        })
-                //        .catch(error => {
-                //            console.error('There has been a problem with your fetch operation:', error);
-                //        });
-
-                //}
-
+                
 
 </script>
 

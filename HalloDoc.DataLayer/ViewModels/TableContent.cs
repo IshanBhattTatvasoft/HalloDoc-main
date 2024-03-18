@@ -13,4 +13,5 @@ public class TableContent
     public string Name { get; set; }
     public long? Count { get; set; }
     public string FileName { get; set; }
+    public string statusName { get; set; }
 }

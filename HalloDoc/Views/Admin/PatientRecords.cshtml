@@ -53,10 +53,14 @@
                     @foreach (var item in Model.requests)
                     {
                         <tr>
+                            @{
+                                var physician = Model.p.FirstOrDefault(ph => ph.PhysicianId == item.PhysicianId);
+                                var count = Model.Rwf.Where(r => r.RequestId == item.RequestId).Count();
+                            }
                             <td>@($"{item.FirstName} {item.LastName}")</td>
                             <td>@item.CreatedDate</td>
                             <td>@item.ConfirmationNumber</td>
-                            <td>Dr. + " " + item.Physician.FirstName</td>
+                            <td>Dr. @physician.FirstName</td>
                             <td>
                                 @if (item.ModifiedDate == null)
                                 {
@@ -69,12 +73,28 @@
                             </td>
                             <td>@item.Status</td>
                             <td><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">View</a></td>
-                            <td><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">Actions</a></td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-outline-info" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Actions
+                                    </button>
+                                    <ul class="dropdown-menu mt-1" style="right: 70px !important;">
+                                        <li><a class="dropdown-item text-decoration-none text-info" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Case</a></li>
+                                        <li><a class="dropdown-item" href="#">@count Documents</a></li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </table>
             </div>
+            
         </div>
+        
     </div>
 
 </div>
+
+<script>
+    
+</script>

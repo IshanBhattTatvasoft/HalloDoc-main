@@ -70,13 +70,13 @@
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
                     <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB" disabled>
-                    <label for="floatingInput" class="ms-2 text-muted">Date Of Birth</label>
+                    <label for="startDate" class="ms-2 text-muted">Date Of Birth</label>
                     <span asp-validation-for="DOB" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <input id="currDate" class="form-control" type="date" placeholder="Date" asp-for="Date" disabled>
-                    <label for="floatingInput" class="ms-2 text-muted">Date</label>
-                    <span asp-validation-for="DOB" class="text-danger"></span>
+                    <label for="currDate" class="ms-2 text-muted">Date</label>
+                    <span asp-validation-for="Date" class="text-danger"></span>
                 </div>
             </div>
 
@@ -92,22 +92,26 @@
             </div>
 
             <div class="row mt-3">
-                <div class="col-sm-6">
+                <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="History of Present Illness or Injury" rows="3" asp-for="HistoryOfIllness" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">History of Present Illness or Injury</label>
                 </div>
-                <div class="col-sm-6">
-                    <textarea class="form-control placeholder="Medical History" rows="3" asp-for="MedicalHistory" disabled></textarea>
+                <div class="col-sm-6 form-floating">
+                    <textarea class="form-control" placeholder="Medical History" rows="3" asp-for="MedicalHistory" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Medical History</label>
                 </div>
             </div>
 
             <div class="row mt-3">
-                <div class="col-sm-6">
+                <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Medications" rows="2"
                               asp-for="Medications" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Medications</label>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Allergies" rows="2"
                               asp-for="Allergies" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Allergies</label>
                 </div>
             </div>
 
@@ -149,10 +153,12 @@
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Heent" rows="2"
                               asp-for="Heent" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Heent</label>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="CV" rows="2"
                               asp-for="CV" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">CV</label>
                 </div>
             </div>
 
@@ -160,10 +166,12 @@
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Chest" rows="2" id="myTextArea"
                               asp-for="Chest" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Chest</label>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="ABD" rows="2"
                               asp-for="ABD" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">ABD</label>
                 </div>
             </div>
 
@@ -171,10 +179,12 @@
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Extr" rows="2"
                               asp-for="Extr" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Extr</label>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Skin" rows="2"
                               asp-for="Skin" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Skin</label>
                 </div>
             </div>
 
@@ -182,10 +192,12 @@
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Neuro" rows="2"
                               asp-for="Neuro" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Neuro</label>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Other" rows="2"
                               asp-for="Other" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Other</label>
                 </div>
             </div>
 
@@ -193,10 +205,12 @@
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Diagnosis" rows="2"
                               asp-for="Diagnosis" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Diagnosis</label>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Treatmen Plan" rows="2"
                               asp-for="TreatmentPlan" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Treatment Plan</label>
                 </div>
             </div>
 
@@ -204,10 +218,12 @@
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Medications Dispensed" rows="3"
                               asp-for="MedicationsDispensed" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Medications Dispensed</label>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <textarea class="form-control" placeholder="Procedures" rows="3"
                               asp-for="Procedures" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Procedures</label>
                 </div>
             </div>
 
@@ -215,6 +231,7 @@
                 <div class="col-sm-12 form-floating">
                     <textarea class="form-control" placeholder="Followup" rows="2"
                               asp-for="FollowUp" disabled></textarea>
+                    <label for="floatingInput" class="ms-2 text-muted">Followup</label>
                 </div>
             </div>
 

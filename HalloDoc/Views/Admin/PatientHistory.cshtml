@@ -37,19 +37,19 @@
             <div class="row">
                 <div class="col mt-2 ms-1">
                     <input type="text" id="first-name" class="form-control search-input"
-                           placeholder="First Name" >
+                           placeholder="First Name">
                 </div>
                 <div class="col mt-2">
                     <input type="text" id="last-name" class="form-control search-input"
-                           placeholder="Last Name" >
+                           placeholder="Last Name">
                 </div>
                 <div class="col mt-2">
                     <input type="text" id="email" class="form-control search-input"
-                           placeholder="Email" >
+                           placeholder="Email">
                 </div>
                 <div class="col mt-2 me-1">
                     <input type="text" id="phone-number" class="form-control search-input"
-                           placeholder="Phone Number" >
+                           placeholder="Phone Number">
                 </div>
             </div>
 
@@ -62,7 +62,7 @@
                 </div>
             </div>
 
-            
+
 
             <div>
                 <div class="table-responsive mt-4 ms-3 me-3 myTable" id="PatientHistoryPartialView"></div>
@@ -71,14 +71,32 @@
     </div>
 
     <script>
-        window.onload = function()
-        {
+
+        $.ajax({
+            url: '/Admin/PatientHistoryFilter',
+            type: 'POST',
+            datatype: 'html',
+            data: {
+                firstName: document.getElementById("first-name").value, lastName: document.getElementById("last-name").value, email: document.getElementById("email").value, phoneNumber: document.getElementById("phone-number").value
+            },
+            success: function (response) {
+                $("#PatientHistoryPartialView").html(response);
+
+            },
+            error: function () {
+                alert('An error occurred.');
+            }
+
+        });
+
+
+        function filter(page, pageSize) {
             $.ajax({
                 url: '/Admin/PatientHistoryFilter',
                 type: 'POST',
                 datatype: 'html',
                 data: {
-                    firstName: document.getElementById("first-name").value, lastName: document.getElementById("last-name").value, email: document.getElementById("email").value, phoneNumber: document.getElementById("phone-number").value
+                    firstName: document.getElementById("first-name").value, lastName: document.getElementById("last-name").value, email: document.getElementById("email").value, phoneNumber: document.getElementById("phone-number").value, page: page, pageSize: pageSize
                 },
                 success: function (response) {
                     $("#PatientHistoryPartialView").html(response);
@@ -90,28 +108,8 @@
 
             });
         }
-        
-        function filter()
-        {
-            $.ajax({
-                url: '/Admin/PatientHistoryFilter',
-                type: 'POST',
-                datatype: 'html',
-                data: {
-                    firstName: document.getElementById("first-name").value, lastName: document.getElementById("last-name").value, email: document.getElementById("email").value, phoneNumber: document.getElementById("phone-number").value},
-                success: function (response) {
-                    $("#PatientHistoryPartialView").html(response);
 
-                },
-                error: function () {
-                    alert('An error occurred.');
-                }
-
-            });
-        }
-
-        function removeFilter()
-        {
+        function removeFilter() {
             document.getElementById("first-name").value = "";
             document.getElementById("last-name").value = "";
             document.getElementById("email").value = "";

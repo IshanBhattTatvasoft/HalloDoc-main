@@ -548,58 +548,6 @@ namespace HalloDoc.Controllers
                         row++;
                     }
                 }
-
-                //worksheet.Cell(1, 1).Value = "Name";
-                //worksheet.Cell(1, 2).Value = "Date Of Birth";
-                //worksheet.Cell(1, 3).Value = "Requestor";
-                //worksheet.Cell(1, 4).Value = "Physician Name";
-                //worksheet.Cell(1, 5).Value = "Date of Service";
-                //worksheet.Cell(1, 6).Value = "Requested Date";
-                //worksheet.Cell(1, 7).Value = "Phone Number";
-                //worksheet.Cell(1, 8).Value = "Address";
-                //worksheet.Cell(1, 9).Value = "Notes";
-
-                ////int row = 2;
-                //foreach (var item in data)
-                //{
-                //    var statusClass = "";
-                //    var dos = "";
-                //    var notes = "";
-                //    if (item.RequestTypeId == 1)
-                //    {
-                //        statusClass = "patient";
-                //    }
-                //    else if (item.RequestTypeId == 4)
-                //    {
-                //        statusClass = "business";
-                //    }
-                //    else if (item.RequestTypeId == 2)
-                //    {
-                //        statusClass = "family";
-                //    }
-                //    else
-                //    {
-                //        statusClass = "concierge";
-                //    }
-                //    foreach (var stat in item.RequestStatusLogs)
-                //    {
-                //        if (stat.Status == 2)
-                //        {
-                //            dos = stat.CreatedDate.ToString("MMMM dd,yyyy");
-                //            notes = stat.Notes ?? "";
-                //        }
-                //    }
-                //    worksheet.Cell(row, 1).Value = item.RequestClient.FirstName + item.RequestClient.LastName;
-                //    worksheet.Cell(row, 2).Value = DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy");
-                //    worksheet.Cell(row, 3).Value = statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower() + item.FirstName + item.LastName;
-                //    worksheet.Cell(row, 4).Value = ("Dr." + item?.Physician == null ? "" : item?.Physician?.FirstName);
-                //    worksheet.Cell(row, 5).Value = item.CreatedDate.ToString("MMMM dd,yyyy");
-                //    worksheet.Cell(row, 6).Value = dos;
-                //    worksheet.Cell(row, 7).Value = item.RequestClient.PhoneNumber + "(Patient)" + (item.RequestTypeId != 4 ? item.PhoneNumber + statusClass.Substring(0, 1).ToUpper() + statusClass.Substring(1).ToLower() : "");
-                //    worksheet.Cell(row, 8).Value = (item.RequestClient.Address == null ? item.RequestClient.Address + item.RequestClient.Street + item.RequestClient.City + item.RequestClient.State + item.RequestClient.ZipCode : item.RequestClient.Street + item.RequestClient.City + item.RequestClient.State + item.RequestClient.ZipCode);
-                //    worksheet.Cell(row, 9).Value = item.RequestClient.Notes;
-                //    row++;
-                //}
                 worksheet.Columns().AdjustToContents();
 
                 var memoryStream = new MemoryStream();
@@ -1588,8 +1536,8 @@ namespace HalloDoc.Controllers
                 Email = rc.Email,
                 Location = string.Concat(rc.Street, ", ", rc.City, ", ", rc.State, ", ", rc.ZipCode),
                 PhoneNumber = rc.PhoneNumber,
-                DOB = new DateOnly((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate),
-                Date = DateOnly.FromDateTime((DateTime)ef.Date),
+                DOB = new DateTime((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate),
+                Date = (DateTime)ef.Date,
                 Medications = ef.Medications,
                 Allergies = ef.Allergies,
                 Temp = (decimal)ef.Temp,
@@ -1790,28 +1738,24 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin")]
         public IActionResult PatientHistory()
         {
-            string firstName = null;
-            string lastName = null;
-            string phoneNumber = null;
-            string email = null;
             var userId = HttpContext.Session.GetInt32("id");
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 3;
-            PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, firstName, lastName, phoneNumber, email);
+            PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, null, null, null, null);
             return View(pr);
         }
 
         [CustomAuthorize("Admin")]
-        public IActionResult PatientHistoryFilter(string? firstName = "", string? lastName = "", string? email = "", string? phoneNumber = "")
+        public IActionResult PatientHistoryFilter(string? firstName = "", string? lastName = "", string? email = "", string? phoneNumber = "", int page=1, int pageSize=10)
         {
             var userId = HttpContext.Session.GetInt32("id");
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 3;
-            PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, firstName, lastName, phoneNumber, email);
+            PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, firstName, lastName, phoneNumber, email, page, pageSize);
             return PartialView("PatientHistoryPagePartialView", pr);
         }
 
@@ -1827,8 +1771,26 @@ namespace HalloDoc.Controllers
             {
                 AdminNavbarModel = an,
                 requests = _adminInterface.GetPatientRecordsData(userid),
+                p = _adminInterface.GetAllPhysicians(),
+                Rwf = _adminInterface.GetAllFiles(),
             };
             return View(pr);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult ProviderMenu()
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 3;
+            ProviderMenuViewModel pm = new ProviderMenuViewModel
+            {
+                an = an,
+                regions = _adminInterface.GetAllRegion(),
+            };
+            return View(pm);
         }
     }
 }
