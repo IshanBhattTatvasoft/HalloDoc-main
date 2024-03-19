@@ -709,6 +709,18 @@ namespace HalloDoc.Controllers
             Request r = _adminInterface.ValidateRequest(requestId);
             RequestNote rn = _adminInterface.FetchRequestNote(requestId);
             RequestStatusLog rsl = _adminInterface.FetchRequestStatusLogs(requestId);
+            string adNotes = " ";
+            string phNotes = " ";
+            string tNotes = " ";
+            if(rn!=null)
+            {
+                adNotes = rn.AdminNotes;
+                phNotes = rn.PhysicianNotes;
+            }
+            if(rsl!=null)
+            {
+                tNotes = rsl.Notes;
+            }
 
             int id = (int)rsl.PhysicianId;
 
@@ -716,10 +728,10 @@ namespace HalloDoc.Controllers
 
             var viewModel = new ViewNotes
             {
-                AdminNotes = rn.AdminNotes,
-                PhysicianNotes = rn.PhysicianNotes,
+                AdminNotes = adNotes,
+                PhysicianNotes = phNotes,
                 PhyName = py.FirstName,
-                Notes = rsl.Notes,
+                Notes = tNotes,
                 CreatedDate = rsl.CreatedDate,
                 RequestId = requestId,
                 an = an,
@@ -742,7 +754,7 @@ namespace HalloDoc.Controllers
             //rn.AdminNotes = model.AdminNotes;
             //_context.RequestNotes.Update(rn);
             //_context.SaveChanges();
-            _adminInterface.EditViewNotesAction(rn, model);
+            _adminInterface.EditViewNotesAction(model);
 
             return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
 
@@ -1188,8 +1200,8 @@ namespace HalloDoc.Controllers
                     IsBodyHtml = true,
                     Body = $"Hey {model.FirstName + " " + model.LastName} !! Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a>"
                 };
-                AspNetUser user = _adminInterface.ValidAspNetUser(model.email);
-                if (user != null)
+                RequestClient rc = _adminInterface.ValidatePatientEmail(model.email);
+                if (rc != null)
                 {
                     mailMessage.To.Add(model.email);
                     await client.SendMailAsync(mailMessage);
@@ -1767,13 +1779,7 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 3;
-            PatientHistoryViewModel pr = new PatientHistoryViewModel
-            {
-                AdminNavbarModel = an,
-                requests = _adminInterface.GetPatientRecordsData(userid),
-                p = _adminInterface.GetAllPhysicians(),
-                Rwf = _adminInterface.GetAllFiles(),
-            };
+            PatientHistoryViewModel pr = _adminInterface.PatientRecordsData(userid, an);
             return View(pr);
         }
 
@@ -1785,12 +1791,31 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 3;
-            ProviderMenuViewModel pm = new ProviderMenuViewModel
-            {
-                an = an,
-                regions = _adminInterface.GetAllRegion(),
-            };
+            ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, null);
             return View(pm);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult ProviderMenuFilter(int? region=-1, int page=1, int pageSize=10)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 3;
+            ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, region, page, pageSize);
+            return PartialView("ProviderMenuPartialView", pm);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult CreateProviderAccount()
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 3;
+            return View();
         }
     }
 }

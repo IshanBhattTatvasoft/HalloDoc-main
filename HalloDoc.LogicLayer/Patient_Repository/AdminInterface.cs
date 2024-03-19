@@ -1,5 +1,6 @@
 ﻿using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2016.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
@@ -155,6 +156,41 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return ph;
         }
 
+        PatientHistoryViewModel IAdminInterface.PatientRecordsData(int userid, AdminNavbarModel an)
+        {
+            IQueryable<Request> query = _context.Requests.Where(r => r.UserId == userid);
+            PatientHistoryViewModel pr = new PatientHistoryViewModel
+            {
+                AdminNavbarModel = an,
+                requests = query.ToList(),
+                p = GetAllPhysicians(),
+                Rwf = GetAllFiles(),
+            };
+            return pr;
+        }
+
+        ProviderMenuViewModel IAdminInterface.ProviderMenuFilteredData(AdminNavbarModel an, int?region, int page = 1, int pageSize = 10)
+        {
+            IQueryable<Physician> phy = _context.Physicians.Include(pn => pn.PhysicianNotifications);
+
+            if(region!=null && region!=-1)
+            {
+                phy = phy.Where(p => p.RegionId == region);
+            }
+
+            ProviderMenuViewModel pm = new ProviderMenuViewModel
+            {
+                an = an,
+                physician = phy.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                regions = GetAllRegion(),
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = phy.Count(),
+                TotalPages = (int)Math.Ceiling((double)phy.Count() / pageSize),
+            };
+            return pm;
+        }
+
         public Request ValidateRequest(int requestId)
         {
             return _context.Requests.Where(r => r.RequestId == requestId).FirstOrDefault();
@@ -193,10 +229,26 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Physicians.FirstOrDefault(p => p.PhysicianId == id);
         }
 
-        public void EditViewNotesAction(RequestNote rn, ViewNotes model)
+        public void EditViewNotesAction(ViewNotes model)
         {
-            rn.AdminNotes = model.AdminNotes;
-            _context.RequestNotes.Update(rn);
+            Request r = _context.Requests.Where(r => r.RequestId == model.RequestId).FirstOrDefault();
+            User u = _context.Users.Where(u => u.UserId == r.UserId).FirstOrDefault();
+            RequestNote rn = _context.RequestNotes.Where(r => r.RequestId == model.RequestId).FirstOrDefault();
+            if(rn == null)
+            {
+                RequestNote rn1 = new RequestNote();
+                rn1.AdminNotes = model.AdminNotes;
+                rn1.RequestId = model.RequestId;
+                rn1.CreatedBy = (int)u.AspNetUserId;
+                rn1.CreatedDate = DateTime.Now;
+                _context.RequestNotes.Add(rn1);
+            }
+            else
+            {
+                rn.AdminNotes = model.AdminNotes;
+                _context.RequestNotes.Update(rn);
+            }
+
             _context.SaveChanges();
         }
 
@@ -389,6 +441,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public AspNetUser ValidAspNetUser(string email)
         {
             return _context.AspNetUsers.Where(a => a.Email == email).FirstOrDefault();
+        }
+
+        public RequestClient ValidatePatientEmail(string email)
+        {
+            return _context.RequestClients.Where(a => a.Email == email).FirstOrDefault();
         }
 
         public List<HealthProfessional> getBusinessData(int professionId)

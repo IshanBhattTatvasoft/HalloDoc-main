@@ -17,6 +17,10 @@
       "PackagePath": "staticwebassets\\css\\create-patient-request.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\create-physician-account.css",
+      "PackagePath": "staticwebassets\\css\\create-physician-account.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\forgot-password.css",
       "PackagePath": "staticwebassets\\css\\forgot-password.css"
     },
@@ -145,6 +149,10 @@
       "PackagePath": "staticwebassets\\images\\clock.svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\cloud-upload (1).svg",
+      "PackagePath": "staticwebassets\\images\\cloud-upload (1).svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\conclude.svg",
       "PackagePath": "staticwebassets\\images\\conclude.svg"
     },
@@ -195,6 +203,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\orders-image.png",
       "PackagePath": "staticwebassets\\images\\orders-image.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\pen.svg",
+      "PackagePath": "staticwebassets\\images\\pen.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\pending.svg",

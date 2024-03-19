@@ -37,3 +37,11 @@
 .hide {
     display: none;
 }
+
+input[name="flexRadioDefault"] {
+    accent-color: #0DCAF0 !important;
+}
+
+textarea{
+    resize: none;
+}

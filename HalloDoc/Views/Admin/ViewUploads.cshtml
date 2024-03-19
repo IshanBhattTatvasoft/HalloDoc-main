@@ -62,7 +62,6 @@
                     <form class="input-group mb-3 mt-3" method="post" enctype="multipart/form-data" asp-action="SetImageContent" asp-controller="Admin" asp-route-requestId=@Model.requestId>
                         <input asp-for="requestId" value="@Model.requestId" hidden id="requestId" />
                         <label class="form-control" style="cursor: pointer;">
-
                             <input type="file" style="display: none;" onchange="displayFileName(this)"
                                    asp-for="ImageContent" id="document">
                             <span id="file-label">Select File</span>

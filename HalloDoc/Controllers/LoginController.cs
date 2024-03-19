@@ -106,7 +106,8 @@ namespace HalloDoc.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Username", "Incorrect Username");
+                    ModelState.AddModelError("UserName", "Invalid credentials");
+                    ModelState.AddModelError("PasswordHash", "Invalid credentials");
                 }
             }
 

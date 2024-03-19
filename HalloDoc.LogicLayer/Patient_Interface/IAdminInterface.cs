@@ -14,14 +14,15 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         //public AdminDashboardTableView ModelOfAdminDashboard(int page = 1, int pageSize = 10, string status, int id, string? search, string? requestor, int? region)
         public AdminDashboardTableView ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region, int page = 1, int pageSize = 10);
         public PatientHistoryViewModel PatientHistoryFilteredData(AdminNavbarModel an, string fname, string lname, string pno, string email, int page = 1, int pageSize = 10);
-
+        public PatientHistoryViewModel PatientRecordsData(int userid, AdminNavbarModel an);
+        public ProviderMenuViewModel ProviderMenuFilteredData(AdminNavbarModel an, int? region, int page = 1, int pageSize = 10);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);
         public RequestNote FetchRequestNote(int requestId);
         public RequestStatusLog FetchRequestStatusLogs(int requestId);
         public Physician FetchPhysician(int id);
-        public void EditViewNotesAction(RequestNote rn, ViewNotes model);
+        public void EditViewNotesAction(ViewNotes model);
         public CaseTag FetchCaseTag(int caseTagId);
         public void AddRequestStatusLogFromCancelCase(RequestStatusLog rs);
         public List<Physician> FetchPhysicianByRegion(int RegionId);
@@ -79,6 +80,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<Request> GetPatientRecordsData(int userId);
         public List<Physician> GetAllPhysicians();
         public List<RequestWiseFile> GetAllFiles();
+        public RequestClient ValidatePatientEmail(string email);
 
     }
 }

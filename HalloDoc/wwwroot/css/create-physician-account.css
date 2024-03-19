@@ -1,0 +1,34 @@
+﻿.hidden{
+    display: none;
+}
+
+textarea{
+    resize: none !important;
+}
+
+input:focus {
+    outline: #3DB6FF !important;
+    /*border: 2px solid white !important;*/
+    box-shadow: none !important;
+    border-color: #3DB6FF !important;
+    /*color: red !important;*/
+}
+
+textarea:focus {
+    outline: none !important;
+    border-color: #3DB6FF !important;
+    box-shadow: none !important;
+}
+
+    textarea:focus::placeholder {
+        color: #3DB6FF !important;
+    }
+
+.form-floating:focus-within label {
+    color: #3DB6FF !important;
+}
+
+.custom-file-input {
+    display: none !important;
+    width: 0 !important;
+}

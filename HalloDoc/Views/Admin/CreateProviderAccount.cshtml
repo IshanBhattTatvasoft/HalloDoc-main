@@ -1,0 +1,243 @@
+﻿@model HalloDoc.DataLayer.ViewModels.CreateProviderAccountViewModel
+@{
+    ViewData["Title"] = "Create Physician Account";
+}
+@section Styles{
+    <link href="~/css/create-physician-account.css" />
+}
+
+<div class="bg-light" style="overflow: hidden;">
+    @*<partial name="HeaderFooter" model="@Model.adminNavbarModel" />*@
+
+    <partial name="Toast" />
+
+    <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
+        <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
+            <span class="h4">
+                Create Physician Account
+            </span>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <a class="text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen"
+               style="text-decoration: none;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                     class="bi bi-chevron-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd"
+                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                </svg>
+                Back
+            </a>
+        </div>
+    </div>
+
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+        <form method="post" asp-controller="Admin" asp-action="CreateProviderAccount" enctype="multipart/form-data">
+            <div class="row">
+                <div class="col ms-3 mt-3 h5">Physician Information</div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="FirstName">
+                    <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                    <span asp-validation-for="FirstName"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="LastName">
+                    <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                    <span asp-validation-for="LastName"></span>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="Email">
+                    <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    <span asp-validation-for="Email"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" />
+                    <span asp-validation-for="PhoneNumber"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="LicenseNo">
+                    <label for="floatingInput" class="ms-2 text-muted">Medical License #</label>
+                    <span asp-validation-for="LicenseNo"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="NpiNumber">
+                    <label for="floatingInput" class="ms-2 text-muted">NPI Number</label>
+                    <span asp-validation-for="NpiNumber"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="SyncEmailAddr">
+                    <label for="floatingInput" class="ms-2 text-muted">Synchronization Email Address</label>
+                    <span asp-validation-for="SyncEmailAddr"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <span>Region checkboxes</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating ms-3 mt-3 inp col-lg-6 col-md-6 col-sm-12 h5">Mailing and Billing Information</div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="Address1">
+                    <label for="floatingInput" class="ms-2 text-muted">Address 1</label>
+                    <span asp-validation-for="Address1"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="Address2">
+                    <label for="floatingInput" class="ms-2 text-muted">Address 2</label>
+                    <span asp-validation-for="Address2"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="City">
+                    <label for="floatingInput" class="ms-2 text-muted">City</label>
+                    <span asp-validation-for="City"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="State">
+                    <label for="floatingInput" class="ms-2 text-muted">State</label>
+                    <span asp-validation-for="State"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="ZipCode">
+                    <label for="floatingInput" class="ms-2 text-muted">Zip</label>
+                    <span asp-validation-for="ZipCode"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input id="phone1" class="form-control" type="tel" asp-for="AlternateNum" />
+                    <span asp-validation-for="AlternateNum"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col ms-3 mt-3 h5">Provider Profile</div>
+            </div>
+
+            <div class="row">
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="BusinessName">
+                    <label for="floatingInput" class="ms-2 text-muted">Business Name</label>
+                    <span asp-validation-for="BusinessName"></span>
+                </div>
+                <div class="form-floating mt-3 inp col-lg-6 col-md-6 col-sm-12">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
+                           asp-for="BusinessWebsite">
+                    <label for="floatingInput" class="ms-2 text-muted">Business Website</label>
+                    <span asp-validation-for="BusinessWebsite"></span>
+                </div>
+            </div>
+
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <div class="custom-file mb-3 d-flex align-items-center gap-0">
+                        <input type="text" class="form-control flex-grow-1" id="file-upload-photo" readonly placeholder="Select Photo">
+                        <label class="upload-button custom-file-label ms-2 d-flex align-items-center" for="customFile" style="background: #7AD8EE; padding: 3px; border-radius: 5px; cursor: pointer;">
+                            <img src="~/images/cloud-upload (1).svg" style="margin-right: 5px;" />Upload
+                        </label>
+                        <input type="file" class="custom-file-input ms-auto" id="customFile" style="display: none;" onchange="getFileName1(this)">
+                    </div>
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="custom-file mb-3 d-flex align-items-center gap-0">
+                        <input type="text" class="form-control flex-grow-1" id="file-upload-signature" readonly placeholder="Select Signature">
+                        <label class="upload-button custom-file-label ms-2 d-flex align-items-center" for="customFile" style="background: #7AD8EE; padding: 3px; border-radius: 5px; cursor: pointer;">
+                            <img src="~/images/cloud-upload (1).svg" style="margin-right: 5px;" />Upload
+                        </label>
+                        <input type="file" class="custom-file-input ms-auto" id="customFile" style="display: none;" onchange="getFileName2(this)">
+                        <button type="button" class="btn btn-info d-flex align-items-center ms-1" style="height: 32px !important;"><img src="~/images/pen.svg" />Create</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <textarea class="form-control col-sm-12" rows="4"
+                          asp-for="AdminNotes" placeholder="Admin Notes" style="resize: none !important;"></textarea>
+            </div>
+
+            <p class="dots mt-3"></p>
+
+            <div class="row">
+                <div class="col ms-3 mt-3 h5">Onboarding</div>
+            </div>
+
+            <div class="row mt-3 d-flex w-auto">
+                <input type="checkbox" onclick="oncheck()" style="height: 13px;width: 13px;" class="ms-4" id="checkall" />
+                <span>Independent Contractor Agreement</span>
+                <label class="upload-button custom-file-label ms-2" for="customFile" style="background: #7AD8EE; padding: 3px; border-radius: 5px; cursor: pointer;">Upload
+                </label>
+                <input type="file" class="custom-file-input ms-auto" id="customFile" style="display: none;">
+                <button type="button" class="btn btn-info">View</button>
+            </div>
+
+            <p class="dots mt-3"></p>
+
+            <div class="row d-flex justify-content-end">
+                <div class="form-floating col-sm-2 mt-3">
+                    <button type="submit" class="btn btn-info">Save</button>
+                    <button type="button" class="btn btn-outline-info">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        innerHeight: 1,
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    const phoneInputField1 = document.querySelector("#phone1");
+    const phoneInput1 = window.intlTelInput(phoneInputField1, {
+        innerHeight: 1,
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+
+    function getFileName1(input) {
+        if (input.files && input.files[0]) {
+            var fileName = input.files[0].name;
+            document.getElementById('file-upload-photo').value = fileName;
+        }
+    }
+
+    function getFileName2(input) {
+        if (input.files && input.files[0]) {
+            var fileName = input.files[0].name;
+            document.getElementById('file-upload-signature').value = fileName;
+        }
+    }
+</script>

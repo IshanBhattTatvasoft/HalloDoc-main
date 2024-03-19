@@ -37,7 +37,7 @@
         <div class="bg-white">
             <div class="d-flex justify-content-between align-items-center flex-row mt-3">
                 <div class="h-50 ms-4 mt-2">
-                    <select class="btn border border-muted dropdown-toggle text-secondary w-100 px-2 py-1" style="text-align:start;" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-region" onchange="fetchRegionData()">
+                    <select class="btn border border-muted dropdown-toggle text-secondary w-100 px-2 py-1" style="text-align:start;" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-region" onchange="filter()">
                         <option selected><i class="bi bi-person"></i> All</option>
                         @foreach (var item in Model.regions)
                         {
@@ -46,13 +46,52 @@
                     </select>
                 </div>
                 <div class="h-50 me-4 mt-2">
-                    <button type="button" class="btn btn-info">Create Provider Account</button>
+                    <a type="button" class="btn btn-info" asp-action="CreateProviderAccount" asp-controller="Admin">Create Provider Account</a>
                 </div>
             </div>
 
-            <div class="mt-4 ms-3 me-3" id="ProviderMenuPartialView">
-
+            <div>
+                <div class="table-responsive mt-4 ms-3 me-3 myTable" id="ProviderMenuPagePartialView"></div>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $.ajax({
+        url: '/Admin/ProviderMenuFilter',
+        type: 'POST',
+        datatype: 'html',
+        data: {
+            region: document.getElementById("select-region").value
+        },
+        success: function (response) {
+            $("#ProviderMenuPagePartialView").html(response);
+
+        },
+        error: function () {
+            alert('An error occurred.');
+        }
+
+    });
+
+
+    function filter(page, pageSize) {
+        $.ajax({
+            url: '/Admin/ProviderMenuFilter',
+            type: 'POST',
+            datatype: 'html',
+            data: {
+                region: document.getElementById("select-region").value, page: page, pageSize: pageSize
+            },
+            success: function (response) {
+                $("#ProviderMenuPagePartialView").html(response);
+
+            },
+            error: function () {
+                alert('An error occurred.');
+            }
+
+        });
+    }
+</script>

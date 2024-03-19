@@ -279,6 +279,11 @@ input[type="text"]:focus {
     margin-top: -6px;
 }
 
+#sub-div-icon-1{
+    margin-right: 90px !important;
+    margin-top: -30px !important;
+}
+
 #status-text {
     color: #203F9A;
     font-size: 18px;
@@ -334,8 +339,8 @@ input[type="text"]:focus {
 
 @media only screen and (max-width: 1098px) {
     .five-blue-buttons-text {
-        /* height: 60px; */
         font-size: 13px;
+        margin-top: 5px !important;
     }
     .dashboard-sub-div-2-sub{
         flex-direction: column !important;

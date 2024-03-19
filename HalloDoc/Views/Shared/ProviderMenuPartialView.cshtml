@@ -1,33 +1,86 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.ProviderMenuViewModel
 
-<div class="table-responsive d-none d-md-block">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Stop Notification</th>
-                <th>Provider Name <i class="bi bi-arrow-up"></i></th>
-                <th>Role</th>
-                <th>On Call Status</th>
-                <th>Status</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
+<table class="table mt-0">
+    <thead class="table-secondary">
+        <tr>
+            <th>Stop Notification</th>
+            <th>Provider Name <i class="bi bi-arrow-up"></i></th>
+            <th>Role</th>
+            <th>On Call Status</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
 
-        <tbody>
-           @foreach (var item in Model.physician)
-            {
-                <tr>
-                    <td><input class="checkboxes" type="checkbox" style="height: 18px;width: 18px;" /></td>
-                    <td>First Name, Last Name</td>
-                    <td>Physician</td>
-                    <td>On Call Status</td>
-                    <td>Status</td>
-                    <td>
-                        <button type="button" class="btn btn-outline-info">Contact</button>
-                        <button type="button" class="btn btn-outline-info">Edit</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <tbody>
+        @foreach (var item in Model.physician)
+        {
+            <tr>
+                <td><input class="checkboxes" type="checkbox" style="height: 18px;width: 18px;" /></td>
+                <td>@($"{item.FirstName} {item.LastName}")</td>
+                <td>Physician</td>
+                <td>On Call Status</td>
+                <td>
+                    @if (item.Status == 1)
+                    {
+                        <span>Pending</span>
+                    }
+                    else if (item.Status == 2)
+                    {
+                        <span>Active</span>
+                    }
+                    else
+                    {
+                        <span>Not Active</span>
+                    }
+                </td>
+                <td>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#contactProviderModal" class="btn btn-outline-info">Contact</button>
+                    <button type="button" class="btn btn-outline-info">Edit</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="modal fade" id="contactProviderModal" tabindex="-1" aria-labelledby="contactProviderModalLablel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header bg-info">
+                    <h3 class="modal-title fs-5" id="contactProviderModalLablel">Contact Your Provider</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted">Choose communication to send message</p>
+                    <div class="form-check">
+                        <input type="radio" name="flexRadioDefault" id="flexRadioDefault1" checked>
+                        <label class="form-check-label" for="flexRadioDefault1">
+                            SMS
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            Email
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+                        <label class="form-check-label" for="flexRadioDefault3">
+                            Both
+                        </label>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea class="form-control mt-3" id="exampleFormControlTextarea1" placeholder="Message" rows="5" name="contactProviderMessage"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-info">Send</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
