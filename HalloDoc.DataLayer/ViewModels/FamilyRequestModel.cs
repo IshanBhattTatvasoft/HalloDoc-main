@@ -15,6 +15,7 @@ public class FamilyRequestModel
     [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter valid Email")]
     public string? Email { get; set; }
     [Required(ErrorMessage = "Phone number is required")]
+    [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter valid phone number")]
     public string? PhoneNumber { get; set; }
     [Required(ErrorMessage = "Street number is required")]
     public string? Street { get; set; }
@@ -30,6 +31,7 @@ public class FamilyRequestModel
     [Required(ErrorMessage = "Family Last Name is required")]
     public string? FamilyLastName { get; set; }
     [Required(ErrorMessage = "Family Phone Number is required")]
+    [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter valid phone number")]
     public string? FamilyPhoneNumber { get; set; }
     [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
             ErrorMessage = "Please enter valid Email")]

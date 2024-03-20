@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\css\\create-physician-account.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\create-role.css",
+      "PackagePath": "staticwebassets\\css\\create-role.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\forgot-password.css",
       "PackagePath": "staticwebassets\\css\\forgot-password.css"
     },

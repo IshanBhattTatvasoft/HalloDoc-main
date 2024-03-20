@@ -1754,7 +1754,7 @@ namespace HalloDoc.Controllers
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 3;
+            an.Tab = 14;
             PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, null, null, null, null);
             return View(pr);
         }
@@ -1766,7 +1766,7 @@ namespace HalloDoc.Controllers
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 3;
+            an.Tab = 14;
             PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, firstName, lastName, phoneNumber, email, page, pageSize);
             return PartialView("PatientHistoryPagePartialView", pr);
         }
@@ -1778,7 +1778,7 @@ namespace HalloDoc.Controllers
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 3;
+            an.Tab = 14;
             PatientHistoryViewModel pr = _adminInterface.PatientRecordsData(userid, an);
             return View(pr);
         }
@@ -1790,7 +1790,7 @@ namespace HalloDoc.Controllers
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 3;
+            an.Tab = 5;
             ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, null);
             return View(pm);
         }
@@ -1802,7 +1802,7 @@ namespace HalloDoc.Controllers
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 3;
+            an.Tab = 5;
             ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, region, page, pageSize);
             return PartialView("ProviderMenuPartialView", pm);
         }
@@ -1814,8 +1814,86 @@ namespace HalloDoc.Controllers
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 3;
+            an.Tab = 5;
             return View();
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult CreateRole()
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 9;
+            CreateRoleViewModel cr = new CreateRoleViewModel
+            {
+                adminNavbarModel = an,
+                allRoles = _adminInterface.GetAllMenus(),
+            };
+            return View(cr);
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult CreateNewRole(string roleName, string acType, string menuIdString)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 9;
+            List<int> menuIds = null;
+            if (!string.IsNullOrEmpty(menuIdString))
+            {
+                menuIds = menuIdString.Split(',').Select(int.Parse).ToList();
+            }
+            _adminInterface.CreateNewRole2(roleName, acType, an.Admin_Name, menuIds);
+            TempData["success"] = "New role created";
+            return RedirectToAction("CreateRole");
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult AccountAccess()
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 9;
+            CreateRoleViewModel cr = new CreateRoleViewModel
+            {
+                adminNavbarModel = an,
+                allRoles = _adminInterface.GetAllMenus(),
+                roles = _adminInterface.GetAllRoles(),
+            };
+            return View(cr);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult DeleteRole(int roleid)
+        {
+            _adminInterface.DeleteRoleFromId(roleid);
+            TempData["success"] = "Role deleted successfully";
+            return RedirectToAction("AccountAccess");
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult EditRole(int roleid)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 9;
+            CreateRoleViewModel cr = new CreateRoleViewModel
+            {
+                adminNavbarModel = an,
+                allRoles = _adminInterface.GetAllMenus(),
+                roles = _adminInterface.GetAllRoles(),
+                NameOfRole = _adminInterface.GetNameFromRoleId(roleid),
+            };
+            return View(cr);
         }
     }
 }

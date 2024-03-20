@@ -734,7 +734,57 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.RequestWiseFiles.ToList();
         }
 
+        public List<Menu> GetAllMenus()
+        {
+            return _context.Menus.ToList();
+        }
         
-        
+        public void CreateNewRole2(string name, string acType, string adminName, List<int> menuIds)
+        {
+            Role r = new Role();
+            r.Name = name;
+            if(acType == "Admin")
+            {
+                r.AccountType = 1;
+            }
+            else if(acType == "Physician")
+            {
+                r.AccountType = 2;
+            }
+            r.CreatedDate = DateTime.Now;
+            r.IsDeleted = new BitArray(1,false);
+            r.CreatedBy = adminName;
+            _context.Roles.Add(r);
+            _context.SaveChanges();
+            
+            foreach(var item in menuIds)
+            {
+                RoleMenu rm = new RoleMenu();
+                rm.MenuId = item;
+                rm.RoleId = r.RoleId;
+                _context.RoleMenus.Add(rm);
+            }
+
+            _context.SaveChanges();
+        }
+
+        public List<Role> GetAllRoles()
+        {
+            return _context.Roles.ToList();
+        }
+
+        public void DeleteRoleFromId(int roleId)
+        {
+            Role r = _context.Roles.Where(r => r.RoleId == roleId).FirstOrDefault();
+            r.IsDeleted = new BitArray(1, true);
+            _context.Roles.Update(r);
+            _context.SaveChanges();
+        }
+
+        public string GetNameFromRoleId(int id)
+        {
+            Role r = _context.Roles.Where(r => r.RoleId == id).FirstOrDefault();
+            return r.Name;
+        }
     }
 }

@@ -38,4 +38,5 @@ public class AdminDashboardTableView
     public int PageSize { get; set; }
     public int TotalItems { get; set; }
     public int TotalPages { get; set; }
+    public DateOnly? waitTime { get; set; }
 }

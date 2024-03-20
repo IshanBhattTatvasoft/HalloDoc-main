@@ -81,6 +81,11 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<Physician> GetAllPhysicians();
         public List<RequestWiseFile> GetAllFiles();
         public RequestClient ValidatePatientEmail(string email);
+        public List<Menu> GetAllMenus();
+        public void CreateNewRole2(string name, string acType, string adminName, List<int> menuIds);
+        public List<Role> GetAllRoles();
+        public void DeleteRoleFromId(int roleId);
+        public string GetNameFromRoleId(int id);
 
     }
 }

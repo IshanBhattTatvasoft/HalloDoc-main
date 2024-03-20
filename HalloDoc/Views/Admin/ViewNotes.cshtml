@@ -20,16 +20,31 @@
 <div>
     <partial name="HeaderFooter" model="@Model.an"/>
 
-    <div class="container-md">
-        <div class="d-flex justify-content-between my-3 back">
-            <h5 class="card-title ms-5">Notes</h5>
-            <a asp-controller="Admin" asp-action="AdminDashboard">
-                <button class=" btn btn-outline-info px-3 py-2">
-                    <i class="fa-solid fa-chevron-left me-1"></i>Back
-                </button>
-            </a>
+    <div class="container">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col me-5">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col mt-2 ms-5">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Notes
+                    </p>
+                </div>
+            </div>
+
+
+
         </div>
-        <div class="card mx-5 border border-0">
+        <div class="card mx-5 border mt-3 border-0">
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" asp-action="EditViewNotes" asp-controller="Admin">
                     

@@ -1,3 +1,15 @@
+html {
+    background: #F8F9FA !important;
+}
+
+* {
+    background: #F8F9FA !important;
+}
+
+body {
+    background: #F8F9FA !important;
+}
+
 .moon-flex {
     display: flex;
     justify-content: flex-end;
@@ -69,7 +81,6 @@
 .hide{
     display: none;
 }
-
 
 th:first-child, td:first-child{
     width: 40%;

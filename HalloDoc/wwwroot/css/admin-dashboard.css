@@ -377,11 +377,16 @@ input[type="text"]:focus {
 
 @media only screen and (max-width: 990px) {
     .five-blue-buttons-text {
-        display: none;
+        display: none !important;
+        width: 0px !important;
     }
 
     .five-blue-buttons {
         height: 43px;
+    }
+
+    .dashboard-sub-div-icon{
+        width: 10px !important;
     }
 }
 

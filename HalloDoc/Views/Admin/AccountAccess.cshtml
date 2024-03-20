@@ -1,0 +1,88 @@
+﻿@model HalloDoc.DataLayer.ViewModels.CreateRoleViewModel
+@{
+    ViewData["Title"] = "Account Access";
+}
+@section Styles{
+    <link href="~/css/create-role.css" />
+}
+
+
+<body class="bg-light">
+    <div class="bg-light" style="overflow: hidden;">
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+        <partial name="Toast" />
+
+        <div class="container">
+            <div class="row">
+                <div style="top: 42px; position: relative;" class="col">
+                    <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        Back
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-2">
+                        <p class="h5 text-muted fw-bold" id="heading-one">
+                            Account Access
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white mt-3">
+                <div class="row">
+                    <div class="form-floating col mt-4 lastbutton float-end" id="submitDivv">
+                        <a type="button" asp-action="CreateRole" asp-controller="Admin" class="btn btn-outline-info me-3 float-end" onclick="cancelForm()">Create Access</a>
+                    </div>
+                </div>
+
+                <div class="table-responsive mt-3">
+                    <table class="table mb-0">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th scope="col" class="ms-5">Name</th>
+                                <th scope="col" style="text-align: center;">Account Type</th>
+                                <th scope="col" class="me-5" style="text-align:end;">Actions</th>
+                            </tr>
+                        </thead>
+
+                        @foreach (var item in Model.roles)
+                        {
+                            @if (!item.IsDeleted[0])
+                            {
+                                <tr>
+                                    <td class="ms-5">@item.Name</td>
+                                    <td style="text-align: center;">
+                                        @if (item.AccountType == 1)
+                                        {
+                                            <span>Admin</span>
+                                        }
+                                        else if (item.AccountType == 2)
+                                        {
+                                            <span>Physician</span>
+                                        }
+                                    </td>
+                                    <td style="text-align: right;">
+                                        <a type="button" asp-action="EditRole" asp-controller="Admin" asp-route-roleid="@item.RoleId" class="btn btn-outline-info me-2">Edit</a>
+                                        <a type="button" class="btn btn-outline-info" asp-action="DeleteRole" asp-controller="Admin" asp-route-roleid="@item.RoleId">Delete</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+
+
+</body>
+
+
