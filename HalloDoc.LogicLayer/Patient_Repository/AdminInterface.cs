@@ -182,6 +182,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             {
                 an = an,
                 physician = phy.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                roles = GetAllRoles(),
                 regions = GetAllRegion(),
                 CurrentPage = page,
                 PageSize = pageSize,
@@ -189,6 +190,22 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 TotalPages = (int)Math.Ceiling((double)phy.Count() / pageSize),
             };
             return pm;
+        }
+
+        public void ChangeNotificationValue(int id)
+        {
+            PhysicianNotification pn = _context.PhysicianNotifications.Where(p => p.PhysicianId == id).FirstOrDefault();
+            bool val = pn.IsNotificationStopped[0];
+            if (val)
+            {
+                pn.IsNotificationStopped = new BitArray(1,false);
+            }
+            else
+            {
+                pn.IsNotificationStopped = new BitArray(1, true);
+            }
+            _context.PhysicianNotifications.Update(pn);
+            _context.SaveChanges();
         }
 
         public Request ValidateRequest(int requestId)
@@ -785,6 +802,285 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             Role r = _context.Roles.Where(r => r.RoleId == id).FirstOrDefault();
             return r.Name;
+        }
+
+        public int GetAccountTypeFromId(int id)
+        {
+            Role r = _context.Roles.Where(r => r.RoleId == id).FirstOrDefault();
+            return r.AccountType;
+        }
+
+        public List<RoleMenu> GetAllRoleMenu(int id)
+        {
+            return _context.RoleMenus.Where(r => r.RoleId == id).ToList();
+        }
+
+        public void EditRoleSubmitAction(int roleid, List<int> menuIds)
+        {
+            foreach (var item in menuIds)
+            {
+                bool r = _context.RoleMenus.Where(r => r.RoleId == roleid).Any(rom => rom.MenuId == item);
+                if(r==false)
+                {
+                    RoleMenu rm = new RoleMenu();
+                    rm.MenuId = item;
+                    rm.RoleId = roleid;
+                    _context.RoleMenus.Add(rm);
+                }
+            }
+
+            _context.SaveChanges();
+        }
+
+        public EditProviderAccountViewModel ProviderEditAccount(int id, AdminNavbarModel an)
+        {
+            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == id);
+            List<PhysicianRegion> PRegions = _context.PhysicianRegions.Where(r => r.PhysicianId == physician.PhysicianId).ToList();
+            List<DataLayer.Models.Region> reg = _context.Regions.ToList();
+            var selectedRegions = from r in reg
+                                  join pr in PRegions
+                                  on r.RegionId equals pr.RegionId
+                                  select r;
+            var data = selectedRegions.ToList();
+            AspNetUser user = _context.AspNetUsers.FirstOrDefault(r => r.Id == physician.AspNetUserId);
+            EditProviderAccountViewModel viewmodel = new EditProviderAccountViewModel
+            {
+                UserName = physician.FirstName + ' ' + physician.LastName,
+                FirstName = physician.FirstName,
+                LastName = physician.LastName,
+                Password = user.PasswordHash,
+                Email = physician.Email,
+                Phone = physician.Mobile,
+                regions = _context.Regions.ToList(),
+                selectedregions = data,
+                Address1 = physician.Address1,
+                Address2 = physician.Address2,
+                City = physician.City,
+                State = physician.City,
+                Zip = physician.Zip,
+                MedicalLicense = physician.MedicalLicense,
+                NPI = physician.Npinumber,
+                SyncEmail = physician.SyncEmailAddress,
+                MailingPhoneNo = physician.AltPhone,
+                BusinessName = physician.BusinessName,
+                BusinessWebsite = physician.BusinessWebsite,
+                SignatureName = physician.Signature,
+                PhysicianId = id,
+                Contract = physician.IsAgreementDoc != null ? physician.IsAgreementDoc[0] : null,
+                BackgroundCheck = physician.IsBackgroundDoc != null ? physician.IsBackgroundDoc[0] : null,
+                Compilance = physician.IsTrainingDoc != null ? physician.IsTrainingDoc[0] : null,
+                NonDisclosure = physician.IsNonDisclosureDoc != null ? physician.IsNonDisclosureDoc[0] : null,
+                LicensedDoc = physician.IsLicenseDoc != null ? physician.IsLicenseDoc[0] : null,
+                adminNavbarModel = an,
+                roles = _context.Roles.Where(r => r.AccountType == (short)2).ToList(),
+            };
+            return viewmodel;
+        }
+
+        public void SavePasswordOfPhysician(EditProviderAccountViewModel model)
+        {
+            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
+            AspNetUser user = _context.AspNetUsers.FirstOrDefault(r => r.Id == physician.AspNetUserId);
+
+            user.PasswordHash = model.Password;
+            physician.ModifiedDate = DateTime.Now;
+            _context.SaveChanges();
+        }
+
+        public void EditProviderBillingInfo(EditProviderAccountViewModel model)
+        {
+            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
+            if (!physician.IsDeleted[0])
+            {
+                physician.Address1 = model.Address1;
+                physician.Address2 = model.Address2;
+                physician.City = model.City;
+                physician.Zip = model.Zip;
+                physician.AltPhone = model.MailingPhoneNo;
+
+                physician.ModifiedDate = DateTime.Now;
+            }
+            _context.SaveChanges();
+        }
+
+        public void SaveProviderProfile(EditProviderAccountViewModel model, string selectedRegionsList)
+        {
+            var PRegions = _context.PhysicianRegions.Where(r => r.PhysicianId == model.PhysicianId).ToList();
+            List<int> selectedRegionIds = null;
+            if (!string.IsNullOrEmpty(selectedRegionsList))
+            {
+                selectedRegionIds = selectedRegionsList.Split(',').Select(int.Parse).ToList();
+            }
+            foreach (var region in PRegions)
+            {
+                _context.PhysicianRegions.Remove(region);
+            }
+
+            if (selectedRegionsList != null)
+            {
+                for (int ele = 0; ele < selectedRegionIds.Count; ele++)
+                {
+
+                    PhysicianRegion ar = new PhysicianRegion
+                    {
+                        PhysicianId = model.PhysicianId,
+                        RegionId = selectedRegionIds[ele]
+                    };
+                    _context.PhysicianRegions.Add(ar);
+                }
+            }
+            var currentPhysician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
+            var user = _context.Physicians.FirstOrDefault(r => r.AspNetUserId == currentPhysician.AspNetUserId);
+            if (!user.IsDeleted[0])
+            {
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Email = model.Email;
+                user.Mobile = model.Phone;
+                user.SyncEmailAddress = model.SyncEmail;
+                user.MedicalLicense = model.MedicalLicense;
+                user.Npinumber = model.NPI;
+                user.ModifiedDate = DateTime.Now;
+            }
+            _context.SaveChanges();
+        }
+
+        public void SetContentOfPhysician(IFormFile file, int id, bool IsSignature)
+        {
+            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == id);
+            var FileName = "Signature.png";
+            if (file != null && file.Length > 0)
+            {
+                var physicianFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Physician", id.ToString());
+
+                if (!Directory.Exists(physicianFolderPath))
+                {
+                    Directory.CreateDirectory(physicianFolderPath);
+                }
+                if (!IsSignature)
+                {
+                    FileName = "Profile.png";
+                }
+                var filePath = Path.Combine(physicianFolderPath, FileName);
+                if (physician.Signature != null && IsSignature)
+                {
+                    var SavedFile = Path.Combine(physicianFolderPath, physician.Signature);
+                    System.IO.File.Delete(SavedFile);
+                }
+                if (physician.Photo != null && !IsSignature)
+                {
+                    var SavedFile = Path.Combine(physicianFolderPath, physician.Photo);
+                    System.IO.File.Delete(SavedFile);
+                }
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    file.CopyToAsync(stream)
+        ;
+                }
+            }
+            if (file != null)
+            {
+                if (IsSignature)
+                {
+                    physician.Signature = FileName;
+                    physician.ModifiedDate = DateTime.Now;
+                }
+                else
+                {
+                    physician.Photo = FileName;
+                    physician.ModifiedDate = DateTime.Now;
+                }
+            }
+            _context.SaveChanges();
+        }
+
+        public void SetAllDocOfPhysician(IFormFile file, int id, int num)
+        {
+            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == id);
+            var FileName = "Signature.png";
+
+            if (file != null && file.Length > 0)
+            {
+                var physicianFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Physician", id.ToString());
+                var ext = Path.GetExtension(file.FileName); ;
+                if (!Directory.Exists(physicianFolderPath))
+                {
+                    Directory.CreateDirectory(physicianFolderPath);
+                }
+                if (num == 1) FileName = "AgreementDoc" + ext;
+                else if (num == 2) FileName = "BackgroundDoc" + ext;
+                else if (num == 3) FileName = "Compilance" + ext;
+                else if (num == 4) FileName = "NonDisclosure" + ext;
+                else FileName = "LicenseDoc" + ext;
+
+                var filePath = Path.Combine(physicianFolderPath, FileName);
+                if (num == 1)
+                {
+                    if (physician.IsAgreementDoc != null)
+                    {
+                        var SavedFile = Path.Combine(physicianFolderPath, "AgreementDoc.pdf");
+                        System.IO.File.Delete(SavedFile);
+                    }
+                    physician.IsAgreementDoc = new BitArray(1, true);
+                    physician.ModifiedDate = DateTime.Now;
+                }
+                else if (num == 2)
+                {
+                    if (physician.IsBackgroundDoc != null)
+                    {
+                        var SavedFile = Path.Combine(physicianFolderPath, "BackgroundDoc.pdf");
+                        System.IO.File.Delete(SavedFile);
+                    }
+                    physician.IsBackgroundDoc = new BitArray(1, true);
+                    physician.ModifiedDate = DateTime.Now;
+                }
+                else if (num == 3)
+                {
+                    if (physician.IsTrainingDoc != null)
+                    {
+                        var SavedFile = Path.Combine(physicianFolderPath, "Compilance.pdf");
+                        System.IO.File.Delete(SavedFile);
+                    }
+                    physician.IsTrainingDoc = new BitArray(1, true);
+                    physician.ModifiedDate = DateTime.Now;
+                }
+                else if (num == 4)
+                {
+                    if (physician.IsNonDisclosureDoc != null)
+                    {
+                        var SavedFile = Path.Combine(physicianFolderPath, "NonDisclosure.pdf");
+                        System.IO.File.Delete(SavedFile);
+                    }
+                    physician.IsNonDisclosureDoc = new BitArray(1, true);
+                    physician.ModifiedDate = DateTime.Now;
+                }
+                else
+                {
+                    if (physician.IsLicenseDoc != null)
+                    {
+                        var SavedFile = Path.Combine(physicianFolderPath, "LicenseDoc.pdf");
+                        System.IO.File.Delete(SavedFile);
+                    }
+                    physician.IsLicenseDoc = new BitArray(1, true);
+                    physician.ModifiedDate = DateTime.Now;
+                }
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    file.CopyToAsync(stream);
+                }
+            }
+
+            _context.SaveChanges();
+        }
+
+        public void PhysicianProfileUpdate(EditProviderAccountViewModel model)
+        {
+            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
+
+            physician.BusinessName = model.BusinessName;
+            physician.BusinessWebsite = model.BusinessWebsite;
+            physician.AdminNotes = model.AdminNotes;
+            _context.SaveChanges();
         }
     }
 }

@@ -16,6 +16,9 @@ public class CreateRoleViewModel
     public string roleName { get; set; }
     public List<Menu> allRoles { get; set; }
     public List<Role> roles { get; set; }
+    public List<RoleMenu>? roleMenus { get; set; }
     public string? NameOfRole { get; set; }
+    public int? accountType { get; set; }
+    public int? roleId { get; set; }
 }
 

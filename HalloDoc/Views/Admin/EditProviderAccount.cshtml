@@ -1,0 +1,685 @@
+﻿@model EditProviderAccountViewModel
+@{
+
+    ViewData["Title"] = "ProviderMenu";
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hallo Doc</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+    <link rel="stylesheet" href="~/css/Patient_Dashboard.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
+    <script src="~/js/AdminDashBoard.js"> </script>
+    <script src="~/js/bootstrap.bundle.min.js"> </script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="~/css/AdminDashboard.css" />
+    <style>
+        .accordion-button::after {
+            display: none; /* Hide the default arrow */
+        }
+
+        #Signature::-webkit-file-upload-button {
+            display: none;
+        }
+
+        #Photo::-webkit-file-upload-button {
+            display: none;
+        }
+
+        #contract::-webkit-file-upload-button {
+            display: none;
+            visibility: hidden;
+        }
+
+    </style>
+</head>
+<body>
+    <partial name="Toast" />
+    <partial name="HeaderFooter" model="@Model.adminNavbarModel"/>
+
+    <div class="container-sm container-fluid">
+        <div class="d-flex justify-content-between align-items-center mt-3">
+            <h3 class="fw-semibold">Edit Physician Account</h3>
+            <a class="btn btn-outline-info" asp-controller="Admin" asp-action="ContactProvider" asp-route-id="@Model.PhysicianId"><i class="bi bi-chevron-left btn-outline-info"></i> Back</a>
+        </div>
+        <div class="shadow border-top mt-2 p-4">
+
+            @* form for Physician Password Setup *@
+            <h4 class="my-3"> Account Information</h4>
+            <form method="post" class="row mb-4" asp-controller="Admin" asp-action="SavePasswordOfProvider">
+                <input type="hidden" asp-for="PhysicianId" id="IdOfP" />
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control"
+                           id="Username"
+                           placeholder="User Name"
+                           disabled
+                           asp-for="UserName" />
+                    <label for="Username" class="ms-2 text-muted">User Name</label>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="password"
+                           class="form-control password"
+                           id="Password"
+                           placeholder="Password"
+                           asp-for="Password" />
+                    <label for="Password" class="ms-2 text-muted">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <select class="form-select mb-3 " id="Status" name="AdminStatus" disabled>
+                        @for (int x = 0; x < 4; x++)
+                        {
+                            <option value="@x">Active</option>
+                        }
+                    </select>
+                    <label for="SearchByRegion" class="ms-2 text-muted">Status</label>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <select class="form-select mb-3" id="Role" name="Role" disabled>
+                        @foreach(var item in Model.roles)
+                        {
+                            <option value="@item.RoleId">@item.Name</option>
+                        }
+                    </select>
+                    <label for="Role" class="ms-2 text-muted">Role</label>
+                </div>
+
+                <div class="d-flex justify-content-end align-items-center gap-2">
+                    <button type="submit" id="ResetPassword" class="px-4 me-2 btn btn-outline-info">
+                        Reset Password
+                    </button>
+
+                </div>
+            </form>
+            @* Edit 1 form for Physician Information *@
+            <h4 class="my-3"> Physician Information</h4>
+            <form method="post" class="row mb-4" asp-controller="Admin" asp-action="SaveProviderProfile">
+                <input type="hidden" asp-for="PhysicianId" />
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change1 bg-secondary-subtle"
+                           id="FirstName"
+                           placeholder="First Name"
+                           disabled
+                           asp-for="FirstName" />
+                    <label for="FirstName" class="ms-2 text-muted">First Name</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change1 bg-secondary-subtle"
+                           id="LastName"
+                           placeholder="LastName"
+                           disabled
+                           asp-for="LastName" />
+                    <label for="LastName" class="ms-2 text-muted">LastName</label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="email"
+                           class="form-control Change1 bg-secondary-subtle"
+                           id="Email"
+                           placeholder="Email"
+                           disabled
+                           asp-for="Email" />
+                    <label for="Email" class="ms-2 text-muted">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="tel"
+                           class="form-control Change1 bg-secondary-subtle"
+                           id="Phone phone"
+                           placeholder="Phone No"
+                           disabled
+                           asp-for="Phone" />
+                    <label class="ms-2 text-muted" for="Phone">Phone No</label>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change1 bg-secondary-subtle"
+                           id="Phone phone"
+                           placeholder="Medical Licence"
+                           disabled
+                           asp-for="MedicalLicense" />
+                    <label class="ms-2 text-muted" for="Phone">Medical Licence</label>
+                    <span asp-validation-for="MedicalLicense" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change1 bg-secondary-subtle"
+                           id="Phone phone"
+                           placeholder="NPI Number"
+                           disabled
+                           asp-for="NPI" />
+                    <label class="ms-2 text-muted" for="Phone">NPI Number</label>
+                    <span asp-validation-for="NPI" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="email"
+                           class="form-control Change1 bg-secondary-subtle"
+                           id="Phone phone"
+                           placeholder="Synchronizing Email Address"
+                           disabled
+                           asp-for="SyncEmail" />
+                    <label class="ms-2 text-muted" for="Phone">Synchronizing Email Address</label>
+                    <span asp-validation-for="SyncEmail" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3 form-check-group">
+                    <div class="d-flex gap-1 align-items-center flex-wrap">
+                        @for (int i = 0; i < Model.regions.Count; i++)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" disabled class="form-check-input border-2 region-check" value="@Model.regions[i].RegionId"
+                                       id="checkbox@(i)" name="checkbox_group"
+                                @if (Model.selectedregions != null && Model.selectedregions.Any(r => r.RegionId == Model.regions[i].RegionId))
+                                {
+                                    <text>checked</text>
+                                }
+                                />
+                                <span class="form-check-label">@Model.regions[i].Name</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <input type="hidden" id="selectedRegionsList" name="selectedRegionsList">
+                <div class="d-flex justify-content-end align-items-center">
+
+                    <button type="button" id="Edit2" class="editbutton  px-4 me-2 btn btn-outline-info">
+                        Edit
+                    </button>
+                    <button type="submit" id="Save2" class="savebutton px-4 me-2 btn btn-outline-info" onclick="AddSelectedRegion()">
+                        Save
+                    </button>
+                    <a type="button" id="Cancel2" asp-controller="Admin" asp-action="EditProviderAccount" asp-route-id="@Model.PhysicianId" class="savebutton px-4 me-2 btn btn-outline-info">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+            <h4 class="my-3"> Mailing & Billing Information</h4>
+            @* form for Billing information *@
+            <form method="post" class="row mb-4" asp-controller="Admin" asp-action="EditProviderBillingInfo">
+                <input type="hidden" asp-for="PhysicianId" />
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change2 bg-secondary-subtle"
+                           id="Address1"
+                           placeholder="Address 1"
+                           readonly
+                           asp-for="Address1" />
+                    <label for="Address1" class="ms-2 text-muted">Address 1</label>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change2 bg-secondary-subtle"
+                           id="Address2"
+                           placeholder="Address 2"
+                           asp-for="Address2"
+                           readonly />
+                    <label for="Address2" class="ms-2 text-muted">Address 2</label>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change2 bg-secondary-subtle"
+                           id="City"
+                           placeholder="City"
+                           readonly
+                           asp-for="City" />
+                    <label for="City" class="ms-2 text-muted">City</label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <select class="form-select mb-3 Change2 bg-secondary-subtle" id="State" name="State" readonly>
+                        @for (int x = 0; x < Model.selectedregions.Count; x++)
+                        {
+                            <option value="@Model.selectedregions[x].RegionId">@Model.selectedregions[x].Name</option>
+                        }
+                    </select>
+                    <label for="State" class="ms-2 text-muted">State</label>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control Change2 bg-secondary-subtle"
+                           id="Zip"
+                           placeholder="Zip"
+                           readonly
+                           asp-for="Zip" />
+                    <label for="Zip" class="ms-2 text-muted">Zip</label>
+                    <span asp-validation-for="Zip" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="tel"
+                           class="form-control Change2 bg-secondary-subtle"
+                           id="MailingPhoneNo phone"
+                           placeholder="Phone No"
+                           asp-for="MailingPhoneNo"
+                           readonly />
+                    <label class="ms-2 text-muted" for="MailingPhoneNo">Phone No</label>
+                    <span asp-validation-for="MailingPhoneNo" class="text-danger"></span>
+                </div>
+
+                <div class="d-flex justify-content-end align-items-center">
+                    <button type="button" id="Edit3" class="editbutton  px-4 me-2 btn btn-outline-info">
+                        Edit
+                    </button>
+                    <button type="submit" id="Save3" class="savebutton px-4 me-2 btn btn-outline-info">
+                        Save
+                    </button>
+                    <a type="button" id="Cancel3" asp-controller="Admin" asp-action="EditProviderAccount" asp-route-id="@Model.PhysicianId" class="savebutton px-4 me-2 btn btn-outline-info">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+            @* form for signature and photo *@
+            <div id="document-container"></div>
+            <form method="post" class="row mb-4 border-1 border-bottom border-dark-subtle" asp-controller="Admin" asp-action="PhysicianProfileUpdate" enctype="multipart/form-data">
+                <input type="hidden" asp-for="PhysicianId" />
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control  bg-secondary-subtle change3"
+                           id="Businessname"
+                           placeholder="Business Name"
+                           readonly
+                           asp-for="BusinessName" />
+                    <label for="Businessname" class="ms-2 text-muted">Business Name</label>
+                    <span asp-validation-for="BusinessName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 mb-3 form-floating">
+                    <input type="text"
+                           class="form-control  bg-secondary-subtle change3"
+                           id="BusinessWebsite"
+                           placeholder="Business Website"
+                           asp-for="BusinessWebsite"
+                           readonly />
+                    <label for="BusinessWebsite" class="ms-2 text-muted">Business Website</label>
+                    <span asp-validation-for="BusinessWebsite" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 mb-3 form-floating">
+                    <div class="d-flex gap-0">
+                        <input type="file"
+                               class="form-control bg-secondary-subtle rounded-end-0 change3"
+                               id="Photo"
+                               placeholder="Select Photo"
+                               asp-for="Photo"
+                               readonly />
+
+                        <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                    </div>
+                </div>
+                <div class="col-md-5 mb-3 form-floating">
+                    <div class="d-flex gap-0">
+                        <input type="file"
+                               class="form-control bg-secondary-subtle rounded-end-0 change3 bg-secondary-subtle"
+                               id="Signature"
+                               placeholder="Select Signature"
+                               asp-for="Signature"
+                               readonly />
+                        <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('2')">Upload</button>
+                    </div>
+                </div>
+                <button class="col-md-1 mb-3 btn btn-info text-white px-1">Create</button>
+                <div class="d-flex justify-content-center align-items-center mb-3 form-floating">
+                    @if (Model.SignatureName != null)
+                    {
+                        <img src="~/Physician/@Model.PhysicianId/Signature.png" alt="Signature" id="SignPhoto" height="200" width="200" />
+                    }
+                    <input type="hidden" id="SignName" value="@Model.SignatureName" />
+                </div>
+                <div class="col-md-12 mb-3 form-check p-2">
+
+                    <textarea class="form-control border w-100 change3 border-info bg-secondary-subtle" id="exampleFormControlTextarea1" readonly placeholder="Admin Notes" asp-for="AdminNotes" rows="5"></textarea>
+
+                </div>
+                <div class="d-flex justify-content-end align-items-center mb-2">
+                    <button type="button" id="Edit4" class="editbutton  px-4 me-2 btn btn-outline-info">
+                        Edit
+                    </button>
+                    <button type="submit" id="Save4" class="savebutton px-4 me-2 btn btn-outline-info">
+                        Save
+                    </button>
+                    <a id="Cancel4" asp-controller="Admin" asp-action="EditProviderAccount" asp-route-id="@Model.PhysicianId" class="savebutton px-4 me-2 btn btn-outline-info">
+                        Cancel
+                    </a>
+                </div>
+            </form>
+            <h4 class="mb-4 fw-2">Onboarding</h4>
+            <div class="w-75 row">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="form-check d-flex col-6">
+                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                               id="Contract" name="checkbox_group"
+                        @if (Model.Contract == true)
+                        {
+                            <text>checked</text>
+                        }
+                        />
+                        <p class="ms-1">Independent Contract Agreement</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        <input type="file"
+                               class="form-control btn btn-info text-white "
+                               id="contract"
+                               value="Upload"
+                               onchange="UploadDoc('1')"
+                               hidden />
+                        <label class="btn btn-info text-white" for="contract">Upload</label>
+                        @if (Model.Contract == true)
+                        {
+                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/AgreementDoc.docx', '_blank')">View</button>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex  align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                               id="Background" name="checkbox_group"
+                        @if (Model.BackgroundCheck == true)
+                        {
+                            <text>checked</text>
+                        }
+                        />
+                        <p>Background Check</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        <input type="file"
+                               class="form-control btn btn-info text-white"
+                               id="BackgroundCheck"
+                               value="Upload"
+                               onchange="UploadDoc('2')"
+                               hidden />
+                        <label class="btn btn-info text-white" for="BackgroundCheck">Upload</label>
+                        <div>
+
+                            @if (Model.BackgroundCheck == true)
+                            {
+                                <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/BackgroundDoc.docx', '_blank')">View</button>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex  align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                               id="Contract" name="checkbox_group"
+                        @if (Model.Compilance == true)
+                        {
+                            <text>checked</text>
+                        }
+                        />
+                        <p>HIPAA Compliance</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        <input type="file"
+                               class="form-control btn btn-info text-white "
+                               id="Compilance"
+                               value="Upload"
+                               onchange="UploadDoc('3')"
+                               hidden />
+                        <label class="btn btn-info text-white" for="Compilance">Upload</label>
+                        @if (Model.Compilance == true)
+                        {
+                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/Compilance.docx', '_blank')">View</button>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                               id="Contract" name="checkbox_group"
+                        @if (Model.NonDisclosure == true)
+                        {
+                            <text>checked</text>
+                        }
+                        />
+                        <p>Non-disclosure Agreement</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        <input type="file"
+                               class="form-control btn btn-info text-white"
+                               id="NonDisclosure"
+                               value="Upload"
+                               onchange="UploadDoc('4')"
+                               hidden />
+                        <label class="btn btn-info text-white" for="NonDisclosure">Upload</label>
+                        @if (Model.NonDisclosure == true)
+                        {
+                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/NonDisclosure.docx', '_blank')">View</button>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                               id="Liceneced" name="checkbox_group"
+                        @if (Model.LicensedDoc == true)
+                        {
+                            <text>checked</text>
+                        }
+                        />
+                        <p>License Document</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        <input type="file"
+                               class="form-control btn btn-info text-white"
+                               id="LicensedDoc"
+                               value="Upload"
+                               onchange="UploadDoc('5')"
+                               hidden />
+                        <label class="btn btn-info text-white " for="LicensedDoc">Upload</label>
+                        @if (Model.LicensedDoc == true)
+                        {
+                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/LicenseDoc.docx', '_blank')">View</button>
+                        }
+
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-end border-1 border-top border-dark-subtle pt-2">
+                <a class="btn btn-danger text-white" asp-controller="Admin" asp-action="DeletePhysicianAccount" asp-route-id="@Model.PhysicianId">Delete Account</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+
+    // Edit1
+    $("#Save2").hide();
+    $("#Cancel2").hide();
+    $("#Edit2").click(function () {
+        var inputs = document.getElementsByClassName("Change1");
+        var rc = document.getElementsByClassName("region-check");
+        for (var i = 0; i < rc.length; i++) {
+            rc[i].removeAttribute('disabled');
+        }
+
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].removeAttribute("disabled");
+            inputs[i].classList.remove("bg-secondary-subtle");
+        }
+        $("#Save2").show();
+        $("#Cancel2").show();
+        $("#Edit2").hide();
+    });
+
+    // Edit2
+    $("#Save3").hide();
+    $("#Cancel3").hide();
+    $("#Edit3").click(function () {
+        var inputs = document.getElementsByClassName("Change2");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].removeAttribute("readonly");
+            inputs[i].classList.remove("bg-secondary-subtle");
+        }
+        $("#Save3").show();
+        $("#Cancel3").show();
+        $("#Edit3").hide();
+    });
+
+    $("#Save4").hide();
+    $("#Cancel4").hide();
+    $("#Edit4").click(function () {
+        var inputs = document.getElementsByClassName("change3");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].removeAttribute("readonly");
+            inputs[i].classList.remove("bg-secondary-subtle");
+        }
+        $("#Save4").show();
+        $("#Cancel4").show();
+        $("#Edit4").hide();
+    });
+
+
+
+
+    function AddSelectedRegion() {
+        var selectedRegions = []; // Clear any previous selections
+        document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+            selectedRegions.push(parseInt(checkbox.value));
+        });
+
+        document.getElementById('selectedRegionsList').value = selectedRegions.join(',');
+    }
+    function showDocument(file, target) {
+        var url = '@Url.Content("~/Physician/")' + file;
+        window.open(url, target);
+    }
+    // function showDocument(url) {
+    //     url = "~/Physician/" + url;
+    //     const container = document.getElementById("document-container");
+    //     const iframe = document.createElement("iframe");
+    //     console.log("hello");
+    //     iframe.src = url;
+    //     iframe.width = "100%";
+    //     iframe.height = "800px";
+    //     iframe.frameBorder = "0";
+
+    //     container.innerHTML = "";
+    //     container.appendChild(iframe);
+    // }
+    function UploadDoc(num) {
+        var doc;
+        var PhysicianId = document.getElementById('IdOfP').value;
+        console.log(num);
+        if (num == 1) doc = document.getElementById("contract");
+        else if (num == 2) doc = document.getElementById("BackgroundCheck");
+        else if (num == 3) doc = document.getElementById("Compilance");
+        else if (num == 4) doc = document.getElementById("NonDisclosure");
+        else doc = document.getElementById("LicensedDoc");
+        var files = doc.files[0];
+        var formData = new FormData();
+        // Append the selected file to the FormData object
+        formData.append("file", files);
+        formData.append("PhysicianId", PhysicianId);
+        formData.append("num", num);
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("SetAllDocOfPhysician", "Admin")",
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function (result) {
+                // Handle success
+                console.log("Done");
+                window.location.href = `EditPhysicianAccount?id=${PhysicianId}`;
+            },
+            error: function (error) {
+                // Handle error
+                console.error(error);
+            }
+        });
+    }
+
+    function SaveSign(num) {
+        var Signature = document.getElementById('Signature');
+        var Photo = document.getElementById('Photo');
+        if (Signature.files.length > 0 && num == 2) {
+            // Get the selected file
+            var file = Signature.files[0];
+            var PhysicianId = document.getElementById('IdOfP').value;
+            // Create a new FormData object
+            var formData = new FormData();
+            var IsSignature = false;
+            if (num == 2) IsSignature = true;
+            // Append the selected file to the FormData object
+            formData.append("file", file);
+            formData.append("PhysicianId", PhysicianId);
+            formData.append("IsSignature", IsSignature);
+            console.log("hello", PhysicianId, formData);
+
+            var signPhoto = document.getElementById("SignPhoto");
+            // Make an AJAX request to the Server-side controller action method
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetContentOfPhysician", "Admin")", // Change this to your controller action name
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle success
+                    console.log("Done");
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            });
+        }
+        else if (Photo.files.length > 0 && num == 1) {
+            var file = Photo.files[0];
+            var PhysicianId = document.getElementById('IdOfP').value;
+            // Create a new FormData object
+            var formData = new FormData();
+            var IsSignature = false;
+            if (num == 2) IsSignature = true;
+            // Append the selected file to the FormData object
+            formData.append("file", file);
+            formData.append("PhysicianId", PhysicianId);
+            formData.append("IsSignature", IsSignature);
+            console.log("hello", PhysicianId, formData);
+            // Make an AJAX request to the Server-side controller action method
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetContentOfPhysician", "Admin")", // Change this to your controller action name
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle success
+                    console.log("Done");
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            });
+        }
+        else {
+            alert("Please select the document");
+        }
+    }
+
+
+
+</script>

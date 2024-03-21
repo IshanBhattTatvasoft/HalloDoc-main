@@ -15,30 +15,42 @@
     <tbody>
         @foreach (var item in Model.physician)
         {
-            <tr>
-                <td><input class="checkboxes" type="checkbox" style="height: 18px;width: 18px;" /></td>
-                <td>@($"{item.FirstName} {item.LastName}")</td>
-                <td>Physician</td>
-                <td>On Call Status</td>
-                <td>
-                    @if (item.Status == 1)
-                    {
-                        <span>Pending</span>
-                    }
-                    else if (item.Status == 2)
-                    {
-                        <span>Active</span>
-                    }
-                    else
-                    {
-                        <span>Not Active</span>
-                    }
-                </td>
-                <td>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#contactProviderModal" class="btn btn-outline-info">Contact</button>
-                    <button type="button" class="btn btn-outline-info">Edit</button>
-                </td>
-            </tr>
+            @if (!item.IsDeleted[0])
+            {
+                <tr>
+                    <td>
+                        <input class="checkboxes" type="checkbox" value="@item.PhysicianId" name="checkbox_group" onchange="ChangeNotification('@item.PhysicianId')" style="height: 18px;width: 18px;"
+                        @if (item.PhysicianNotifications != null && item.PhysicianNotifications.Any(r => r.IsNotificationStopped[0]))
+                        {
+                            <text>checked</text>
+                        }
+                        />
+                    </td>
+                    <td>@($"{item.FirstName} {item.LastName}")</td>
+                    <td>
+                        <span>@Model.roles.FirstOrDefault(r => r.RoleId == item.RoleId).Name</span>
+                    </td>
+                    <td>On Call Status</td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span>Pending</span>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Not Active</span>
+                        }
+                    </td>
+                    <td>
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#contactProviderModal" class="btn btn-outline-info" onclick="fetchEmail('@item.Email')">Contact</button>
+                        <a type="button" class="btn btn-outline-info" asp-action="EditProviderAccount" asp-controller="Admin" asp-route-id="@item.PhysicianId">Edit</a>
+                    </td>
+                </tr>
+            }
         }
     </tbody>
 </table>
@@ -47,8 +59,9 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <form>
+                <input type="hidden" id="phy-email" />
                 <div class="modal-header bg-info">
-                    <h3 class="modal-title fs-5" id="contactProviderModalLablel">Contact Your Provider</h3>
+                    <h3 class="modal-title text-white fs-5" id="contactProviderModalLablel">Contact Your Provider</h3>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -73,14 +86,15 @@
                     </div>
 
                     <div class="form-group">
-                        <textarea class="form-control mt-3" id="exampleFormControlTextarea1" placeholder="Message" rows="5" name="contactProviderMessage"></textarea>
+                        <textarea class="form-control mt-3" id="msg" placeholder="Message" rows="5" name="contactProviderMessage" asp-for="sendMessage"></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-info">Send</button>
+                    <button type="button" onclick="sendMessageToPhy(document.getElementById('phy-email').value, document.getElementById('msg').value)" class="btn btn-info">Send</button>
                     <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
+

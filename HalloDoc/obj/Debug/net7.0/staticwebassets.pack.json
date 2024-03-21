@@ -5,6 +5,22 @@
       "PackagePath": "staticwebassets\\HalloDoc.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.csv",
+      "PackagePath": "staticwebassets\\Physician\\1\\AgreementDoc.csv"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\BackgroundDoc.docx",
+      "PackagePath": "staticwebassets\\Physician\\1\\BackgroundDoc.docx"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\1\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Signature.png",
+      "PackagePath": "staticwebassets\\Physician\\1\\Signature.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\admin-dashboard.css",
       "PackagePath": "staticwebassets\\css\\admin-dashboard.css"
     },

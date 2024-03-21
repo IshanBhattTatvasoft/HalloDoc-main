@@ -94,4 +94,45 @@
 
         });
     }
+
+    function ChangeNotification(phyId) {
+        $.ajax({
+            url: '/Admin/ChangeNotificationValue',
+            type: 'POST',
+            datatype: 'html',
+            data: { id: phyId },
+            success: function (response) {
+                console.log("hello");
+            },
+            error: function () {
+                alert("An error occurred.");
+            }
+        });
+    }
+
+    function fetchEmail(email) {
+        document.getElementById('phy-email').value = email;
+        console.log(document.getElementById('phy-email').value);
+    }
+
+    function sendMessageToPhy(email, msg) {
+        console.log("hey");
+        const selectedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
+
+        const labelForRadio = document.querySelector(`label[for="${selectedRadio.id}"]`);
+        var label = labelForRadio.textContent.trim();
+
+        $.ajax({
+            url: '/Admin/SendMessageToPhysician',
+            type: 'POST',
+            datatype: 'html',
+            data: { sendType: label, email: email, message: msg },
+            success: function (response) {
+                console.log("hello");
+            },
+                error: function() {
+                alert("An error occurred");
+            }
+        });
+    }
 </script>

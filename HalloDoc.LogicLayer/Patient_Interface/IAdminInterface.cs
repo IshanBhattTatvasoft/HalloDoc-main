@@ -1,6 +1,7 @@
 ﻿using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDocMvc.Entity.ViewModel;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,6 +87,18 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<Role> GetAllRoles();
         public void DeleteRoleFromId(int roleId);
         public string GetNameFromRoleId(int id);
+        public int GetAccountTypeFromId(int id);
+        public List<RoleMenu> GetAllRoleMenu(int id);
+        public void EditRoleSubmitAction(int roleid, List<int> menuIds);
+        public EditProviderAccountViewModel ProviderEditAccount(int id, AdminNavbarModel an);
+        public void SavePasswordOfPhysician(EditProviderAccountViewModel model);
+        public void EditProviderBillingInfo(EditProviderAccountViewModel model);
+        public void SaveProviderProfile(EditProviderAccountViewModel model, string selectedRegionsList);
+        public void SetContentOfPhysician(IFormFile file, int id, bool IsSignature);
+        public void SetAllDocOfPhysician(IFormFile file, int id, int num);
+        public void PhysicianProfileUpdate(EditProviderAccountViewModel model);
+        public void ChangeNotificationValue(int id);
+
 
     }
 }

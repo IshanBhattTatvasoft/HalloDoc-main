@@ -1808,6 +1808,74 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin")]
+        public IActionResult ChangeNotificationValue(int id)
+        {
+            _adminInterface.ChangeNotificationValue(id);
+            TempData["success"] = "Notification status updated successfully";
+            return RedirectToAction("ProviderMenu");
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult SendMessageToPhysician(string sendType, string email, string message)
+        {
+            if(sendType == "Email" || sendType == "Both")
+            {
+                try
+                {
+
+                    string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                    string senderPassword = "Ishan@1503";
+
+                    SmtpClient client = new SmtpClient("smtp.office365.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential(senderEmail, senderPassword),
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false
+                    };
+                    string resetToken = Guid.NewGuid().ToString();
+                    string resetLink = $"{Request.Scheme}://{Request.Host}/Login/SubmitRequestScreen?token={resetToken}";
+
+
+
+                    MailMessage mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(senderEmail, "HalloDoc"),
+                        Subject = "Contact Your Provider",
+                        IsBodyHtml = true,
+                        Body = $"{message}"
+                    };
+
+                    if(email!="")
+                    {
+                        mailMessage.To.Add(email);
+                        client.SendMailAsync(mailMessage);
+                        TempData["success"] = "Email sent successfully";
+                        return RedirectToAction("ProviderMenu");
+                    }
+
+                    else
+                    {
+                        ModelState.AddModelError("Email", "Invalid Email");
+                        return RedirectToAction("ProviderMenu");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return RedirectToAction("ProviderMenu");
+                }
+            }
+
+            else
+            {
+                ModelState.AddModelError("Email", "Invalid Email");
+                return RedirectToAction("ProviderMenu");
+            }
+
+        }
+
+        [CustomAuthorize("Admin")]
         public IActionResult CreateProviderAccount()
         {
             var userId = HttpContext.Session.GetInt32("id");
@@ -1815,7 +1883,62 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 5;
-            return View();
+            EditProviderAccountViewModel ep = new EditProviderAccountViewModel();
+            ep.adminNavbarModel = an;
+            ep.regions = _adminInterface.GetAllRegion();
+            return View(ep);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult EditProviderAccount(int id)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 5;
+            EditProviderAccountViewModel ep = _adminInterface.ProviderEditAccount(id, an);
+            return View(ep);
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult SavePasswordOfProvider(EditProviderAccountViewModel ep)
+        {
+            _adminInterface.SavePasswordOfPhysician(ep);
+            return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult EditProviderBillingInfo(EditProviderAccountViewModel ep)
+        {
+            _adminInterface.EditProviderBillingInfo(ep);
+            return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult SaveProviderProfile(EditProviderAccountViewModel ep, string selectedRegionsList)
+        {
+            _adminInterface.SaveProviderProfile(ep, selectedRegionsList);
+            return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+        }
+
+        [HttpPost]
+        public IActionResult SetContentOfPhysician(IFormFile file, int PhysicianId, bool IsSignature)
+        {
+            _adminInterface.SetContentOfPhysician(file, PhysicianId, IsSignature);
+            return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+        }
+
+        public IActionResult SetAllDocOfPhysician(IFormFile file, int PhysicianId, int num)
+        {
+            _adminInterface.SetAllDocOfPhysician(file, PhysicianId, num);
+            return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+        }
+
+        public IActionResult PhysicianProfileUpdate(EditProviderAccountViewModel model)
+        {
+            _adminInterface.PhysicianProfileUpdate(model);
+            return RedirectToAction("EditProviderAccount", new { id = model.PhysicianId });
         }
 
         [CustomAuthorize("Admin")]
@@ -1891,9 +2014,31 @@ namespace HalloDoc.Controllers
                 adminNavbarModel = an,
                 allRoles = _adminInterface.GetAllMenus(),
                 roles = _adminInterface.GetAllRoles(),
+                roleMenus = _adminInterface.GetAllRoleMenu(roleid),
                 NameOfRole = _adminInterface.GetNameFromRoleId(roleid),
+                accountType = _adminInterface.GetAccountTypeFromId(roleid),
+                roleId = roleid,
             };
             return View(cr);
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Admin")]
+        public IActionResult EditRoleSubmit(string menuIdString, int roleid)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 9;
+            List<int> menuIds = null;
+            if (!string.IsNullOrEmpty(menuIdString))
+            {
+                menuIds = menuIdString.Split(',').Select(int.Parse).ToList();
+            }
+            _adminInterface.EditRoleSubmitAction(roleid, menuIds);
+            TempData["success"] = "Role edited successfully";
+            return RedirectToAction("AccountAccess");
         }
     }
 }

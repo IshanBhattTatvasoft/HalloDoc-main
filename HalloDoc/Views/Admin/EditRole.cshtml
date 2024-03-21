@@ -6,7 +6,7 @@
     <link href="~/css/create-role.css" />
 }
 
-<div class="bg-light h-100">
+<div class="bg-light h-100" style="overflow: hidden;">
     <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
     <partial name="Toast" />
     <div class="container">
@@ -33,35 +33,63 @@
 
         <div class="bg-white mt-3">
             <div class="row">
-                <p class="h5">Edit the role for: @Model.NameOfRole</p>
+                <p class="h5 ms-5 mt-3">Edit the role for: @Model.NameOfRole</p>
             </div>
 
             <form method="post">
+                <div class="row mt-3">
+                    <div class="col-sm-5 form-floating ms-5">
+                        <input id="role-name" class="ai form-control" type="text" placeholder="Date Of Birth" asp-for="NameOfRole" readonly>
+                        <label for="floatingInput" class="ms-2 text-muted">Role Name</label>
+                        <span asp-validation-for="roleName"></span>
+                    </div>
+                    <div class="col-sm-5 form-floating">
+                        <select class="btn btn-outline-light dropdown-toggle text-secondary bg-white w-100 h-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-roles" disabled asp-for="accountType">
+                            <label for="floatingInput" class="ms-2">Account Type</label>
+                            @if (Model.accountType == 1)
+                            {
+                                <option value="Admin" selected>Admin</option>
+                            }
+                            else if (Model.accountType == 2)
+                            {
+                                <option value="Physician" selected>Physician</option>    
+                            }
+                        </select>
+                    </div>
+                    <div class="col-sm-1"></div>
+                </div>
+
                 <div class="row mt-5">
                     <div class="col-10 mx-5" id="admin-roles">
-                        @foreach (var item in Model.allRoles)
+                        @if (Model.accountType == 1)
                         {
-                            if (item.AccountType == 1)
+                            @foreach (var item in Model.allRoles)
                             {
-                                <div class="d-inline-block mb-1">
-                                    <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
-                                    <input class="checkboxes" type="checkbox" style="height: 15px;width: 15px;" />
-                                    <span class="me-2">@item.Name</span>
-                                </div>
+                                if (item.AccountType == 1)
+                                {
+                                    <div class="d-inline-block mb-1">
+                                        <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
+                                        <input class="checkboxes" type="checkbox" @(Model.roleMenus.Any(r => r.MenuId == item.MenuId) ? "checked" : "") style="height: 15px;width: 15px;" />
+                                        <span class="me-2">@item.Name</span>
+                                    </div>
+                                }
                             }
                         }
                     </div>
 
-                    <div class="col-10 mx-5" id="physician-roles" style="display: none;">
-                        @foreach (var item in Model.allRoles)
+                    <div class="col-10 mx-5" id="physician-roles">
+                        @if (Model.accountType == 2)
                         {
-                            if (item.AccountType == 2)
+                            @foreach (var item in Model.allRoles)
                             {
-                                <div class="d-inline-block mb-1">
-                                    <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
-                                    <input class="checkboxes" type="checkbox" style="height: 15px;width: 15px;" />
-                                    <span class="me-2">@item.Name</span>
-                                </div>
+                                if (item.AccountType == 2)
+                                {
+                                    <div class="d-inline-block mb-1">
+                                        <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
+                                        <input class="checkboxes" type="checkbox" @(Model.roleMenus.Any(r => r.MenuId == item.MenuId) ? "checked" : "") style="height: 15px;width: 15px;" />
+                                        <span class="me-2">@item.Name</span>
+                                    </div>
+                                }
                             }
                         }
                     </div>
@@ -70,10 +98,49 @@
                 <div class="row">
                     <div class="form-floating col mt-4 mb-4 lastbutton float-end" id="submitDivv">
                         <button type="button" class="btn btn-outline-info me-3 float-end" onclick="cancelRoles()">Cancel</button>
-                        <button type="button" class="btn btn-info text-white float-end me-3" onclick="saveRoles()">Save</button>
+                        <button type="button" class="btn btn-info text-white float-end me-3" onclick="saveRoles(@Model.roleId)">Save</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
+
+<script>
+    function cancelRoles() {
+        location.reload();
+    }
+
+    function saveRoles(roleId) {
+        var selectedMenuId = [];
+        var checkedBoxes = document.querySelectorAll('.checkboxes:checked');
+        if (checkedBoxes.length == 0) {
+            alert("No checkboxes are selected!");
+            return;
+        }
+
+        for (var i = 0; i < checkedBoxes.length; i++) {
+            var currentCheckBox = checkedBoxes[i];
+            var menuIdValue = currentCheckBox.parentElement.querySelector('.menu-id-input').value;
+            console.log(menuIdValue);
+            selectedMenuId.push(menuIdValue);
+        }
+        var menuIdStr = selectedMenuId.join(',');
+        console.log(menuIdStr);
+        $.ajax({
+            url: '/Admin/EditRoleSubmit',
+            type: 'POST',
+            dataType: 'html',
+            data: {
+                menuIdString: menuIdStr, roleid: roleId
+            },
+            success: function (response) {
+                console.log("hey");
+            },
+            error: function () {
+                alert("An error occurred");
+            }
+        });
+        console.log("Hello");
+    }
+</script>
