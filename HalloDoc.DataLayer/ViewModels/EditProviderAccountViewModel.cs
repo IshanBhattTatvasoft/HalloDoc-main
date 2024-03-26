@@ -11,12 +11,13 @@ namespace HalloDoc.DataLayer.ViewModels;
 
 public class EditProviderAccountViewModel
 {
-    public string UserName { get; set; }
-
+    public string? UserName { get; set; }
+    public List<Role> allRoles { get; set; }
     [Required(ErrorMessage = "Please enter the  Password")]
     public string Password { get; set; }
     public string status { get; set; }
-    public string Role { get; set; }
+    public int Role { get; set; }
+    public int selectedRole { get; set; }
 
     [Required(ErrorMessage = "Please enter the  First name")]
     public string FirstName { get; set; }
@@ -68,5 +69,11 @@ public class EditProviderAccountViewModel
     public bool? LicensedDoc { get; set; }
     public bool? LicensedDocName { get; set; }
     public AdminNavbarModel adminNavbarModel { get; set; }
+    public IFormFile? ContractAgreementFile { get; set; }
+    public IFormFile? BackgroundCheckFile { get; set; }
+    public IFormFile? HippaFile { get; set; }
+    public IFormFile? NonDisclosureAgreement { get; set; }
+    public int roleId { get; set; }
+    public int? regionId { get; set; }
 }
 

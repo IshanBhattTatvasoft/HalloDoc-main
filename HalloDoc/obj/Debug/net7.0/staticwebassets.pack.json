@@ -5,12 +5,24 @@
       "PackagePath": "staticwebassets\\HalloDoc.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.csv",
-      "PackagePath": "staticwebassets\\Physician\\1\\AgreementDoc.csv"
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\1\\AgreementDoc.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\BackgroundDoc.docx",
-      "PackagePath": "staticwebassets\\Physician\\1\\BackgroundDoc.docx"
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\1\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\1\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\LicenseDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\1\\LicenseDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\NonDisclosure.pdf",
+      "PackagePath": "staticwebassets\\Physician\\1\\NonDisclosure.pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Profile.png",
@@ -19,6 +31,22 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Signature.png",
       "PackagePath": "staticwebassets\\Physician\\1\\Signature.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\3\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\3\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\3\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\Signature.png",
+      "PackagePath": "staticwebassets\\Physician\\3\\Signature.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\admin-dashboard.css",

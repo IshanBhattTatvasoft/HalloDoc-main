@@ -120,7 +120,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 CurrentPage = page,
                 PageSize = pageSize,
                 TotalItems = query.Count(),
-                TotalPages = (int)Math.Ceiling((double)query.Count()/pageSize),
+                TotalPages = (int)Math.Ceiling((double)query.Count() / pageSize),
             };
             return adminDashboardViewModel;
         }
@@ -169,11 +169,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return pr;
         }
 
-        ProviderMenuViewModel IAdminInterface.ProviderMenuFilteredData(AdminNavbarModel an, int?region, int page = 1, int pageSize = 10)
+        ProviderMenuViewModel IAdminInterface.ProviderMenuFilteredData(AdminNavbarModel an, int? region, int page = 1, int pageSize = 10)
         {
             IQueryable<Physician> phy = _context.Physicians.Include(pn => pn.PhysicianNotifications);
 
-            if(region!=null && region!=-1)
+            if (region != null && region != -1)
             {
                 phy = phy.Where(p => p.RegionId == region);
             }
@@ -198,7 +198,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             bool val = pn.IsNotificationStopped[0];
             if (val)
             {
-                pn.IsNotificationStopped = new BitArray(1,false);
+                pn.IsNotificationStopped = new BitArray(1, false);
             }
             else
             {
@@ -251,7 +251,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Request r = _context.Requests.Where(r => r.RequestId == model.RequestId).FirstOrDefault();
             User u = _context.Users.Where(u => u.UserId == r.UserId).FirstOrDefault();
             RequestNote rn = _context.RequestNotes.Where(r => r.RequestId == model.RequestId).FirstOrDefault();
-            if(rn == null)
+            if (rn == null)
             {
                 RequestNote rn1 = new RequestNote();
                 rn1.AdminNotes = model.AdminNotes;
@@ -755,26 +755,26 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             return _context.Menus.ToList();
         }
-        
+
         public void CreateNewRole2(string name, string acType, string adminName, List<int> menuIds)
         {
             Role r = new Role();
             r.Name = name;
-            if(acType == "Admin")
+            if (acType == "Admin")
             {
                 r.AccountType = 1;
             }
-            else if(acType == "Physician")
+            else if (acType == "Physician")
             {
                 r.AccountType = 2;
             }
             r.CreatedDate = DateTime.Now;
-            r.IsDeleted = new BitArray(1,false);
+            r.IsDeleted = new BitArray(1, false);
             r.CreatedBy = adminName;
             _context.Roles.Add(r);
             _context.SaveChanges();
-            
-            foreach(var item in menuIds)
+
+            foreach (var item in menuIds)
             {
                 RoleMenu rm = new RoleMenu();
                 rm.MenuId = item;
@@ -820,12 +820,22 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             foreach (var item in menuIds)
             {
                 bool r = _context.RoleMenus.Where(r => r.RoleId == roleid).Any(rom => rom.MenuId == item);
-                if(r==false)
+                if (r == false)
                 {
                     RoleMenu rm = new RoleMenu();
                     rm.MenuId = item;
                     rm.RoleId = roleid;
                     _context.RoleMenus.Add(rm);
+                }
+            }
+            List<RoleMenu> rm2 = _context.RoleMenus.Where(r => r.RoleId == roleid).ToList();
+            foreach (RoleMenu rmItem in rm2)
+            {
+                int menuId = rmItem.MenuId;
+                if (!menuIds.Contains(menuId))
+                {
+                    RoleMenu r = _context.RoleMenus.Where(rm => rm.RoleId == roleid && rm.MenuId == menuId).FirstOrDefault();
+                    _context.RoleMenus.Remove(r);
                 }
             }
 
@@ -1080,6 +1090,87 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             physician.BusinessName = model.BusinessName;
             physician.BusinessWebsite = model.BusinessWebsite;
             physician.AdminNotes = model.AdminNotes;
+            _context.SaveChanges();
+        }
+
+        public void DeletePhysicianAccount(int id)
+        {
+            Physician p = _context.Physicians.Where(p => p.PhysicianId == id).FirstOrDefault();
+            p.IsDeleted = new BitArray(1, true);
+            _context.Physicians.Update(p);
+            _context.SaveChanges();
+        }
+
+        public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId)
+        {
+            AspNetUser anu = new AspNetUser();
+            AspNetUserRole anur = new AspNetUserRole();
+            Physician p = new Physician();
+
+            anu.UserName = "MD." + model.LastName + "." + model.FirstName[0];
+            anu.PasswordHash = model.Password;
+            anu.Email = model.Email;
+            anu.PhoneNumber = model.Phone;
+            anu.CreatedDate = DateTime.Now;
+            _context.AspNetUsers.Add(anu);
+            _context.SaveChanges();
+
+            anur.UserId = anu.Id;
+            anur.RoleId = (int)model.roleId;
+            _context.AspNetUserRoles.Add(anur);
+
+            p.AspNetUserId = anu.Id;
+            p.FirstName = model.FirstName;
+            p.LastName = model.LastName;
+            p.Email = model.Email;
+            p.Mobile = model.Phone;
+            p.Photo = model.Photo.FileName;
+            p.AdminNotes = model.AdminNotes;
+            p.IsAgreementDoc = model.ContractAgreementFile == null ? new BitArray(1, false) : new BitArray(1, true);
+            p.IsBackgroundDoc = model.BackgroundCheckFile == null ? new BitArray(1, false) : new BitArray(1, true);
+            p.IsTrainingDoc = model.HippaFile == null ? new BitArray(1, false) : new BitArray(1, true);
+            p.IsNonDisclosureDoc = model.NonDisclosureAgreement == null ? new BitArray(1, false) : new BitArray(1, true);
+            p.Address1 = model.Address1;
+            p.Address2 = model.Address2;
+            p.City = model.City;
+            p.RegionId = model.regionId;
+            p.Zip = model.Zip;
+            p.AltPhone = model.MailingPhoneNo;
+            p.CreatedBy = userId;
+            p.CreatedDate = DateTime.Now;
+            p.Status = 1;
+            p.BusinessName = model.BusinessName;
+            p.BusinessWebsite = model.BusinessWebsite;
+            p.IsDeleted = new BitArray(1, false);
+            p.RoleId = model.roleId;
+            _context.Physicians.Add(p);
+            _context.SaveChanges();
+
+            foreach (var item in regionNames)
+            {
+                PhysicianRegion pr = new PhysicianRegion();
+                pr.PhysicianId = p.PhysicianId;
+                pr.RegionId = item;
+                _context.PhysicianRegions.Add(pr);
+            }
+
+            if (model.ContractAgreementFile != null)
+            {
+                SetAllDocOfPhysician(model.ContractAgreementFile, p.PhysicianId, 1);
+            }
+            if (model.BackgroundCheckFile != null)
+            {
+                SetAllDocOfPhysician(model.BackgroundCheckFile, p.PhysicianId, 2);
+            }
+            if (model.HippaFile != null)
+            {
+                SetAllDocOfPhysician(model.HippaFile, p.PhysicianId, 3);
+            }
+            if (model.NonDisclosureAgreement != null)
+            {
+                SetAllDocOfPhysician(model.NonDisclosureAgreement, p.PhysicianId, 4);
+            }
+
             _context.SaveChanges();
         }
     }

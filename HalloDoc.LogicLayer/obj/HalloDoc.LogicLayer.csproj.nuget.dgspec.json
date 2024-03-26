@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj": {}
+    "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj": {}
   },
   "projects": {
-    "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {
+    "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
+        "projectUniqueName": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
         "projectName": "HalloDoc.DataLayer",
-        "projectPath": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
-        "packagesPath": "C:\\Users\\iisha\\.nuget\\packages\\",
-        "outputPath": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.DataLayer\\obj\\",
+        "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj",
+        "packagesPath": "C:\\Users\\pca141\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\iisha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pca141\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -101,21 +101,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj": {
+    "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj",
+        "projectUniqueName": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj",
         "projectName": "HalloDoc.LogicLayer",
-        "projectPath": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj",
-        "packagesPath": "C:\\Users\\iisha\\.nuget\\packages\\",
-        "outputPath": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.LogicLayer\\obj\\",
+        "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.LogicLayer\\HalloDoc.LogicLayer.csproj",
+        "packagesPath": "C:\\Users\\pca141\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.LogicLayer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\iisha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\pca141\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -129,8 +129,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {
-                "projectPath": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj"
+              "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj": {
+                "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc.DataLayer\\HalloDoc.DataLayer.csproj"
               }
             }
           }
@@ -198,7 +198,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }

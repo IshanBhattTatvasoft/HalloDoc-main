@@ -1920,10 +1920,23 @@ namespace HalloDoc.Controllers
             EditProviderAccountViewModel ep = new EditProviderAccountViewModel();
             ep.adminNavbarModel = an;
             ep.regions = _adminInterface.GetAllRegion();
+            ep.allRoles = _adminInterface.GetAllRoles();
             return View(ep);
         }
 
         [CustomAuthorize("Admin")]
+        public IActionResult CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames)
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 5;
+            _adminInterface.CreateNewProviderAccount(model, regionNames, (int)userId);
+            TempData["success"] = "Provider account created successfully";
+            return RedirectToAction("ProviderMenu");
+        }
+
         // function to return Edit Provider Account view
         public IActionResult EditProviderAccount(int id)
         {
@@ -1975,11 +1988,20 @@ namespace HalloDoc.Controllers
             return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
         }
 
-        // function to save changes of provoder profile
+        // function to save changes of provider profile
         public IActionResult PhysicianProfileUpdate(EditProviderAccountViewModel model)
         {
             _adminInterface.PhysicianProfileUpdate(model);
             return RedirectToAction("EditProviderAccount", new { id = model.PhysicianId });
+        }
+
+        
+
+        public IActionResult DeletePhysicianAccount(int id)
+        {
+            _adminInterface.DeletePhysicianAccount(id);
+            TempData["success"] = "Account deleted successfully";
+            return RedirectToAction("ProviderMenu");
         }
 
         [CustomAuthorize("Admin")]
@@ -2086,6 +2108,19 @@ namespace HalloDoc.Controllers
             _adminInterface.EditRoleSubmitAction(roleid, menuIds);
             TempData["success"] = "Role edited successfully";
             return RedirectToAction("AccountAccess");
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult CreateAdminAccount()
+        {
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 5;
+            CreateAdminAccountViewModel ca = new CreateAdminAccountViewModel();
+            ca.adminNavbarModel = an;
+            return View(ca);
         }
     }
 }

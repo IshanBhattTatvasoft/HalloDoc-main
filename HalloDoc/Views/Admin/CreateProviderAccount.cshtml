@@ -24,174 +24,322 @@
         visibility: hidden;
     }
 
+    #backdesign {
+        border-radius: 5px;
+        border: 2px solid #84D3E6;
+        padding: 8px;
+        min-width: 80px;
+    }
+
+    hr {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0);
+    }
+
 </style>
 
 <body class="bg-light">
     <div class="bg-light" style="overflow: hidden;">
         <partial name="Toast" />
         <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
-        
-        <div class="container">
-            <div class="row">
-                <div style="top: 42px; position: relative;" class="col">
-                    <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-chevron-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+
+        <div class="container mt-4 shadowalign-content-lg-around bg-muted rounded">
+            <div class="row d-flex flex-row">
+                <div class="w-50">
+                    <p class="h5 text-muted fw-bold ms-0" id="heading-one">
+                        Create Provider Account
+                    </p>
+                </div>
+                <div class="w-50">
+                    <a class="float-end text-info" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
                         </svg>
                         Back
                     </a>
                 </div>
+            </div>
+        </div>
 
-                <div class="row">
-                    <div class="col mt-2">
-                        <p class="h5 text-muted fw-bold" id="heading-one">
-                            Create Physician Account
-                        </p>
-                    </div>
+        <div class="container mt-2 shadow-lg p-3 mb-5 bg-muted rounded" id="main-container">
+            <div class="row">
+                <div class="col mt-4">
+                    <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                        Account Information
+                    </p>
                 </div>
             </div>
 
-            <div class="shadow border-top mt-2">
+            <div class="row">
+                <div class="form-floating col-sm-4 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="UserName" disabled>
+                    <label for="floatingInput" class="ms-2 text-muted class-for-label">Username (MD.LastName.F)</label>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-floating col-sm-4 mt-3">
+                    <input class="form-control" type="password" asp-for="Password" required />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <div class="form-floating col-sm-4 mt-3">
+                    <select class="mbi form-select" asp-for="selectedRole">
+                        @for(var i=0;i<Model.allRoles.Count;i++)
+                        {
+                            <option value="@Model.allRoles[i].RoleId">@Model.allRoles[i].Name</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col mt-4">
+                    <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                        Administrator Information
+                    </p>
+                </div>
+            </div>
+            <form method="post" asp-action="CreateNewProviderAccount" asp-controller="Admin" enctype="multipart/form-data">
                 <div class="row">
-                    <div class="col mt-4 ps-0">
-                        <p class="h5 text-muted fw-bold ms-0" id="heading-one">
-                            Physician Information
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">First Name</label>
+                        <span asp-validation-for="FirstName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Last Name</label>
+                        <span asp-validation-for="LastName" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Email</label>
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input id="phone" class="form-control" type="tel" asp-for="Phone" required />
+                        <span asp-validation-for="Phone" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="MedicalLicense">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Medical License #</label>
+                        <span asp-validation-for="MedicalLicense" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">NPI Number</label>
+                        <span asp-validation-for="NPI" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-6 form-floating mt-3">
+                        @foreach (var item in Model.regions)
+                        {
+                            <input class="region-check px-1" type="checkbox" name="regionNames" value="@item.RegionId"/>
+                            <span class="me-2">@item.Name</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-4">
+                        <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                            Mailing and Billing Information
                         </p>
                     </div>
                 </div>
-                <form method="post">
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">First Name</label>
-                            <span asp-validation-for="FirstName" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Last Name</label>
-                            <span asp-validation-for="LastName" class="text-danger"></span>
-                        </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Email</label>
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input id="phone" class="form-control" type="tel" asp-for="Phone" required />
-                            <span asp-validation-for="Phone" class="text-danger"></span>
-                        </div>
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address1">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 1</label>
+                        <span asp-validation-for="Address1" class="text-danger"></span>
                     </div>
-
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="MedicalLicense">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Medical License #</label>
-                            <span asp-validation-for="MedicalLicense" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">NPI Number</label>
-                            <span asp-validation-for="NPI" class="text-danger"></span>
-                        </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address2">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 2</label>
+                        <span asp-validation-for="Address2" class="text-danger"></span>
                     </div>
+                </div>
 
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="SyncEmail">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Synchronization Email Address</label>
-                            <span asp-validation-for="SyncEmail" class="text-danger"></span>
-                        </div>
-                        <div class="col-sm-6 form-floating mt-3">
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">City</label>
+                        <span asp-validation-for="City" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select class="mbi form-select" aria-label="Default select example" asp-for="regionId">
+                            <option value="-1" class="bg-white" selected>Select Region</option>
                             @foreach (var item in Model.regions)
                             {
-                                <input class="region-check" type="checkbox"/>
-                                <span>@item.Name</span>
+                                <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zip">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Zip</label>
+                        <span asp-validation-for="Zip" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input id="phone1" class="form-control" type="tel" asp-for="MailingPhoneNo" required />
+                        <span asp-validation-for="MailingPhoneNo" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-4">
+                        <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                            Provider Profile
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessName">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Business Name</label>
+                        <span asp-validation-for="BusinessName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessWebsite">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Business Website</label>
+                        <span asp-validation-for="BusinessWebsite" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <div class="d-flex gap-0">
+                            <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" asp-for="Photo" />
+                            <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col mt-3">
+                        <textarea asp-for="AdminNotes" rows="4" style="min-height: calc(4em + 1.5rem);height: calc(4em + 1.5rem);resize: none;" placeholder="Admin Notes" class="form-control border border-info" id="exampleTextarea" rows="4"></textarea>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Admin Notes</label>
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row">
+                    <div class="col mt-4">
+                        <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                            Onboarding
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="form-check d-flex justify-content-between col-6">
+                            <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                                   id="Contract" name="checkbox_group"
+                            @if (Model.Contract == true)
+                            {
+                                <text>checked</text>
+                            }
+                            />
+                            <p class="ms-1">Independent Contract Agreement</p>
+                        </div>
+                        <div class="d-flex justify-content-between col-4">
+                            <input type="file" class="form-control btn btn-info text-white" id="contract" value="Upload" onchange="UploadDoc('1')" asp-for="ContractAgreementFile" hidden />
+                            <label class="btn btn-info text-white" for="contract">Upload</label>
+                            @if (Model.Contract == true)
+                            {
+                                <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/AgreementDoc.pdf" target="_blank">View</a>
                             }
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="col mt-4 ps-0">
-                            <p class="h5 text-muted fw-bold ms-0" id="heading-one">
-                                Mailing & Billing Information
-                            </p>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="form-check d-flex justify-content-between col-6">
+                            <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                                   id="Background" name="checkbox_group"
+                            @if (Model.BackgroundCheck == true)
+                            {
+                                <text>checked</text>
+                            }
+                            />
+                            <p>Background Check</p>
                         </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address1">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 1</label>
-                            <span asp-validation-for="Address1" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address2">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 2</label>
-                            <span asp-validation-for="Address2" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">City</label>
-                            <span asp-validation-for="City" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating col-sm-6 mt-3">
-                            <select class="mbi form-select" aria-label="Default select example">
-                                <option value="-1" class="bg-white" selected>Select Region</option>
-                                @foreach (var item in Model.regions)
+                        <div class="d-flex justify-content-between col-4">
+                            <input type="file" class="form-control btn btn-info text-white" id="BackgroundCheck" value="Upload" onchange="UploadDoc('2')" asp-for="BackgroundCheckFile" hidden />
+                            <label class="btn btn-info text-white" for="BackgroundCheck">Upload</label>
+                            <div>
+                                @if (Model.BackgroundCheck == true)
                                 {
-                                    <option value="@item.RegionId" class="bg-white">@item.Name</option>
+                                    <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/BackgroundDoc.pdf" target="_blank">View</a>
                                 }
-                            </select>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zip">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Zip</label>
-                            <span asp-validation-for="Zip" class="text-danger"></span>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="form-check d-flex justify-content-between col-6">
+                            <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                                   id="Contract" name="checkbox_group"
+                            @if (Model.Compilance == true)
+                            {
+                                <text>checked</text>
+                            }
+                            />
+                            <p>HIPAA Compliance</p>
                         </div>
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input id="phone1" class="form-control" type="tel" asp-for="MailingPhoneNo" required />
-                            <span asp-validation-for="MailingPhoneNo" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col mt-4 ps-0">
-                            <p class="h5 text-muted fw-bold ms-0" id="heading-one">
-                                Provider Profile
-                            </p>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessName">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Business Name</label>
-                            <span asp-validation-for="BusinessName" class="text-danger"></span>
-                        </div>
-                        <div class="form-floating col-sm-6 mt-3">
-                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessWebsite">
-                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Business Website</label>
-                            <span asp-validation-for="BusinessWebsite" class="text-danger"></span>
+                        <div class="d-flex justify-content-between col-4">
+                            <input type="file" class="form-control btn btn-info text-white" id="Compilance" value="Upload" onchange="UploadDoc('3')" asp-for="HippaFile" hidden />
+                            <label class="btn btn-info text-white" for="Compilance">Upload</label>
+                            @if (Model.Compilance == true)
+                            {
+                                <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/Compilance.pdf">View</a>
+                            }
                         </div>
                     </div>
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <div class="form-check d-flex justify-content-between col-6">
+                            <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                                   id="Contract" name="checkbox_group"
+                            @if (Model.NonDisclosure == true)
+                            {
+                                <text>checked</text>
+                            }
+                            />
+                            <p>Non-disclosure Agreement</p>
+                        </div>
+                        <div class="d-flex justify-content-between col-4">
+                            <input type="file" class="form-control btn btn-info text-white" id="NonDisclosure" value="Upload" onchange="UploadDoc('4')" asp-for="NonDisclosureAgreement" hidden />
+                            <label class="btn btn-info text-white" for="NonDisclosure">Upload</label>
+                            @if (Model.NonDisclosure == true)
+                            {
+                                <button class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/NonDisclosure.pdf">View</button>
+                            }
+                        </div>
+                    </div>
+                    
+                    <hr />
 
-                    @*LEFT FROM HERE*@
+                    <div class="form-floating col mt-4 lastbutton float-end" id="submitDivv">
+                        <button type="submit" class="btn btn-success float-end me-3">Create Account</button>
+                    </div>
+                </div>
 
 
-                </form>
-            </div>
+            </form>
         </div>
+
     </div>
 
 
@@ -211,4 +359,12 @@
         utilsScript:
             "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
     });
+
+    function getRoleVal()
+    {
+        console.log("Hello");
+        document.getElementById("hiddenRole").value = document.getElementById("roleVal").value
+    }
+
+    
 </script>

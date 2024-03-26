@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="~/css/AdminDashboard.css" />
     <style>
         .accordion-button::after {
@@ -46,7 +49,7 @@
 </head>
 <body>
     <partial name="Toast" />
-    <partial name="HeaderFooter" model="@Model.adminNavbarModel"/>
+    <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
 
     <div class="container-sm container-fluid">
         <div class="d-flex justify-content-between align-items-center mt-3">
@@ -88,7 +91,7 @@
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
                     <select class="form-select mb-3" id="Role" name="Role" disabled>
-                        @foreach(var item in Model.roles)
+                        @foreach (var item in Model.roles)
                         {
                             <option value="@item.RoleId">@item.Name</option>
                         }
@@ -153,7 +156,7 @@
                 <div class="col-md-6 mb-3 form-floating">
                     <input type="text"
                            class="form-control Change1 bg-secondary-subtle"
-                           id="Phone phone"
+                           id="Phone1 phone1"
                            placeholder="Medical Licence"
                            disabled
                            asp-for="MedicalLicense" />
@@ -163,7 +166,7 @@
                 <div class="col-md-6 mb-3 form-floating">
                     <input type="text"
                            class="form-control Change1 bg-secondary-subtle"
-                           id="Phone phone"
+                           id="Phone2 phone2"
                            placeholder="NPI Number"
                            disabled
                            asp-for="NPI" />
@@ -173,7 +176,7 @@
                 <div class="col-md-6 mb-3 form-floating">
                     <input type="email"
                            class="form-control Change1 bg-secondary-subtle"
-                           id="Phone phone"
+                           id="Phone3 phone3"
                            placeholder="Synchronizing Email Address"
                            disabled
                            asp-for="SyncEmail" />
@@ -375,20 +378,15 @@
                         <p class="ms-1">Independent Contract Agreement</p>
                     </div>
                     <div class="d-flex justify-content-start col-4">
-                        <input type="file"
-                               class="form-control btn btn-info text-white "
-                               id="contract"
-                               value="Upload"
-                               onchange="UploadDoc('1')"
-                               hidden />
+                        <input type="file" class="form-control btn btn-info text-white" id="contract" value="Upload" onchange="UploadDoc('1')" hidden />
                         <label class="btn btn-info text-white" for="contract">Upload</label>
                         @if (Model.Contract == true)
                         {
-                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/AgreementDoc.docx', '_blank')">View</button>
+                            <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/AgreementDoc.pdf" target="_blank">View</a>
                         }
                     </div>
                 </div>
-                <div class="d-flex  align-items-center mb-2">
+                <div class="d-flex align-items-center mb-2">
                     <div class="form-check col-6">
                         <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
                                id="Background" name="checkbox_group"
@@ -400,18 +398,12 @@
                         <p>Background Check</p>
                     </div>
                     <div class="d-flex justify-content-start col-4">
-                        <input type="file"
-                               class="form-control btn btn-info text-white"
-                               id="BackgroundCheck"
-                               value="Upload"
-                               onchange="UploadDoc('2')"
-                               hidden />
+                        <input type="file" class="form-control btn btn-info text-white" id="BackgroundCheck" value="Upload" onchange="UploadDoc('2')" hidden />
                         <label class="btn btn-info text-white" for="BackgroundCheck">Upload</label>
                         <div>
-
                             @if (Model.BackgroundCheck == true)
                             {
-                                <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/BackgroundDoc.docx', '_blank')">View</button>
+                                <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/BackgroundDoc.pdf" target="_blank">View</a>
                             }
                         </div>
                     </div>
@@ -428,16 +420,11 @@
                         <p>HIPAA Compliance</p>
                     </div>
                     <div class="d-flex justify-content-start col-4">
-                        <input type="file"
-                               class="form-control btn btn-info text-white "
-                               id="Compilance"
-                               value="Upload"
-                               onchange="UploadDoc('3')"
-                               hidden />
+                        <input type="file" class="form-control btn btn-info text-white" id="Compilance" value="Upload" onchange="UploadDoc('3')" hidden />
                         <label class="btn btn-info text-white" for="Compilance">Upload</label>
                         @if (Model.Compilance == true)
                         {
-                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/Compilance.docx', '_blank')">View</button>
+                            <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/Compilance.pdf">View</a>
                         }
                     </div>
                 </div>
@@ -453,16 +440,11 @@
                         <p>Non-disclosure Agreement</p>
                     </div>
                     <div class="d-flex justify-content-start col-4">
-                        <input type="file"
-                               class="form-control btn btn-info text-white"
-                               id="NonDisclosure"
-                               value="Upload"
-                               onchange="UploadDoc('4')"
-                               hidden />
+                        <input type="file" class="form-control btn btn-info text-white" id="NonDisclosure" value="Upload" onchange="UploadDoc('4')" hidden />
                         <label class="btn btn-info text-white" for="NonDisclosure">Upload</label>
                         @if (Model.NonDisclosure == true)
                         {
-                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/NonDisclosure.docx', '_blank')">View</button>
+                            <button class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/NonDisclosure.pdf">View</button>
                         }
                     </div>
                 </div>
@@ -478,12 +460,8 @@
                         <p>License Document</p>
                     </div>
                     <div class="d-flex justify-content-start col-4">
-                        <input type="file"
-                               class="form-control btn btn-info text-white"
-                               id="LicensedDoc"
-                               value="Upload"
-                               onchange="UploadDoc('5')"
-                               hidden />
+                        <input type="file" class="form-control btn btn-info text-white"  id="LicensedDoc"
+                               value="Upload" onchange="UploadDoc('5')" hidden />
                         <label class="btn btn-info text-white " for="LicensedDoc">Upload</label>
                         @if (Model.LicensedDoc == true)
                         {
@@ -493,8 +471,9 @@
                     </div>
                 </div>
             </div>
-            <div class="d-flex justify-content-end border-1 border-top border-dark-subtle pt-2">
-                <a class="btn btn-danger text-white" asp-controller="Admin" asp-action="DeletePhysicianAccount" asp-route-id="@Model.PhysicianId">Delete Account</a>
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn my-2 bg-info text-white rounded me-2">Save</button>
+                <a class="btn btn-danger text-white my-2 rounded me-2" asp-controller="Admin" asp-action="DeletePhysicianAccount" asp-route-id="@Model.PhysicianId">Delete Account</a>
             </div>
         </div>
     </div>
@@ -560,23 +539,56 @@
 
         document.getElementById('selectedRegionsList').value = selectedRegions.join(',');
     }
-    function showDocument(file, target) {
-        var url = '@Url.Content("~/Physician/")' + file;
-        window.open(url, target);
-    }
-    // function showDocument(url) {
-    //     url = "~/Physician/" + url;
-    //     const container = document.getElementById("document-container");
-    //     const iframe = document.createElement("iframe");
-    //     console.log("hello");
-    //     iframe.src = url;
-    //     iframe.width = "100%";
-    //     iframe.height = "800px";
-    //     iframe.frameBorder = "0";
 
-    //     container.innerHTML = "";
-    //     container.appendChild(iframe);
-    // }
+    //document.getElementById('contract').addEventListener('change', function () {
+    //    if (this.files.length > 0) {
+    //        if (validateFileType(this)) {
+    //            document.getElementById('contractView').classList.remove("d-none");
+    //            document.getElementById('contractView').setAttribute("href", URL.createObjectURL(this.files[0]));
+    //            document.getElementById('contractView').setAttribute("target", "_blank");
+    //        }
+    //    } else {
+    //        document.getElementById('contractView').classList.add("d-none");
+    //    }
+    //});
+
+    //document.getElementById('BackgroundCheck').addEventListener('change', function () {
+    //    if (this.files.length > 0) {
+    //        if (validateFileType(this)) {
+    //            document.getElementById('BackgroundCheckView').classList.remove("d-none");
+    //            document.getElementById('BackgroundCheckView').setAttribute("href", URL.createObjectURL(this.files[0]));
+    //            document.getElementById('BackgroundCheckView').setAttribute("target", "_blank");
+    //        }
+    //    } else {
+    //        document.getElementById('BackgroundCheckView').classList.add("d-none");
+    //    }
+    //});
+
+    //document.getElementById('NonDisclosure').addEventListener('change', function () {
+    //    if (this.files.length > 0) {
+    //        if (validateFileType(this)) {
+    //            document.getElementById('NonDisclosureView').classList.remove("d-none");
+    //            document.getElementById('NonDisclosureView').setAttribute("href", URL.createObjectURL(this.files[0]));
+    //            document.getElementById('NonDisclosureView').setAttribute("target", "_blank");
+    //        }
+    //    }
+    //    else {
+    //        document.getElementById('NonDisclosureView').classList.add("d-none");
+    //    }
+    //});
+
+    //document.getElementById('LicensedDoc').addEventListener('change', function () {
+    //    if (this.files.length > 0) {
+    //        if (validateFileType(this)) {
+    //            document.getElementById('LicensedDocView').classList.remove("d-none");
+    //            document.getElementById('LicensedDocView').setAttribute("href", URL.createObjectURL(this.files[0]));
+    //            document.getElementById('LicensedDocView').setAttribute("target", "_blank");
+    //        }
+    //    } else {
+    //        document.getElementById('LicensedDocView').classList.add("d-none");
+    //    }
+    //});
+
     function UploadDoc(num) {
         var doc;
         var PhysicianId = document.getElementById('IdOfP').value;
@@ -589,25 +601,47 @@
         var files = doc.files[0];
         var formData = new FormData();
         // Append the selected file to the FormData object
-        formData.append("file", files);
-        formData.append("PhysicianId", PhysicianId);
-        formData.append("num", num);
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("SetAllDocOfPhysician", "Admin")",
-            data: formData,
-            processData: false,
-            contentType: false,
-            success: function (result) {
-                // Handle success
-                console.log("Done");
-                window.location.href = `EditPhysicianAccount?id=${PhysicianId}`;
-            },
-            error: function (error) {
-                // Handle error
-                console.error(error);
-            }
-        });
+        if(validateFileType(doc))
+        {
+            formData.append("file", files);
+            formData.append("PhysicianId", PhysicianId);
+            formData.append("num", num);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetAllDocOfPhysician", "Admin")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle success
+                    console.log("Done");
+                    location.reload();
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            });
+        }
+    }
+
+    function validateFileType(input) {
+        console.log(input.value);
+        const allowedExtensions = /(\.pdf)$/i;
+        if (!allowedExtensions.exec(input.value)) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Only PDF Files Are Allowed!",
+            });
+            input.value = '';
+            console.log("false");
+            return false;
+        }
+        else {
+            console.log("true");
+            return true;
+        }
     }
 
     function SaveSign(num) {
@@ -680,6 +714,6 @@
         }
     }
 
-
+    
 
 </script>

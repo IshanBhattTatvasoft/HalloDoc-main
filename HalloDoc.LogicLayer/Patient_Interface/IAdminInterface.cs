@@ -98,6 +98,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void SetAllDocOfPhysician(IFormFile file, int id, int num);
         public void PhysicianProfileUpdate(EditProviderAccountViewModel model);
         public void ChangeNotificationValue(int id);
+        public void DeletePhysicianAccount(int id);
+        public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId);
 
 
     }
