@@ -16,64 +16,16 @@
 }
 
 <div class="me-1 ms-1 main-body">
-    @*Cancel Case Modal*@
 
-    @*<div class="modal fade"
-    id="exampleModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-    <div class="modal-header bg-info">
-    <h5 class="modal-title text-white" id="exampleModalLabel">
-    Confirm Cancellation
-    </h5>
-    <button type="button"
-    class="btn-close"
-    data-bs-dismiss="modal"
-    aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-    <form id="requestForm">
-    <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold">test test</span></p>
-    <div class="dropdown text-light mb-3 w-100">
-    <button class="btn btn-outline-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi bi-person"></i> Reason For Cancellation</button>
-    <ul class="dropdown-menu w-100" style="font-size:0.9rem;">
-    <li><a class="dropdown-item" href="#">Reason-1</a></li>
-    <li><a class="dropdown-item" href="#">Reason-2</a></li>
-    <li><a class="dropdown-item" href="#">Reason-3</a></li>
-    <li><a class="dropdown-item" href="#">Reason-3</a></li>
-    </ul>
-    </div>
-    <div class="form-group">
-    <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Providers additional Notes" rows="5"></textarea>
-    </div>
-    </form>
-    </div>
-    <div class="text-end mb-3 me-3">
-    <button type="button" class="btn btn-info text-white" id="continueBtn">Confirm</button>
-    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
-    Cancel
-    </button>
-    </div>
-
-    </div>
-    </div>
-    </div>*@
-
+                        @* Partial view of toaster and header *@
     <partial name="Toast" />
-
     <partial name="HeaderFooter" model="@Model.an" />
 
 
 
     <div id="main-sub-div" class="tabcontent">
+                        <!-- boxes of 6 states -->
         <div class="row mt-5">
-
-            <!-- boxes of states -->
-
-
             <a class="col-4 col-lg-2 custom-btn cursor-pointer" style="text-decoration: none;">
                 <div class="state newState newState-active ms-1" onclick="changeStatus(this)">
                     <div class="d-flex align-items-center state-sub-div">
@@ -143,11 +95,11 @@
                 <img src="~/images/caret-down-fill5.svg" id="unpaidState-img" class="caret hide-caret" />
             </a>
         </div>
-        <!-- DONE TILL HERE (6 STATES) -->
-        <!-- Patient (new) and 5 buttons row -->
+                        <!-- Patient (new) and 5 buttons row -->
 
         <div class="mt-5 ps-4 pe-4 dashboard-sub-div">
             <h4 class="patient-title ms-3">Patients <span id="status-text">(New)</span></h4>
+                        @* Five blue buttons on right side of the row *@
             <div class="rounded d-flex">
                 <button class="five-blue-buttons" data-bs-toggle="modal" data-bs-target="#sendLinkModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
@@ -197,46 +149,8 @@
             </div>
         </div>
 
+                        @* Div for search, region dropdown and all 5 types of buttons (all, patient, family, business and concierge) *@
         <div class="dashboard-sub-div-2 mt-4 ms-3 me-3">
-            <!-- <div class="dashboard-sub-div-2-sub d-flex justify-content-between align-items-center mt-3 flex-wrap">
-                <div class="search-div d-sm-flex d-block">
-                    <div class="search-div-sub d-flex align-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray"
-                            class="bi bi-search me-1" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                        <input placeholder="Search Patients" class="searchPatientInput" type="text" />
-                    </div>
-                    <div class="search-div-sub-2 d-flex align-items-center ms-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="gray"
-                            class="bi bi-search me-1" viewBox="0 0 16 16">
-                            <path
-                                d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0" />
-                        </svg>
-                        <input placeholder="All Regions" type="text" class="searchPatientInput" />
-                    </div>
-                </div>
-                <div class="categories-div d-sm-flex d-inline-block align-items-center">
-                    <button class="categories-div-all-button ps-3 pe-3 me-2">All</button>
-                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
-                        <div class="categories-div-sub-sub" style="background-color: #10bb0d;"></div>
-                        <span style="color:gray" class="categories-div-sub-text">Patient</span>
-                    </div>
-                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
-                        <div class="categories-div-sub-sub" style="background-color: rgb(238, 196, 11);"></div>
-                        <span style="color:gray" class="categories-div-sub-text">Family/Friend</span>
-                    </div>
-                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
-                        <div class="categories-div-sub-sub" style="background-color: rgb(236, 91, 116);"></div>
-                        <span style="color:gray" class="categories-div-sub-text">Business</span>
-                    </div>
-                    <div class="categories-div-sub me-3 ms-3 d-flex align-items-center">
-                        <div class="categories-div-sub-sub" style="background-color: rgb(3, 87, 241);"></div>
-                        <span style="color:gray" class="categories-div-sub-text">Concierge</span>
-                    </div>
-                </div>
-            </div> -->
             <div class="d-flex justify-content-between align-items-center flex-row mb-3 dashboard-sub-div-2-sub">
                 <div class="search-div mt-3 gap-2 d-md-flex d-block">
                     <div class="search-div-sub input-group h-50 mb-2">
@@ -287,139 +201,57 @@
             </div>
         </div>
 
+                        @* div to show output of partial view *@
         <div>
             <div class="mt-4 ms-3 me-3 myTable" id="AdminDashboardPartialView"></div>
         </div>
+    </div>
 
-        
-
-
-        <!-- Button trigger modal -->
-        <!-- Modal -->
-
-    </div>
-    @*<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-    <div class="modal-header">
-    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-    ...
-    </div>
-    <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-    <button type="button" class="btn btn-primary">Save changes</button>
-    </div>
-    </div>
-    </div>
-    </div>*@
-
-    <div class="modal fade"
-         id="exampleModal"
-         tabindex="-1"
-         aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
+                        @* Cancel case modal *@
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
                     <h5 class="modal-title text-white" id="exampleModalLabel">
                         Confirm Cancellation
                     </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="requestForm" method="post" asp-action="CancelCase" asp-controller="Admin">
+                        
                         <input type="number" hidden asp-for="RequestId" id="r-id" />
+                        
                         <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold" id="p-name"></span></p>
+                        
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn btn-outline-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedCaseTagId">
                                 <i class="bi bi-person"></i> Reason For Cancellation
+                             
                                 @foreach (var item in Model.caseTags)
                                 {
                                     <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
                                 }
                             </select>
                         </div>
+                        
                         <div class="form-group">
                             <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Providers additional Notes" rows="5" name="additionalNotes"></textarea>
                         </div>
 
                         <div class="text-end mb-3 me-3 mt-3">
                             <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
-                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
-                                Cancel
-                            </button>
+                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </form>
+                
                 </div>
-
             </div>
         </div>
     </div>
 
-    @*<div class="modal fade"
-    id="sendLinkModal"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel20"
-    aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-    <div class="modal-header bg-info">
-    <p class="modal-title text-white" id="exampleModalLabel20">
-    Send mail to patient for submitting the request
-    </p>
-    <button type="button"
-    class="btn-close"
-    data-bs-dismiss="modal"
-    aria-label="Close"></button>
-    </div>
-    <div class="modal-body">
-    <form id="requestForm" method="post" asp-action="SendLink" asp-controller="Admin">
-    <input type="number" hidden asp-for="RequestId" id="r-id" />
-    <div class="row">
-    <div class="form-floating col-6">
-    <input type="text" asp-for="FirstName" required />
-    <label for="floatingInput" class="ms-2 text-muted">First Name</label>
-    </div>
-    </div>
-    <div class="row">
-    <div class="form-floating col-6">
-    <input type="text" asp-for="LastName" required />
-    <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
-    </div>
-    </div>
-    <div class="row">
-    <div class="form-floating col-6">
-    <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" required />
-    </div>
-    </div>
-    <div class="row">
-    <div class="form-floating col-6">
-    <input type="text" asp-for="email" required />
-    <label for="floatingInput" class="ms-2 text-muted">Email</label>
-    <span asp-validation-for="email"></span>
-    </div>
-    </div>
-    <div class="row">
-    <div class="text-end mb-3 me-3 mt-3">
-    <button type="submit" class="btn btn-info text-white" id="continueBtn">Send</button>
-    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
-    Cancel
-    </button>
-    </div>
-    </div>
-    </form>
-    </div>
-
-    </div>
-    </div>
-    </div>*@
-
+    
+                        @* Send Link Modal *@
     <div class="modal fade " id="sendLinkModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="exampleModalLabel20" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -428,48 +260,49 @@
                     <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></a>
                 </div>
 
-
-
                 <div class="modal-body">
-
                     <form method="post" asp-action="SendLink" asp-controller="Admin">
-
+                
                         <div class="col-sm-12 ">
                             <div class="form-floating mb-3">
                                 <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name" value="" required>
                                 <label for="floatingInput">First Name</label>
                             </div>
                         </div>
+                        
                         <div class="col-sm-12 ">
                             <div class="form-floating mb-3">
                                 <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name" value="" required>
                                 <label for="floatingInput">Last Name</label>
                             </div>
                         </div>
+                        
                         <div class="col-sm-12 ">
                             <div class="form-floating mb-3">
                                 <input id="phone" class="form-control" type="tel" value="" asp-for="PhoneNumber" required />
                             </div>
                         </div>
+                        
                         <div class="col-sm-12">
                             <div class="form-floating mb-3">
                                 <input asp-for="email" type="email" class="form-control" placeholder="Email" value="" required>
                                 <label for="floatingInput">Email</label>
                             </div>
                         </div>
-
+                        
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-info text-white">Send</button>
                             <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
                         </div>
+                    
                     </form>
                 </div>
-
-
             </div>
         </div>
     </div>
 
+
+                    @* Assign Request Modal *@
     <div class="modal fade" id="example2Modal" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -477,10 +310,7 @@
                     <h5 class="modal-title text-white" id="exampleModal2Label">
                         Assign Request
                     </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="requestForm" method="post" asp-action="AssignCaseSubmitAction" asp-controller="Admin">
@@ -498,13 +328,11 @@
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician">
                                 <i class="bi bi-person"></i> Select Physician
-
                             </select>
                         </div>
                         <div class="form-group">
                             <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
                         </div>
-
                         <div class="text-end mb-3 me-3 mt-3">
                             <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
                             <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
@@ -513,26 +341,21 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <div class="modal fade"
-         id="example9Modal"
-         tabindex="-1"
-         aria-labelledby="exampleModal9Label"
-         aria-hidden="true">
+
+
+                    @* Transfer Request Modal *@
+    <div class="modal fade" id="example9Modal" tabindex="-1" aria-labelledby="exampleModal9Label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
                     <h5 class="modal-title text-white" id="exampleModal9Label">
                         Transfer Request
                     </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="requestForm" method="post" asp-action="TransferCaseSubmitAction" asp-controller="Admin">
@@ -550,13 +373,11 @@
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician2">
                                 <i class="bi bi-person"></i> Select Physician
-
                             </select>
                         </div>
                         <div class="form-group">
                             <textarea class="form-control description border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
                         </div>
-
                         <div class="text-end mb-3 me-3 mt-3">
                             <button type="submit" class="btn btn-info text-white" id="continueBtn">Confirm</button>
                             <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
@@ -565,26 +386,21 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 
-    <div class="modal fade"
-         id="example3Modal"
-         tabindex="-1"
-         aria-labelledby="exampleModal3Label"
-         aria-hidden="true">
+
+
+                        @* Block Case Modal *@
+    <div class="modal fade" id="example3Modal" tabindex="-1" aria-labelledby="exampleModal3Label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
                     <h5 class="modal-title text-white" id="exampleModal3Label">
                         Confirm Block
                     </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="requestForm" method="post" asp-action="BlockCase" asp-controller="Admin">
@@ -602,11 +418,13 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 
+
+
+                        @* Clear Case Modal *@
     <div id="example10Modal" class="modal fade" tabindex="-1" aria-labelledby="exampleModal10Label" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -628,6 +446,9 @@
         </div>
     </div>
 
+
+
+                        @* Send Agreement Modal *@
     <div class="modal fade" id="SendAgreementModal" tabindex="-1" aria-labelledby="SendAgreementModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -635,10 +456,7 @@
                     <h5 class="modal-title text-white" id="SendAgreementModalLabel">
                         Send Agreement
                     </h5>
-                    <button type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form id="requestForm" method="post" asp-action="SendMailOfAgreement" asp-controller="Admin">
@@ -674,7 +492,6 @@
                             <input type="text" id="emailForAgree" class="form-control" />
                             <label for="floatingInput" class="ms-2 text-muted">Email</label>
                         </div>
-
                         <div class="text-end mb-3 me-3 mt-3">
                             <button type="submit" class="btn btn-info text-white" id="continueBtn">Send</button>
                             <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
@@ -683,11 +500,12 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
 
+
+                        @* Request DTY Support / Request Support Modal *@
     <div class="modal fade" id="requestSupportModal" tabindex="-1" aria-labelledby="requestSupportModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -822,6 +640,7 @@
             }
         }
 
+        // code to apply filter when we change the value of region dropdown
         document.getElementById("region").addEventListener("change", function () {
             filter(this);
         });
@@ -851,6 +670,7 @@
             });
         });
 
+        // styling of boxes of 6 states in tablet and mobile view
         function changeStyle() {
             if ($(window).width() < 992) {
                 const classes = document.getElementsByClassName("lower-three-button");
@@ -867,12 +687,8 @@
             }
         }
 
-        //function openModal() {
-        //    //debugger;
-        //    $('#exampleModal').modal('show');
-        //    $("#exampleModal").appendTo("body");
-        //}
 
+        // code to fetch Patient Name and RequestId in Cancel Case Modal
         function cancelCaseData(id, fname, lname) {
             document.getElementById("p-name").textContent = fname + " " + lname;
             document.getElementById("p-name-two").textContent = fname + " " + lname;
@@ -880,20 +696,25 @@
             document.getElementById("r-id-three").value = id;
         }
 
+        // code to fetch RequestId in Assign Case Modal
         function assignCaseData(id) {
             document.getElementById("r-id-two").value = id;
         }
 
-        function fetchRegionData() //when we change the value of dropdown of region, this function will be called
+        //when we change the value of dropdown of region, this function will be called
+        function fetchRegionData() 
         {
-            const selectedRegionId = document.getElementById("select-region").value; //this stores the RegionId of a region which is selected because here we have used select-region id (id of select tag) and fetched the value so whatever we are storing in the value of region dropdown will be fetched i.e. RegionId
+            //this stores the RegionId of a region which is selected because here we have used select-region id (id of select tag) and fetched the value so whatever we are storing in the value of region dropdown will be fetched i.e. RegionId
+            const selectedRegionId = document.getElementById("select-region").value; 
 
             $.ajax({
                 url: '/Admin/GetPhysicianByRegion',
                 type: 'GET',
-                data: { regionId: selectedRegionId }, // stores RegionId in regionId variable and this variable is passed to the controller
+                // stores RegionId in regionId variable and this variable is passed to the controller
+                data: { regionId: selectedRegionId }, 
                 success: function (data) {
-                    $("#select-physician").empty(); // to remove the previously present physicians selected based on a different region
+                    // to remove the previously present physicians selected based on a different region
+                    $("#select-physician").empty(); 
                     $("#select-physician").append('<option value="" disabled selected>Select Physician</option>');
 
                     // Add each matched physician to the select element
@@ -909,16 +730,20 @@
             });
         }
 
-        function fetchRegionData2() //when we change the value of dropdown of region, this function will be called
+        //when we change the value of dropdown of region, this function will be called
+        function fetchRegionData2() 
         {
-            const selectedRegionId = document.getElementById("select-region-for-transfer").value; //this stores the RegionId of a region which is selected because here we have used select-region id (id of select tag) and fetched the value so whatever we are storing in the value of region dropdown will be fetched i.e. RegionId
+            //this stores the RegionId of a region which is selected because here we have used select-region id (id of select tag) and fetched the value so whatever we are storing in the value of region dropdown will be fetched i.e. RegionId
+            const selectedRegionId = document.getElementById("select-region-for-transfer").value; 
 
             $.ajax({
                 url: '/Admin/GetPhysicianByRegion',
                 type: 'GET',
-                data: { regionId: selectedRegionId }, // stores RegionId in regionId variable and this variable is passed to the controller
+                // stores RegionId in regionId variable and this variable is passed to the controller
+                data: { regionId: selectedRegionId }, 
                 success: function (data) {
-                    $("#select-physician2").empty(); // to remove the previously present physicians selected based on a different region
+                    // to remove the previously present physicians selected based on a different region
+                    $("#select-physician2").empty(); 
                     $("#select-physician2").append('<option value="" disabled selected>Select Physician</option>');
 
                     // Add each matched physician to the select element
@@ -934,23 +759,23 @@
             });
         }
 
+        // code to fetch RequestId in Transfer Case Modal
         function transferRequestData(id) {
             document.getElementById("r-id-four").value = id;
         }
 
+        // code to fetch RequestId in Clear Case Modal
         function clearCaseData(id) {
             document.getElementById("r-id-five").value = id;
         }
 
+        // code to fetch PhoneNumber, Receiver Email, RequestTypeId and RequestId in Send Agreement Modal
         function sendAgreementData(id, typeId, mail, num) {
-            //console.log(id);
-            //console.log(typeId);
             document.getElementById("phoneForAgree").value = num;
             document.getElementById("emailForAgree").value = mail;
             document.getElementById("r-type-id-two").value = typeId;
             document.getElementById("r-id-for-agree").value = id;
             var x = document.getElementById("r-id-for-agree").value;
-            //console.log(x);
 
             const rtid = document.getElementById("r-type-id-two").value;
             const rid = document.getElementById("r-id-for-agree").value;
@@ -978,10 +803,9 @@
                 document.getElementById("concierge-data").style.display = "none";
                 document.getElementById("business-data").style.display = "flex";
             }
-
-
         }
 
+        // code to show dropdown in phone number field of 
         const phoneInputField = document.querySelector("#phone");
         const phoneInput = window.intlTelInput(phoneInputField, {
             innerHeight: 1,
