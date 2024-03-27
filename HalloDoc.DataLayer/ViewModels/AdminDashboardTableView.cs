@@ -32,6 +32,8 @@ public class AdminDashboardTableView
     [Required(ErrorMessage = "Email is required")]
     public required string email { get; set; }
     public int? requestTypeId { get; set; }
+    [Required(ErrorMessage = "Please enter the Email")]
+    [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter valid Email")]
     public string sendAgreeEmail { get; set; }
     public AdminNavbarModel? an { get; set; }
     public int CurrentPage { get; set; }
@@ -39,4 +41,5 @@ public class AdminDashboardTableView
     public int TotalItems { get; set; }
     public int TotalPages { get; set; }
     public DateOnly? waitTime { get; set; }
+    public string? sendAgreementEmail { get; set; }
 }

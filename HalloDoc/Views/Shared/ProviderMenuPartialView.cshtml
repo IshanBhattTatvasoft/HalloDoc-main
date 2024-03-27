@@ -19,12 +19,7 @@
             {
                 <tr>
                     <td>
-                        <input class="checkboxes" type="checkbox" value="@item.PhysicianId" name="checkbox_group" onchange="ChangeNotification('@item.PhysicianId')" style="height: 18px;width: 18px;"
-                        @if (item.PhysicianNotifications != null && item.PhysicianNotifications.Any(r => r.IsNotificationStopped[0]))
-                        {
-                            <text>checked</text>
-                        }
-                        />
+                        <input class="checkboxes" type="checkbox" value="@item.PhysicianId" name="checkbox_group" style="height: 18px;width: 18px;" onchange="ChangeNotification('@item.PhysicianId')" @(item.PhysicianNotifications.Any(p => p.PhysicianId == item.PhysicianId && p.IsNotificationStopped[0] == true) ? "checked" : "") />
                     </td>
                     <td>@($"{item.FirstName} {item.LastName}")</td>
                     <td>

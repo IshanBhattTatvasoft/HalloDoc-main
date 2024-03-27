@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <partial name="_ValidationScriptsPartial" />
 }
 
 <div>
@@ -52,11 +53,13 @@
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
                            disabled asp-for="FirstName">
                     <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                 <div class="form-floating col-sm-6 mt-3">
                     <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
                            disabled asp-for="LastName">
                     <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
             </div>
 
@@ -83,11 +86,13 @@
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
                     <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="Email" disabled>
+                    <span asp-validation-for="Email" class="text-danger"></span>
                     <label for="floatingInput" class="ms-2 text-muted">Email</label>
 
                 </div>
                 <div class="col-sm-6 form-floating">
                     <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" disabled />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                 </div>
             </div>
 
@@ -288,4 +293,9 @@
         }
         location.reload();
     });
+
+    window.onload = function () {
+        var today = new Date().toISOString().split('T')[0];
+        document.getElementById("startDate").setAttribute('max', today);
+    };
 </script>

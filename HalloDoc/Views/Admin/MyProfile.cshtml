@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <partial name="_ValidationScriptsPartial"/>
 }
 
 <div>
@@ -53,7 +54,7 @@
                     <label for="floatingInput" class="ms-2 text-muted">User Name</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <input id="pass" class="form-control" type="text" placeholder="Date" asp-for="Password">
+                    <input id="pass" class="form-control" type="password" placeholder="Date" asp-for="Password">
                     <label for="floatingInput" class="ms-2 text-muted">Password</label>
                     <svg onclick="onpress()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3"
                          class="bi bi-eye person-icon hide-eye" viewBox="0 0 16 16">
@@ -120,17 +121,19 @@
                 <div class="col-sm-6 form-floating">
                     <input id="email" class="ai form-control" type="text" placeholder="Date Of Birth" asp-for="email" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    <span asp-validation-for="email" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 form-floating">
                     <input id="confemail" class="ai form-control" type="text" placeholder="Date" asp-for="confEmail" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Confirm Email</label>
-                    <span asp-validation-for="confEmail"></span>
+                    <span asp-validation-for="confEmail" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <input id="phone" class="ai form-control" type="tel" asp-for="phoneNo" disabled style="height: 58px;" />
+                    <input id="phone" class="ai form-control" type="tel" asp-for="phone" disabled style="height: 58px;" />
+                    <span asp-validation-for="phone" class="text-danger"></span>
                 </div>
                 <div class="col-sm-6 form-floating">
                     @foreach (var item in Model.allRegions)

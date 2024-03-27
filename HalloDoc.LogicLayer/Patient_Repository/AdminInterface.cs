@@ -241,6 +241,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.RequestStatusLogs.FirstOrDefault(r => r.RequestId == requestId);
         }
 
+        public List<RequestStatusLog> GetAllRslData(int requestId)
+        {
+            return _context.RequestStatusLogs.Where(r => r.RequestId == requestId).ToList();
+        }
+
         public Physician FetchPhysician(int id)
         {
             return _context.Physicians.FirstOrDefault(p => p.PhysicianId == id);
@@ -709,7 +714,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             ad.FirstName = model.firstName;
             ad.LastName = model.lastName;
             ad.Email = model.email;
-            ad.Mobile = model.phoneNo;
+            ad.Mobile = model.phone;
             _context.Admins.Update(ad);
             _context.SaveChanges();
         }
@@ -1103,9 +1108,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId)
         {
+            Admin ad = GetAdminFromId(userId);
+            Physician ph = _context.Physicians.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
+
             AspNetUser anu = new AspNetUser();
             AspNetUserRole anur = new AspNetUserRole();
             Physician p = new Physician();
+            PhysicianNotification pn = new PhysicianNotification();
 
             anu.UserName = "MD." + model.LastName + "." + model.FirstName[0];
             anu.PasswordHash = model.Password;
@@ -1116,9 +1125,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
 
             anur.UserId = anu.Id;
-            anur.RoleId = (int)model.roleId;
+            anur.RoleId = 2;
             _context.AspNetUserRoles.Add(anur);
 
+            p.PhysicianId = ph.PhysicianId + 1;
             p.AspNetUserId = anu.Id;
             p.FirstName = model.FirstName;
             p.LastName = model.LastName;
@@ -1136,7 +1146,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             p.RegionId = model.regionId;
             p.Zip = model.Zip;
             p.AltPhone = model.MailingPhoneNo;
-            p.CreatedBy = userId;
+            p.CreatedBy = 40;
             p.CreatedDate = DateTime.Now;
             p.Status = 1;
             p.BusinessName = model.BusinessName;
@@ -1145,6 +1155,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             p.RoleId = model.roleId;
             _context.Physicians.Add(p);
             _context.SaveChanges();
+
+            pn.PhysicianId = p.PhysicianId;
+            pn.IsNotificationStopped = new BitArray(1, false);
 
             foreach (var item in regionNames)
             {

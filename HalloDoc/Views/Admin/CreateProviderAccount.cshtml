@@ -72,34 +72,40 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="form-floating col-sm-4 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="UserName" disabled>
-                    <label for="floatingInput" class="ms-2 text-muted class-for-label">Username (MD.LastName.F)</label>
-                    <span asp-validation-for="UserName" class="text-danger"></span>
-                </div>
-                <div class="form-floating col-sm-4 mt-3">
-                    <input class="form-control" type="password" asp-for="Password" required />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-floating col-sm-4 mt-3">
-                    <select class="mbi form-select" asp-for="selectedRole">
-                        @for(var i=0;i<Model.allRoles.Count;i++)
-                        {
-                            <option value="@Model.allRoles[i].RoleId">@Model.allRoles[i].Name</option>
-                        }
-                    </select>
-                </div>
-            </div>
-            
-            <div class="row">
-                <div class="col mt-4">
-                    <p class="h5 text-muted fw-bold ms-1" id="heading-one">
-                        Administrator Information
-                    </p>
-                </div>
-            </div>
             <form method="post" asp-action="CreateNewProviderAccount" asp-controller="Admin" enctype="multipart/form-data">
+                <div class="row mt-3">
+                    <div class="form-floating col-sm-4">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="UserName" disabled>
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Username (MD.LastName.F)</label>
+                        <span asp-validation-for="UserName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-4">
+                        <input class="form-control" type="password" asp-for="Password" required />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-4 mb-3 form-floating">
+                        <select class="form-select mb-3 update1" id="Role" asp-for="roleId">
+                            @foreach (var item in Model.allRoles)
+                            {
+                                if (item.AccountType == 2)
+                                {
+                                    <option value="@item.RoleId">@item.Name</option>
+                                }
+                            }
+                        </select>
+                        <label for="Role" class="ms-2 text-muted">Role</label>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col mt-4">
+                        <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                            Administrator Information
+                        </p>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
@@ -142,7 +148,7 @@
                     <div class="col-sm-6 form-floating mt-3">
                         @foreach (var item in Model.regions)
                         {
-                            <input class="region-check px-1" type="checkbox" name="regionNames" value="@item.RegionId"/>
+                            <input class="region-check px-1" type="checkbox" name="regionNames" value="@item.RegionId" />
                             <span class="me-2">@item.Name</span>
                         }
                     </div>
@@ -183,6 +189,7 @@
                                 <option value="@item.RegionId" class="bg-white">@item.Name</option>
                             }
                         </select>
+
                     </div>
                 </div>
 
@@ -291,7 +298,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="Contract" name="checkbox_group"
+                                   id="Compliance" name="checkbox_group"
                             @if (Model.Compilance == true)
                             {
                                 <text>checked</text>
@@ -311,7 +318,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="Contract" name="checkbox_group"
+                                   id="NonDisclosure" name="checkbox_group"
                             @if (Model.NonDisclosure == true)
                             {
                                 <text>checked</text>
@@ -328,7 +335,7 @@
                             }
                         </div>
                     </div>
-                    
+
                     <hr />
 
                     <div class="form-floating col mt-4 lastbutton float-end" id="submitDivv">
@@ -360,11 +367,10 @@
             "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
     });
 
-    function getRoleVal()
-    {
+    function getRoleVal() {
         console.log("Hello");
-        document.getElementById("hiddenRole").value = document.getElementById("roleVal").value
+        document.getElementById("hiddenRole").value = document.getElementById("getRoles").value;
     }
 
-    
+
 </script>

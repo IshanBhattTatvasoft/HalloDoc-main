@@ -13,25 +13,26 @@ public class EditProviderAccountViewModel
 {
     public string? UserName { get; set; }
     public List<Role> allRoles { get; set; }
-    [Required(ErrorMessage = "Please enter the  Password")]
+    [Required(ErrorMessage = "Please enter the Password")]
     public string Password { get; set; }
     public string status { get; set; }
     public int Role { get; set; }
     public int selectedRole { get; set; }
 
-    [Required(ErrorMessage = "Please enter the  First name")]
+    [Required(ErrorMessage = "Please enter the First Name")]
     public string FirstName { get; set; }
-    [Required(ErrorMessage = "Please enter the  last name")]
+    [Required(ErrorMessage = "Please enter the Last Name")]
     public string LastName { get; set; }
 
-    [Required(ErrorMessage = "Enter Email")]
+    [Required(ErrorMessage = "Please enter the Email")]
     [Compare("Email", ErrorMessage = "Email is Mismatch")]
     public string? Email { get; set; }
 
     [Required(ErrorMessage = "Enter ConfirmEmail")]
     [Compare("Email", ErrorMessage = "Email is Mismatch")]
     public string? ConfirmEmail { get; set; }
-    [Required(ErrorMessage = "Please enter the Phone No ")]
+    [Required(ErrorMessage = "Please enter the Phone Number")]
+    [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter valid phone number")]
     public string? Phone { get; set; }
     public List<Region> regions { get; set; }
     public List<Region> selectedregions { get; set; }
@@ -45,16 +46,21 @@ public class EditProviderAccountViewModel
     public string? State { get; set; }
     [Required(ErrorMessage = "Please enter the Zip")]
     public string? Zip { get; set; }
-    [Required(ErrorMessage = "Please enter the Phone No")]
+    [Required(ErrorMessage = "Please enter the Phone Number")]
+    [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter valid phone number")]
     public string? MailingPhoneNo { get; set; }
     public string userId { get; set; }
     public string? MedicalLicense { get; set; }
     public string? NPI { get; set; }
     public string? SyncEmail { get; set; }
     public int PhysicianId { get; set; }
-    public string? BusinessName { get; set; }
-    public string? BusinessWebsite { get; set; }
-    public IFormFile? Photo { get; set; }
+    [Required(ErrorMessage = "Please enter the Business Name")]
+    public string BusinessName { get; set; }
+    [Required(ErrorMessage = "Please enter the Business Website")]
+    [RegularExpression(@"^((?!-)[A-Za-z0-9-]{1,63}(?<!-)\.)+[A-Za-z]{2,6}$", ErrorMessage = "Please enter the valid Business Website")]
+    public string BusinessWebsite { get; set; }
+    [Required(ErrorMessage = "Please upload the Photo")]
+    public IFormFile Photo { get; set; }
     public IFormFile? Signature { get; set; }
     public string? AdminNotes { get; set; }
     public string? SignatureName { get; set; }

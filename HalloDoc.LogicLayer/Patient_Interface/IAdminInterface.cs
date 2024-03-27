@@ -100,6 +100,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void ChangeNotificationValue(int id);
         public void DeletePhysicianAccount(int id);
         public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId);
+        public List<RequestStatusLog> GetAllRslData(int requestId);
 
 
     }

@@ -16,6 +16,7 @@ namespace HalloDoc.DataLayer.ViewModels
         public int requestId { get; set; }
         public User user { get; set; }
         public AdminNavbarModel? an { get; set; }
+        public string? FullName { get; set; }
 
     }
 }

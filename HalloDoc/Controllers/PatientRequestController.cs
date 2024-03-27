@@ -52,35 +52,37 @@ namespace HalloDoc.Controllers
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
-            var region = _patientRequest.ValidateRegion(model);
-
-
-            if (region == null)
-            {
-                ModelState.AddModelError("State", "Currently we are not serving in this region");
-                return View(model);
-            }
-            var blockedUser = _patientRequest.ValidateBlockRequest(model);
-            if (blockedUser != null)
-            {
-                ModelState.AddModelError("Email", "This patient is blocked.");
-                return View(model);
-            }
-
-            if (model.ImageContent != null && model.ImageContent.Length > 0)
-            {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    await model.ImageContent.CopyToAsync(stream);
-
-                }
-            }
-
-            var existingUser = _patientRequest.ValidateAspNetUser(model);
-            bool userExists = true;
+            
             if(ModelState.IsValid)
             {
+                var region = _patientRequest.ValidateRegion(model);
+
+
+                if (region == null)
+                {
+                    ModelState.AddModelError("State", "Currently we are not serving in this region");
+                    return View(model);
+                }
+                var blockedUser = _patientRequest.ValidateBlockRequest(model);
+                if (blockedUser != null)
+                {
+                    ModelState.AddModelError("Email", "This patient is blocked.");
+                    return View(model);
+                }
+
+                if (model.ImageContent != null && model.ImageContent.Length > 0)
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await model.ImageContent.CopyToAsync(stream);
+
+                    }
+                }
+
+                var existingUser = _patientRequest.ValidateAspNetUser(model);
+                bool userExists = true;
+
                 _patientRequest.InsertDataPatientRequest(model);
                 return RedirectToAction("PatientSite", "Login");
             }
@@ -103,29 +105,13 @@ namespace HalloDoc.Controllers
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
-            var region = _familyRequest.ValidateRegion(model);
-            if (region == null)
-            {
-                ModelState.AddModelError("State", "Currently we are not serving in this region");
-                return View(model);
-            }
-
-            if (model.ImageContent != null && model.ImageContent.Length > 0)
-            {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    await model.ImageContent.CopyToAsync(stream);
-                }
-            }
-
-            var existingUser = _familyRequest.ValidateAspNetUser(model);
-            bool userExists = true;
+            
 
             
 
             if(ModelState.IsValid)
             {
+
                 if (!PatientCheck(model.Email))
                 {
                     try
@@ -167,6 +153,26 @@ namespace HalloDoc.Controllers
                         ModelState.AddModelError("Email", "Invalid Email");
                     }
                 }
+
+                var region = _familyRequest.ValidateRegion(model);
+                if (region == null)
+                {
+                    ModelState.AddModelError("State", "Currently we are not serving in this region");
+                    return View(model);
+                }
+
+                if (model.ImageContent != null && model.ImageContent.Length > 0)
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        await model.ImageContent.CopyToAsync(stream);
+                    }
+                }
+
+                var existingUser = _familyRequest.ValidateAspNetUser(model);
+                bool userExists = true;
+
                 _familyRequest.InsertDataFamilyRequest(model);
                 return RedirectToAction("PatientSite", "Login");
 
@@ -192,8 +198,7 @@ namespace HalloDoc.Controllers
             RequestConcierge requestConcierge = new RequestConcierge();
             Region region = new Region();
 
-            var existingUser = _conciergeRequest.ValidateAspNetUser(model);
-            bool userExists = true;
+            
 
             if(ModelState.IsValid)
             {
@@ -238,6 +243,10 @@ namespace HalloDoc.Controllers
                         ModelState.AddModelError("Email", "Invalid Email");
                     }
                 }
+
+                var existingUser = _conciergeRequest.ValidateAspNetUser(model);
+                bool userExists = true;
+
                 _conciergeRequest.InsertDataConciergeRequest(model);
 
                 return RedirectToAction("PatientSite", "Login");
@@ -265,15 +274,9 @@ namespace HalloDoc.Controllers
             Region region2 = new Region();
 
 
-            var existingUser = _businessRequest.ValidateAspNetUser(model);
-            bool userExists = true;
+            
 
-            var region = _businessRequest.ValidateRegion(model);
-            if (region == null)
-            {
-                ModelState.AddModelError("State", "Currently we are not serving in this region");
-                return View(model);
-            }
+            
 
             if (ModelState.IsValid)
             {
@@ -318,6 +321,15 @@ namespace HalloDoc.Controllers
                         ModelState.AddModelError("Email", "Invalid Email");
                     }
                 }
+                var region = _businessRequest.ValidateRegion(model);
+                if (region == null)
+                {
+                    ModelState.AddModelError("State", "Currently we are not serving in this region");
+                    return View(model);
+                }
+                var existingUser = _businessRequest.ValidateAspNetUser(model);
+                bool userExists = true;
+
                 _businessRequest.InsertDataBusinessRequest(model);
                 return RedirectToAction("PatientSite", "Login");
 
