@@ -98,7 +98,7 @@ namespace HalloDoc.Controllers
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard(status, (int)userId, null, null, -1, 1, 10);
+            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, null, null, -1, 1, 10);
             return View(adminDashboardViewModel);
         }
 
@@ -107,82 +107,140 @@ namespace HalloDoc.Controllers
         //[HttpPost]
         // function for new state of admin dashboard
         [CustomAuthorize("Admin")]
-        public IActionResult New(string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
+        public IActionResult New(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
-            var userId = HttpContext.Session.GetInt32("id");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, search, requestor, (int)region, page, pageSize);
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+                AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, search, requestor, (int)region, page, pageSize);
+                return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requests of new state";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         //[HttpPost]
         // function for pending state of admin dashboard
         [CustomAuthorize("Admin")]
-        public IActionResult Pending(string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
+        public IActionResult Pending(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
-            var userId = HttpContext.Session.GetInt32("id");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId, search, requestor, (int)region, page, pageSize);
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+                AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId, search, requestor, (int)region, page, pageSize);
+                return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requests of pending state";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         //[HttpPost]
         // function for active state of admin dashboard
         [CustomAuthorize("Admin")]
-        public IActionResult Active(string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
+        public IActionResult Active(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
-            var userId = HttpContext.Session.GetInt32("id");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId, search, requestor, (int)region, page, pageSize);
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+                AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId, search, requestor, (int)region, page, pageSize);
+                return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requests of active state";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         //[HttpPost]
         // function for conclude state of admin dashboard
         [CustomAuthorize("Admin")]
-        public IActionResult Conclude(string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
+        public IActionResult Conclude(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
-            var userId = HttpContext.Session.GetInt32("id");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId, search, requestor, (int)region, page, pageSize);
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+                AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId, search, requestor, (int)region, page, pageSize);
+                return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requests of conclude state";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         //[HttpPost]
         // function for to-close state of admin dashboard
         [CustomAuthorize("Admin")]
-        public IActionResult Toclose(string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
+        public IActionResult Toclose(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
-            var userId = HttpContext.Session.GetInt32("id");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId, search, requestor, (int)region, page, pageSize);
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+                AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId, search, requestor, (int)region, page, pageSize);
+                return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requests of to-close state";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         //[HttpPost]
         // function for unpaid state of admin dashboard
         [CustomAuthorize("Admin")]
-        public IActionResult Unpaid(string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
+        public IActionResult Unpaid(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
-            var userId = HttpContext.Session.GetInt32("id");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
 
-            AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId, search, requestor, (int)region, page, pageSize);
-            return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+                AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId, search, requestor, (int)region, page, pageSize);
+                return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requests of unpaid state";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to get data for excel sheet
         public List<Request> GetTableData()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            List<Request> data = new List<Request>();
+            List<Request> r = new List<Request> { new Request() };
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                List<Request> data = new List<Request>();
 
-            data = _adminInterface.GetRequestDataInList();
-            return data;
+                data = _adminInterface.GetRequestDataInList();
+                return data;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to fetch data to export it";
+                return r;
+            }
         }
 
         [CustomAuthorize("Admin")]
@@ -267,6 +325,7 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [HttpPost]
         [CustomAuthorize("Admin")]
         // function to dowload filtered data or data of particular state in excel sheet
         public IActionResult DownloadSpecificExcel(AdminDashboardTableView model)
@@ -554,105 +613,116 @@ namespace HalloDoc.Controllers
         // function to display data in View Case view
         public IActionResult ViewCase(int requestId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
 
-            Request request = _adminInterface.ValidateRequest(requestId);
 
-            RequestClient user = _adminInterface.ValidateRequestClient(request.RequestClientId);
-
-            int intYear = (int)user.IntYear;
-            int intDate = (int)user.IntDate;
-            string month = user.StrMonth;
-            int mon = 0;
-            if (month.Length > 1)
+            try
             {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-                if (month == "January")
+                Request request = _adminInterface.ValidateRequest(requestId);
+
+                RequestClient user = _adminInterface.ValidateRequestClient(request.RequestClientId);
+
+                int intYear = (int)user.IntYear;
+                int intDate = (int)user.IntDate;
+                string month = user.StrMonth;
+                int mon = 0;
+                if (month.Length > 1)
                 {
-                    mon = 1;
+
+                    if (month == "January")
+                    {
+                        mon = 1;
+                    }
+                    else if (month == "February")
+                    {
+                        mon = 2;
+                    }
+                    else if (month == "March")
+                    {
+                        mon = 3;
+                    }
+                    else if (month == "April")
+                    {
+                        mon = 4;
+                    }
+                    else if (month == "May")
+                    {
+                        mon = 5;
+                    }
+                    else if (month == "June")
+                    {
+                        mon = 6;
+                    }
+                    else if (month == "July")
+                    {
+                        mon = 7;
+                    }
+                    else if (month == "August")
+                    {
+                        mon = 8;
+                    }
+                    else if (month == "September")
+                    {
+                        mon = 9;
+                    }
+                    else if (month == "October")
+                    {
+                        mon = 10;
+                    }
+                    else if (month == "November")
+                    {
+                        mon = 11;
+                    }
+                    else if (month == "December")
+                    {
+                        mon = 12;
+                    }
                 }
-                else if (month == "February")
+                int mon1 = 0;
+                if (month.Length == 1)
                 {
-                    mon = 2;
+                    mon1 = int.Parse(month);
                 }
-                else if (month == "March")
+                DateTime date = new DateTime();
+                if (month.Length == 1)
                 {
-                    mon = 3;
+                    date = new DateTime(intYear, mon1, intDate);
                 }
-                else if (month == "April")
+                if (month.Length > 1)
                 {
-                    mon = 4;
+                    date = new DateTime(intYear, mon, intDate);
                 }
-                else if (month == "May")
+
+                ViewCaseModel viewCase = new ViewCaseModel
                 {
-                    mon = 5;
-                }
-                else if (month == "June")
-                {
-                    mon = 6;
-                }
-                else if (month == "July")
-                {
-                    mon = 7;
-                }
-                else if (month == "August")
-                {
-                    mon = 8;
-                }
-                else if (month == "September")
-                {
-                    mon = 9;
-                }
-                else if (month == "October")
-                {
-                    mon = 10;
-                }
-                else if (month == "November")
-                {
-                    mon = 11;
-                }
-                else if (month == "December")
-                {
-                    mon = 12;
-                }
+                    RequestId = requestId,
+                    PatientNotes = user.Notes,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    PhoneNumber = user.PhoneNumber,
+                    DOB = date,
+                    ConfirmationNo = request.ConfirmationNumber,
+                    reqTypeId = request.RequestTypeId,
+                    regions = _adminInterface.GetAllRegion(),
+                    Status = request.Status,
+                    caseTags = _adminInterface.GetAllCaseTags(),
+                    an = an,
+                };
+
+                return View(viewCase);
             }
-            int mon1 = 0;
-            if (month.Length == 1)
-            {
-                mon1 = int.Parse(month);
-            }
-            DateTime date = new DateTime();
-            if (month.Length == 1)
-            {
-                date = new DateTime(intYear, mon1, intDate);
-            }
-            if (month.Length > 1)
-            {
-                date = new DateTime(intYear, mon, intDate);
-            }
 
-            ViewCaseModel viewCase = new ViewCaseModel
+            catch (Exception ex)
             {
-                RequestId = requestId,
-                PatientNotes = user.Notes,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                Email = user.Email,
-                PhoneNumber = user.PhoneNumber,
-                DOB = date,
-                ConfirmationNo = request.ConfirmationNumber,
-                reqTypeId = request.RequestTypeId,
-                regions = _adminInterface.GetAllRegion(),
-                Status = request.Status,
-                caseTags = _adminInterface.GetAllCaseTags(),
-                an = an,
-            };
-
-            return View(viewCase);
+                TempData["error"] = "Unable to view the case";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
 
@@ -661,73 +731,93 @@ namespace HalloDoc.Controllers
         // action to store edited information of view case in database
         public IActionResult EditViewCase(ViewCaseModel userProfile)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            int requestId = (int)userProfile.RequestId;
-            if (requestId != null)
+            try
             {
-                Request rid = _adminInterface.ValidateRequest(requestId);
 
-                RequestClient userToUpdate = _adminInterface.ValidateRequestClient(rid.RequestClientId);
-                if (userToUpdate != null)
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                int requestId = (int)userProfile.RequestId;
+                if (requestId != null)
                 {
-                    _adminInterface.EditViewCaseAction(userProfile, userToUpdate);
+                    Request rid = _adminInterface.ValidateRequest(requestId);
+
+                    RequestClient userToUpdate = _adminInterface.ValidateRequestClient(rid.RequestClientId);
+                    if (userToUpdate != null)
+                    {
+                        _adminInterface.EditViewCaseAction(userProfile, userToUpdate);
+                    }
                 }
+                TempData["success"] = "Case data updated successfully";
+                return RedirectToAction("ViewCase", new { requestId = requestId });
             }
-            TempData["success"] = "Case data updated successfully";
-            return RedirectToAction("ViewCase", new { requestId = requestId });
+
+            catch (Exception ex)
+            {
+                int requestId = (int)userProfile.RequestId;
+                TempData["error"] = "Unable to edit the case information";
+                return RedirectToAction("ViewCase", new { requestId = requestId });
+            }
         }
 
         [CustomAuthorize("Admin")]
         // action to show data in View Notes view
         public IActionResult ViewNotes(int requestId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-
-            Request r = _adminInterface.ValidateRequest(requestId);
-
-            RequestNote rn = _adminInterface.FetchRequestNote(requestId);
-
-            RequestStatusLog rsl = _adminInterface.FetchRequestStatusLogs(requestId);
-            List<RequestStatusLog> rs = _adminInterface.GetAllRslData(requestId);
-            string adNotes = " ";
-            string phNotes = " ";
-            string tNotes = " ";
-            if (rn != null)
+            try
             {
-                adNotes = rn.AdminNotes;
-                phNotes = rn.PhysicianNotes;
-            }
-            foreach (var item in rs)
-            {
-                if (item != null && item.Status == 2)
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+
+                Request r = _adminInterface.ValidateRequest(requestId);
+
+                RequestNote rn = _adminInterface.FetchRequestNote(requestId);
+
+                RequestStatusLog rsl = _adminInterface.FetchRequestStatusLogs(requestId);
+                List<RequestStatusLog> rs = _adminInterface.GetAllRslData(requestId);
+                string adNotes = " ";
+                string phNotes = " ";
+                string tNotes = " ";
+                if (rn != null)
                 {
-                    tNotes = tNotes + " " + item.Notes;
+                    adNotes = rn.AdminNotes;
+                    phNotes = rn.PhysicianNotes;
                 }
+                foreach (var item in rs)
+                {
+                    if (item != null && item.Status == 2)
+                    {
+                        tNotes = tNotes + " " + item.Notes;
+                    }
+                }
+
+                int id = (int)rsl.PhysicianId;
+
+                Physician py = _adminInterface.FetchPhysician(id);
+
+                var viewModel = new ViewNotes
+                {
+                    AdminNotes = adNotes,
+                    PhysicianNotes = phNotes,
+                    PhyName = py.FirstName,
+                    Notes = tNotes,
+                    CreatedDate = rsl.CreatedDate,
+                    RequestId = requestId,
+                    an = an,
+                };
+                return View(viewModel);
             }
 
-            int id = (int)rsl.PhysicianId;
-
-            Physician py = _adminInterface.FetchPhysician(id);
-
-            var viewModel = new ViewNotes
+            catch (Exception ex)
             {
-                AdminNotes = adNotes,
-                PhysicianNotes = phNotes,
-                PhyName = py.FirstName,
-                Notes = tNotes,
-                CreatedDate = rsl.CreatedDate,
-                RequestId = requestId,
-                an = an,
-            };
-            return View(viewModel);
+                TempData["error"] = "Unable to view notes";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -735,16 +825,25 @@ namespace HalloDoc.Controllers
         // function to store edited information of View Notes view in database
         public IActionResult EditViewNotes(ViewNotes model)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            RequestNote rn = _adminInterface.FetchRequestNote(model.RequestId);
+                RequestNote rn = _adminInterface.FetchRequestNote(model.RequestId);
 
-            _adminInterface.EditViewNotesAction(model);
-            return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
+                _adminInterface.EditViewNotesAction(model);
+                return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the notes";
+                return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
+            }
 
         }
 
@@ -753,56 +852,86 @@ namespace HalloDoc.Controllers
         // function called when we cancel the case OR submit the cancel case modal
         public IActionResult CancelCase(AdminDashboardTableView model, int selectedCaseTagId, string additionalNotes)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            CaseTag ct = _adminInterface.FetchCaseTag(selectedCaseTagId);
+                CaseTag ct = _adminInterface.FetchCaseTag(selectedCaseTagId);
 
-            Request r = _adminInterface.ValidateRequest(model.RequestId);
-            r.CaseTag = ct.Name;
-            r.Status = 3;
-            _adminInterface.UpdateRequest(r);
+                Request r = _adminInterface.ValidateRequest(model.RequestId);
+                r.CaseTag = ct.Name;
+                r.Status = 3;
+                _adminInterface.UpdateRequest(r);
 
-            RequestStatusLog rs = new RequestStatusLog();
-            rs.RequestId = model.RequestId;
-            rs.Notes = additionalNotes;
-            rs.Status = 3;
-            rs.CreatedDate = DateTime.Now;
+                RequestStatusLog rs = new RequestStatusLog();
+                rs.RequestId = model.RequestId;
+                rs.Notes = additionalNotes;
+                rs.Status = 3;
+                rs.CreatedDate = DateTime.Now;
 
-            _adminInterface.AddRequestStatusLogFromCancelCase(rs);
-            TempData["success"] = "Case cancelled successfully";
+                _adminInterface.AddRequestStatusLogFromCancelCase(rs);
+                TempData["success"] = "Case cancelled successfully";
 
-            return RedirectToAction("AdminDashboard");
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to cancel the case";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function called when we want to fetch all the physicians belonging to a certain region as given by RegionId
         public List<Physician> GetPhysicianByRegion(AdminDashboardTableView model, int RegionId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            List<Physician> ph = new List<Physician> { new Physician() };
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            List<Physician> p = _adminInterface.FetchPhysicianByRegion(RegionId);
-            return p;
+                List<Physician> p = _adminInterface.FetchPhysicianByRegion(RegionId);
+                return p;
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to fetch physicians";
+                return ph;
+            }
         }
 
         [CustomAuthorize("Admin")]
         public int sendAgreement2(int reqId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            int x = 0;
 
-            Request r = _adminInterface.GetReqFromReqType(reqId);
-            return r.RequestTypeId;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+
+                Request r = _adminInterface.GetReqFromReqType(reqId);
+                return r.RequestTypeId;
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to send the agreement";
+                return x;
+            }
         }
 
         [HttpPost]
@@ -810,28 +939,37 @@ namespace HalloDoc.Controllers
         // function called when we assign the case OR submit the Assign Case modal
         public IActionResult AssignCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription, int selectedPhysicianId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request r = _adminInterface.ValidateRequest(model.RequestId);
-            r.Status = 2;
-            r.PhysicianId = selectedPhysicianId;
+                Request r = _adminInterface.ValidateRequest(model.RequestId);
+                r.Status = 2;
+                r.PhysicianId = selectedPhysicianId;
 
-            RequestStatusLog rsl = new RequestStatusLog();
-            rsl.RequestId = model.RequestId;
-            rsl.Notes = assignCaseDescription;
-            rsl.Status = 2;
-            rsl.CreatedDate = DateTime.Now;
-            rsl.TransToPhysicianId = selectedPhysicianId;
-            rsl.PhysicianId = selectedPhysicianId;
+                RequestStatusLog rsl = new RequestStatusLog();
+                rsl.RequestId = model.RequestId;
+                rsl.Notes = assignCaseDescription;
+                rsl.Status = 2;
+                rsl.CreatedDate = DateTime.Now;
+                rsl.TransToPhysicianId = selectedPhysicianId;
+                rsl.PhysicianId = selectedPhysicianId;
 
-            _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
-            _adminInterface.UpdateRequest(r);
-            TempData["success"] = "Successfully requested to assign the case";
-            return RedirectToAction("AdminDashboard");
+                _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
+                _adminInterface.UpdateRequest(r);
+                TempData["success"] = "Successfully requested to assign the case";
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to assign the case";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -839,28 +977,37 @@ namespace HalloDoc.Controllers
         // function called when we transfer the case OR when we submit the transfer case modal
         public IActionResult TransferCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription, int selectedPhysicianId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request r = _adminInterface.ValidateRequest(model.RequestId);
-            r.Status = 2; //when a case is assigned, status is set to 1 currently
-            // but when the assigned case gets accepted, then its status can be 2 and will be shown in Pending state.
-            r.PhysicianId = selectedPhysicianId;
+                Request r = _adminInterface.ValidateRequest(model.RequestId);
+                r.Status = 2; //when a case is assigned, status is set to 1 currently
+                              // but when the assigned case gets accepted, then its status can be 2 and will be shown in Pending state.
+                r.PhysicianId = selectedPhysicianId;
 
-            RequestStatusLog rsl = new RequestStatusLog();
-            rsl.RequestId = model.RequestId;
-            rsl.Notes = assignCaseDescription;
-            rsl.Status = 2;
-            rsl.CreatedDate = DateTime.Now;
-            rsl.TransToPhysicianId = selectedPhysicianId;
+                RequestStatusLog rsl = new RequestStatusLog();
+                rsl.RequestId = model.RequestId;
+                rsl.Notes = assignCaseDescription;
+                rsl.Status = 2;
+                rsl.CreatedDate = DateTime.Now;
+                rsl.TransToPhysicianId = selectedPhysicianId;
 
-            _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
-            _adminInterface.UpdateRequest(r);
-            TempData["success"] = "Case transferred!!";
-            return RedirectToAction("AdminDashboard");
+                _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
+                _adminInterface.UpdateRequest(r);
+                TempData["success"] = "Case transferred!!";
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to transfer the case";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -868,52 +1015,70 @@ namespace HalloDoc.Controllers
         // function when we clear a case OR when we submit the clear case modal
         public IActionResult ClearCaseSubmitAction(AdminDashboardTableView model)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-
-            Request r = _adminInterface.GetReqFromModel(model);
-            if (r != null)
+            try
             {
-                r.Status = 10;
-                TempData["success"] = "Case cleared successfully";
-                _adminInterface.UpdateRequest(r);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+
+                Request r = _adminInterface.GetReqFromModel(model);
+                if (r != null)
+                {
+                    r.Status = 10;
+                    TempData["success"] = "Case cleared successfully";
+                    _adminInterface.UpdateRequest(r);
+                }
+                return RedirectToAction("AdminDashboard");
             }
-            return RedirectToAction("AdminDashboard");
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to clear the case";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
         [CustomAuthorize("Admin")]
         public IActionResult BlockCase(AdminDashboardTableView model, string reasonForBlockRequest)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request r = _adminInterface.ValidateRequest(model.RequestId);
-            r.Status = 11;
-            _adminInterface.UpdateRequest(r);
+                Request r = _adminInterface.ValidateRequest(model.RequestId);
+                r.Status = 11;
+                _adminInterface.UpdateRequest(r);
 
-            RequestStatusLog rs = new RequestStatusLog();
-            rs.Status = 11;
-            rs.CreatedDate = DateTime.Now;
-            rs.Notes = reasonForBlockRequest;
-            rs.RequestId = model.RequestId;
-            _adminInterface.AddRequestStatusLogFromCancelCase(rs);
+                RequestStatusLog rs = new RequestStatusLog();
+                rs.Status = 11;
+                rs.CreatedDate = DateTime.Now;
+                rs.Notes = reasonForBlockRequest;
+                rs.RequestId = model.RequestId;
+                _adminInterface.AddRequestStatusLogFromCancelCase(rs);
 
-            BlockRequest br = new BlockRequest();
-            br.RequestId = model.RequestId;
-            br.Email = r.Email;
-            br.IsActive = new BitArray(1, true);
-            br.Reason = reasonForBlockRequest;
-            br.CreatedDate = DateTime.Now;
-            _adminInterface.AddBlockRequestData(br);
-            TempData["success"] = "Case blocked successfully";
-            return RedirectToAction("AdminDashboard");
+                BlockRequest br = new BlockRequest();
+                br.RequestId = model.RequestId;
+                br.Email = r.Email;
+                br.IsActive = new BitArray(1, true);
+                br.Reason = reasonForBlockRequest;
+                br.CreatedDate = DateTime.Now;
+                _adminInterface.AddBlockRequestData(br);
+                TempData["success"] = "Case blocked successfully";
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to block the case";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -921,57 +1086,75 @@ namespace HalloDoc.Controllers
         // function called when admin creates the request for a patient
         public async Task<IActionResult> CreateRequest(AdminCreateRequestModel model)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            
-
-            if (ModelState.IsValid)
+            try
             {
-                var region = _adminInterface.ValidateRegion(model);
-                if (region == null)
-                {
-                    ModelState.AddModelError("State", "Currently we are not serving in this region");
-                    return View(model);
-                }
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-                var blockedUser = _adminInterface.ValidateBlockRequest(model);
-                if (blockedUser != null)
-                {
-                    ModelState.AddModelError("Email", "This patient is blocked.");
-                    return View(model);
-                }
 
-                var existingUser = _adminInterface.ValidateAspNetUser(model);
-                _adminInterface.InsertDataOfRequest(model);
+                if (ModelState.IsValid)
+                {
+                    var region = _adminInterface.ValidateRegion(model);
+                    if (region == null)
+                    {
+                        ModelState.AddModelError("State", "Currently we are not serving in this region");
+                        return View(model);
+                    }
+
+                    var blockedUser = _adminInterface.ValidateBlockRequest(model);
+                    if (blockedUser != null)
+                    {
+                        ModelState.AddModelError("Email", "This patient is blocked.");
+                        return View(model);
+                    }
+
+                    var existingUser = _adminInterface.ValidateAspNetUser(model);
+                    _adminInterface.InsertDataOfRequest(model);
+                }
+                TempData["success"] = "Request created successfully";
+                return View("CreateRequest");
             }
-            TempData["success"] = "Request created successfully";
-            return View("CreateRequest");
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the request";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to check whether the entered state name belongs to the areas the service is available
         public IActionResult VerifyLocation(string state)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            if (state == null)
+            try
             {
-                return Json(new { isVerified = 2 });
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                if (state == null)
+                {
+                    return Json(new { isVerified = 2 });
+                }
+                bool isVerified = _adminInterface.VerifyLocation(state);
+                if (isVerified)
+                {
+                    return Json(new { isVerified = 1 });
+                }
+                else
+                {
+                    return Json(new { isVerified = 2 });
+                }
             }
-            bool isVerified = _adminInterface.VerifyLocation(state);
-            if (isVerified)
+
+            catch
             {
-                return Json(new { isVerified = 1 });
-            }
-            else
-            {
-                return Json(new { isVerified = 2 });
+                TempData["error"] = "Unable to verify the license";
+                return RedirectToAction("CreateRequest");
             }
         }
 
@@ -1012,28 +1195,37 @@ namespace HalloDoc.Controllers
         // function to return View of View Uploads page
         public IActionResult ViewUploads(int requestid)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-
-            Request request = _adminInterface.ValidateRequest(requestid);
-            RequestClient rc = _adminInterface.GetRequestClientFromId(request.RequestClientId);
-            string fname = rc.FirstName + " " + rc.LastName + " ";
-            User user = _adminInterface.ValidateUserByRequestId(request);
-            List<RequestWiseFile> rwf = _adminInterface.GetFileData(requestid);
-
-            ViewUploadsModel vum = new ViewUploadsModel()
+            try
             {
-                confirmation_number = request.ConfirmationNumber,
-                requestId = requestid,
-                user = user,
-                requestWiseFiles = rwf,
-                an = an,
-                FullName = fname,
-            };
-            return View(vum);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+
+                Request request = _adminInterface.ValidateRequest(requestid);
+                RequestClient rc = _adminInterface.GetRequestClientFromId(request.RequestClientId);
+                string fname = rc.FirstName + " " + rc.LastName + " ";
+                User user = _adminInterface.ValidateUserByRequestId(request);
+                List<RequestWiseFile> rwf = _adminInterface.GetFileData(requestid);
+
+                ViewUploadsModel vum = new ViewUploadsModel()
+                {
+                    confirmation_number = request.ConfirmationNumber,
+                    requestId = requestid,
+                    user = user,
+                    requestWiseFiles = rwf,
+                    an = an,
+                    FullName = fname,
+                };
+                return View(vum);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view the uploaded files";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -1041,70 +1233,98 @@ namespace HalloDoc.Controllers
         // function to store the newly uploaded file from View Uploads view
         public IActionResult SetImageContent(ViewUploadsModel model, int requestId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            var request = _adminInterface.GetRequestWithUser(requestId);
-
-            ViewUploadsModel viewModel = new ViewUploadsModel
+            try
             {
-                ImageContent = model.ImageContent,
-            };
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                var request = _adminInterface.GetRequestWithUser(requestId);
 
-            if (model.ImageContent != null && model.ImageContent.Length > 0)
-            {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
-                using (var stream = System.IO.File.Create(filePath))
+                ViewUploadsModel viewModel = new ViewUploadsModel
                 {
-                    model.ImageContent.CopyTo(stream);
-
-                }
-            }
-
-            if (model.ImageContent != null)
-            {
-                RequestWiseFile requestWiseFile = new RequestWiseFile
-                {
-
-                    FileName = model.ImageContent.FileName,
-                    CreatedDate = DateTime.Now,
-                    RequestId = request.RequestId,
-                    IsDeleted = new BitArray(1, false)
+                    ImageContent = model.ImageContent,
                 };
-                _adminInterface.AddFile(requestWiseFile);
+
+                if (model.ImageContent != null && model.ImageContent.Length > 0)
+                {
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                    using (var stream = System.IO.File.Create(filePath))
+                    {
+                        model.ImageContent.CopyTo(stream);
+
+                    }
+                }
+
+                if (model.ImageContent != null)
+                {
+                    RequestWiseFile requestWiseFile = new RequestWiseFile
+                    {
+
+                        FileName = model.ImageContent.FileName,
+                        CreatedDate = DateTime.Now,
+                        RequestId = request.RequestId,
+                        IsDeleted = new BitArray(1, false)
+                    };
+                    _adminInterface.AddFile(requestWiseFile);
+                }
+
+                return RedirectToAction("ViewUploads", new { requestID = model.requestId });
             }
 
-            return RedirectToAction("ViewUploads", new { requestID = model.requestId });
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to upload the file";
+                return RedirectToAction("ViewUploads", new { requestID = model.requestId });
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to delete individual file from View Uploads view
         public IActionResult DeleteIndividual(int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            int reqId = _adminInterface.SingleDelete(id);
-            return RedirectToAction("ViewUploads", new { requestID = reqId });
+                int reqId = _adminInterface.SingleDelete(id);
+                return RedirectToAction("ViewUploads", new { requestID = reqId });
+            }
+
+            catch (Exception ex)
+            {
+                int reqId = _adminInterface.SingleDelete(id);
+                TempData["error"] = "Unable to delete this file";
+                return RedirectToAction("ViewUploads", new { requestID = reqId });
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to delete multiple files from View Uploads view
         public IActionResult DeleteMultiple(int requestid, string fileId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            _adminInterface.MultipleDelete(requestid, fileId);
-            TempData["success"] = "File(s) deleted successfully";
-            return RedirectToAction("ViewUploads", new { requestID = requestid });
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                _adminInterface.MultipleDelete(requestid, fileId);
+                TempData["success"] = "File(s) deleted successfully";
+                return RedirectToAction("ViewUploads", new { requestID = requestid });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to delete these files";
+                return RedirectToAction("ViewUploads", new { requestID = requestid });
+            }
         }
 
         [CustomAuthorize("Admin")]
@@ -1169,6 +1389,7 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [HttpPost]
         [CustomAuthorize("Admin")]
         public async Task<IActionResult> SendLink(AdminDashboardTableView model)
         {
@@ -1227,21 +1448,30 @@ namespace HalloDoc.Controllers
         // function to return Send Orders view
         public IActionResult Orders(int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            List<HealthProfessionalType> hPT = _adminInterface.GetHealthProfessionalType();
-            List<HealthProfessional> hP = _adminInterface.GetHealthProfessional();
-            SendOrder so = new SendOrder
+            try
             {
-                hpType = hPT,
-                hp = hP,
-                requestId = id,
-                an = an
-            };
-            return View(so);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                List<HealthProfessionalType> hPT = _adminInterface.GetHealthProfessionalType();
+                List<HealthProfessional> hP = _adminInterface.GetHealthProfessional();
+                SendOrder so = new SendOrder
+                {
+                    hpType = hPT,
+                    hp = hP,
+                    requestId = id,
+                    an = an
+                };
+                return View(so);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view the orders";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
@@ -1249,38 +1479,67 @@ namespace HalloDoc.Controllers
         public List<HealthProfessional> GetBusinessData(int professionId, SendOrder model)
 
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            List<HealthProfessional> healthProfessionals = _adminInterface.GetBusinessDataFromProfession(professionId);
-            return healthProfessionals;
+            List<HealthProfessional> hp = new List<HealthProfessional> { new HealthProfessional() };
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                List<HealthProfessional> healthProfessionals = _adminInterface.GetBusinessDataFromProfession(professionId);
+                return healthProfessionals;
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to fetch business data";
+                return hp;
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to get other data based on selected BusinessName in Send Orders view
         public HealthProfessional GetOtherData(int businessId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            HealthProfessional hp = _adminInterface.GetOtherDataFromBId(businessId);
-            return hp;
+            HealthProfessional hp2 = new HealthProfessional();
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                HealthProfessional hp = _adminInterface.GetOtherDataFromBId(businessId);
+                return hp;
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to fetch the data of professional";
+                return hp2;
+            }
         }
         //[HttpPost]
         [CustomAuthorize("Admin")]
         public IActionResult GetAgreementData(int reqId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            RequestClient rc = _adminInterface.GetPatientData(reqId);
-            return Json(new { response = rc });
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                RequestClient rc = _adminInterface.GetPatientData(reqId);
+                return Json(new { response = rc });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to get the agreement data";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -1288,26 +1547,36 @@ namespace HalloDoc.Controllers
         // function to send order to specified vendor
         public IActionResult SendOrder(SendOrder model, int vendorId, int noOfRefill)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            OrderDetail orderDetail = new OrderDetail();
-            orderDetail.VendorId = vendorId;
-            orderDetail.RequestId = model.requestId;
-            orderDetail.FaxNumber = model.faxNumber;
-            orderDetail.Email = model.email;
-            orderDetail.BusinessContact = model.businessContact;
-            orderDetail.Prescription = model.prescription;
-            orderDetail.NoOfRefill = noOfRefill;
-            orderDetail.CreatedDate = DateTime.Now;
-            _adminInterface.AddOrderDetails(orderDetail);
+                OrderDetail orderDetail = new OrderDetail();
+                orderDetail.VendorId = vendorId;
+                orderDetail.RequestId = model.requestId;
+                orderDetail.FaxNumber = model.faxNumber;
+                orderDetail.Email = model.email;
+                orderDetail.BusinessContact = model.businessContact;
+                orderDetail.Prescription = model.prescription;
+                orderDetail.NoOfRefill = noOfRefill;
+                orderDetail.CreatedDate = DateTime.Now;
+                _adminInterface.AddOrderDetails(orderDetail);
 
-            TempData["success"] = "Order sent successfully";
-            return RedirectToAction("AdminDashboard");
+                TempData["success"] = "Order sent successfully";
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to send the orders";
+                return RedirectToAction("AdminDashboard");
+            }
         }
+
 
         public async Task<IActionResult> SendMailForSetUpAccount(LoginViewModel model)
         {
@@ -1475,63 +1744,90 @@ namespace HalloDoc.Controllers
         // function to return Review Agreement view
         public IActionResult ReviewAgreement(int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-            RequestClient rc = _adminInterface.GetRequestClientFromId(id);
-            return View(rc);
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                RequestClient rc = _adminInterface.GetRequestClientFromId(id);
+                return View(rc);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "unable to review the agreement";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         [HttpPost]
         // function called when a patient accepts the agreement
         public IActionResult AcceptAgreement(int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request r = _adminInterface.GetReqFromReqClient(id);
-            r.Status = 4;
-            _adminInterface.UpdateRequest(r);
+                Request r = _adminInterface.GetReqFromReqClient(id);
+                r.Status = 4;
+                _adminInterface.UpdateRequest(r);
 
-            RequestStatusLog rsl = new RequestStatusLog();
-            rsl.RequestId = r.RequestId;
-            rsl.Status = 4;
-            rsl.CreatedDate = DateTime.Now;
-            rsl.RequestId = r.RequestId;
-            _adminInterface.AddRequestStatusLogFromAgreement(rsl);
+                RequestStatusLog rsl = new RequestStatusLog();
+                rsl.RequestId = r.RequestId;
+                rsl.Status = 4;
+                rsl.CreatedDate = DateTime.Now;
+                rsl.RequestId = r.RequestId;
+                _adminInterface.AddRequestStatusLogFromAgreement(rsl);
 
-            TempData["success"] = "Agreement accepted successfully";
-            return RedirectToAction("PatientLoginPage", "Login");
+                TempData["success"] = "Agreement accepted successfully";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to accept the agreement";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         [HttpPost]
         // function called when a patient cancels the agreement
         public IActionResult CancelAgreement(int id, string desc)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request r = _adminInterface.GetReqFromReqClient(id);
-            r.Status = 7;
-            _adminInterface.UpdateRequest(r);
+                Request r = _adminInterface.GetReqFromReqClient(id);
+                r.Status = 7;
+                _adminInterface.UpdateRequest(r);
 
-            RequestStatusLog rsl = new RequestStatusLog();
-            rsl.Status = 7;
-            rsl.Notes = desc;
-            rsl.CreatedDate = DateTime.Now;
-            rsl.RequestId = r.RequestId;
-            _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
+                RequestStatusLog rsl = new RequestStatusLog();
+                rsl.Status = 7;
+                rsl.Notes = desc;
+                rsl.CreatedDate = DateTime.Now;
+                rsl.RequestId = r.RequestId;
+                _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
 
-            TempData["success"] = "Agreement cancelled successfully";
-            return RedirectToAction("PatientLoginPage", "Login");
+                TempData["success"] = "Agreement cancelled successfully";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to cancel the agreement";
+                return RedirectToAction("PatientLoginPage", "Login");
+            }
         }
 
         public IActionResult PlatformCreatePassword()
@@ -1548,52 +1844,61 @@ namespace HalloDoc.Controllers
         // function to return Encounter Form view
         public IActionResult EncounterForm(int reqId)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-
-            EncounterForm ef = _adminInterface.GetEncounterFormData(reqId);
-
-            Request r = _adminInterface.ValidateRequest(reqId);
-
-            RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
-            EncounterFormModel efm = new EncounterFormModel
+            try
             {
-                reqId = reqId,
-                FirstName = rc.FirstName,
-                LastName = rc.LastName,
-                Email = rc.Email,
-                Location = string.Concat(rc.Street, ", ", rc.City, ", ", rc.State, ", ", rc.ZipCode),
-                PhoneNumber = rc.PhoneNumber,
-                DOB = new DateTime((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate),
-                Date = (DateTime)ef.Date,
-                Medications = ef.Medications,
-                Allergies = ef.Allergies,
-                Temp = (decimal)ef.Temp,
-                HR = (decimal)ef.Hr,
-                RR = (decimal)ef.Rr,
-                BPS = (int)ef.BpS,
-                BPD = (int)ef.BpD,
-                O2 = (decimal)ef.O2,
-                Pain = ef.Pain,
-                Heent = ef.Heent,
-                CV = ef.Cv,
-                Chest = ef.Chest,
-                ABD = ef.Abd,
-                Extr = ef.Extr,
-                Skin = ef.Skin,
-                Neuro = ef.Neuro,
-                Other = ef.Other,
-                Diagnosis = ef.Diagnosis,
-                TreatmentPlan = ef.TreatmentPlan,
-                MedicationsDispensed = ef.MedicationDispensed,
-                Procedures = ef.Procedures,
-                FollowUp = ef.FollowUp,
-                an = an
-            };
-            return View(efm);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+
+                EncounterForm ef = _adminInterface.GetEncounterFormData(reqId);
+
+                Request r = _adminInterface.ValidateRequest(reqId);
+
+                RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
+                EncounterFormModel efm = new EncounterFormModel
+                {
+                    reqId = reqId,
+                    FirstName = rc.FirstName,
+                    LastName = rc.LastName,
+                    Email = rc.Email,
+                    Location = string.Concat(rc.Street, ", ", rc.City, ", ", rc.State, ", ", rc.ZipCode),
+                    PhoneNumber = rc.PhoneNumber,
+                    DOB = new DateTime((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate),
+                    Date = (DateTime)ef.Date,
+                    Medications = ef.Medications,
+                    Allergies = ef.Allergies,
+                    Temp = (decimal)ef.Temp,
+                    HR = (decimal)ef.Hr,
+                    RR = (decimal)ef.Rr,
+                    BPS = (int)ef.BpS,
+                    BPD = (int)ef.BpD,
+                    O2 = (decimal)ef.O2,
+                    Pain = ef.Pain,
+                    Heent = ef.Heent,
+                    CV = ef.Cv,
+                    Chest = ef.Chest,
+                    ABD = ef.Abd,
+                    Extr = ef.Extr,
+                    Skin = ef.Skin,
+                    Neuro = ef.Neuro,
+                    Other = ef.Other,
+                    Diagnosis = ef.Diagnosis,
+                    TreatmentPlan = ef.TreatmentPlan,
+                    MedicationsDispensed = ef.MedicationDispensed,
+                    Procedures = ef.Procedures,
+                    FollowUp = ef.FollowUp,
+                    an = an
+                };
+                return View(efm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view encounter form";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -1601,58 +1906,75 @@ namespace HalloDoc.Controllers
         // function called when we submit the encounter form
         public IActionResult EncounterFormSubmit(EncounterFormModel model)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
-
-            int requestId = (int)model.reqId;
-            if (requestId != null)
+            try
             {
-                Request r = _adminInterface.ValidateRequest(requestId);
-                RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
-                if (rc != null)
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+
+                int requestId = (int)model.reqId;
+                if (requestId != null)
                 {
-                    _adminInterface.UpdateEncounterFormData(model, rc);
+                    Request r = _adminInterface.ValidateRequest(requestId);
+                    RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
+                    if (rc != null)
+                    {
+                        _adminInterface.UpdateEncounterFormData(model, rc);
 
+                    }
                 }
+                TempData["success"] = "Welcome again!";
+                return RedirectToAction("AdminDashboard");
             }
-            TempData["success"] = "Welcome again!";
-            return RedirectToAction("AdminDashboard");
 
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to submit the encounter form data";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to return view of close case
         public IActionResult CloseCase(int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request request = _adminInterface.ValidateRequest(id);
+                Request request = _adminInterface.ValidateRequest(id);
 
-            User user = _adminInterface.ValidateUserByRequestId(request);
+                User user = _adminInterface.ValidateUserByRequestId(request);
 
-            List<RequestWiseFile> rwf = _adminInterface.GetFileData(id);
+                List<RequestWiseFile> rwf = _adminInterface.GetFileData(id);
 
-            RequestClient rc = _adminInterface.GetRequestClientFromId(request.RequestClientId);
+                RequestClient rc = _adminInterface.GetRequestClientFromId(request.RequestClientId);
 
-            CloseCaseModel cc = new CloseCaseModel();
-            cc.firstName = rc.FirstName;
-            cc.lastName = rc.LastName;
-            cc.fullName = rc.FirstName + " " + rc.LastName;
-            cc.conf_no = request.ConfirmationNumber;
-            cc.phoneNumber = rc.PhoneNumber;
-            cc.email = rc.Email;
-            cc.DOB = new DateOnly((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate);
-            cc.reqId = id;
-            cc.requestWiseFiles = rwf;
-            cc.an = an;
-            return View(cc);
+                CloseCaseModel cc = new CloseCaseModel();
+                cc.firstName = rc.FirstName;
+                cc.lastName = rc.LastName;
+                cc.fullName = rc.FirstName + " " + rc.LastName;
+                cc.conf_no = request.ConfirmationNumber;
+                cc.phoneNumber = rc.PhoneNumber;
+                cc.email = rc.Email;
+                cc.DOB = new DateOnly((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate);
+                cc.reqId = id;
+                cc.requestWiseFiles = rwf;
+                cc.an = an;
+                return View(cc);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to close the case";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -1660,29 +1982,38 @@ namespace HalloDoc.Controllers
         // function called when we case is closed
         public IActionResult ClickOnCloseCase(int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request r = _adminInterface.ValidateRequest(id);
-            r.Status = 9;
-            _adminInterface.UpdateRequest(r);
+                Request r = _adminInterface.ValidateRequest(id);
+                r.Status = 9;
+                _adminInterface.UpdateRequest(r);
 
-            RequestStatusLog rsl = new RequestStatusLog();
-            rsl.RequestId = id;
-            rsl.CreatedDate = DateTime.Now;
-            rsl.Status = 9;
-            _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
+                RequestStatusLog rsl = new RequestStatusLog();
+                rsl.RequestId = id;
+                rsl.CreatedDate = DateTime.Now;
+                rsl.Status = 9;
+                _adminInterface.AddRequestStatusLogFromCancelCase(rsl);
 
-            RequestClosed rc = new RequestClosed();
-            rc.RequestStatusLogId = rsl.RequestStatusLogId;
-            rc.RequestId = id;
-            _adminInterface.AddRequestClosedData(rc);
+                RequestClosed rc = new RequestClosed();
+                rc.RequestStatusLogId = rsl.RequestStatusLogId;
+                rc.RequestId = id;
+                _adminInterface.AddRequestClosedData(rc);
 
-            TempData["success"] = "Request Closed Successfully";
-            return View("AdminDashboard");
+                TempData["success"] = "Request Closed Successfully";
+                return View("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Case is not closed";
+                return View("AdminDashboard");
+            }
         }
 
         [HttpPost]
@@ -1690,66 +2021,94 @@ namespace HalloDoc.Controllers
         // function to store edited info of patient from Close Case view
         public IActionResult CloseCaseSubmitAction(CloseCaseModel model, int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 1;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
 
-            Request r = _adminInterface.ValidateRequest(id);
+                Request r = _adminInterface.ValidateRequest(id);
 
-            RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
-            rc.Email = model.email;
-            rc.PhoneNumber = model.phoneNumber;
-            _adminInterface.UpdateRequestClient(rc);
+                RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
+                rc.Email = model.email;
+                rc.PhoneNumber = model.phoneNumber;
+                _adminInterface.UpdateRequestClient(rc);
 
-            TempData["success"] = "Updated data";
-            return RedirectToAction("CloseCase", new { id });
+                TempData["success"] = "Updated data";
+                return RedirectToAction("CloseCase", new { id });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the information";
+                return RedirectToAction("CloseCase", new { id });
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to return Admin Profile view
         public IActionResult MyProfile()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 3;
-
-            AspNetUser anur = _adminInterface.GetAdminDataFromId(ad.AspNetUserId);
-            HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad.RegionId);
-
-            AdminProfile ap = new AdminProfile
+            try
             {
-                Username = anur.UserName,
-                firstName = ad.FirstName,
-                lastName = ad.LastName,
-                email = ad.Email,
-                confEmail = ad.Email,
-                phone = ad.Mobile,
-                address1 = ad.Address1,
-                address2 = ad.Address2,
-                city = ad.City,
-                state = r.Name,
-                adminId = ad.AdminId,
-                zipcode = ad.Zip,
-                allRegions = _adminInterface.GetAllRegion(),
-                an = an,
-            };
-            ap.regions = _adminInterface.GetAdminRegionFromId(ad.AdminId);
-            ap.regionOfAdmin = _adminInterface.GetAvailableRegionOfAdmin(ad.AdminId);
-            return View(ap);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 3;
+
+                AspNetUser anur = _adminInterface.GetAdminDataFromId(ad.AspNetUserId);
+                HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad.RegionId);
+
+                AdminProfile ap = new AdminProfile
+                {
+                    Username = anur.UserName,
+                    firstName = ad.FirstName,
+                    lastName = ad.LastName,
+                    email = ad.Email,
+                    confEmail = ad.Email,
+                    phone = ad.Mobile,
+                    address1 = ad.Address1,
+                    address2 = ad.Address2,
+                    city = ad.City,
+                    state = r.Name,
+                    adminId = ad.AdminId,
+                    zipcode = ad.Zip,
+                    allRegions = _adminInterface.GetAllRegion(),
+                    an = an,
+                };
+                ap.regions = _adminInterface.GetAdminRegionFromId(ad.AdminId);
+                ap.regionOfAdmin = _adminInterface.GetAvailableRegionOfAdmin(ad.AdminId);
+                return View(ap);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view admin profile";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
+        [HttpPost]
         [CustomAuthorize("Admin")]
         // function called when admin resets the password from My Profile page
         public IActionResult ProfilePasswordReset(AdminProfile model, int aid)
         {
-            AspNetUser anur = _adminInterface.GetAspNetFromAdminId(aid);
-            _adminInterface.AdminResetPassword(anur, model.Password);
-            TempData["success"] = "Password Updated Successfully";
-            return RedirectToAction("MyProfile");
+            try
+            {
+                AspNetUser anur = _adminInterface.GetAspNetFromAdminId(aid);
+                _adminInterface.AdminResetPassword(anur, model.Password);
+                TempData["success"] = "Password Updated Successfully";
+                return RedirectToAction("MyProfile");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to reset the password";
+                return RedirectToAction("MyProfile");
+            }
         }
 
         [HttpPost]
@@ -1757,96 +2116,174 @@ namespace HalloDoc.Controllers
         // function called to submit the changes made in Administrator Info section of Admin Profile
         public IActionResult ProfileAdministratorInfo(AdminProfile model, int aid, string selectedRegion)
         {
-            string[] regionArr = selectedRegion.Split(',');
-            char[] rId = selectedRegion.ToCharArray();
+            try
+            {
+                string[] regionArr = selectedRegion.Split(',');
+                char[] rId = selectedRegion.ToCharArray();
 
-            _adminInterface.UpdateAdminDataFromId(model, aid, selectedRegion);
+                _adminInterface.UpdateAdminDataFromId(model, aid, selectedRegion);
 
-            TempData["success"] = "Administrator info updated successfully";
-            return RedirectToAction("MyProfile");
+                TempData["success"] = "Administrator info updated successfully";
+                if (model.an == null)
+                {
+                    return RedirectToAction("UserAccess");
+                }
+                else
+                {
+                    return RedirectToAction("MyProfile");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the administrator information";
+                return RedirectToAction("MyProfile");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function called to submit the changes made in Mailing Info of Admin Profile
         public IActionResult ProfileMailingInfo(AdminProfile model, int aid)
         {
-            _adminInterface.UpdateMailingInfo(model, aid);
-            TempData["success"] = "Mailing info updated successfully";
-            return RedirectToAction("MyProfile");
+            try
+            {
+                _adminInterface.UpdateMailingInfo(model, aid);
+                TempData["success"] = "Mailing info updated successfully";
+                return RedirectToAction("MyProfile");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the mailing info";
+                return RedirectToAction("MyProfile");
+            }
         }
 
         [CustomAuthorize("Admin")]
-        // function to return Patient History view
-        public IActionResult PatientHistory()
+        public IActionResult AdminProfileFromUserAccess()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 14;
-            PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, null, null, null, null);
-            return View(pr);
-        }
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
 
-        [CustomAuthorize("Admin")]
-        // function to filter the records of Patient History
-        public IActionResult PatientHistoryFilter(string? firstName = "", string? lastName = "", string? email = "", string? phoneNumber = "", int page = 1, int pageSize = 10)
-        {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 14;
-            PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, firstName, lastName, phoneNumber, email, page, pageSize);
-            return PartialView("PatientHistoryPagePartialView", pr);
+                AspNetUser anur = _adminInterface.GetAdminDataFromId(ad.AspNetUserId);
+                HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad.RegionId);
+
+                AdminProfile ap = new AdminProfile
+                {
+                    Username = anur.UserName,
+                    firstName = ad.FirstName,
+                    lastName = ad.LastName,
+                    email = ad.Email,
+                    confEmail = ad.Email,
+                    phone = ad.Mobile,
+                    address1 = ad.Address1,
+                    address2 = ad.Address2,
+                    city = ad.City,
+                    state = r.Name,
+                    adminId = ad.AdminId,
+                    zipcode = ad.Zip,
+                    allRegions = _adminInterface.GetAllRegion(),
+                    an = an,
+                };
+                ap.regions = _adminInterface.GetAdminRegionFromId(ad.AdminId);
+                ap.regionOfAdmin = _adminInterface.GetAvailableRegionOfAdmin(ad.AdminId);
+                return View(ap);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view admin profile";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to return Patient Records view
         public IActionResult PatientRecords(int userid)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 14;
-            PatientHistoryViewModel pr = _adminInterface.PatientRecordsData(userid, an);
-            return View(pr);
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 17;
+                PatientHistoryViewModel pr = _adminInterface.PatientRecordsData(userid, an);
+                return View(pr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view patient records";
+                return RedirectToAction("PatientHistory");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to return Provider Menu view
         public IActionResult ProviderMenu()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 5;
-            ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, null);
-            return View(pm);
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, null);
+                return View(pm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view menu of providers";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to filter the records of Provider Menu view
         public IActionResult ProviderMenuFilter(int? region = -1, int page = 1, int pageSize = 10)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 5;
-            ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, region, page, pageSize);
-            return PartialView("ProviderMenuPartialView", pm);
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, region, page, pageSize);
+                return PartialView("ProviderMenuPartialView", pm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view menu of providers";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function called when we change the checkbox value of a record of Provider Menu view
         public IActionResult ChangeNotificationValue(int id)
         {
-            _adminInterface.ChangeNotificationValue(id);
-            TempData["success"] = "Notification status updated successfully";
-            return RedirectToAction("ProviderMenu");
+            try
+            {
+                _adminInterface.ChangeNotificationValue(id);
+                TempData["success"] = "Notification status updated successfully";
+                return RedirectToAction("ProviderMenu");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to change the notification status";
+                return RedirectToAction("ProviderMenu");
+            }
         }
 
         [CustomAuthorize("Admin")]
@@ -1855,62 +2292,60 @@ namespace HalloDoc.Controllers
         {
             int count = 1;
             bool isSent = false;
-            if (sendType == "Email" || sendType == "Both" || (count <= 3 && !isSent))
+            while (count <= 3 && !isSent)
             {
-                try
+                if (sendType == "Email" || sendType == "Both")
                 {
-
-                    string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                    string senderPassword = "Ishan@1503";
-
-                    SmtpClient client = new SmtpClient("smtp.office365.com")
+                    try
                     {
-                        Port = 587,
-                        Credentials = new NetworkCredential(senderEmail, senderPassword),
-                        EnableSsl = true,
-                        DeliveryMethod = SmtpDeliveryMethod.Network,
-                        UseDefaultCredentials = false
-                    };
-                    string resetToken = Guid.NewGuid().ToString();
-                    string resetLink = $"{Request.Scheme}://{Request.Host}/Login/SubmitRequestScreen?token={resetToken}";
+
+                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                        string senderPassword = "Ishan@1503";
+
+                        SmtpClient client = new SmtpClient("smtp.office365.com")
+                        {
+                            Port = 587,
+                            Credentials = new NetworkCredential(senderEmail, senderPassword),
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false
+                        };
+                        string resetToken = Guid.NewGuid().ToString();
+                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/SubmitRequestScreen?token={resetToken}";
 
 
 
-                    MailMessage mailMessage = new MailMessage
-                    {
-                        From = new MailAddress(senderEmail, "HalloDoc"),
-                        Subject = "Contact Your Provider",
-                        IsBodyHtml = true,
-                        Body = $"{message}"
-                    };
+                        MailMessage mailMessage = new MailMessage
+                        {
+                            From = new MailAddress(senderEmail, "HalloDoc"),
+                            Subject = "Contact Your Provider",
+                            IsBodyHtml = true,
+                            Body = $"{message}"
+                        };
 
-                    if (email != "")
-                    {
-                        mailMessage.To.Add(email);
-                        client.SendMailAsync(mailMessage);
-                        count++;
-                        isSent = true;
-                        TempData["success"] = "Email sent successfully";
-                        return RedirectToAction("ProviderMenu");
+                        if (email != "")
+                        {
+                            mailMessage.To.Add(email);
+                            client.SendMailAsync(mailMessage);
+                            isSent = true;
+                            TempData["success"] = "Email sent successfully";
+                            return RedirectToAction("ProviderMenu");
+                        }
+
+                        else
+                        {
+                            ModelState.AddModelError("Email", "Invalid Email");
+                            return RedirectToAction("ProviderMenu");
+                        }
                     }
-
-                    else
+                    catch (Exception ex)
                     {
-                        ModelState.AddModelError("Email", "Invalid Email");
                         return RedirectToAction("ProviderMenu");
                     }
                 }
-                catch (Exception ex)
-                {
-                    return RedirectToAction("ProviderMenu");
-                }
             }
-
-            else
-            {
-                ModelState.AddModelError("Email", "Invalid Email");
-                return RedirectToAction("ProviderMenu");
-            }
+            TempData["error"] = "Unable to send the email";
+            return RedirectToAction("ProviderMenu");
 
         }
 
@@ -1918,113 +2353,214 @@ namespace HalloDoc.Controllers
         // function to return Create Provider Account view
         public IActionResult CreateProviderAccount()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 5;
-            EditProviderAccountViewModel ep = new EditProviderAccountViewModel();
-            ep.adminNavbarModel = an;
-            ep.regions = _adminInterface.GetAllRegion();
-            ep.allRoles = _adminInterface.GetAllRoles();
-            return View(ep);
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                EditProviderAccountViewModel ep = new EditProviderAccountViewModel();
+                ep.adminNavbarModel = an;
+                ep.regions = _adminInterface.GetAllRegion();
+                ep.allRoles = _adminInterface.GetSpecifiedProviderRoles();
+                return View(ep);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the provider account";
+                return RedirectToAction("ProviderMenu");
+            }
         }
 
+        [HttpPost]
         [CustomAuthorize("Admin")]
         public IActionResult CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 5;
-            _adminInterface.CreateNewProviderAccount(model, regionNames, ad.AdminId);
-            TempData["success"] = "Provider account created successfully";
-            return RedirectToAction("CreateProviderAccount");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                _adminInterface.CreateNewProviderAccount(model, regionNames, ad.AdminId);
+                TempData["success"] = "Provider account created successfully";
+                return RedirectToAction("CreateProviderAccount");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the new provider account";
+                return RedirectToAction("CreateProviderAccount");
+            }
         }
 
         // function to return Edit Provider Account view
         public IActionResult EditProviderAccount(int id)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 5;
-            EditProviderAccountViewModel ep = _adminInterface.ProviderEditAccount(id, an);
-            return View(ep);
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                EditProviderAccountViewModel ep = _adminInterface.ProviderEditAccount(id, an);
+                return View(ep);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the provider account";
+                return RedirectToAction("ProviderMenu");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to save changed password of provider
         public IActionResult SavePasswordOfProvider(EditProviderAccountViewModel ep)
         {
-            _adminInterface.SavePasswordOfPhysician(ep);
-            return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            try
+            {
+                _adminInterface.SavePasswordOfPhysician(ep);
+                return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to change the password of account";
+                return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to save changes of billing info of provider
         public IActionResult EditProviderBillingInfo(EditProviderAccountViewModel ep)
         {
-            _adminInterface.EditProviderBillingInfo(ep);
-            return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            try
+            {
+                _adminInterface.EditProviderBillingInfo(ep);
+                return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the billing info";
+                return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to save provider info
         public IActionResult SaveProviderProfile(EditProviderAccountViewModel ep, string selectedRegionsList)
         {
-            _adminInterface.SaveProviderProfile(ep, selectedRegionsList);
-            return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            try
+            {
+                _adminInterface.SaveProviderProfile(ep, selectedRegionsList);
+                return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to save the provider info";
+                return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
+            }
         }
 
         [HttpPost]
         // function called when we upload file of signature of provider
         public IActionResult SetContentOfPhysician(IFormFile file, int PhysicianId, bool IsSignature)
         {
-            _adminInterface.SetContentOfPhysician(file, PhysicianId, IsSignature);
-            return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+            try
+            {
+                _adminInterface.SetContentOfPhysician(file, PhysicianId, IsSignature);
+                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to upload files of provider";
+                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+            }
         }
 
         // function to upload all other docs of provider
         public IActionResult SetAllDocOfPhysician(IFormFile file, int PhysicianId, int num)
         {
-            _adminInterface.SetAllDocOfPhysician(file, PhysicianId, num);
-            return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+            try
+            {
+                _adminInterface.SetAllDocOfPhysician(file, PhysicianId, num);
+                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to upload files of provider";
+                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+            }
         }
 
         // function to save changes of provider profile
         public IActionResult PhysicianProfileUpdate(EditProviderAccountViewModel model)
         {
-            _adminInterface.PhysicianProfileUpdate(model);
-            return RedirectToAction("EditProviderAccount", new { id = model.PhysicianId });
+            try
+            {
+                _adminInterface.PhysicianProfileUpdate(model);
+                return RedirectToAction("EditProviderAccount", new { id = model.PhysicianId });
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to update the provider info";
+                return RedirectToAction("EditProviderAccount", new { id = model.PhysicianId });
+            }
         }
 
 
 
         public IActionResult DeletePhysicianAccount(int id)
         {
-            _adminInterface.DeletePhysicianAccount(id);
-            TempData["success"] = "Account deleted successfully";
-            return RedirectToAction("ProviderMenu");
+            try
+            {
+                _adminInterface.DeletePhysicianAccount(id);
+                TempData["success"] = "Account deleted successfully";
+                return RedirectToAction("ProviderMenu");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to delete the provider profile";
+                return RedirectToAction("ProviderMenu");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to return Create Role view
         public IActionResult CreateRole()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 9;
-            CreateRoleViewModel cr = new CreateRoleViewModel
+            try
             {
-                adminNavbarModel = an,
-                allRoles = _adminInterface.GetAllMenus(),
-            };
-            return View(cr);
+
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
+                CreateRoleViewModel cr = new CreateRoleViewModel
+                {
+                    adminNavbarModel = an,
+                    allRoles = _adminInterface.GetAllMenus(),
+                };
+                return View(cr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the role";
+                return RedirectToAction("AccountAccess");
+            }
         }
 
         [HttpPost]
@@ -2032,68 +2568,106 @@ namespace HalloDoc.Controllers
         // function to create a new role
         public IActionResult CreateNewRole(string roleName, string acType, string menuIdString)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 9;
-            List<int> menuIds = null;
-            if (!string.IsNullOrEmpty(menuIdString))
+            try
             {
-                menuIds = menuIdString.Split(',').Select(int.Parse).ToList();
+
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
+                List<int> menuIds = null;
+                if (!string.IsNullOrEmpty(menuIdString))
+                {
+                    menuIds = menuIdString.Split(',').Select(int.Parse).ToList();
+                }
+                _adminInterface.CreateNewRole2(roleName, acType, an.Admin_Name, menuIds);
+                TempData["success"] = "New role created";
+                return RedirectToAction("CreateRole");
             }
-            _adminInterface.CreateNewRole2(roleName, acType, an.Admin_Name, menuIds);
-            TempData["success"] = "New role created";
-            return RedirectToAction("CreateRole");
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the role";
+                return RedirectToAction("CreateRole");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to return view of Account Access page
         public IActionResult AccountAccess()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 9;
-            CreateRoleViewModel cr = new CreateRoleViewModel
+            try
             {
-                adminNavbarModel = an,
-                allRoles = _adminInterface.GetAllMenus(),
-                roles = _adminInterface.GetAllRoles(),
-            };
-            return View(cr);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
+                CreateRoleViewModel cr = new CreateRoleViewModel
+                {
+                    adminNavbarModel = an,
+                    allRoles = _adminInterface.GetAllMenus(),
+                    roles = _adminInterface.GetAllRoles(),
+                };
+                return View(cr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to access the accounts";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to delete a role
         public IActionResult DeleteRole(int roleid)
         {
-            _adminInterface.DeleteRoleFromId(roleid);
-            TempData["success"] = "Role deleted successfully";
-            return RedirectToAction("AccountAccess");
+            try
+            {
+                _adminInterface.DeleteRoleFromId(roleid);
+                TempData["success"] = "Role deleted successfully";
+                return RedirectToAction("AccountAccess");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to delete the role";
+                return RedirectToAction("AccountAccess");
+            }
         }
 
         [CustomAuthorize("Admin")]
         // function to return Edit Role view
         public IActionResult EditRole(int roleid)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 9;
-            CreateRoleViewModel cr = new CreateRoleViewModel
+            try
             {
-                adminNavbarModel = an,
-                allRoles = _adminInterface.GetAllMenus(),
-                roles = _adminInterface.GetAllRoles(),
-                roleMenus = _adminInterface.GetAllRoleMenu(roleid),
-                NameOfRole = _adminInterface.GetNameFromRoleId(roleid),
-                accountType = _adminInterface.GetAccountTypeFromId(roleid),
-                roleId = roleid,
-            };
-            return View(cr);
+
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
+                CreateRoleViewModel cr = new CreateRoleViewModel
+                {
+                    adminNavbarModel = an,
+                    allRoles = _adminInterface.GetAllMenus(),
+                    roles = _adminInterface.GetAllRoles(),
+                    roleMenus = _adminInterface.GetAllRoleMenu(roleid),
+                    NameOfRole = _adminInterface.GetNameFromRoleId(roleid),
+                    accountType = _adminInterface.GetAccountTypeFromId(roleid),
+                    roleId = roleid,
+                };
+                return View(cr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the role";
+                return RedirectToAction("AccountAccess");
+            }
         }
 
         [HttpPost]
@@ -2101,47 +2675,164 @@ namespace HalloDoc.Controllers
         // function to edit a role
         public IActionResult EditRoleSubmit(string menuIdString, int roleid)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 9;
-            List<int> menuIds = null;
-            if (!string.IsNullOrEmpty(menuIdString))
+            try
             {
-                menuIds = menuIdString.Split(',').Select(int.Parse).ToList();
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
+                List<int> menuIds = null;
+                if (!string.IsNullOrEmpty(menuIdString))
+                {
+                    menuIds = menuIdString.Split(',').Select(int.Parse).ToList();
+                }
+                _adminInterface.EditRoleSubmitAction(roleid, menuIds);
+                TempData["success"] = "Role edited successfully";
+                return RedirectToAction("AccountAccess");
             }
-            _adminInterface.EditRoleSubmitAction(roleid, menuIds);
-            TempData["success"] = "Role edited successfully";
-            return RedirectToAction("AccountAccess");
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit the role";
+                return RedirectToAction("AccountAccess");
+            }
         }
 
         [CustomAuthorize("Admin")]
         public IActionResult CreateAdminAccount()
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 5;
-            AdminProfile ap = new AdminProfile();
-            ap.an = an;
-            ap.allRoles = _adminInterface.GetAllRoles();
-            ap.allRegions = _adminInterface.GetAllRegions();
-            return View(ap);
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                AdminProfile ap = new AdminProfile();
+                ap.an = an;
+                ap.allRoles = _adminInterface.GetSpecifiedAdminRoles();
+                ap.allRegions = _adminInterface.GetAllRegions();
+                return View(ap);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the admin account";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
+        [HttpPost]
         [CustomAuthorize("Admin")]
         public IActionResult CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames)
         {
-            var userId = HttpContext.Session.GetInt32("id");
-            Admin ad = _adminInterface.GetAdminFromId((int)userId);
-            AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-            an.Tab = 5;
-            _adminInterface.CreateNewProviderAccount(model, regionNames, ad.AdminId);
-            TempData["success"] = "Provider account created successfully";
-            return RedirectToAction("CreateProviderAccount");
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                _adminInterface.CreateNewAdminAccount(model, regionNames, ad.AdminId);
+                TempData["success"] = "Provider account created successfully";
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the admin account";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin")]
+        // function to return Patient History view
+        public IActionResult PatientHistory()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 17;
+                PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, null, null, null, null);
+                return View(pr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view history of patients";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin")]
+        // function to filter the records of Patient History
+        public IActionResult PatientHistoryFilter(string? firstName = "", string? lastName = "", string? email = "", string? phoneNumber = "", int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 17;
+                PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, firstName, lastName, phoneNumber, email, page, pageSize);
+                return PartialView("PatientHistoryPagePartialView", pr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view history of patients";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult UserAccess()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
+                UserAccessViewModel cr = new UserAccessViewModel
+                {
+                    adminNavbarModel = an,
+                };
+                return View(cr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to access the accounts";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin")]
+        public IActionResult UserAccessFilter(int? accountType = -1)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 10;
+                UserAccessViewModel ua = _adminInterface.UserAccessFilteredData(an, (int)accountType);
+                return PartialView("UserAccessPagePartialView", ua);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view data of users";
+                return RedirectToAction("AdminDashboard");
+            }
         }
 
     }

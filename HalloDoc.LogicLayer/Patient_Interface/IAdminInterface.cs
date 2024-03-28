@@ -101,6 +101,10 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void DeletePhysicianAccount(int id);
         public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId);
         public List<RequestStatusLog> GetAllRslData(int requestId);
+        public List<Role> GetSpecifiedAdminRoles();
+        public List<Role> GetSpecifiedProviderRoles();
+        public void CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId);
+        public UserAccessViewModel UserAccessFilteredData(AdminNavbarModel an, int accountType);
 
 
     }

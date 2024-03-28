@@ -70,7 +70,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(exp).OrderByDescending(e => e.CreatedDate);
 
-            if (search != null)
+            if (search != null && search != "")
             {
                 query = query.Where(r => r.RequestClient.FirstName.ToLower().Contains(search.ToLower()) || r.RequestClient.LastName.ToLower().Contains(search.ToLower()));
             }
@@ -795,6 +795,16 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Roles.ToList();
         }
 
+        public List<Role> GetSpecifiedAdminRoles()
+        {
+            return _context.Roles.Where(r => r.AccountType == 1 && r.IsDeleted == new BitArray(1, false)).ToList();
+        }
+
+        public List<Role> GetSpecifiedProviderRoles()
+        {
+            return _context.Roles.Where(r => r.AccountType == 2 && r.IsDeleted == new BitArray(1, false)).ToList();
+        }
+
         public void DeleteRoleFromId(int roleId)
         {
             Role r = _context.Roles.Where(r => r.RoleId == roleId).FirstOrDefault();
@@ -1109,12 +1119,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId)
         {
             Admin ad = GetAdminFromId(userId);
-            Physician ph = _context.Physicians.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
 
             AspNetUser anu = new AspNetUser();
             AspNetUserRole anur = new AspNetUserRole();
             Physician p = new Physician();
             PhysicianNotification pn = new PhysicianNotification();
+            Physician ph = _context.Physicians.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
 
             anu.UserName = "MD." + model.LastName + "." + model.FirstName[0];
             anu.PasswordHash = model.Password;
@@ -1146,25 +1156,30 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             p.RegionId = model.regionId;
             p.Zip = model.Zip;
             p.AltPhone = model.MailingPhoneNo;
-            p.CreatedBy = 40;
+            p.CreatedBy = ad.AspNetUserId;
             p.CreatedDate = DateTime.Now;
             p.Status = 1;
             p.BusinessName = model.BusinessName;
             p.BusinessWebsite = model.BusinessWebsite;
             p.IsDeleted = new BitArray(1, false);
             p.RoleId = model.roleId;
+            p.Status = 1;
             _context.Physicians.Add(p);
-            _context.SaveChanges();
+            //_context.SaveChanges();
 
-            pn.PhysicianId = p.PhysicianId;
+            pn.Physician = p;
             pn.IsNotificationStopped = new BitArray(1, false);
+            _context.PhysicianNotifications.Add(pn);
+            _context.SaveChanges();
 
             foreach (var item in regionNames)
             {
                 PhysicianRegion pr = new PhysicianRegion();
-                pr.PhysicianId = p.PhysicianId;
+                pr.Physician = p;
                 pr.RegionId = item;
                 _context.PhysicianRegions.Add(pr);
+                _context.SaveChanges();
+
             }
 
             if (model.ContractAgreementFile != null)
@@ -1185,6 +1200,79 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
 
             _context.SaveChanges();
+        }
+
+        public void CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId)
+        {
+            Admin ad = GetAdminFromId(userId);
+            AdminRegion arr = _context.AdminRegions.OrderByDescending(r => r.AdminRegionId).FirstOrDefault();
+            AspNetUser anu = new AspNetUser();
+            AspNetUserRole anur = new AspNetUserRole();
+            Admin a = new Admin();
+            int id = arr.AdminRegionId + 1;
+
+            anu.UserName = "MD." + model.LastName + "." + model.FirstName[0];
+            anu.PasswordHash = model.Password;
+            anu.Email = model.Email;
+            anu.PhoneNumber = model.Phone;
+            anu.CreatedDate = DateTime.Now;
+            _context.AspNetUsers.Add(anu);
+            _context.SaveChanges();
+
+            anur.UserId = anu.Id;
+            anur.RoleId = 3;
+            _context.AspNetUserRoles.Add(anur);
+
+            a.AspNetUserId = anu.Id;
+            a.FirstName = model.FirstName;
+            a.LastName = model.LastName;
+            a.Email = model.Email;
+            a.Mobile = model.Phone;
+            a.Address1 = model.Address1;
+            a.Address2 = model.Address2;
+            a.City = model.City;
+            a.RegionId = model.regionId;
+            a.Zip = model.Zip;
+            a.AltPhone = model.MailingPhoneNo;
+            a.CreatedBy = ad.AspNetUserId; 
+            a.CreatedDate = DateTime.Now;
+            a.Status = 1;
+            a.IsDeleted = false;
+            _context.Admins.Add(a);
+
+            foreach (var item in regionNames)
+            {
+                AdminRegion ar = new AdminRegion();
+                ar.AdminRegionId = id;
+                ar.Admin = a;
+                ar.RegionId = item;
+                id++;
+                _context.AdminRegions.Add(ar);
+                _context.SaveChanges();
+            }
+
+            _context.SaveChanges();
+        }
+
+        UserAccessViewModel IAdminInterface.UserAccessFilteredData(AdminNavbarModel an, int accountType)
+        {
+            UserAccessViewModel ua = new UserAccessViewModel();
+            ua.accountType = accountType;
+            if(accountType == 1)
+            {
+                ua.admins = _context.Admins.ToList();
+            }
+            else if(accountType == 2)
+            {
+                ua.physicians = _context.Physicians.ToList();
+            }
+            else
+            {
+                ua.admins = _context.Admins.ToList();
+                ua.physicians = _context.Physicians.ToList();
+            }
+            ua.adminNavbarModel = an;
+            return ua;
         }
     }
 }

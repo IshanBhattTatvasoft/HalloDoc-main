@@ -541,16 +541,18 @@
 
         // code to show/hide triangle when a status is active/inactive
         const changeStatus = (element) => {
-            localStorage.setItem("status", document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
-            console.log("Status in local: "+localStorage.getItem("status"));
             const states = document.getElementsByClassName("state");
             const current_state = element.classList[1];
+            console.log("Current state " + current_state);
             for (let i = 0; i < states.length; ++i) {
                 if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
                     break;
                 }
                 else if (states[i].classList[1] == current_state) {
                     states[i].classList.add(`${states[i].classList[1]}-active`);
+                    let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
+                    let finalName = name.split("State")[0];
+                    localStorage.setItem("status", finalName);
                     document.getElementById(`${states[i].classList[1]}-active`).classList.remove('hide');
                     document.getElementById(`${states[i].classList[1]}`).classList.add('hide');
                     //console.log(document.getElementById(`${states[i].classList[1]}`));
@@ -566,18 +568,19 @@
             }
             let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
             let finalName = name.split("State")[0];
-            console.log("Final name : " + finalName);
+            //console.log("Final name : " + finalName);
             //console.log(finalName);
             if (finalName == "toclose") {
                 document.getElementById("status-text").innerHTML = "(To Close)";
             } else {
                 document.getElementById("status-text").innerHTML = `(${finalName.charAt(0).toUpperCase() + finalName.slice(1)})`;
             }
-
+            var statusName = localStorage.getItem("status").charAt(0).toUpperCase();
             $.ajax({
                 url: `/Admin/${finalName.charAt(0).toUpperCase() + finalName.slice(1)}`,
-                type: 'GET',
+                type: 'POST',
                 dataType: 'html',
+                data: {status: statusName, page: 1, pageSize: 10 },
                 // Pass your data here
                 success: function (response) {
                     $("#AdminDashboardPartialView").html(response);
@@ -595,7 +598,7 @@
         const changeFilter = (element) => {
             const states = document.getElementsByClassName("req-filter");
             const curr_state = element.classList[1];
-            console.log("Current filter : " + curr_state);
+            //console.log("Current filter : " + curr_state);
 
             const statesName = document.getElementsByClassName("state");
             const current_state = element.classList[1];
@@ -621,17 +624,17 @@
         // code to show filtered data
         const filter = (page, pageSize) => {
             localStorage.setItem("status", document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1))
-            console.log(localStorage.setItem("status", document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)));
-
+            //console.log(localStorage.setItem("status", document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)));
+            var statusName = localStorage.getItem("status").charAt(0).toUpperCase();
             const states = document.getElementsByClassName("req-filter");
-            console.log("Status: " + document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
+            //console.log("Status: " + document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
             for (let i = 0; i < states.length; i++) {
                 if (states[i].classList.length == 11) {
                     $.ajax({
                         url: `/Admin/${document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)}`,
                         type: 'POST',
                         dataType: 'html',
-                        data: { search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1], page: page, pageSize: pageSize },
+                        data: {status: statusName, search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1], page: page, pageSize: pageSize },
 
                         success: function (response) {
                             $("#AdminDashboardPartialView").html(response);
@@ -653,18 +656,21 @@
             filter(this);
         });
 
-
-        $(document).ready(function () {
+        window.onload = () => {
             var className = localStorage.getItem("status").toLowerCase();
-            if (localStorage.getItem("status") != "New" || localStorage.getItem("status") == null) {
+            className = className.charAt(0).toUpperCase();
+            //console.log("Class name:" + className);
+            if (localStorage.getItem("status") == null) {
                 console.log("1");
-                designStatus(className);
+                designStatus(localStorage.getItem("status").toLowerCase());
                 $.ajax({
                     url: `/Admin/New`,
                     type: 'POST',
                     dataType: 'html',
+                    data: { status: className, page: 1, pageSize: 10 },
                     // Pass your data here
                     success: function (response) {
+                        console.log("Success response of " + className);
                         $("#AdminDashboardPartialView").html(response);
 
                     },
@@ -673,32 +679,37 @@
                     }
                 });
             }
-            else{
+            else {
+                var className = localStorage.getItem("status").toLowerCase();
+                console.log(className);
                 console.log("2");
                 designStatus(localStorage.getItem("status").toLowerCase());
+
+                //console.log(localStorage.getItem("status").toLowerCase())
                 $.ajax({
-                    url: `/Admin/${localStorage.getItem("status")}`,
+                    url: `/Admin/New`,
                     type: 'POST',
                     dataType: 'html',
+            
                     // Pass your data here
                     success: function (response) {
-                        $("AdminDashboardPartialView").html(response)
+
+                        //console.log(response);
+                        $("#AdminDashboardPartialView").html(response)
                     },
                     error: function () {
                         alert('An error occurred.');
                     }
                 });
             }
-
-
-        });
+        }
 
         const designStatus = (name2) => {
             const states = document.getElementsByClassName("state");
-            console.log(name2);
-            const current_state = name2;
+            const current_state = name2 + "State";
+            console.log("Current state in design "+current_state);
             for (let i = 0; i < states.length; ++i) {
-                if (states[i].classList.length == 3 && states[i].classList[1] == current_state) {
+                if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
                     break;
                 }
                 else if (states[i].classList[1] == current_state) {
@@ -707,14 +718,14 @@
                     document.getElementById(`${states[i].classList[1]}`).classList.add('hidden')
                     document.getElementById(`${states[i].classList[1]}-img`).classList.remove('hidden')
                 }
-                else if (states[i].classList.length == 3) {
+                else if (states[i].classList.length == 4) {
                     states[i].classList.remove(`${states[i].classList[1]}-active`)
                     document.getElementById(`${states[i].classList[1]}-active`).classList.add('hidden')
                     document.getElementById(`${states[i].classList[1]}`).classList.remove('hidden')
                     document.getElementById(`${states[i].classList[1]}-img`).classList.add('hidden')
                 }
             }
-            let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1]
+            let name = name2.split("-").length == 1 ? name2.split("-")[0] : name2.split("-")[1]
             document.getElementById("status-text").innerHTML = `(${name.charAt(0).toUpperCase() + name.slice(1)})`
         }
 
