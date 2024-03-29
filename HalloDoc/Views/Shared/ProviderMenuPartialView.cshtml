@@ -42,7 +42,7 @@
                     </td>
                     <td>
                         <button type="button" data-bs-toggle="modal" data-bs-target="#contactProviderModal" class="btn btn-outline-info" onclick="fetchEmail('@item.Email')">Contact</button>
-                        <a type="button" class="btn btn-outline-info" asp-action="EditProviderAccount" asp-controller="Admin" asp-route-id="@item.PhysicianId">Edit</a>
+                        <a class="btn btn-outline-info" asp-action="EditProviderAccount" asp-controller="Admin" asp-route-id="@item.PhysicianId">Edit</a>
                     </td>
                 </tr>
             }

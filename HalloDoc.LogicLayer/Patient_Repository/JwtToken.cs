@@ -33,12 +33,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public string GenerateJwtToken(AspNetUser user)
         {
             AspNetUserRole anur = _context.AspNetUserRoles.Where(a => a.UserId == user.Id).FirstOrDefault();
+            Admin ad = _context.Admins.Where(a => a.AspNetUserId == user.Id).FirstOrDefault();
             AspNetRole anr = _context.AspNetRoles.Where(b => b.Id == anur.RoleId).FirstOrDefault();
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, anr.Name),
-                new Claim("userId", user.Id.ToString())
+                new Claim("userId", user.Id.ToString()),
+                new Claim("roleId", anur.RoleId.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
@@ -81,7 +83,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 }, out SecurityToken validatedToken);
 
                 jwtSecurityToken = (JwtSecurityToken)validatedToken;
-
+                var x = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "roleId").Value;
                 if (jwtSecurityToken != null)
                 {
                     return true;
@@ -91,6 +93,39 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             catch
             {
                 return false;
+            }
+        }
+
+        public string GetRoleId(string token)
+        {
+            string roleId = "";
+
+            if (token == null)
+            {
+                return roleId;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
+
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero,
+                }, out SecurityToken validatedToken);
+
+                JwtSecurityToken jwtSecurityToken = (JwtSecurityToken)validatedToken;
+                var x = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "roleId").Value;
+                return x;
+            }
+            catch
+            {
+                return roleId;
             }
         }
     }

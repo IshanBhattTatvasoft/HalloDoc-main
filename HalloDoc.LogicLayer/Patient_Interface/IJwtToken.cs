@@ -12,6 +12,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
     {
         public string GenerateJwtToken(AspNetUser user);
         public bool ValidateToken(string token, out JwtSecurityToken jwtSecurityToken);
+        public string GetRoleId(string token);
 
     }
 }

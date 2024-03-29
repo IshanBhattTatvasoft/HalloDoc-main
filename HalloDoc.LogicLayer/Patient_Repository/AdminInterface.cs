@@ -433,9 +433,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.AspNetUsers.FirstOrDefault(u => u.UserName == model.UserName);
         }
 
-        public Admin ValidateUser(LoginViewModel model)
+        public Admin ValidateUser(string email)
         {
-            Admin user = _context.Admins.FirstOrDefault(x => x.Email == model.UserName);
+            Admin user = _context.Admins.FirstOrDefault(x => x.Email == email);
             return user;
         }
 
@@ -1211,7 +1211,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Admin a = new Admin();
             int id = arr.AdminRegionId + 1;
 
-            anu.UserName = "MD." + model.LastName + "." + model.FirstName[0];
+            anu.UserName = model.LastName + model.FirstName[0];
             anu.PasswordHash = model.Password;
             anu.Email = model.Email;
             anu.PhoneNumber = model.Phone;
@@ -1220,7 +1220,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
 
             anur.UserId = anu.Id;
-            anur.RoleId = 3;
+            anur.RoleId = 1;
             _context.AspNetUserRoles.Add(anur);
 
             a.AspNetUserId = anu.Id;
@@ -1234,10 +1234,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             a.RegionId = model.regionId;
             a.Zip = model.Zip;
             a.AltPhone = model.MailingPhoneNo;
-            a.CreatedBy = ad.AspNetUserId; 
+            a.CreatedBy = ad.AspNetUserId;
             a.CreatedDate = DateTime.Now;
             a.Status = 1;
             a.IsDeleted = false;
+            a.RoleId = model.roleId;
             _context.Admins.Add(a);
 
             foreach (var item in regionNames)
@@ -1258,11 +1259,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             UserAccessViewModel ua = new UserAccessViewModel();
             ua.accountType = accountType;
-            if(accountType == 1)
+            if (accountType == 1)
             {
                 ua.admins = _context.Admins.ToList();
             }
-            else if(accountType == 2)
+            else if (accountType == 2)
             {
                 ua.physicians = _context.Physicians.ToList();
             }
@@ -1273,6 +1274,39 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
             ua.adminNavbarModel = an;
             return ua;
+        }
+
+        public List<string> GetAllMenus(string roleId)
+        {
+            List<RoleMenu> rm = _context.RoleMenus.Where(m => m.RoleId == int.Parse(roleId)).ToList();
+            var menus = from r in rm join m in _context.Menus on r.MenuId equals m.MenuId select m.Name;
+            return menus.ToList();
+        }
+
+        public List<BlockedHistoryData> GetBlockedHistoryData()
+        {
+            List<BlockedHistoryData> allData = new List<BlockedHistoryData>();
+            List<BlockRequest> br = _context.BlockRequests.ToList();
+
+            foreach (var item in br)
+            {
+                BlockedHistoryData single = new BlockedHistoryData();
+                single.singleBlockRequest = item;
+                Request r = _context.Requests.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
+                RequestClient rc = _context.RequestClients.Where(rc => rc.RequestClientId == r.RequestClientId).FirstOrDefault();
+                single.patientName = rc.FirstName + ", " + rc.LastName;
+                allData.Add(single);
+            }
+
+            return allData;
+        }
+
+        public void UnblockRequest(int id)
+        {
+            BlockRequest br = _context.BlockRequests.Where(b => b.RequestId == id).FirstOrDefault();
+            br.IsActive = new BitArray(1, false);
+            _context.BlockRequests.Update(br);
+            _context.SaveChanges();
         }
     }
 }

@@ -7,9 +7,9 @@
 }
 
 <body class="bg-light">
+    <div class="bg-light" style="overflow: hidden;">
     <partial name="Toast" />
     <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
-    <div class="bg-light" style="overflow: hidden;">
         <div class="container">
             <div class="row">
                 <div style="top: 42px; position: relative;" class="col">
@@ -41,6 +41,11 @@
                             <option value="2" class="bg-white">Physician</option>
                         </select>
                     </div>
+                    <div class="col-7 ms-5 mt-3">
+                        <input type="hidden" id="createAcc" />
+                        <a asp-action="CreateAdminAccountFromUserAccess" asp-controller="Admin" class="btn btn-info text-white float-end" id="createAdmin" style="display: none;">Add</a>
+                        <a asp-action="CreateProviderAccountFromUserAccess" asp-controller="Admin" class="btn btn-info text-white float-end" id="createPhysician" style="display: none;">Add</a>
+                    </div>
                 </div>
 
                 <div>
@@ -55,6 +60,8 @@
 <script>
     console.log("hello");
     window.onload = () => {
+        document.getElementById("createAcc").value = "All";
+
         $.ajax({
             url: '/Admin/UserAccessFilter',
             type: 'POST',
@@ -73,7 +80,27 @@
 
     function filter()
     {
-        console.log("Filter called");
+        var accType = document.getElementById("select-role").value;
+
+        if(accType == 1)
+        {
+            document.getElementById("createAcc").value = "CreateAdminAccountFromUserAccess";
+            document.getElementById("createAdmin").style.display = "block";
+            document.getElementById("createPhysician").style.display = "none";
+        }
+        else if(accType == 2)
+        {
+            document.getElementById("createAcc").value = "CreateProviderAccountFromUserAccess";
+            document.getElementById("createAdmin").style.display = "none";
+            document.getElementById("createPhysician").style.display = "block";
+        }
+        else{
+            document.getElementById("createAcc").value = "All";
+            document.getElementById("createAdmin").style.display = "none";
+            document.getElementById("createPhysician").style.display = "none";
+        }
+
+        console.log("Account type: " + document.getElementById("createAcc").value);
         $.ajax({
             url: '/Admin/UserAccessFilter',
             type: 'POST',
@@ -89,4 +116,5 @@
             }
         });
     }
+    
 </script>

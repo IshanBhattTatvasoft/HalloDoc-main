@@ -49,7 +49,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.CreatedDate = DateTime.Now;
                 aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
-                
+                _context.SaveChanges();
 
                 user.AspNetUserId = aspNetUser.Id;
                 user.FirstName = model.FirstName;
@@ -66,7 +66,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 user.CreatedBy = aspNetUser.Id;
                 user.CreatedDate = DateTime.Now;
                 _context.Users.Add(user);
-                
+                _context.SaveChanges();
+
             }
             Region r = _context.Regions.Where(re => re.Name == model.State).FirstOrDefault();
             requestClient.FirstName = model.FirstName;
@@ -88,7 +89,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             requestClient.State = model.State;
             requestClient.ZipCode = model.Zipcode;
             _context.RequestClients.Add(requestClient);
-            
+            _context.SaveChanges();
+
 
             int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
             string ConfirmationNumber = string.Concat(region2.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
@@ -113,7 +115,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.CreatedDate = DateTime.Now;
             request.RequestClientId = requestClient.RequestClientId;
             _context.Requests.Add(request);
-            
+            _context.SaveChanges();
+
 
             if (model.ImageContent != null && model.ImageContent.Length > 0)
             {

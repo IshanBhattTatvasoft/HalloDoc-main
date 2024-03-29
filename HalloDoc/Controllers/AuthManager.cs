@@ -28,15 +28,18 @@ namespace HalloDoc.Controllers
     public class CustomAuthorize : Attribute, IAuthorizationFilter
     {
         private readonly string _role;
+        private readonly string _menu;
 
-        public CustomAuthorize(string role = "")
+        public CustomAuthorize(string role = "", string menu = "")
         {
             _role = role;
+            _menu = menu;
         }
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
             var jwtService = context.HttpContext.RequestServices.GetService<IJwtToken>();
+            var adminInterface = context.HttpContext.RequestServices.GetService<IAdminInterface>();
             if (jwtService == null)
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "PatientLoginPage", }));
@@ -67,6 +70,25 @@ namespace HalloDoc.Controllers
                 return;
             }
 
+            string roleIdVal = jwtToken.Claims.FirstOrDefault(claim => claim.Type == "roleId").Value;
+
+            List<string> allMenus = adminInterface.GetAllMenus(roleIdVal);
+
+            bool isHavingAccess = false;
+
+            if (_menu != null)
+            {
+                if (allMenus.Any(r => r == _menu))
+                {
+                    isHavingAccess = true;
+                }
+            }
+
+            if (!isHavingAccess)
+            {
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PageNotFound", }));
+                return;
+            }
         }
 
 

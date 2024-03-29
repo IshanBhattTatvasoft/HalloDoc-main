@@ -66,11 +66,11 @@ namespace HalloDoc.Controllers
                 //var user = _loginPage.ValidateAspNetUser(model);
                 AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
                 if (user != null)
-                {
+                { 
                     var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
-                        Admin ad = _adminInterface.ValidateUser(model);
+                        Admin ad = _adminInterface.ValidateUser(user.Email);
                         User user2 = _loginPage.ValidateUsers(model);
                         if(ad==null)
                         {

@@ -319,7 +319,7 @@
                         <p class="mb-3 text-muted fs-4">To assign this request, search and select another Physician</p>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region" onchange="fetchRegionData()">
-                                <i class="bi bi-person"></i> Narrow Search by Region
+                                <option value="-1" selected disabled><i class="bi bi-person"></i> Narrow Search by Region</option>
                                 @foreach (var item in Model.regions)
                                 {
                                     <option value="@item.RegionId" class="bg-white">@item.Name</option>
@@ -364,7 +364,7 @@
                         <p class="mb-3 text-muted fs-4">To transfer this request, search and select another physician</p>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region-for-transfer" onchange="fetchRegionData2()">
-                                <i class="bi bi-person"></i> Narrow Search by Region
+                                <option value="-1" selected disabled><i class="bi bi-person"></i> Narrow Search by Region</option>
                                 @foreach (var item in Model.regions)
                                 {
                                     <option value="@item.RegionId" class="bg-white">@item.Name</option>
@@ -538,6 +538,34 @@
 
         var curr_state = "All";
 
+        const designStatus = (name2) => {
+            const states = document.getElementsByClassName("state");
+            const current_state = name2 + "State";
+            
+
+            for (let i = 0; i < states.length; ++i) {
+                console.log("sksksk");
+                console.log("Class name of class " + i + " in design function: " + states[i].classList[1]);
+                if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
+                    break;
+                }
+                else if (states[i].classList[1] == current_state) {
+                    states[i].classList.add(`${states[i].classList[1]}-active`)
+                    document.getElementById(`${states[i].classList[1]}-active`).classList.remove('hide')
+                    document.getElementById(`${states[i].classList[1]}`).classList.add('hide')
+                    document.getElementById(`${states[i].classList[1]}-img`).classList.remove('hide-caret');
+                }
+                else if (states[i].classList.length == 4) {
+                    states[i].classList.remove(`${states[i].classList[1]}-active`);
+                    document.getElementById(`${states[i].classList[1]}-active`).classList.add('hide');
+                    document.getElementById(`${states[i].classList[1]}`).classList.remove('hide');
+                    //console.log(document.getElementById(`${states[i].classList[1]}`));
+                    document.getElementById(`${states[i].classList[1]}-img`).classList.add('hide-caret');
+                }
+            }
+            let name = name2.split("-").length == 1 ? name2.split("-")[0] : name2.split("-")[1]
+            document.getElementById("status-text").innerHTML = `(${name.charAt(0).toUpperCase() + name.slice(1)})`
+        }
 
         // code to show/hide triangle when a status is active/inactive
         const changeStatus = (element) => {
@@ -545,6 +573,7 @@
             const current_state = element.classList[1];
             console.log("Current state " + current_state);
             for (let i = 0; i < states.length; ++i) {
+                console.log("Class name of class " + i + " : " + states[i].classList[1]);
                 if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
                     break;
                 }
@@ -684,10 +713,11 @@
                 console.log(className);
                 console.log("2");
                 designStatus(localStorage.getItem("status").toLowerCase());
-
+                var classNameUpperCase = className.charAt(0).toUpperCase() + className.slice(1);
+                console.log("Class : " + classNameUpperCase);
                 //console.log(localStorage.getItem("status").toLowerCase())
                 $.ajax({
-                    url: `/Admin/New`,
+                    url: `/Admin/${classNameUpperCase}`,
                     type: 'POST',
                     dataType: 'html',
             
@@ -704,30 +734,7 @@
             }
         }
 
-        const designStatus = (name2) => {
-            const states = document.getElementsByClassName("state");
-            const current_state = name2 + "State";
-            console.log("Current state in design "+current_state);
-            for (let i = 0; i < states.length; ++i) {
-                if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
-                    break;
-                }
-                else if (states[i].classList[1] == current_state) {
-                    states[i].classList.add(`${states[i].classList[1]}-active`)
-                    document.getElementById(`${states[i].classList[1]}-active`).classList.remove('hidden')
-                    document.getElementById(`${states[i].classList[1]}`).classList.add('hidden')
-                    document.getElementById(`${states[i].classList[1]}-img`).classList.remove('hidden')
-                }
-                else if (states[i].classList.length == 4) {
-                    states[i].classList.remove(`${states[i].classList[1]}-active`)
-                    document.getElementById(`${states[i].classList[1]}-active`).classList.add('hidden')
-                    document.getElementById(`${states[i].classList[1]}`).classList.remove('hidden')
-                    document.getElementById(`${states[i].classList[1]}-img`).classList.add('hidden')
-                }
-            }
-            let name = name2.split("-").length == 1 ? name2.split("-")[0] : name2.split("-")[1]
-            document.getElementById("status-text").innerHTML = `(${name.charAt(0).toUpperCase() + name.slice(1)})`
-        }
+        
 
         // styling of boxes of 6 states in tablet and mobile view
         function changeStyle() {
@@ -873,6 +880,8 @@
         function downloadSpecificExcel() {
             document.getElementById("submit-button-for-excel").click();
         }
+
+
 
     </script>
 </div>

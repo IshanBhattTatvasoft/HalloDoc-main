@@ -9,6 +9,7 @@ using DocumentFormat.OpenXml.InkML;
 using System.Globalization;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using HalloDocMvc.Entity.ViewModel;
+using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Office.Interop.Excel;
 using HalloDoc.LogicLayer.Patient_Interface;
 using static HalloDoc.DataLayer.Models.Enums;
@@ -16,12 +17,14 @@ using System.Collections;
 using HalloDoc.LogicLayer.Patient_Repository;
 using System.Net.Mail;
 using System.Net;
+using System.Security.Claims;
 using DocumentFormat.OpenXml.Spreadsheet;
 using System.Drawing;
 using System.Linq;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Drawing.Printing;
+using Newtonsoft.Json.Linq;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -54,7 +57,7 @@ namespace HalloDoc.Controllers
                     var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
-                        Admin ad = _adminInterface.ValidateUser(model);
+                        Admin ad = _adminInterface.ValidateUser(user.Email);
                         HttpContext.Session.SetInt32("id", ad.AdminId);
                         HttpContext.Session.SetString("name", ad.FirstName);
                         Response.Cookies.Append("token", token.ToString());
@@ -89,7 +92,7 @@ namespace HalloDoc.Controllers
         }
 
         // admin dashboard function
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult AdminDashboard(string? status)
         {
             var userId = HttpContext.Session.GetInt32("id");
@@ -97,7 +100,10 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
-
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, null, null, -1, 1, 10);
             return View(adminDashboardViewModel);
         }
@@ -106,13 +112,16 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         // function for new state of admin dashboard
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult New(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, search, requestor, (int)region, page, pageSize);
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
@@ -126,13 +135,16 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         // function for pending state of admin dashboard
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult Pending(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId, search, requestor, (int)region, page, pageSize);
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
@@ -145,13 +157,16 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         // function for active state of admin dashboard
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult Active(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId, search, requestor, (int)region, page, pageSize);
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
@@ -164,13 +179,16 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         // function for conclude state of admin dashboard
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult Conclude(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId, search, requestor, (int)region, page, pageSize);
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
@@ -183,13 +201,16 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         // function for to-close state of admin dashboard
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult Toclose(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId, search, requestor, (int)region, page, pageSize);
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
@@ -202,13 +223,16 @@ namespace HalloDoc.Controllers
 
         //[HttpPost]
         // function for unpaid state of admin dashboard
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult Unpaid(string? status, string? search = "", string? requestor = "", int? region = -1, int page = 1, int pageSize = 10)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId, search, requestor, (int)region, page, pageSize);
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
@@ -219,7 +243,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to get data for excel sheet
         public List<Request> GetTableData()
         {
@@ -231,6 +255,11 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
                 List<Request> data = new List<Request>();
 
                 data = _adminInterface.GetRequestDataInList();
@@ -243,7 +272,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to download the data of all requests in excel sheet
         public IActionResult DownloadAll()
         {
@@ -252,6 +281,10 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
             try
             {
                 List<Request> data = GetTableData();
@@ -326,7 +359,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to dowload filtered data or data of particular state in excel sheet
         public IActionResult DownloadSpecificExcel(AdminDashboardTableView model)
         {
@@ -335,6 +368,10 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
             try
             {
                 List<Request> data = model.requests;
@@ -609,7 +646,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to display data in View Case view
         public IActionResult ViewCase(int requestId)
         {
@@ -622,6 +659,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request request = _adminInterface.ValidateRequest(requestId);
 
@@ -727,7 +768,7 @@ namespace HalloDoc.Controllers
 
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // action to store edited information of view case in database
         public IActionResult EditViewCase(ViewCaseModel userProfile)
         {
@@ -739,6 +780,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 int requestId = (int)userProfile.RequestId;
                 if (requestId != null)
                 {
@@ -762,7 +807,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // action to show data in View Notes view
         public IActionResult ViewNotes(int requestId)
         {
@@ -773,6 +818,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.ValidateRequest(requestId);
 
@@ -792,7 +841,7 @@ namespace HalloDoc.Controllers
                 {
                     if (item != null && item.Status == 2)
                     {
-                        tNotes = tNotes + " " + item.Notes;
+                        tNotes = tNotes + " " + item.Notes + ", ";
                     }
                 }
 
@@ -821,7 +870,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to store edited information of View Notes view in database
         public IActionResult EditViewNotes(ViewNotes model)
         {
@@ -832,6 +881,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 RequestNote rn = _adminInterface.FetchRequestNote(model.RequestId);
 
@@ -848,7 +901,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function called when we cancel the case OR submit the cancel case modal
         public IActionResult CancelCase(AdminDashboardTableView model, int selectedCaseTagId, string additionalNotes)
         {
@@ -859,6 +912,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 CaseTag ct = _adminInterface.FetchCaseTag(selectedCaseTagId);
 
@@ -886,7 +943,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function called when we want to fetch all the physicians belonging to a certain region as given by RegionId
         public List<Physician> GetPhysicianByRegion(AdminDashboardTableView model, int RegionId)
         {
@@ -898,6 +955,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 List<Physician> p = _adminInterface.FetchPhysicianByRegion(RegionId);
                 return p;
@@ -910,7 +971,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public int sendAgreement2(int reqId)
         {
             int x = 0;
@@ -922,6 +983,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.GetReqFromReqType(reqId);
                 return r.RequestTypeId;
@@ -935,7 +1000,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function called when we assign the case OR submit the Assign Case modal
         public IActionResult AssignCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription, int selectedPhysicianId)
         {
@@ -946,6 +1011,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.ValidateRequest(model.RequestId);
                 r.Status = 2;
@@ -973,7 +1042,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function called when we transfer the case OR when we submit the transfer case modal
         public IActionResult TransferCaseSubmitAction(AdminDashboardTableView model, string assignCaseDescription, int selectedPhysicianId)
         {
@@ -984,6 +1053,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.ValidateRequest(model.RequestId);
                 r.Status = 2; //when a case is assigned, status is set to 1 currently
@@ -1011,7 +1084,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function when we clear a case OR when we submit the clear case modal
         public IActionResult ClearCaseSubmitAction(AdminDashboardTableView model)
         {
@@ -1022,6 +1095,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.GetReqFromModel(model);
                 if (r != null)
@@ -1041,7 +1118,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public IActionResult BlockCase(AdminDashboardTableView model, string reasonForBlockRequest)
         {
             try
@@ -1051,10 +1128,16 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.ValidateRequest(model.RequestId);
                 r.Status = 11;
                 _adminInterface.UpdateRequest(r);
+
+                RequestClient rc = _adminInterface.GetRequestClientFromId(r.RequestClientId);
 
                 RequestStatusLog rs = new RequestStatusLog();
                 rs.Status = 11;
@@ -1066,6 +1149,7 @@ namespace HalloDoc.Controllers
                 BlockRequest br = new BlockRequest();
                 br.RequestId = model.RequestId;
                 br.Email = r.Email;
+                br.PhoneNumber = rc.PhoneNumber;
                 br.IsActive = new BitArray(1, true);
                 br.Reason = reasonForBlockRequest;
                 br.CreatedDate = DateTime.Now;
@@ -1082,7 +1166,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "CreateRequest")]
         // function called when admin creates the request for a patient
         public async Task<IActionResult> CreateRequest(AdminCreateRequestModel model)
         {
@@ -1093,6 +1177,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
 
                 if (ModelState.IsValid)
@@ -1125,7 +1213,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "CreateRequest")]
         // function to check whether the entered state name belongs to the areas the service is available
         public IActionResult VerifyLocation(string state)
         {
@@ -1136,6 +1224,11 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
                 if (state == null)
                 {
                     return Json(new { isVerified = 2 });
@@ -1158,7 +1251,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to return View of Create Request
         public IActionResult CreateRequest()
         {
@@ -1167,6 +1260,10 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
             return View();
         }
 
@@ -1191,7 +1288,7 @@ namespace HalloDoc.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to return View of View Uploads page
         public IActionResult ViewUploads(int requestid)
         {
@@ -1202,6 +1299,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request request = _adminInterface.ValidateRequest(requestid);
                 RequestClient rc = _adminInterface.GetRequestClientFromId(request.RequestClientId);
@@ -1229,7 +1330,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to store the newly uploaded file from View Uploads view
         public IActionResult SetImageContent(ViewUploadsModel model, int requestId)
         {
@@ -1241,6 +1342,10 @@ namespace HalloDoc.Controllers
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
                 var request = _adminInterface.GetRequestWithUser(requestId);
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 ViewUploadsModel viewModel = new ViewUploadsModel
                 {
@@ -1280,7 +1385,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to delete individual file from View Uploads view
         public IActionResult DeleteIndividual(int id)
         {
@@ -1291,6 +1396,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 int reqId = _adminInterface.SingleDelete(id);
                 return RedirectToAction("ViewUploads", new { requestID = reqId });
@@ -1304,7 +1413,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to delete multiple files from View Uploads view
         public IActionResult DeleteMultiple(int requestid, string fileId)
         {
@@ -1315,6 +1424,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 _adminInterface.MultipleDelete(requestid, fileId);
                 TempData["success"] = "File(s) deleted successfully";
                 return RedirectToAction("ViewUploads", new { requestID = requestid });
@@ -1327,7 +1440,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // (IMPORTANT) function to send selected files in mail from View Uploads view
         public IActionResult SendSelectedFiles(int requestid, string fileName)
         {
@@ -1336,6 +1449,10 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
             try
             {
                 string[] files = fileName.Split(',').Select(x => x.Trim()).ToArray();
@@ -1390,7 +1507,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         public async Task<IActionResult> SendLink(AdminDashboardTableView model)
         {
             var userId = HttpContext.Session.GetInt32("id");
@@ -1398,6 +1515,10 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
             try
             {
 
@@ -1444,7 +1565,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "Orders")]
         // function to return Send Orders view
         public IActionResult Orders(int id)
         {
@@ -1455,6 +1576,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 List<HealthProfessionalType> hPT = _adminInterface.GetHealthProfessionalType();
                 List<HealthProfessional> hP = _adminInterface.GetHealthProfessional();
                 SendOrder so = new SendOrder
@@ -1474,7 +1599,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "Orders")]
         // function to get data of HealthProfessional table in Send Orders view
         public List<HealthProfessional> GetBusinessData(int professionId, SendOrder model)
 
@@ -1487,6 +1612,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 List<HealthProfessional> healthProfessionals = _adminInterface.GetBusinessDataFromProfession(professionId);
                 return healthProfessionals;
             }
@@ -1498,7 +1627,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "Orders")]
         // function to get other data based on selected BusinessName in Send Orders view
         public HealthProfessional GetOtherData(int businessId)
         {
@@ -1510,6 +1639,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 HealthProfessional hp = _adminInterface.GetOtherDataFromBId(businessId);
                 return hp;
             }
@@ -1521,7 +1654,7 @@ namespace HalloDoc.Controllers
             }
         }
         //[HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "Orders")]
         public IActionResult GetAgreementData(int reqId)
         {
             try
@@ -1531,6 +1664,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 RequestClient rc = _adminInterface.GetPatientData(reqId);
                 return Json(new { response = rc });
             }
@@ -1543,7 +1680,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "Orders")]
         // function to send order to specified vendor
         public IActionResult SendOrder(SendOrder model, int vendorId, int noOfRefill)
         {
@@ -1554,6 +1691,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.VendorId = vendorId;
@@ -1638,7 +1779,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to send mail of agreement to particular AspNetUser based on RequestClient's Email
         public async Task<IActionResult> SendMailOfAgreement(AdminDashboardTableView model)
         {
@@ -1647,6 +1788,10 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
 
             string email = _adminInterface.GetMailToSentAgreement(model.RequestId);
             RequestClient rc = _adminInterface.GetPatientData(model.RequestId);
@@ -1840,7 +1985,7 @@ namespace HalloDoc.Controllers
             return View();
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "EncounterForm")]
         // function to return Encounter Form view
         public IActionResult EncounterForm(int reqId)
         {
@@ -1851,6 +1996,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 EncounterForm ef = _adminInterface.GetEncounterFormData(reqId);
 
@@ -1902,7 +2051,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "EncounterForm")]
         // function called when we submit the encounter form
         public IActionResult EncounterFormSubmit(EncounterFormModel model)
         {
@@ -1913,6 +2062,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 int requestId = (int)model.reqId;
                 if (requestId != null)
@@ -1936,7 +2089,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to return view of close case
         public IActionResult CloseCase(int id)
         {
@@ -1947,6 +2100,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request request = _adminInterface.ValidateRequest(id);
 
@@ -1978,7 +2135,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function called when we case is closed
         public IActionResult ClickOnCloseCase(int id)
         {
@@ -1989,6 +2146,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.ValidateRequest(id);
                 r.Status = 9;
@@ -2017,7 +2178,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AdminDashboard")]
         // function to store edited info of patient from Close Case view
         public IActionResult CloseCaseSubmitAction(CloseCaseModel model, int id)
         {
@@ -2028,6 +2189,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 Request r = _adminInterface.ValidateRequest(id);
 
@@ -2047,7 +2212,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "MyProfile")]
         // function to return Admin Profile view
         public IActionResult MyProfile()
         {
@@ -2058,6 +2223,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 3;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 AspNetUser anur = _adminInterface.GetAdminDataFromId(ad.AspNetUserId);
                 HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad.RegionId);
@@ -2092,12 +2261,16 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "MyProfile")]
         // function called when admin resets the password from My Profile page
         public IActionResult ProfilePasswordReset(AdminProfile model, int aid)
         {
             try
             {
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AspNetUser anur = _adminInterface.GetAspNetFromAdminId(aid);
                 _adminInterface.AdminResetPassword(anur, model.Password);
                 TempData["success"] = "Password Updated Successfully";
@@ -2112,12 +2285,16 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "MyProfile")]
         // function called to submit the changes made in Administrator Info section of Admin Profile
         public IActionResult ProfileAdministratorInfo(AdminProfile model, int aid, string selectedRegion)
         {
             try
             {
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 string[] regionArr = selectedRegion.Split(',');
                 char[] rId = selectedRegion.ToCharArray();
 
@@ -2141,12 +2318,16 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "MyProfile")]
         // function called to submit the changes made in Mailing Info of Admin Profile
         public IActionResult ProfileMailingInfo(AdminProfile model, int aid)
         {
             try
             {
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 _adminInterface.UpdateMailingInfo(model, aid);
                 TempData["success"] = "Mailing info updated successfully";
                 return RedirectToAction("MyProfile");
@@ -2159,16 +2340,20 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
-        public IActionResult AdminProfileFromUserAccess()
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult AdminProfileFromUserAccess(int id)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Admin ad = _adminInterface.GetAdminFromId(id);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 10;
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
 
                 AspNetUser anur = _adminInterface.GetAdminDataFromId(ad.AspNetUserId);
                 HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad.RegionId);
@@ -2202,7 +2387,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "PatientRecords")]
         // function to return Patient Records view
         public IActionResult PatientRecords(int userid)
         {
@@ -2213,6 +2398,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 17;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 PatientHistoryViewModel pr = _adminInterface.PatientRecordsData(userid, an);
                 return View(pr);
             }
@@ -2224,7 +2413,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to return Provider Menu view
         public IActionResult ProviderMenu()
         {
@@ -2235,6 +2424,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, null);
                 return View(pm);
             }
@@ -2246,7 +2439,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to filter the records of Provider Menu view
         public IActionResult ProviderMenuFilter(int? region = -1, int page = 1, int pageSize = 10)
         {
@@ -2257,6 +2450,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 ProviderMenuViewModel pm = _adminInterface.ProviderMenuFilteredData(an, region, page, pageSize);
                 return PartialView("ProviderMenuPartialView", pm);
             }
@@ -2268,12 +2465,16 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function called when we change the checkbox value of a record of Provider Menu view
         public IActionResult ChangeNotificationValue(int id)
         {
             try
             {
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 _adminInterface.ChangeNotificationValue(id);
                 TempData["success"] = "Notification status updated successfully";
                 return RedirectToAction("ProviderMenu");
@@ -2286,18 +2487,23 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function called when we submit the Contact Your Provider modal
         public IActionResult SendMessageToPhysician(string sendType, string email, string message)
         {
             int count = 1;
             bool isSent = false;
+            string token = Request.Cookies["token"];
+            string roleIdVal = _jwtToken.GetRoleId(token);
+            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+            ViewBag.Menu = menus;
             while (count <= 3 && !isSent)
             {
                 if (sendType == "Email" || sendType == "Both")
                 {
                     try
                     {
+
 
                         string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
                         string senderPassword = "Ishan@1503";
@@ -2349,7 +2555,7 @@ namespace HalloDoc.Controllers
 
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to return Create Provider Account view
         public IActionResult CreateProviderAccount()
         {
@@ -2360,6 +2566,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 EditProviderAccountViewModel ep = new EditProviderAccountViewModel();
                 ep.adminNavbarModel = an;
                 ep.regions = _adminInterface.GetAllRegion();
@@ -2375,7 +2585,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         public IActionResult CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames)
         {
             try
@@ -2397,7 +2607,63 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult CreateProviderAccountFromUserAccess()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                EditProviderAccountViewModel ep = new EditProviderAccountViewModel();
+                ep.adminNavbarModel = an;
+                ep.regions = _adminInterface.GetAllRegion();
+                ep.allRoles = _adminInterface.GetSpecifiedProviderRoles();
+                return View(ep);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the provider account";
+                return RedirectToAction("UserAccess");
+            }
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult CreateNewProviderAccountFromUserAccess(EditProviderAccountViewModel model, List<int> regionNames)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                _adminInterface.CreateNewProviderAccount(model, regionNames, ad.AdminId);
+                TempData["success"] = "Provider account created successfully";
+                return RedirectToAction("UserAccess");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the new provider account";
+                return RedirectToAction("UserAccess");
+            }
+        }
+
         // function to return Edit Provider Account view
+        [CustomAuthorize("Admin", "ProviderMenu")]
         public IActionResult EditProviderAccount(int id)
         {
             try
@@ -2407,6 +2673,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 EditProviderAccountViewModel ep = _adminInterface.ProviderEditAccount(id, an);
                 return View(ep);
             }
@@ -2536,7 +2806,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "CreateRole")]
         // function to return Create Role view
         public IActionResult CreateRole()
         {
@@ -2593,7 +2863,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AccountAccess")]
         // function to return view of Account Access page
         public IActionResult AccountAccess()
         {
@@ -2604,6 +2874,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 10;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 CreateRoleViewModel cr = new CreateRoleViewModel
                 {
                     adminNavbarModel = an,
@@ -2638,7 +2912,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "EditRole")]
         // function to return Edit Role view
         public IActionResult EditRole(int roleid)
         {
@@ -2650,6 +2924,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 10;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 CreateRoleViewModel cr = new CreateRoleViewModel
                 {
                     adminNavbarModel = an,
@@ -2671,7 +2949,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "EditRole")]
         // function to edit a role
         public IActionResult EditRoleSubmit(string menuIdString, int roleid)
         {
@@ -2682,6 +2960,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 10;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 List<int> menuIds = null;
                 if (!string.IsNullOrEmpty(menuIdString))
                 {
@@ -2699,7 +2981,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "CreateAdminAccount")]
         public IActionResult CreateAdminAccount()
         {
             try
@@ -2709,6 +2991,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 AdminProfile ap = new AdminProfile();
                 ap.an = an;
                 ap.allRoles = _adminInterface.GetSpecifiedAdminRoles();
@@ -2724,7 +3010,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "CreateAdminAccount")]
         public IActionResult CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames)
         {
             try
@@ -2734,8 +3020,12 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 _adminInterface.CreateNewAdminAccount(model, regionNames, ad.AdminId);
-                TempData["success"] = "Provider account created successfully";
+                TempData["success"] = "Admin account created successfully";
                 return RedirectToAction("AdminDashboard");
             }
 
@@ -2746,7 +3036,62 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult CreateAdminAccountFromUserAccess()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                AdminProfile ap = new AdminProfile();
+                ap.an = an;
+                ap.allRoles = _adminInterface.GetSpecifiedAdminRoles();
+                ap.allRegions = _adminInterface.GetAllRegions();
+                return View(ap);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the admin account";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult CreateNewAdminAccountFromUserAccess(EditProviderAccountViewModel model, List<int> regionNames)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                _adminInterface.CreateNewAdminAccount(model, regionNames, ad.AdminId);
+                TempData["success"] = "Admin account created successfully";
+                return RedirectToAction("UserAccess");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to create the admin account";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "PatientHistory")]
         // function to return Patient History view
         public IActionResult PatientHistory()
         {
@@ -2757,6 +3102,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 17;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 PatientHistoryViewModel pr = _adminInterface.PatientHistoryFilteredData(an, null, null, null, null);
                 return View(pr);
             }
@@ -2768,7 +3117,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "PatientHistory")]
         // function to filter the records of Patient History
         public IActionResult PatientHistoryFilter(string? firstName = "", string? lastName = "", string? email = "", string? phoneNumber = "", int page = 1, int pageSize = 10)
         {
@@ -2790,7 +3139,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "UserAccess")]
         public IActionResult UserAccess()
         {
             try
@@ -2799,7 +3148,11 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 10;
+                an.Tab = 11; 
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 UserAccessViewModel cr = new UserAccessViewModel
                 {
                     adminNavbarModel = an,
@@ -2814,7 +3167,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "UserAccess")]
         public IActionResult UserAccessFilter(int? accountType = -1)
         {
             try
@@ -2831,6 +3184,72 @@ namespace HalloDoc.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to view data of users";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        public IActionResult PageNotFound()
+        {
+            return View();
+        }
+
+        [CustomAuthorize("Admin", "BlockedHistory")]
+        public IActionResult BlockedHistory()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                BlockedHistoryViewModel bh = new BlockedHistoryViewModel
+                {
+                    adminNavbarModel = an,
+                    allData = _adminInterface.GetBlockedHistoryData()
+                };
+                return View(bh);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to access the accounts";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        //[CustomAuthorize("Admin", "BlockedHistory")]
+        //public IActionResult BlockedHistoryFilteredData(string? name = "", string? date = "", string? phoneNumber = "", string? email = "")
+        //{
+
+        //}
+
+        [CustomAuthorize("Admin", "BlockedHistory")]
+        public IActionResult UnblockTheRequest(int id)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                _adminInterface.UnblockRequest(id);
+                TempData["success"] = "Request unblocked successfully";
+                return RedirectToAction("BlockedHistory");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to access the accounts";
                 return RedirectToAction("AdminDashboard");
             }
         }

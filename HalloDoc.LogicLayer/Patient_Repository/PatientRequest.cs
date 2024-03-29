@@ -45,13 +45,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;
-                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email; ;
+                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email; 
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
                 aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
-                
+                _context.SaveChanges();
 
                 user.AspNetUserId = aspNetUser.Id;
                 user.FirstName = model.FirstName;
@@ -68,7 +68,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 user.CreatedBy = aspNetUser.Id;
                 user.CreatedDate = DateTime.Now;
                 _context.Users.Add(user);
-                
+                _context.SaveChanges();
             }
             Region r = _context.Regions.Where(re => re.Name == model.State).FirstOrDefault();
             requestClient.FirstName = model.FirstName;
@@ -88,6 +88,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             requestClient.ZipCode = model.Zipcode;
             //var temp = await _context.RequestClients.ToListAsync();
             _context.RequestClients.Add(requestClient);
+            _context.SaveChanges();
             
 
             int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
@@ -113,6 +114,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.CreatedDate = DateTime.Now;
             request.RequestClientId = requestClient.RequestClientId;
             _context.Requests.Add(request);
+            _context.SaveChanges();
             
 
             if (model.ImageContent != null && model.ImageContent.Length > 0)

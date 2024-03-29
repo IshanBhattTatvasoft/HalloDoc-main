@@ -35,7 +35,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void InsertDataOfRequest(AdminCreateRequestModel model);
         public bool VerifyLocation(string state);
         public AspNetUser ValidateAspNetUser(LoginViewModel model);
-        public Admin ValidateUser(LoginViewModel model);
+        public Admin ValidateUser(string email);
         public User ValidateUserByRequestId(Request r);
         public List<RequestWiseFile> GetFileData(int requestid);
         public Request GetRequestWithUser(int requestid);
@@ -105,6 +105,9 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<Role> GetSpecifiedProviderRoles();
         public void CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId);
         public UserAccessViewModel UserAccessFilteredData(AdminNavbarModel an, int accountType);
+        public List<string> GetAllMenus(string roleId);
+        public List<BlockedHistoryData> GetBlockedHistoryData();
+        public void UnblockRequest(int id);
 
 
     }

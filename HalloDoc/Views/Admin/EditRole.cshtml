@@ -122,7 +122,6 @@
         for (var i = 0; i < checkedBoxes.length; i++) {
             var currentCheckBox = checkedBoxes[i];
             var menuIdValue = currentCheckBox.parentElement.querySelector('.menu-id-input').value;
-            console.log(menuIdValue);
             selectedMenuId.push(menuIdValue);
         }
         var menuIdStr = selectedMenuId.join(',');

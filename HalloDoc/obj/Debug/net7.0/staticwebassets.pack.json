@@ -17,6 +17,14 @@
       "PackagePath": "staticwebassets\\Physician\\101\\AgreementDoc.docx"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\AgreementDoc.png",
+      "PackagePath": "staticwebassets\\Physician\\12\\AgreementDoc.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\BackgroundDoc.png",
+      "PackagePath": "staticwebassets\\Physician\\12\\BackgroundDoc.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.pdf",
       "PackagePath": "staticwebassets\\Physician\\1\\AgreementDoc.pdf"
     },
@@ -573,6 +581,10 @@
       "PackagePath": "staticwebassets\\uploads\\AdminDashboardStyle.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (1) (1).pdf",
+      "PackagePath": "staticwebassets\\uploads\\Assignment-1234 (1) (1).pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\Assignment-1234 (1).pdf"
     },
@@ -583,6 +595,14 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234.pdf",
       "PackagePath": "staticwebassets\\uploads\\Assignment-1234.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\BackgroundDoc (10).docx",
+      "PackagePath": "staticwebassets\\uploads\\BackgroundDoc (10).docx"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\BackgroundDoc (2).docx",
+      "PackagePath": "staticwebassets\\uploads\\BackgroundDoc (2).docx"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\HealthProfessionals.csv",
@@ -675,6 +695,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-01-16 143205.png",
       "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-01-16 143205.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-03-27 124534 (4).png",
+      "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-03-27 124534 (4).png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-03-27 124534.png",
