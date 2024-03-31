@@ -8,20 +8,21 @@ public class AdminCreateRequestModel
     [Required(ErrorMessage = "First name is required")]
     public required string FirstName { get; set; }
     [Required(ErrorMessage = "Last name is required")]
-    public string LastName { get; set; }
+    public required string LastName { get; set; }
 
     [Required(ErrorMessage = "Date of birth is required")]
-    public DateOnly DOB { get; set; }
+    public required DateOnly DOB { get; set; }
     [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter valid Email")]
-    public string Email { get; set; }
+    public required string Email { get; set; }
     [Required(ErrorMessage = "Phone number is required")]
-    public string PhoneNumber { get; set; }
+    [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter valid phone number")]
+    public required string PhoneNumber { get; set; }
     [Required(ErrorMessage = "Street number is required")]
-    public string Street { get; set; }
+    public required string Street { get; set; }
     [Required(ErrorMessage = "City name is required")]
-    public string City { get; set; }
+    public required string City { get; set; }
     [Required(ErrorMessage = "State name is required")]
-    public string State { get; set; }
+    public required string State { get; set; }
     public string? Zipcode { get; set; }
     public string? AdminRequestZipCode { get; set; }
     public string? Room { get; set; }
@@ -34,6 +35,6 @@ public class AdminCreateRequestModel
 
     public string? AdminNotes { get; set; }
 
-
+    public AdminNavbarModel adminNavbarModel {  get; set; }
     //public string ConciergeFirstName { get; set; }
 }

@@ -35,6 +35,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             AspNetUserRole anur = _context.AspNetUserRoles.Where(a => a.UserId == user.Id).FirstOrDefault();
             Admin ad = _context.Admins.Where(a => a.AspNetUserId == user.Id).FirstOrDefault();
             AspNetRole anr = _context.AspNetRoles.Where(b => b.Id == anur.RoleId).FirstOrDefault();
+            
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Email, user.Email),

@@ -78,7 +78,7 @@ namespace HalloDoc.Controllers
 
             if (_menu != null)
             {
-                if (allMenus.Any(r => r == _menu))
+                if (roleIdVal=="3" || allMenus.Any(r => r == _menu))
                 {
                     isHavingAccess = true;
                 }

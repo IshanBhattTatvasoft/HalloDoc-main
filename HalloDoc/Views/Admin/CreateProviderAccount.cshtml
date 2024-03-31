@@ -38,6 +38,33 @@
         border-top: 1px solid rgba(0, 0, 0);
     }
 
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        border-color: #3DB6FF !important;
+        box-shadow: none !important;
+    }
+
+
+    .form-floating:focus-within label {
+        color: #3DB6FF !important;
+    }
+
+    select:focus{
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
 </style>
 
 <body class="bg-light">
@@ -94,6 +121,7 @@
                             }
                         </select>
                         <label for="Role" class="ms-2 text-muted">Role</label>
+                        <span asp-validation-for="roleId" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -189,7 +217,7 @@
                                 <option value="@item.RegionId" class="bg-white">@item.Name</option>
                             }
                         </select>
-
+                        <span asp-validation-for="regionId" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -231,6 +259,7 @@
                         <div class="d-flex gap-0">
                             <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" asp-for="Photo" />
                             <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                            <span asp-validation-for="Photo" class="text-danger"></span>
                         </div>
                     </div>
                 </div>
@@ -271,6 +300,7 @@
                             {
                                 <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/AgreementDoc.pdf" target="_blank">View</a>
                             }
+                            <span asp-validation-for="ContractAgreementFile" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
@@ -292,6 +322,7 @@
                                 {
                                     <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/BackgroundDoc.pdf" target="_blank">View</a>
                                 }
+                                <span asp-validation-for="BackgroundCheckFile" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
@@ -313,6 +344,7 @@
                             {
                                 <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/Compilance.pdf">View</a>
                             }
+                            <span asp-validation-for="HippaFile" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="d-flex align-items-center justify-content-between mb-2">
@@ -333,6 +365,7 @@
                             {
                                 <button class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/NonDisclosure.pdf">View</button>
                             }
+                            <span asp-validation-for="NonDisclosureAgreement" class="text-danger"></span>
                         </div>
                     </div>
 

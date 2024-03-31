@@ -12,7 +12,7 @@ namespace HalloDoc.DataLayer.ViewModels
     {
         public string Username { get; set; }
         public List<Role> allRoles { get; set; }
-        [Required(ErrorMessage = "Password is empty")]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Please enter the First Name")]
         public string firstName { get; set; }
@@ -47,7 +47,9 @@ namespace HalloDoc.DataLayer.ViewModels
         public string altPhoneNo { get; set; }
         public AdminNavbarModel? an { get; set; }
         public int adminId { get; set; }
+        [Required(ErrorMessage = "Please select a role")]
         public int roleId { get; set; }
+        [Required(ErrorMessage = "Please select a region")]
         public int regionId { get; set; }
     }
 }

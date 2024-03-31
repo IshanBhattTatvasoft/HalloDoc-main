@@ -1,807 +1,807 @@
 {
   "Files": [
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\HalloDoc.bundle.scp.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\obj\\Debug\\net7.0\\scopedcss\\projectbundle\\HalloDoc.bundle.scp.css",
       "PackagePath": "staticwebassets\\HalloDoc.bundle.scp.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\100\\AgreementDoc.csv",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\100\\AgreementDoc.csv",
       "PackagePath": "staticwebassets\\Physician\\100\\AgreementDoc.csv"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\100\\AgreementDoc.docx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\100\\AgreementDoc.docx",
       "PackagePath": "staticwebassets\\Physician\\100\\AgreementDoc.docx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\101\\AgreementDoc.docx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\101\\AgreementDoc.docx",
       "PackagePath": "staticwebassets\\Physician\\101\\AgreementDoc.docx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\AgreementDoc.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\12\\AgreementDoc.png",
       "PackagePath": "staticwebassets\\Physician\\12\\AgreementDoc.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\BackgroundDoc.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\12\\BackgroundDoc.png",
       "PackagePath": "staticwebassets\\Physician\\12\\BackgroundDoc.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.pdf",
       "PackagePath": "staticwebassets\\Physician\\1\\AgreementDoc.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\BackgroundDoc.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\1\\BackgroundDoc.pdf",
       "PackagePath": "staticwebassets\\Physician\\1\\BackgroundDoc.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Compilance.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\1\\Compilance.pdf",
       "PackagePath": "staticwebassets\\Physician\\1\\Compilance.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\LicenseDoc.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\1\\LicenseDoc.pdf",
       "PackagePath": "staticwebassets\\Physician\\1\\LicenseDoc.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\NonDisclosure.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\1\\NonDisclosure.pdf",
       "PackagePath": "staticwebassets\\Physician\\1\\NonDisclosure.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Profile.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\1\\Profile.png",
       "PackagePath": "staticwebassets\\Physician\\1\\Profile.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\Signature.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\1\\Signature.png",
       "PackagePath": "staticwebassets\\Physician\\1\\Signature.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\AgreementDoc.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\3\\AgreementDoc.pdf",
       "PackagePath": "staticwebassets\\Physician\\3\\AgreementDoc.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\BackgroundDoc.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\3\\BackgroundDoc.pdf",
       "PackagePath": "staticwebassets\\Physician\\3\\BackgroundDoc.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\Compilance.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\3\\Compilance.pdf",
       "PackagePath": "staticwebassets\\Physician\\3\\Compilance.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\Signature.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\Physician\\3\\Signature.png",
       "PackagePath": "staticwebassets\\Physician\\3\\Signature.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\admin-dashboard.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\admin-dashboard.css",
       "PackagePath": "staticwebassets\\css\\admin-dashboard.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\bootstrap.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\css\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\create-patient-request.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\create-patient-request.css",
       "PackagePath": "staticwebassets\\css\\create-patient-request.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\create-physician-account.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\create-physician-account.css",
       "PackagePath": "staticwebassets\\css\\create-physician-account.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\create-role.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\create-role.css",
       "PackagePath": "staticwebassets\\css\\create-role.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\forgot-password.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\forgot-password.css",
       "PackagePath": "staticwebassets\\css\\forgot-password.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-dashboard-and-medical-history.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\patient-dashboard-and-medical-history.css",
       "PackagePath": "staticwebassets\\css\\patient-dashboard-and-medical-history.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-dashboard-view-documents.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\patient-dashboard-view-documents.css",
       "PackagePath": "staticwebassets\\css\\patient-dashboard-view-documents.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-history.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\patient-history.css",
       "PackagePath": "staticwebassets\\css\\patient-history.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-platform-login-page.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\patient-platform-login-page.css",
       "PackagePath": "staticwebassets\\css\\patient-platform-login-page.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-profile.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\patient-profile.css",
       "PackagePath": "staticwebassets\\css\\patient-profile.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-site.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\patient-site.css",
       "PackagePath": "staticwebassets\\css\\patient-site.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\platform-login.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\platform-login.css",
       "PackagePath": "staticwebassets\\css\\platform-login.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\provider-menu.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\provider-menu.css",
       "PackagePath": "staticwebassets\\css\\provider-menu.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\site.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\site.css",
       "PackagePath": "staticwebassets\\css\\site.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\submit-request-screen.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\submit-request-screen.css",
       "PackagePath": "staticwebassets\\css\\submit-request-screen.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\view-case.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\css\\view-case.css",
       "PackagePath": "staticwebassets\\css\\view-case.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\favicon.ico",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\favicon.ico",
       "PackagePath": "staticwebassets\\favicon.ico"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\11116016_415.jpg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\11116016_415.jpg",
       "PackagePath": "staticwebassets\\images\\11116016_415.jpg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\7768657_3763028.jpg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\7768657_3763028.jpg",
       "PackagePath": "staticwebassets\\images\\7768657_3763028.jpg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\7774236_3736765.jpg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\7774236_3736765.jpg",
       "PackagePath": "staticwebassets\\images\\7774236_3736765.jpg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\LesfImage.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\LesfImage.png",
       "PackagePath": "staticwebassets\\images\\LesfImage.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\active.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\active.svg",
       "PackagePath": "staticwebassets\\images\\active.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\active_active.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\active_active.png",
       "PackagePath": "staticwebassets\\images\\active_active.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\arrow-down.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\arrow-down.svg",
       "PackagePath": "staticwebassets\\images\\arrow-down.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\assign-case-image.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\assign-case-image.svg",
       "PackagePath": "staticwebassets\\images\\assign-case-image.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\block-patient-image.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\block-patient-image.png",
       "PackagePath": "staticwebassets\\images\\block-patient-image.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\calendar2-date.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\calendar2-date.svg",
       "PackagePath": "staticwebassets\\images\\calendar2-date.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\cancel-case-image.webp",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\cancel-case-image.webp",
       "PackagePath": "staticwebassets\\images\\cancel-case-image.webp"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\caret-down-fil3.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\caret-down-fil3.svg",
       "PackagePath": "staticwebassets\\images\\caret-down-fil3.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\caret-down-fill.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\caret-down-fill.svg",
       "PackagePath": "staticwebassets\\images\\caret-down-fill.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\caret-down-fill1.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\caret-down-fill1.svg",
       "PackagePath": "staticwebassets\\images\\caret-down-fill1.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\caret-down-fill2.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\caret-down-fill2.svg",
       "PackagePath": "staticwebassets\\images\\caret-down-fill2.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\caret-down-fill4.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\caret-down-fill4.svg",
       "PackagePath": "staticwebassets\\images\\caret-down-fill4.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\caret-down-fill5.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\caret-down-fill5.svg",
       "PackagePath": "staticwebassets\\images\\caret-down-fill5.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\clock (1).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\clock (1).svg",
       "PackagePath": "staticwebassets\\images\\clock (1).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\clock.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\clock.svg",
       "PackagePath": "staticwebassets\\images\\clock.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\cloud-upload (1).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\cloud-upload (1).svg",
       "PackagePath": "staticwebassets\\images\\cloud-upload (1).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\conclude.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\conclude.svg",
       "PackagePath": "staticwebassets\\images\\conclude.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\conclude_active.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\conclude_active.png",
       "PackagePath": "staticwebassets\\images\\conclude_active.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\doctor.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\doctor.png",
       "PackagePath": "staticwebassets\\images\\doctor.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\download.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\download.svg",
       "PackagePath": "staticwebassets\\images\\download.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\envelope.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\envelope.svg",
       "PackagePath": "staticwebassets\\images\\envelope.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\file-earmark.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\file-earmark.svg",
       "PackagePath": "staticwebassets\\images\\file-earmark.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\globe-central-south-asia.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\globe-central-south-asia.svg",
       "PackagePath": "staticwebassets\\images\\globe-central-south-asia.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\hallodoc logo.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\hallodoc logo.png",
       "PackagePath": "staticwebassets\\images\\hallodoc logo.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\login.jpg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\login.jpg",
       "PackagePath": "staticwebassets\\images\\login.jpg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\logo1.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\logo1.png",
       "PackagePath": "staticwebassets\\images\\logo1.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\new.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\new.svg",
       "PackagePath": "staticwebassets\\images\\new.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\new_active.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\new_active.png",
       "PackagePath": "staticwebassets\\images\\new_active.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\orders-image.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\orders-image.png",
       "PackagePath": "staticwebassets\\images\\orders-image.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\pen.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\pen.svg",
       "PackagePath": "staticwebassets\\images\\pen.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\pending.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\pending.svg",
       "PackagePath": "staticwebassets\\images\\pending.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\pending_active.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\pending_active.png",
       "PackagePath": "staticwebassets\\images\\pending_active.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\person-circle.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\person-circle.svg",
       "PackagePath": "staticwebassets\\images\\person-circle.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\person.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\person.svg",
       "PackagePath": "staticwebassets\\images\\person.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\send-agreement-image.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\send-agreement-image.svg",
       "PackagePath": "staticwebassets\\images\\send-agreement-image.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\success-26.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\success-26.svg",
       "PackagePath": "staticwebassets\\images\\success-26.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\telephone.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\telephone.svg",
       "PackagePath": "staticwebassets\\images\\telephone.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\toclose.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\toclose.svg",
       "PackagePath": "staticwebassets\\images\\toclose.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\toclose_active.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\toclose_active.png",
       "PackagePath": "staticwebassets\\images\\toclose_active.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\unpaid.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\unpaid.svg",
       "PackagePath": "staticwebassets\\images\\unpaid.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\unpaid_active.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\unpaid_active.png",
       "PackagePath": "staticwebassets\\images\\unpaid_active.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\view-case-image.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\view-case-image.png",
       "PackagePath": "staticwebassets\\images\\view-case-image.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\view-notes-image.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\view-notes-image.png",
       "PackagePath": "staticwebassets\\images\\view-notes-image.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\view-uploads-image.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\images\\view-uploads-image.png",
       "PackagePath": "staticwebassets\\images\\view-uploads-image.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\js\\bootstrap.bundle.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\js\\bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\js\\patient-platform-login-page.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\js\\patient-platform-login-page.js",
       "PackagePath": "staticwebassets\\js\\patient-platform-login-page.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\js\\site.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\LICENSE",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\LICENSE",
       "PackagePath": "staticwebassets\\lib\\bootstrap"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-grid.rtl.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-reboot.rtl.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap-utilities.rtl.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\css\\bootstrap.rtl.min.css.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.js.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.bundle.min.js.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.js.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.esm.min.js.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.js.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map",
       "PackagePath": "staticwebassets\\lib\\bootstrap\\dist\\js\\bootstrap.min.js.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation-unobtrusive\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\LICENSE.txt"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation-unobtrusive\\jquery.validate.unobtrusive.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation\\LICENSE.md",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\LICENSE.md"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\additional-methods.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\additional-methods.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery-validation\\dist\\jquery.validate.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery-validation\\dist\\jquery.validate.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery\\LICENSE.txt",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery\\LICENSE.txt",
       "PackagePath": "staticwebassets\\lib\\jquery\\LICENSE.txt"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.min.js",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.js"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\lib\\jquery\\dist\\jquery.min.map",
       "PackagePath": "staticwebassets\\lib\\jquery\\dist\\jquery.min.map"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\.NET coding standard.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\.NET coding standard.pdf",
       "PackagePath": "staticwebassets\\uploads\\.NET coding standard.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\AdminDashboardStyle.css",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\AdminDashboardStyle.css",
       "PackagePath": "staticwebassets\\uploads\\AdminDashboardStyle.css"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (1) (1).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (1) (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\Assignment-1234 (1) (1).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (1).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\Assignment-1234 (1).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (2).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Assignment-1234 (2).pdf",
       "PackagePath": "staticwebassets\\uploads\\Assignment-1234 (2).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Assignment-1234.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Assignment-1234.pdf",
       "PackagePath": "staticwebassets\\uploads\\Assignment-1234.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\BackgroundDoc (10).docx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\BackgroundDoc (10).docx",
       "PackagePath": "staticwebassets\\uploads\\BackgroundDoc (10).docx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\BackgroundDoc (2).docx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\BackgroundDoc (2).docx",
       "PackagePath": "staticwebassets\\uploads\\BackgroundDoc (2).docx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\HealthProfessionals.csv",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\HealthProfessionals.csv",
       "PackagePath": "staticwebassets\\uploads\\HealthProfessionals.csv"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\MVC (1).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\MVC (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC (1).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\MVC (2) (2).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\MVC (2) (2).pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC (2) (2).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\MVC (2).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\MVC (2).pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC (2).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\MVC (4).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\MVC (4).pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC (4).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\MVC (5) (1).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\MVC (5) (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC (5) (1).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\MVC (5).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\MVC (5).pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC (5).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\MVC.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\MVC.pdf",
       "PackagePath": "staticwebassets\\uploads\\MVC.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\New.xlsx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\New.xlsx",
       "PackagePath": "staticwebassets\\uploads\\New.xlsx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (1).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (1).pdf",
       "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (1).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (3).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (3).pdf",
       "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (3).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (4).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024 (4).pdf",
       "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024 (4).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Plan_till_1Feb2024.pdf",
       "PackagePath": "staticwebassets\\uploads\\Plan_till_1Feb2024.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SQL Assignments-24.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SQL Assignments-24.pdf",
       "PackagePath": "staticwebassets\\uploads\\SQL Assignments-24.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SQL_Session.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SQL_Session.pdf",
       "PackagePath": "staticwebassets\\uploads\\SQL_Session.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-14Feb24.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-14Feb24.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-14Feb24.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-21Feb24.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-21Feb24.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-21Feb24.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-2Feb24 (4).pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-2Feb24 (4).pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-2Feb24 (4).pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-2Feb24.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-2Feb24.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-2Feb24.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-30Jan.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-30Jan.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-30Jan.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-8March24.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-8March24.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-8March24.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees_12Feb24.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees_12Feb24.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees_12Feb24.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-01-16 143205.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-01-16 143205.png",
       "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-01-16 143205.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-03-27 124534 (4).png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-03-27 124534 (4).png",
       "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-03-27 124534 (4).png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-03-27 124534.png",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-03-27 124534.png",
       "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-03-27 124534.png"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Session 2 (1).txt",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Session 2 (1).txt",
       "PackagePath": "staticwebassets\\uploads\\Session 2 (1).txt"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Test Instructions.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Test Instructions.pdf",
       "PackagePath": "staticwebassets\\uploads\\Test Instructions.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Unpaid.xlsx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Unpaid.xlsx",
       "PackagePath": "staticwebassets\\uploads\\Unpaid.xlsx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",
       "PackagePath": "staticwebassets\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\calendar2-date.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\calendar2-date.svg",
       "PackagePath": "staticwebassets\\uploads\\calendar2-date.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\clock (1).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\clock (1).svg",
       "PackagePath": "staticwebassets\\uploads\\clock (1).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\data (2).xlsx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\data (2).xlsx",
       "PackagePath": "staticwebassets\\uploads\\data (2).xlsx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\data (3).xlsx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\data (3).xlsx",
       "PackagePath": "staticwebassets\\uploads\\data (3).xlsx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\data (6).xlsx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\data (6).xlsx",
       "PackagePath": "staticwebassets\\uploads\\data (6).xlsx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\data.xlsx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\data.xlsx",
       "PackagePath": "staticwebassets\\uploads\\data.xlsx"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\doc-img.jpg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\doc-img.jpg",
       "PackagePath": "staticwebassets\\uploads\\doc-img.jpg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\envelope (1).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\envelope (1).svg",
       "PackagePath": "staticwebassets\\uploads\\envelope (1).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\envelope (2).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\envelope (2).svg",
       "PackagePath": "staticwebassets\\uploads\\envelope (2).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\envelope (3).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\envelope (3).svg",
       "PackagePath": "staticwebassets\\uploads\\envelope (3).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\envelope.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\envelope.svg",
       "PackagePath": "staticwebassets\\uploads\\envelope.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\file-earmark.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\file-earmark.svg",
       "PackagePath": "staticwebassets\\uploads\\file-earmark.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (2) (1).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (2) (1).svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (2) (1).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (2).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (2).svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (2).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3) (1).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3) (1).svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (3) (1).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3) (2).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3) (2).svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (3) (2).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3).svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia (3).svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia (3).svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia.svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",
       "PackagePath": "staticwebassets\\uploads\\person-circle.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\success-26.svg",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\success-26.svg",
       "PackagePath": "staticwebassets\\uploads\\success-26.svg"
     },
     {
-      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\tableData (3).xlsx",
+      "Id": "D:\\HalloDoc\\HalloDoc\\HalloDoc-main-forked\\HalloDoc\\wwwroot\\uploads\\tableData (3).xlsx",
       "PackagePath": "staticwebassets\\uploads\\tableData (3).xlsx"
     },
     {

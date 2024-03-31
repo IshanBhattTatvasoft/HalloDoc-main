@@ -14,6 +14,10 @@ function onpress() {
 }
 
 window.onload = function checkingTheme() {
+
+
+    localStorage.removeItem("status");
+
     let themeCheck = localStorage.getItem('theme');
     if (themeCheck == null || themeCheck == 'light') {
         document.getElementById('main-page').style.backgroundColor = '#fcfcfc';

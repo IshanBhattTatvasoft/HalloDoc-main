@@ -339,6 +339,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void InsertDataOfRequest(AdminCreateRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
+            AspNetUserRole anur = new AspNetUserRole();
             User user = new User();
             Request request = new Request();
             DataLayer.Models.Region region2 = new DataLayer.Models.Region();
@@ -356,6 +357,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.CreatedDate = DateTime.Now;
                 aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
                 _context.AspNetUsers.Add(aspNetUser);
+                _context.SaveChanges();
+
+                anur.UserId = aspNetUser.Id;
+                anur.RoleId = 3;
+                _context.AspNetUserRoles.Add(anur);
                 _context.SaveChanges();
 
                 user.AspNetUserId = aspNetUser.Id;
@@ -875,6 +881,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 LastName = physician.LastName,
                 Password = user.PasswordHash,
                 Email = physician.Email,
+                ConfirmEmail = "",
                 Phone = physician.Mobile,
                 regions = _context.Regions.ToList(),
                 selectedregions = data,
@@ -897,6 +904,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 NonDisclosure = physician.IsNonDisclosureDoc != null ? physician.IsNonDisclosureDoc[0] : null,
                 LicensedDoc = physician.IsLicenseDoc != null ? physician.IsLicenseDoc[0] : null,
                 adminNavbarModel = an,
+                Photo = null,
                 roles = _context.Roles.Where(r => r.AccountType == (short)2).ToList(),
             };
             return viewmodel;
