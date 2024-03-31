@@ -28,6 +28,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void InsertDataBusinessRequest(BusinessRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
+            AspNetUserRole anur = new AspNetUserRole();
             User user = new User();
             Request request = new Request();
             DataLayer.Models.Region region2 = new DataLayer.Models.Region();
@@ -42,12 +43,17 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;
-                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
+                aspNetUser.UserName = model.Email;
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
                 aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
+                _context.SaveChanges();
+
+                anur.UserId = aspNetUser.Id;
+                anur.RoleId = 3;
+                _context.AspNetUserRoles.Add(anur);
                 _context.SaveChanges();
 
                 user.AspNetUserId = aspNetUser.Id;

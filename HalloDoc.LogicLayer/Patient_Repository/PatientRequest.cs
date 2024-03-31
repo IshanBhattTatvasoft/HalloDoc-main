@@ -34,6 +34,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void InsertDataPatientRequest(PatientRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
+            AspNetUserRole anur = new AspNetUserRole();
             User user = new User();
             Request request = new Request();
             Region region2 = new Region();
@@ -51,6 +52,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.CreatedDate = DateTime.Now;
                 aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
+                _context.SaveChanges();
+
+                anur.UserId = aspNetUser.Id;
+                anur.RoleId = 3;
+                _context.AspNetUserRoles.Add(anur);
                 _context.SaveChanges();
 
                 user.AspNetUserId = aspNetUser.Id;
@@ -156,6 +162,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             aspNetUser.CreatedDate = DateTime.Now;
             aspNetUser.PasswordHash = model.Password;
             _context.AspNetUsers.Add(aspNetUser);
+            _context.SaveChanges();
+
+            AspNetUserRole anur = new AspNetUserRole();
+            anur.UserId = aspNetUser.Id;
+            anur.RoleId = 3;
+            _context.AspNetUserRoles.Add(anur);
             _context.SaveChanges();
         }
 

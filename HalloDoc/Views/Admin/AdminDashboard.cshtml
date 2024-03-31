@@ -544,8 +544,7 @@
             
 
             for (let i = 0; i < states.length; ++i) {
-                console.log("sksksk");
-                console.log("Class name of class " + i + " in design function: " + states[i].classList[1]);
+                
                 if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
                     break;
                 }
@@ -691,7 +690,7 @@
             //console.log("Class name:" + className);
             if (localStorage.getItem("status") == null) {
                 console.log("1");
-                designStatus(localStorage.getItem("status").toLowerCase());
+                designStatus("newState");
                 $.ajax({
                     url: `/Admin/New`,
                     type: 'POST',
@@ -704,7 +703,8 @@
 
                     },
                     error: function () {
-                        alert('An error occurred.');
+                        console.log("an error occurred");
+                        // alert('An error occurred.');
                     }
                 });
             }
@@ -728,7 +728,8 @@
                         $("#AdminDashboardPartialView").html(response)
                     },
                     error: function () {
-                        alert('An error occurred.');
+                        console.log("an error occurred");
+                        // alert('An error occurred.');
                     }
                 });
             }

@@ -1177,6 +1177,7 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 1;
+                model.adminNavbarModel = an;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
@@ -1260,11 +1261,23 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
+            AdminCreateRequestModel model = new AdminCreateRequestModel 
+            {
+                adminNavbarModel = an,
+                FirstName = "",
+                LastName = "",
+                Email = "",
+                PhoneNumber = "",
+                DOB = new DateOnly(),
+                Street = "",
+                City = "",
+                State = ""
+            };
             string token = Request.Cookies["token"];
             string roleIdVal = _jwtToken.GetRoleId(token);
             List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
             ViewBag.Menu = menus;
-            return View();
+            return View(model);
         }
 
         public IActionResult PlatformLoginPage()
@@ -2688,7 +2701,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to save changed password of provider
         public IActionResult SavePasswordOfProvider(EditProviderAccountViewModel ep)
         {
@@ -2705,7 +2718,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to save changes of billing info of provider
         public IActionResult EditProviderBillingInfo(EditProviderAccountViewModel ep)
         {
@@ -2722,7 +2735,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to save provider info
         public IActionResult SaveProviderProfile(EditProviderAccountViewModel ep, string selectedRegionsList)
         {
@@ -2740,6 +2753,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function called when we upload file of signature of provider
         public IActionResult SetContentOfPhysician(IFormFile file, int PhysicianId, bool IsSignature)
         {
@@ -2756,6 +2770,8 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [HttpPost]
+        [CustomAuthorize("Admin")]
         // function to upload all other docs of provider
         public IActionResult SetAllDocOfPhysician(IFormFile file, int PhysicianId, int num)
         {
@@ -2772,6 +2788,8 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [HttpPost]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to save changes of provider profile
         public IActionResult PhysicianProfileUpdate(EditProviderAccountViewModel model)
         {
@@ -2789,7 +2807,8 @@ namespace HalloDoc.Controllers
         }
 
 
-
+        [HttpPost]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         public IActionResult DeletePhysicianAccount(int id)
         {
             try
@@ -2818,6 +2837,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 10;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 CreateRoleViewModel cr = new CreateRoleViewModel
                 {
                     adminNavbarModel = an,
@@ -2834,7 +2857,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "CreateRole")]
         // function to create a new role
         public IActionResult CreateNewRole(string roleName, string acType, string menuIdString)
         {
@@ -2846,6 +2869,10 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 10;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
                 List<int> menuIds = null;
                 if (!string.IsNullOrEmpty(menuIdString))
                 {
@@ -2894,7 +2921,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "AccountAccess")]
         // function to delete a role
         public IActionResult DeleteRole(int roleid)
         {
@@ -2990,7 +3017,7 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 5;
+                an.Tab = 12;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
@@ -3019,7 +3046,7 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 5;
+                an.Tab = 12;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);

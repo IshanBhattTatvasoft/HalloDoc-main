@@ -38,6 +38,33 @@
         border-top: 1px solid rgba(0, 0, 0);
     }
 
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        border-color: #3DB6FF !important;
+        box-shadow: none !important;
+    }
+
+
+    .form-floating:focus-within label {
+        color: #3DB6FF !important;
+    }
+
+    select:focus{
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
 </style>
 
 <body class="bg-light">
@@ -94,6 +121,7 @@
                             }
                         </select>
                         <label for="Role" class="ms-2 text-muted">Role</label>
+                        <span asp-validation-for="roleId" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -231,6 +259,7 @@
                         <div class="d-flex gap-0">
                             <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" asp-for="Photo" />
                             <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                            <span asp-validation-for="Photo" class="text-danger"></span>
                         </div>
                     </div>
                 </div>

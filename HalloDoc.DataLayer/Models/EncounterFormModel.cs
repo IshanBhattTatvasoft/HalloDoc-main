@@ -12,7 +12,8 @@ public class EncounterFormModel
     [StringLength(100, ErrorMessage = "Name must not be longer than 100 characters", MinimumLength = 1)]
     [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name must contain letters only")]
     public required string LastName { get; set; }
-    public string Location { get; set; }
+    [Required(ErrorMessage = "Location is required")]
+    public required string Location { get; set; }
     public DateTime DOB { get; set; }
     public DateTime Date { get; set; }
     [Required(ErrorMessage = "Phone number is required")]
