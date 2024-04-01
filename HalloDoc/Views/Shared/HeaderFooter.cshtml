@@ -196,11 +196,11 @@
             {
                 @if (Model.Tab == 4 || Model.Tab == 5 || Model.Tab == 6 || Model.Tab == 7)
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted records active ps-3 ms-3" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
+                    <button class="btn dropdown-toggle nav-link text-muted records active ps-3 ms-3" id="nav-profile-tab2" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
                 }
                 else
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted records ps-3 ms-4" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
+                    <button class="btn dropdown-toggle nav-link text-muted records ps-3 ms-4" id="nav-profile-tab2" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
                 }
             }
             <ul class="dropdown-menu">
@@ -220,11 +220,11 @@
                 {
                     @if (Model.Tab == 6)
                     {
-                        <li><a class="dropdown-item-active text-muted dropdown-item mb-2" href="#">Scheduling</a></li>
+                        <li><a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Scheduling" asp-controller="Admin">Scheduling</a></li>
                     }
                     else
                     {
-                        <li><a class="text-muted dropdown-item mb-2" href="#">Scheduling</a></li>
+                        <li><a class="text-muted dropdown-item mb-2" asp-action="Scheduling" asp-controller="Admin">Scheduling</a></li>
                     }
                 }
 

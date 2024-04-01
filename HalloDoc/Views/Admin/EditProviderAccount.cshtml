@@ -532,13 +532,18 @@
 
 
     function AddSelectedRegion() {
-        var selectedRegions = []; // Clear any previous selections
+        var selectedRegions = []; 
         document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
             selectedRegions.push(parseInt(checkbox.value));
         });
 
-        document.getElementById('selectedRegionsList').value = selectedRegions.join(',');
+        if (selectedRegions.length > 0) {
+            document.getElementById('selectedRegionsList').value = selectedRegions.join(',');
+        } else {
+            document.getElementById('selectedRegionsList').value = ''; 
+        }
     }
+
 
     //document.getElementById('contract').addEventListener('change', function () {
     //    if (this.files.length > 0) {

@@ -8,8 +8,8 @@
 
 <body class="bg-light">
     <div class="bg-light" style="overflow: hidden;">
-    <partial name="Toast" />
-    <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+        <partial name="Toast" />
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
         <div class="container">
             <div class="row">
                 <div style="top: 42px; position: relative;" class="col">
@@ -78,23 +78,20 @@
         });
     }
 
-    function filter()
-    {
+    function filter() {
         var accType = document.getElementById("select-role").value;
 
-        if(accType == 1)
-        {
+        if (accType == 1) {
             document.getElementById("createAcc").value = "CreateAdminAccountFromUserAccess";
             document.getElementById("createAdmin").style.display = "block";
             document.getElementById("createPhysician").style.display = "none";
         }
-        else if(accType == 2)
-        {
+        else if (accType == 2) {
             document.getElementById("createAcc").value = "CreateProviderAccountFromUserAccess";
             document.getElementById("createAdmin").style.display = "none";
             document.getElementById("createPhysician").style.display = "block";
         }
-        else{
+        else {
             document.getElementById("createAcc").value = "All";
             document.getElementById("createAdmin").style.display = "none";
             document.getElementById("createPhysician").style.display = "none";
@@ -116,5 +113,5 @@
             }
         });
     }
-    
+
 </script>

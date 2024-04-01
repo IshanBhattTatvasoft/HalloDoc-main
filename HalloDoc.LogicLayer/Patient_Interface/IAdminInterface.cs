@@ -108,6 +108,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<string> GetAllMenus(string roleId);
         public List<BlockedHistoryData> GetBlockedHistoryData();
         public void UnblockRequest(int id);
+        public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
+        public BlockedHistoryViewModel BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo);
 
 
     }

@@ -67,7 +67,7 @@
                                 {
                                     <div class="d-inline-block mb-1">
                                         <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
-                                        <input class="checkboxes" type="checkbox" style="height: 15px;width: 15px;" />
+                                        <input class="checkboxes mycheckbox" type="checkbox" style="height: 15px;width: 15px;" />
                                         <span class="me-2">@item.Name</span>
                                     </div>
                                 }
@@ -114,6 +114,7 @@
                 document.getElementById("admin-roles").style.display = "none";
                 document.getElementById("physician-roles").style.display = "block";
             }
+            $(".mycheckbox").empty();
         }
 
         function saveRoles() {

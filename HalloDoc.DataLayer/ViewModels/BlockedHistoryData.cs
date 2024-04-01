@@ -10,7 +10,12 @@ using Microsoft.AspNetCore.Http;
 namespace HalloDoc.DataLayer.ViewModels;
 public class BlockedHistoryData
 {
-    public BlockRequest? singleBlockRequest { get; set; }
-    public string? patientName { get; set; }
+    public string PhoneNumber { get; set; }
+    public string? PatientName { get; set; }
+    public string Email { get; set; }
+    public DateOnly CreatedDate { get; set; }
+    public string Notes { get; set; }
+    public bool IsActive { get; set; }
+    public int RequestId { get; set; }
 }
 

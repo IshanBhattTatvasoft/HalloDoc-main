@@ -20,6 +20,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         }
         public List<TableContent> GetDashboardData(int id)
         {
+            Request r = _context.Requests.Where(r => r.UserId == id).FirstOrDefault();
+            int count = _context.RequestWiseFiles.Where(rwf => rwf.RequestId == r.RequestId).Count();
+
             var data = (
         from req in _context.Requests
         join file in _context.RequestWiseFiles on req.RequestId equals file.RequestId into files
@@ -31,7 +34,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             RequestId = fileGroup.Key.RequestId,
             CreatedDate = fileGroup.Key.CreatedDate,
             Status = fileGroup.Key.Status,
-            Count = fileGroup.Count(),
+            Count = count,
         }).ToList();
 
             

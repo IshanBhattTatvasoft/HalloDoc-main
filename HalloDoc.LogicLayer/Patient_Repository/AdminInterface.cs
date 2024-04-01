@@ -192,6 +192,81 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return pm;
         }
 
+        UserAccessViewModel IAdminInterface.UserAccessFilteredData(AdminNavbarModel an, int accountType)
+        {
+            UserAccessViewModel ua = new UserAccessViewModel();
+            ua.accountType = accountType;
+            if (accountType == 1)
+            {
+                ua.admins = _context.Admins.ToList();
+            }
+            else if (accountType == 2)
+            {
+                ua.physicians = _context.Physicians.ToList();
+            }
+            else
+            {
+                ua.admins = _context.Admins.ToList();
+                ua.physicians = _context.Physicians.ToList();
+            }
+            ua.adminNavbarModel = an;
+            return ua;
+        }
+
+        BlockedHistoryViewModel IAdminInterface.BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo)
+        {
+            var query = from b in _context.BlockRequests
+                        join r in _context.Requests on b.RequestId equals r.RequestId
+                        join rc in _context.RequestClients on r.RequestClientId equals rc.RequestClientId
+                        where name == null || rc.FirstName.ToLower().Contains(name.ToLower()) || rc.LastName.ToLower().Contains(name.ToLower())
+                        select b;
+
+
+            DateOnly checkdate = new DateOnly(0001, 1, 1);
+
+
+            if (email != null || email!="")
+            {
+                query = query.Where(r => r.Email.ToLower().Contains(email.ToLower()));
+            }
+
+            if(phoneNo != null || phoneNo!="")
+            {
+                query = query.Where(r => r.PhoneNumber.Contains(phoneNo));
+            }
+
+            if (date != null && date != checkdate)
+            {
+                query = query.Where(r => DateOnly.FromDateTime((DateTime)r.CreatedDate).Equals(date));
+            }
+
+            List<BlockedHistoryData> allData = new List<BlockedHistoryData>();
+            List<BlockRequest> br = query.ToList();
+
+            foreach (var item in br)
+            {
+                Request r = ValidateRequest(item.RequestId);
+                RequestClient rc = GetPatientData(r.RequestId);
+                BlockedHistoryData bh = new BlockedHistoryData();
+                bh.PhoneNumber = item.PhoneNumber;
+                bh.Email = item.Email;
+                bh.CreatedDate = DateOnly.FromDateTime((DateTime)item.CreatedDate);
+                bh.Notes = item.Reason;
+                bh.IsActive = item.IsActive[0];
+                bh.PatientName = string.Concat(rc.FirstName, ", ", rc.LastName);
+                bh.RequestId = item.RequestId;
+                allData.Add(bh);
+            }
+
+            BlockedHistoryViewModel bhvm = new BlockedHistoryViewModel
+            {
+                allData = allData,
+                adminNavbarModel = an,
+            };
+
+            return bhvm;
+        }
+
         public void ChangeNotificationValue(int id)
         {
             PhysicianNotification pn = _context.PhysicianNotifications.Where(p => p.PhysicianId == id).FirstOrDefault();
@@ -675,6 +750,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void UpdateAdminDataFromId(AdminProfile model, int id, string selectedRegion)
         {
             List<int> selectedRegionIds = null;
+            int x = 1;
+            AdminRegion arr = _context.AdminRegions.OrderByDescending(r => r.AdminRegionId).FirstOrDefault();
             if (!string.IsNullOrEmpty(selectedRegion))
             {
                 selectedRegionIds = selectedRegion.Split(',').Select(int.Parse).ToList();
@@ -683,7 +760,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             foreach (var item in selectedRegionIds)
             {
                 //check if selected region exists in AdminRegion
-                bool isPresent = _context.AdminRegions.Any(r => r.RegionId == item);
+                bool isPresent = _context.AdminRegions.Any(r => r.RegionId == item && r.AdminId == model.adminId);
 
                 //if exists, no need to do any change
                 if (isPresent)
@@ -694,10 +771,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 else
                 {
                     AdminRegion ar = new AdminRegion();
-                    ar.AdminId = model.adminId;
+                    ar.AdminRegionId = arr.AdminRegionId + x;
+                    ar.AdminId = id;
                     ar.RegionId = item;
                     _context.AdminRegions.Add(ar);
                     _context.SaveChanges();
+                    x++;
                 }
             }
 
@@ -1263,26 +1342,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        UserAccessViewModel IAdminInterface.UserAccessFilteredData(AdminNavbarModel an, int accountType)
-        {
-            UserAccessViewModel ua = new UserAccessViewModel();
-            ua.accountType = accountType;
-            if (accountType == 1)
-            {
-                ua.admins = _context.Admins.ToList();
-            }
-            else if (accountType == 2)
-            {
-                ua.physicians = _context.Physicians.ToList();
-            }
-            else
-            {
-                ua.admins = _context.Admins.ToList();
-                ua.physicians = _context.Physicians.ToList();
-            }
-            ua.adminNavbarModel = an;
-            return ua;
-        }
+        
 
         public List<string> GetAllMenus(string roleId)
         {
@@ -1298,12 +1358,17 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             foreach (var item in br)
             {
-                BlockedHistoryData single = new BlockedHistoryData();
-                single.singleBlockRequest = item;
-                Request r = _context.Requests.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
-                RequestClient rc = _context.RequestClients.Where(rc => rc.RequestClientId == r.RequestClientId).FirstOrDefault();
-                single.patientName = rc.FirstName + ", " + rc.LastName;
-                allData.Add(single);
+                Request r = ValidateRequest(item.RequestId);
+                RequestClient rc = GetPatientData(r.RequestId);
+                BlockedHistoryData bh = new BlockedHistoryData();
+                bh.PhoneNumber = item.PhoneNumber;
+                bh.Email = item.Email;
+                bh.CreatedDate = DateOnly.FromDateTime((DateTime)item.CreatedDate);
+                bh.Notes = item.Reason;
+                bh.IsActive = item.IsActive[0];
+                bh.PatientName = string.Concat(rc.FirstName, ", ", rc.LastName);
+                bh.RequestId = item.RequestId;
+                allData.Add(bh);
             }
 
             return allData;
@@ -1315,6 +1380,139 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             br.IsActive = new BitArray(1, false);
             _context.BlockRequests.Update(br);
             _context.SaveChanges();
+        }
+
+        public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id)
+        {
+            // one entry in shift and multiple entries in shiftdetail
+
+            AspNetUser anu = GetAspNetFromAdminId(id);
+
+            Shift shift = new Shift();
+            shift.PhysicianId = (int)model.physicianId;
+            shift.StartDate = DateOnly.FromDateTime((DateTime)model.startDate);
+
+            // check if shift is repeated or not
+            if(model.repeat != 0)
+            {
+                shift.IsRepeat = new BitArray(1, true);
+            }
+            else
+            {
+                shift.IsRepeat = new BitArray(1, false);
+            }
+
+            // if shift is repeated and checkboxes are checked, set 1 to those weekdays in shift.WeekDays else set 0
+            if (shift.IsRepeat != new BitArray(1, false) && RepeatedDays != null)
+            {
+
+                for (int i = 0; i < 7; i++)
+                {
+                    if (RepeatedDays!.Any(u => u == i))
+                    {
+                        shift.WeekDays = shift.WeekDays + "1";
+                    }
+                    else
+                    {
+                        shift.WeekDays = shift.WeekDays + "0";
+                    }
+                }
+            }
+            else
+            {
+                shift.WeekDays = "0000000";
+            }
+
+            shift.RepeatUpto = model.repeat;
+            shift.CreatedBy = anu.Id;
+            shift.CreatedDate = DateTime.Now;
+            _context.Shifts.Add(shift);
+            _context.SaveChanges();
+
+            // common entry of shift whose startDate = model.startDate
+            ShiftDetail sd = new ShiftDetail();
+            sd.Shift = shift;
+            sd.ShiftDate = (DateTime)model.startDate;
+            sd.RegionId = model.regionId;
+            sd.StartTime = (TimeOnly)model.startTime;
+            sd.EndTime = (TimeOnly)model.endTime;
+            sd.Status = 0;
+            sd.IsDeleted = new BitArray(1, false);
+            _context.ShiftDetails.Add(sd);
+
+            // if shift is repeated and atleast one checkbox is checked
+            if(shift.IsRepeat != new BitArray(1,false) && RepeatedDays != null)
+            {
+                int current = 0; //variable to count and stop when the total numbered of entered data is greater than 'total'
+                int total = RepeatedDays.Count() * (int)model.repeat; //total number of entries in ShiftDetail other than current entry (when we submit)
+                
+                for(int i=0;i<=model.repeat;i++)
+                {
+                    DateTime shiftDate = (DateTime)model.startDate;
+                    DateTime tempdate = new DateTime();
+                    
+                    // when we want to store the repeated shift related data in current week
+                    if(i==0)
+                    {
+                        // if day of shiftDate is wednesday, then 0-4 = -4 i.e. day of tempdate would be sunday
+                        tempdate = shiftDate.AddDays((7 * i) - (int)shiftDate.DayOfWeek);
+
+                        // make entry for each checked day
+                        foreach(var day in RepeatedDays)
+                        {
+                            // if checked day is greater than day of shiftDate, which is Sunday
+                            if (day > (int)shiftDate.DayOfWeek)
+                            {
+                                int count = day;
+                                ShiftDetail shiftDetail1 = new ShiftDetail();
+                                shiftDetail1.Shift = shift;
+                                shiftDetail1.ShiftDate = tempdate.AddDays(count);
+                                shiftDetail1.RegionId = model.regionId;
+                                shiftDetail1.StartTime = (TimeOnly)model.startTime!;
+                                shiftDetail1.EndTime = (TimeOnly)model.endTime!;
+                                shiftDetail1.Status = 0;
+                                shiftDetail1.IsDeleted = new BitArray(1, false);
+                                _context.ShiftDetails.Add(shiftDetail1);
+                                current++;
+                            }
+                        }
+                    }
+
+                    // to store data for the shift which is going to repeat in next week
+                    else
+                    {
+                        // start from Sunday of next week
+                        tempdate = shiftDate.AddDays((7*i) - (int)shiftDate.DayOfWeek);
+                        for(int j=0;j<7;j++)
+                        {
+                            // break when number of entered entries in ShiftDetail increases than total variable
+                            if (total <= current)
+                            {
+                                break;
+                            }
+
+                            // check if j ==  any of the checked day and if that is true, do entry in table and set current = current + 1;
+                            if(RepeatedDays.Any(r => r == j))
+                            {
+                                ShiftDetail shiftDetail2 = new ShiftDetail();
+                                shiftDetail2.Shift = shift;
+                                shiftDetail2.ShiftDate = tempdate.AddDays(j);
+                                shiftDetail2.RegionId = model.regionId;
+                                shiftDetail2.StartTime = (TimeOnly)model.startTime!;
+                                shiftDetail2.EndTime = (TimeOnly)model.endTime!;
+                                shiftDetail2.Status = 0;
+                                shiftDetail2.IsDeleted = new BitArray(1, false);
+
+                                _context.ShiftDetails.Add(shiftDetail2);
+                                current = current + 1;
+                            }
+                        }
+                    }
+                }
+            }
+
+            _context.SaveChanges();
+            return true;
         }
     }
 }

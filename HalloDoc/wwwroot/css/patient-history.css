@@ -51,3 +51,45 @@ input[type="text"]:focus {
     border: none;
 }
 
+.searches{
+    display: flex;
+    flex-direction: row;
+}
+
+input:focus {
+    outline: #3DB6FF !important;
+    /*border: 2px solid white !important;*/
+    box-shadow: none !important;
+    border-color: #3DB6FF !important;
+    /*color: red !important;*/
+}
+
+textarea:focus {
+    outline: none !important;
+    border-color: #3DB6FF !important;
+    box-shadow: none !important;
+}
+
+    textarea:focus::placeholder {
+        color: #3DB6FF !important;
+    }
+
+.form-floating:focus-within label {
+    color: #3DB6FF !important;
+}
+
+@media only screen and (max-width: 767px){
+    .searches {
+        display: flex !important;
+        flex-direction: column;
+        width: 50%;
+        margin: 20px auto !important;
+    }
+
+    .search-cols {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        margin: 5px auto !important;
+    }
+}

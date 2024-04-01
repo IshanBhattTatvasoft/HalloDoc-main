@@ -97,7 +97,7 @@
 
                 <div class="row">
                     <div class="form-floating col mt-4 mb-4 lastbutton float-end" id="submitDivv">
-                        <button type="button" class="btn btn-outline-info me-3 float-end" onclick="cancelRoles()">Cancel</button>
+                        <button type="reset" class="btn btn-outline-info me-3 float-end" >Cancel</button>
                         <button type="button" class="btn btn-info text-white float-end me-3" onclick="saveRoles(@Model.roleId)">Save</button>
                     </div>
                 </div>
@@ -107,9 +107,9 @@
 </div>
 
 <script>
-    function cancelRoles() {
-        location.reload();
-    }
+    //function cancelRoles() {
+    //    location.reload();
+    //}
 
     function saveRoles(roleId) {
         var selectedMenuId = [];

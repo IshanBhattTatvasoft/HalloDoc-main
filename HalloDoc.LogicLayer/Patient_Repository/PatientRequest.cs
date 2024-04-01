@@ -46,7 +46,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (ValidateAspNetUser(model) == null)
             {
                 userExists = false;
-                aspNetUser.UserName = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email; 
+                aspNetUser.UserName = model.Email; 
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;

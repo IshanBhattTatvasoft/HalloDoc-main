@@ -3215,11 +3215,6 @@ namespace HalloDoc.Controllers
             }
         }
 
-        public IActionResult PageNotFound()
-        {
-            return View();
-        }
-
         [CustomAuthorize("Admin", "BlockedHistory")]
         public IActionResult BlockedHistory()
         {
@@ -3229,7 +3224,7 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 11;
+                an.Tab = 18;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
@@ -3249,11 +3244,30 @@ namespace HalloDoc.Controllers
             }
         }
 
-        //[CustomAuthorize("Admin", "BlockedHistory")]
-        //public IActionResult BlockedHistoryFilteredData(string? name = "", string? date = "", string? phoneNumber = "", string? email = "")
-        //{
+        [CustomAuthorize("Admin", "BlockedHistory")]
+        public IActionResult BlockedHistoryFilteredData(DateOnly date, string? name = "", string? phoneNumber = "", string? email = "")
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 18;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                BlockedHistoryViewModel bh = _adminInterface.BlockedHistoryFilteredData(an, name, date, email, phoneNumber);
+                return PartialView("BlockedHistoryPagePartialView", bh);
+            }
 
-        //}
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to access the accounts";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
 
         [CustomAuthorize("Admin", "BlockedHistory")]
         public IActionResult UnblockTheRequest(int id)
@@ -3279,6 +3293,72 @@ namespace HalloDoc.Controllers
                 TempData["error"] = "Unable to access the accounts";
                 return RedirectToAction("AdminDashboard");
             }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult Scheduling()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                SchedulingViewModel svm = new SchedulingViewModel
+                {
+                    adminNavbarModel = an,
+                    allRegions = _adminInterface.GetAllRegion(),
+                };
+                return View(svm);
+            }
+
+            catch(Exception ex)
+            {
+                TempData["error"] = "Unable to view scheduling page";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                if(_adminInterface.CreateNewShift(model, RepeatedDays, ad.AdminId))
+                {
+                    TempData["success"] = "Shift created successfully";
+                    return RedirectToAction("Scheduling");
+                }
+                else
+                {
+                    TempData["error"] = "Sorry, shift is not created!";
+                    return RedirectToAction("Scheduling");
+                }
+            }
+            catch(Exception ex)
+            {
+                TempData["error"] = "Unable to create the new shift";
+                return RedirectToAction("Scheduling");
+            }
+        }
+
+        public IActionResult PageNotFound()
+        {
+            return View();
         }
 
     }

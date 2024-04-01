@@ -1,30 +1,69 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.PatientHistoryViewModel
 
-<table class="table mt-0">
-    <thead class="table-secondary">
-        <tr>
-            <th class="text-muted" style="width: 250px !important">First Name</th>
-            <th class="text-muted" style="width: 250px !important">Last Name</th>
-            <th class="text-muted" style="width: 300px !important">Email</th>
-            <th class="text-muted" style="width: 250px !important">Phone</th>
-            <th class="text-muted">Address</th>
-            <th class="text-muted text-end">Actions</th>
-        </tr>
-    </thead>
-    @foreach (var item in Model.requests)
-    {
-        <tr>
-            <td>@item.RequestClient.FirstName</td>
-            <td>@item.RequestClient.LastName</td>
-            <td>@item.RequestClient.Email</td>
-            <td>@item.RequestClient.PhoneNumber</td>
-            <td>&nbsp;</td>
-            <td class="text-end"><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">Explore</a></td>
-        </tr>
-    }
-</table>
+<div class="table-responsive d-none d-md-block">
+    <table class="table mt-0">
+        <thead class="table-secondary">
+            <tr>
+                <th class="text-muted" style="width: 250px !important">First Name</th>
+                <th class="text-muted" style="width: 250px !important">Last Name</th>
+                <th class="text-muted" style="width: 300px !important">Email</th>
+                <th class="text-muted" style="width: 250px !important">Phone</th>
+                <th class="text-muted">Address</th>
+                <th class="text-muted text-end">Actions</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.requests)
+        {
+            <tr>
+                <td>@item.RequestClient.FirstName</td>
+                <td>@item.RequestClient.LastName</td>
+                <td>@item.RequestClient.Email</td>
+                <td>@item.RequestClient.PhoneNumber</td>
+                <td>@(string.Concat(item.RequestClient.Street, ' ', item.RequestClient.City, ' ', item.RequestClient.State, ' ', item.RequestClient.ZipCode))</td>
+                <td class="text-end"><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">Explore</a></td>
+            </tr>
+        }
+    </table>
+</div>
 
-<div class="pagination">
+@*Patient Records Mobile View*@
+<div class="d-md-none">
+    <div class="accordion accordion-flush" id="accordionExample">
+        @foreach(var item in Model.requests)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-heading@(item.RequestClientId)">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(@item.RequestClientId)" aria-expanded="false" aria-controls="collapseThree(@item.RequestClientId)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100 mb-3">
+                            <div>
+                                <span>@(string.Concat(item.RequestClient.FirstName, " ", item.RequestClient.LastName))</span>
+                            </div>
+                            <div class="mt-3">
+                                <span>@item.RequestClient.PhoneNumber</span>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+
+                <div id="collapseThree(@item.RequestClientId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.RequestClientId) data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <div>
+                                <span><i class="fa-regular fa-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Email: @item.RequestClient.Email</span>
+                            </div>
+
+                            <div class="mt-3">
+                                <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Phone Number: @item.RequestClient.PhoneNumber</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="pagination mt-3">
     <span style="margin-right:10px;">Page No:</span>
     @if (Model.CurrentPage > 1)
     {
@@ -49,7 +88,7 @@
             //console.log("hiiiiiii");
             var page = $(this).attr('data-page');
 
-            filter(page,10);
+            filter(page, 10);
         });
     });
 </script>
