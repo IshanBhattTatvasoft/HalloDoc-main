@@ -1,0 +1,120 @@
+﻿@using static HalloDoc.DataLayer.Models.Enums;
+@model HalloDoc.DataLayer.ViewModels.SearchRecordsViewModel
+
+@{
+    ViewData["Title"] = "Search Records";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/patient-history.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+}
+
+@section Scripts{
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<partial name="Toast" />
+
+<body class="bg-light">
+    <div class="bg-light" style="overflow: hidden;">
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+        <div class="container-fluid">
+            <div class="row d-flex justify-content-between mt-3">
+                <div>
+                    <span class="h5 text-muted fw-bold" id="heading-one">
+                        Search Records
+                    </span>
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-info text-white"><i class="fa-solid fa-reply-all fa-flip-horizontal" style="color: #f5f5f5;"></i>Export Data to Excel</button>
+                </div>
+            </div>
+
+            <div class="bg-white mt-4 rounded ms-5 me-5">
+                <div class="row searches">
+                    <div class="dropdown form-floating col mt-2 ms-1 search-cols">
+                        <select class="btn dropdown-toggle text-secondary w-100" id="select-region" style="text-align: start;" onchange="filter(this.value)">
+                            <option value="-1" selected class="text-muted">All Regions</option>
+                            <option value="1" class="bg-white text-muted">Unassigned</option>
+                            <option value="2" class="bg-white text-muted">Accepted</option>
+                            <option value="3" class="bg-white text-muted">Cancelled</option>
+                            <option value="4" class="bg-white text-muted">MDEnRoute</option>
+                            <option value="5" class="bg-white text-muted">MDONSite</option>
+                            <option value="6" class="bg-white text-muted">Conclude</option>
+                            <option value="7" class="bg-white text-muted">CancelledByPatient</option>
+                            <option value="8" class="bg-white text-muted">Closed</option>
+                            <option value="9" class="bg-white text-muted">Unpaid</option>
+                            <option value="10" class="bg-white text-muted">Clear</option>
+                            <option value="11" class="bg-white text-muted">Blocked</option>
+                        </select>
+                    </div>
+                    <div class="form-floating col mt-2 search-cols">
+                        <input type="text" id="last-name" class="form-control search-input"
+                               placeholder="Last Name">
+                        <label for="floatingInput" class="ms-2 text-muted">Patient Name</label>
+                    </div>
+                    <div class="dropdown form-floating col mt-2 search-cols">
+                        <select class="btn dropdown-toggle text-secondary w-100" id="select-region" style="text-align: start;" onchange="filter(this.value)">
+                            <option value="-1" selected class="text-muted">All Regions</option>
+                            <option value="1" class="bg-white text-muted">Patient</option>
+                            <option value="2" class="bg-white text-muted">Family</option>
+                            <option value="3" class="bg-white text-muted">Concierge</option>
+                            <option value="4" class="bg-white text-muted">Business</option>
+                        </select>
+                    </div>
+                    <div class="form-floating col mt-2 me-1 search-cols">
+                        <input type="date" id="date" class="form-control search-input"
+                               placeholder="Date" onchange="filter()">
+                        <label for="floatingInput" class="ms-2 text-muted">From Date Of Service</label>
+                    </div>
+                </div>
+
+                <div class="row searches mt-3">
+                    <div class="form-floating col mt-2 ms-1 search-cols">
+                        <input type="date" id="date" class="form-control search-input"
+                               placeholder="Date" onchange="filter()">
+                        <label for="floatingInput" class="ms-2 text-muted">To Date Of Service</label>
+                    </div>
+                    <div class="form-floating col mt-2 search-cols">
+                        <input type="text" id="last-name" class="form-control search-input"
+                               placeholder="Last Name">
+                        <label for="floatingInput" class="ms-2 text-muted">Provider Name</label>
+                    </div>
+                    <div class="dropdown form-floating col mt-2 search-cols">
+                        <input type="text" id="last-name" class="form-control search-input"
+                               placeholder="Last Name">
+                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    </div>
+                    <div class="form-floating col mt-2 me-1 search-cols">
+                        <input type="text" id="last-name" class="form-control search-input"
+                               placeholder="Last Name">
+                        <label for="floatingInput" class="ms-2 text-muted">Phone Number</label>
+                    </div>
+                </div>
+
+                <div class="row mt-4 d-flex align-items-end justify-content-end">
+                    <div class="d-inline-block w-auto">
+                        <button type="button" class="btn btn-outline-info" id="cancelButton" onclick="removeFilter()">Clear</button>
+                    </div>
+                    <div class="d-inline-block w-auto me-3">
+                        <button type="button" class="btn btn-info text-white" id="searchButton" onclick="filter()">Search</button>
+                    </div>
+                </div>
+
+
+
+                <div>
+                    <div class="mt-4 ms-3 me-3 myTable" id="SearchRecordsPartialView"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>

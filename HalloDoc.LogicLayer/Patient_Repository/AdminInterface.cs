@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
+﻿using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
 using HalloDoc.DataLayer.Data;
@@ -17,6 +18,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Path = System.IO.Path;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {
@@ -1374,11 +1376,43 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return allData;
         }
 
+        public List<RequestedShiftsData> GetRequestedShiftsData(int? regionId)
+        {
+            List<RequestedShiftsData> rsd = new List<RequestedShiftsData>();
+            List<ShiftDetail> sd = _context.ShiftDetails.Where(s => s.Status == 0).ToList();
+
+            if(regionId!=-1 && regionId!=null)
+            {
+                sd = sd.Where(r => r.RegionId == regionId).ToList();
+            }
+
+            foreach(var item in sd)
+            {
+                DataLayer.Models.Region r = _context.Regions.Where(re => re.RegionId == item.RegionId).FirstOrDefault();
+                Shift s = _context.Shifts.Where(s => s.ShiftId == item.ShiftId).FirstOrDefault();
+                Physician p = _context.Physicians.Where(ph => ph.PhysicianId == s.PhysicianId).FirstOrDefault();
+                RequestedShiftsData oneShiftDetail = new RequestedShiftsData();
+                oneShiftDetail.physicianName = string.Concat(p.FirstName, ", ", p.LastName);
+                oneShiftDetail.day = item.ShiftDate.ToString("MMM dd, yyyy");
+                oneShiftDetail.time = item.StartTime.ToString("hh:mm tt") + '-' + item.EndTime.ToString("hh:mm tt");
+                oneShiftDetail.regionName = r.Name;
+                oneShiftDetail.shiftDetailId = item.ShiftDetailId;
+                oneShiftDetail.status = item.Status;
+                oneShiftDetail.isDeleted = item.IsDeleted[0];
+                rsd.Add(oneShiftDetail);
+            }
+            return rsd;
+        }
+
         public void UnblockRequest(int id)
         {
             BlockRequest br = _context.BlockRequests.Where(b => b.RequestId == id).FirstOrDefault();
             br.IsActive = new BitArray(1, false);
             _context.BlockRequests.Update(br);
+
+            Request r = _context.Requests.Where(r => r.RequestId == id).FirstOrDefault();
+            r.Status = 1;
+            _context.Requests.Update(r);
             _context.SaveChanges();
         }
 
@@ -1513,6 +1547,67 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             _context.SaveChanges();
             return true;
+        }
+
+        public void ApproveSelectedShifts(string shiftDetailIdString)
+        {
+            string[] detailId = shiftDetailIdString.Split(',').Select(x => x.Trim()).ToArray();
+            for(int i=0;i<detailId.Length;i++)
+            {
+                ShiftDetail sd = _context.ShiftDetails.Where(s => s.ShiftDetailId == int.Parse(detailId[i])).FirstOrDefault();
+                sd.Status = 1;
+                _context.ShiftDetails.Update(sd);
+            }
+            _context.SaveChanges();
+        }
+
+        public void DeleteSelectedShifts(string shiftDetailIdString)
+        {
+            string[] detailId = shiftDetailIdString.Split(',').Select(x => x.Trim()).ToArray();
+            for(int i = 0; i < detailId.Length; i++)
+            {
+                ShiftDetail sd = _context.ShiftDetails.Where(s => s.ShiftDetailId == int.Parse(detailId[i])).FirstOrDefault();
+                sd.IsDeleted = new BitArray(1, true);
+                _context.ShiftDetails.Update(sd);
+            }
+            _context.SaveChanges();
+        }
+
+        public MdsOnCallViewModel GetMdsData(AdminNavbarModel an)
+        {
+            List<Physician> allPhysician = _context.Physicians.ToList();
+            List<Physician> onCall = new List<Physician>();
+            List<Physician> offDuty = new List<Physician>();
+
+            List<ShiftDetail> shifts = _context.ShiftDetails.Where(s => s.ShiftDate.Date == DateTime.Now.Date && TimeOnly.FromDateTime(DateTime.Now) >= s.StartTime && TimeOnly.FromDateTime(DateTime.Now) <= s.EndTime && s.Status==1 && s.IsDeleted == new BitArray(1,false)).Include(sh => sh.Shift).Include(shi => shi.Shift.Physician).ToList();
+
+            foreach (var item in shifts)
+            {
+                Physician p = item.Shift.Physician;
+                onCall.Add(p);
+            }
+
+            foreach(var item in allPhysician)
+            {
+                if(onCall.Any(r=>r==item))
+                {
+                    continue;
+                }
+                else
+                {
+                    offDuty.Add(item);
+                }
+            }
+
+            MdsOnCallViewModel moc = new MdsOnCallViewModel
+            {
+                providersOnCall = onCall,
+                providersOffDuty = offDuty,
+                allRegions = GetAllRegion(),
+                adminNavbarModel = an,
+            };
+
+            return moc;
         }
     }
 }

@@ -1,1 +1,14 @@
-﻿
+﻿.dark-green-button {
+    background: #943db8;
+}
+
+.region-dropdown {
+    border: 1px solid rgb(211, 210, 210);
+    padding: 8px;
+    border-radius: 8px;
+    padding-left: 12px;
+}
+
+.md-on-call-img{
+    
+}

@@ -86,7 +86,7 @@ namespace HalloDoc.Controllers
 
             if (!isHavingAccess)
             {
-                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PageNotFound", }));
+                context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PageNotFoundError", }));
                 return;
             }
         }

@@ -323,11 +323,11 @@
                 {
                     @if (Model.Tab == 14)
                     {
-                        <li><a class="text-muted dropdown-item mb-2 dropdown-item-active" href="#">Search Records</a></li>
+                        <li><a class="text-muted dropdown-item mb-2 dropdown-item-active" asp-action="SearchRecords" asp-controller="Admin">Search Records</a></li>
                     }
                     else
                     {
-                        <li><a class="text-muted dropdown-item mb-2" href="#">Search Records</a></li>
+                        <li><a class="text-muted dropdown-item mb-2" asp-action="SearchRecords" asp-controller="Admin">Search Records</a></li>
                     }
                 }
                 @if(roleMenu.Any(r => r == "EmailLogs"))

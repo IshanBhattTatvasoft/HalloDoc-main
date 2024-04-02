@@ -1,0 +1,30 @@
+﻿@model HalloDoc.DataLayer.ViewModels.RequestedShiftsViewModel
+
+<table class="table mt-0">
+    <thead class="table-secondary">
+        <tr>
+            <th style="width:80px !important;"><input type="checkbox" onclick="oncheck()" style="height: 18px;width: 18px;" class="ms-2 me-5" id="checkall" /></th>
+            <th>Staff<i class="fa-solid fa-arrow-up ms-2" style="color: #E2E3E5;"></i></th>
+            <th>Day</th>
+            <th>Time</th>
+            <th>Region</th>
+        </tr>
+    </thead>
+
+    @foreach(var item in Model.requestedShiftsTableData)
+    {
+        @if(item.status == 0 && item.isDeleted == false)
+        {
+            <tr>
+                <td><input class="checkboxes ms-2" type="checkbox" style="height: 18px;width: 18px;"></td>
+                <td class="d-none"> <input type="hidden" asp-for="@item.shiftDetailId" class="shift-detail-id" /></td>
+                <td>@item.physicianName</td>
+                <td>@item.day</td>
+                <td>@item.time</td>
+                <td>@item.regionName</td>
+            </tr>
+        }
+    }
+
+    
+</table>

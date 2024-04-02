@@ -110,6 +110,10 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void UnblockRequest(int id);
         public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
         public BlockedHistoryViewModel BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo);
+        public List<RequestedShiftsData> GetRequestedShiftsData(int? regionId = -1);
+        public void ApproveSelectedShifts(string shiftDetailIdString);
+        public void DeleteSelectedShifts(string shiftDetailIdString);
+        public MdsOnCallViewModel GetMdsData(AdminNavbarModel an);
 
 
     }

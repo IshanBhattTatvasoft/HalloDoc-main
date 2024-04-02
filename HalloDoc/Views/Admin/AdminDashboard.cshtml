@@ -318,7 +318,7 @@
                         <input type="number" hidden asp-for="RequestId" id="r-id-two" />
                         <p class="mb-3 text-muted fs-4">To assign this request, search and select another Physician</p>
                         <div class="dropdown text-light mb-3 w-100">
-                            <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region" onchange="fetchRegionData()">
+                            <select class="btn border border-info dropdown-toggle text-secondary bg-white w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-region" onchange="fetchRegionData()">
                                 <option value="-1" selected disabled><i class="bi bi-person"></i> Narrow Search by Region</option>
                                 @foreach (var item in Model.regions)
                                 {

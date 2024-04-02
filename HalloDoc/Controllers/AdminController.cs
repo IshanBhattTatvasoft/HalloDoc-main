@@ -3356,11 +3356,178 @@ namespace HalloDoc.Controllers
             }
         }
 
-        public IActionResult PageNotFound()
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult RequestedShifts()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                RequestedShiftsViewModel rs = new RequestedShiftsViewModel
+                {
+                    adminNavbarModel = an,
+                    allRegions = _adminInterface.GetAllRegion(),
+                    requestedShiftsTableData = _adminInterface.GetRequestedShiftsData(-1)
+                };
+                return View(rs);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requested shifts page";
+                return RedirectToAction("Scheduling");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult RequestedShiftsFilteredData(int? regionId)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                RequestedShiftsViewModel rs = new RequestedShiftsViewModel
+                {
+                    adminNavbarModel = an,
+                    allRegions = _adminInterface.GetAllRegion(),
+                    requestedShiftsTableData = _adminInterface.GetRequestedShiftsData(regionId)
+                };
+                return PartialView("RequestedShiftsPagePartialView", rs);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requested shifts page";
+                return RedirectToAction("Scheduling");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult ApproveSelectedShifts(string shiftDetailIdString)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                _adminInterface.ApproveSelectedShifts(shiftDetailIdString);
+                TempData["success"] = "Selected shifts approved successfully";
+                return RedirectToAction("RequestedShifts");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to approve selected shifts";
+                return RedirectToAction("RequestedShifts");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult DeleteSelectedShifts(string shiftDetailIdString)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                _adminInterface.DeleteSelectedShifts(shiftDetailIdString);
+                TempData["success"] = "Selected shifts deleted successfully";
+                return RedirectToAction("RequestedShifts");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to approve deleted shifts";
+                return RedirectToAction("RequestedShifts");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult MDsOnCall()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                MdsOnCallViewModel moc = _adminInterface.GetMdsData(an);
+                return View(moc);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to approve deleted shifts";
+                return RedirectToAction("RequestedShifts");
+            }
+        }
+
+        [CustomAuthorize("Admin", "SearchRecords")]
+        public IActionResult SearchRecords()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 14;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                SearchRecordsViewModel sr = new SearchRecordsViewModel
+                {
+                    adminNavbarModel = an
+                };
+                return View(sr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to approve deleted shifts";
+                return RedirectToAction("RequestedShifts");
+            }
+        }
+
+        public IActionResult PageNotFoundError()
         {
             return View();
         }
-
     }
+
+
+    
 }
 

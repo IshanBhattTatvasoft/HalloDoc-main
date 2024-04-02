@@ -233,6 +233,10 @@
       "PackagePath": "staticwebassets\\images\\conclude_active.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\doctor-person.png",
+      "PackagePath": "staticwebassets\\images\\doctor-person.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\doctor.png",
       "PackagePath": "staticwebassets\\images\\doctor.png"
     },
