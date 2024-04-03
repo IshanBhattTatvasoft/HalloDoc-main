@@ -1003,17 +1003,25 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public void EditProviderBillingInfo(EditProviderAccountViewModel model)
         {
-            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
+            int regionId = int.Parse(model.State);
+            Physician physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
+            PhysicianLocation pl = _context.PhysicianLocations.FirstOrDefault(plo => plo.PhysicianId == model.PhysicianId);
             if (!physician.IsDeleted[0])
             {
                 physician.Address1 = model.Address1;
                 physician.Address2 = model.Address2;
                 physician.City = model.City;
                 physician.Zip = model.Zip;
+                physician.RegionId = regionId;
                 physician.AltPhone = model.MailingPhoneNo;
-
                 physician.ModifiedDate = DateTime.Now;
+
+                pl.Latitude = model.lati;
+                pl.Longitude = model.longi;
+                pl.Address = model.Address1 + ", " + model.Address2 + ", " + model.City;
             }
+            _context.Physicians.Update(physician);
+            _context.PhysicianLocations.Update(pl);
             _context.SaveChanges();
         }
 
@@ -1057,6 +1065,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 user.ModifiedDate = DateTime.Now;
             }
             _context.SaveChanges();
+        }
+
+        public List<PhysicianLocation> GetPhysicianLocation()
+        {
+            return _context.PhysicianLocations.ToList();
         }
 
         public void SetContentOfPhysician(IFormFile file, int id, bool IsSignature)
@@ -1212,6 +1225,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             AspNetUser anu = new AspNetUser();
             AspNetUserRole anur = new AspNetUserRole();
             Physician p = new Physician();
+            PhysicianLocation pl = new PhysicianLocation();
             PhysicianNotification pn = new PhysicianNotification();
             Physician ph = _context.Physicians.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
 
@@ -1270,6 +1284,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.SaveChanges();
 
             }
+
+            pl.PhysicianId = p.PhysicianId;
+            pl.Latitude = model.lati;
+            pl.Longitude = model.longi;
+            pl.CreatedDate = DateTime.Now;
+            pl.PhysicianName = model.FirstName + " " + model.LastName;
+            pl.Address = model.Address1 + ", " + model.Address2 + ", " + model.City;
 
             if (model.ContractAgreementFile != null)
             {
@@ -1414,6 +1435,134 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             r.Status = 1;
             _context.Requests.Update(r);
             _context.SaveChanges();
+        }
+
+        public List<ShiftDetail> GetScheduleData()
+        {
+            try
+            {
+                return _context.ShiftDetails.Include(m => m.Shift).Where(m => m.IsDeleted == new System.Collections.BitArray(new[] { false })).ToList();
+            }
+            catch { return new List<ShiftDetail> { }; }
+        }
+
+        public List<SchedulingViewModel> GetProviderInformation(int Region)
+        {
+            try
+            {
+                var physician = _context.PhysicianNotifications.Include(m => m.Physician).Where(m => Region == 0 || m.Physician.RegionId == Region);
+                List<SchedulingViewModel> model = new List<SchedulingViewModel>();
+                foreach (var item in physician)
+                {
+                    if (item.Physician.IsDeleted == null || item.Physician.IsDeleted[0] == false)
+                    {
+                        SchedulingViewModel providerInformationViewModel = new SchedulingViewModel()
+                        {
+                            physicianId = item.Physician.PhysicianId,
+                            StopNotification = item.IsNotificationStopped.Get(0),
+                            ProviderName = item.Physician.FirstName + " " + item.Physician.LastName,
+                            ProviderEmail = item.Physician.Email,
+                            Role = item.Physician.RoleId.ToString(),
+                            Status = item.Physician.Status.ToString()
+                        };
+                        model.Add(providerInformationViewModel);
+                    }
+                }
+                return model;
+            }
+            catch
+            {
+                return new List<SchedulingViewModel>();
+            }
+        }
+
+        public string GetPhysicianNameFromId(int id)
+        {
+            Physician p = _context.Physicians.Where(s => s.PhysicianId == id).FirstOrDefault();
+            return p.FirstName + ", " + p.LastName;
+        }
+
+        public EditViewShiftModel GetViewShift(int ShiftDetailId)
+        {
+            try
+            {
+                ShiftDetail shiftDetail = _context.ShiftDetails.Include(m => m.Shift).ThenInclude(m => m.Physician).FirstOrDefault(m => m.ShiftDetailId == ShiftDetailId);
+                if (shiftDetail != null)
+                {
+                    EditViewShiftModel editViewShift = new EditViewShiftModel()
+                    {
+                        ShiftDetailId = ShiftDetailId,
+                        PhysicianRegionVS = (int)shiftDetail.RegionId,
+                        PhysicianRegionName = _context.Regions.FirstOrDefault(m => m.RegionId == shiftDetail.RegionId).Name,
+                        PhysicianIdVS = shiftDetail.Shift.PhysicianId,
+                        PhysicianName = shiftDetail.Shift.Physician.FirstName + " " + shiftDetail.Shift.Physician.LastName,
+                        ShiftDateVS = shiftDetail.ShiftDate.ToString("yyyy-MM-dd"),
+                        StartTimeVS = shiftDetail.StartTime,
+                        EndTimeVS = shiftDetail.EndTime,
+                    };
+                    return editViewShift;
+                }
+                return new EditViewShiftModel();
+            }
+            catch { return new EditViewShiftModel(); }
+        }
+
+        public bool ReturnViewShift(int ShiftDetailId)
+        {
+            try
+            {
+                ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == ShiftDetailId);
+                if (shiftDetail != null)
+                {
+                    if (shiftDetail.Status == 1)
+                    {
+                        shiftDetail.Status = 0;
+                    }
+                    else
+                    {
+                        shiftDetail.Status = 1;
+                    }
+                    _context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch { return false; }
+        }
+
+        public bool EditViewShift(EditViewShiftModel Shift)
+        {
+            try
+            {
+                ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == Shift.ShiftDetailId);
+                if (shiftDetail != null)
+                {
+                    shiftDetail.ShiftDate = DateTime.Parse(Shift.ShiftDateVS);
+                    shiftDetail.StartTime = Shift.StartTimeVS;
+                    shiftDetail.EndTime = Shift.EndTimeVS;
+
+                    _context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch { return false; }
+        }
+
+        public bool DeleteViewShift(int ShiftDetailId)
+        {
+            try
+            {
+                ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == ShiftDetailId);
+                if (shiftDetail != null)
+                {
+                    shiftDetail.IsDeleted = new BitArray(1,true);
+                    _context.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch { return false; }
         }
 
         public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id)

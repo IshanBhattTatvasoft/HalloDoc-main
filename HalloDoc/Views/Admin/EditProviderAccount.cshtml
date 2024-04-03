@@ -245,6 +245,8 @@
                            placeholder="City"
                            readonly
                            asp-for="City" />
+                    <input type="hidden" id="lat" asp-for="lati" style="display: none;" />
+                    <input type="hidden" id="long" asp-for="longi" style="display: none;" />
                     <label for="City" class="ms-2 text-muted">City</label>
                     <span asp-validation-for="City" class="text-danger"></span>
                 </div>
@@ -479,6 +481,9 @@
     </div>
 </body>
 </html>
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARrk6kY-nnnSpReeWotnQxCAo_MoI4qbU&callback=initMap"></script>
+
 <script>
 
     // Edit1
@@ -544,55 +549,6 @@
         }
     }
 
-
-    //document.getElementById('contract').addEventListener('change', function () {
-    //    if (this.files.length > 0) {
-    //        if (validateFileType(this)) {
-    //            document.getElementById('contractView').classList.remove("d-none");
-    //            document.getElementById('contractView').setAttribute("href", URL.createObjectURL(this.files[0]));
-    //            document.getElementById('contractView').setAttribute("target", "_blank");
-    //        }
-    //    } else {
-    //        document.getElementById('contractView').classList.add("d-none");
-    //    }
-    //});
-
-    //document.getElementById('BackgroundCheck').addEventListener('change', function () {
-    //    if (this.files.length > 0) {
-    //        if (validateFileType(this)) {
-    //            document.getElementById('BackgroundCheckView').classList.remove("d-none");
-    //            document.getElementById('BackgroundCheckView').setAttribute("href", URL.createObjectURL(this.files[0]));
-    //            document.getElementById('BackgroundCheckView').setAttribute("target", "_blank");
-    //        }
-    //    } else {
-    //        document.getElementById('BackgroundCheckView').classList.add("d-none");
-    //    }
-    //});
-
-    //document.getElementById('NonDisclosure').addEventListener('change', function () {
-    //    if (this.files.length > 0) {
-    //        if (validateFileType(this)) {
-    //            document.getElementById('NonDisclosureView').classList.remove("d-none");
-    //            document.getElementById('NonDisclosureView').setAttribute("href", URL.createObjectURL(this.files[0]));
-    //            document.getElementById('NonDisclosureView').setAttribute("target", "_blank");
-    //        }
-    //    }
-    //    else {
-    //        document.getElementById('NonDisclosureView').classList.add("d-none");
-    //    }
-    //});
-
-    //document.getElementById('LicensedDoc').addEventListener('change', function () {
-    //    if (this.files.length > 0) {
-    //        if (validateFileType(this)) {
-    //            document.getElementById('LicensedDocView').classList.remove("d-none");
-    //            document.getElementById('LicensedDocView').setAttribute("href", URL.createObjectURL(this.files[0]));
-    //            document.getElementById('LicensedDocView').setAttribute("target", "_blank");
-    //        }
-    //    } else {
-    //        document.getElementById('LicensedDocView').classList.add("d-none");
-    //    }
-    //});
 
     function UploadDoc(num) {
         var doc;
@@ -717,6 +673,27 @@
         else {
             alert("Please select the document");
         }
+    }
+
+    document.getElementById('City').addEventListener('focusout', getCoordinates);
+    function getCoordinates() {
+        var address = document.getElementById('Address1').value + " " + document.getElementById('Address2').value + " " + document.getElementById('City').value;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function (results, status) {
+            if (status == "OK") {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                document.getElementById('lat').value = latitude;
+                document.getElementById('long').value = longitude;
+                console.log(document.getElementById('lat').value);
+                console.log(document.getElementById('long').value);
+                //return true;
+            } else {
+                console.log("Geocoding failed: " + status);
+                //return false;
+            }
+        });
+        //return true;
     }
 
     

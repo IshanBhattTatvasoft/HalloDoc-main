@@ -192,12 +192,12 @@
 
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address1">
+                        <input type="text" id="Address1" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address1">
                         <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 1</label>
                         <span asp-validation-for="Address1" class="text-danger"></span>
                     </div>
                     <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address2">
+                        <input type="text" id="Address2" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Address2">
                         <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 2</label>
                         <span asp-validation-for="Address2" class="text-danger"></span>
                     </div>
@@ -205,7 +205,9 @@
 
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
+                        <input type="text" id="City" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
+                        <input type="hidden" id="lat" asp-for="lati" style="display: none;" />
+                        <input type="hidden" id="long" asp-for="longi" style="display: none;" />
                         <label for="floatingInput" class="ms-2 text-muted class-for-label">City</label>
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
@@ -385,6 +387,8 @@
 
 </body>
 
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARrk6kY-nnnSpReeWotnQxCAo_MoI4qbU&callback=initMap"></script>
+
 <script>
     const phoneInputField = document.querySelector("#phone");
     const phoneInput = window.intlTelInput(phoneInputField, {
@@ -405,5 +409,24 @@
         document.getElementById("hiddenRole").value = document.getElementById("getRoles").value;
     }
 
-
+    document.getElementById('City').addEventListener('focusout', getCoordinates);
+    function getCoordinates() {
+        var address = document.getElementById('Address1').value + " " + document.getElementById('Address2').value + " " + document.getElementById('City').value;
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ address: address }, function (results, status) {
+            if (status == "OK") {
+                var latitude = results[0].geometry.location.lat();
+                var longitude = results[0].geometry.location.lng();
+                document.getElementById('lat').value = latitude;
+                document.getElementById('long').value = longitude;
+                console.log(document.getElementById('lat').value);
+                console.log(document.getElementById('long').value);
+                //return true;
+            } else {
+                console.log("Geocoding failed: " + status);
+                //return false;
+            }
+        });
+        //return true;
+    }
 </script>

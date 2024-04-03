@@ -108,12 +108,20 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<string> GetAllMenus(string roleId);
         public List<BlockedHistoryData> GetBlockedHistoryData();
         public void UnblockRequest(int id);
+        public List<ShiftDetail> GetScheduleData();
+        public List<SchedulingViewModel> GetProviderInformation(int Region);
         public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
+        public EditViewShiftModel GetViewShift(int ShiftDetailId);
+        public bool ReturnViewShift(int ShiftDetailId);
+        public bool EditViewShift(EditViewShiftModel Shift);
+        public bool DeleteViewShift(int ShiftDetailId);
         public BlockedHistoryViewModel BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo);
         public List<RequestedShiftsData> GetRequestedShiftsData(int? regionId = -1);
         public void ApproveSelectedShifts(string shiftDetailIdString);
         public void DeleteSelectedShifts(string shiftDetailIdString);
         public MdsOnCallViewModel GetMdsData(AdminNavbarModel an);
+        public string GetPhysicianNameFromId(int id);
+        public List<PhysicianLocation> GetPhysicianLocation();
 
 
     }

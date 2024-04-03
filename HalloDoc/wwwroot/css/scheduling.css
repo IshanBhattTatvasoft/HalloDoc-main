@@ -9,6 +9,24 @@
     padding-left: 12px;
 }
 
-.md-on-call-img{
-    
+.fc-timeline-slot-frame{
+    text-decoration: none !important;
+}
+
+.fc-scrollgrid-sync-inner{
+    text-decoration: none !important;
+}
+
+.fc-timeline-event{
+    height: 40px !important;
+}
+
+.fc-event-main-frame {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    text-align: center !important;
+}
+
+.fc-event-time{
+    margin: auto !important;
 }

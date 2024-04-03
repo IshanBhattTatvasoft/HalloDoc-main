@@ -27,5 +27,11 @@ public class SchedulingViewModel
     public string? repeatCount { get; set; }
     [Required(ErrorMessage = "Please select a phyisican")]
     public int physicianId { get; set; }
+    public string? ProviderName { get; set; }
+    public string? ProviderEmail { get; set; }
+    public bool? StopNotification { get; set; }
+    public string? Role { get; set; }
+    public string? OnCallStatus { get; set; }
+    public string? Status { get; set; }
 }
 

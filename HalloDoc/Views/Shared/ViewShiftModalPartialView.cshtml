@@ -1,0 +1,201 @@
+﻿@model HalloDoc.DataLayer.ViewModels.EditViewShiftModel
+<div class="modal fade" id="ViewShiftModal" tabindex="-1" aria-labelledby="ViewShiftModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h1 class="modal-title fs-5" id="ViewShiftModalLabel">View Shift</h1>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                        aria-label="Close"></button>
+            </div>
+            <form id="ViewShiftForm" asp-action="EditViewShift" asp-controller="Admin" method="post">
+                <div class="modal-body">
+                    <div class="">
+                        <input type="hidden" asp-for="ShiftDetailId" />
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="Default select example" asp-for="PhysicianRegionVS" disabled>
+                                    <option value="@Model.PhysicianRegionVS" selected>@Model.PhysicianRegionName</option>
+                                </select>
+                                <label asp-for="PhysicianRegionVS">Region</label>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-floating">
+                                <select class="form-select" aria-label="Floating label select example" asp-for="PhysicianIdVS" disabled>
+                                    <option value="@Model.PhysicianName" selected>@Model.PhysicianName</option>
+                                </select>
+                                <label asp-for="PhysicianIdVS">Physician</label>
+                            </div>
+                        </div>
+                        <fieldset id="EditViewShiftField" disabled>
+                            <div class="mb-3">
+                                <div class="form-floating">
+                                    <input type="date" class="form-control" asp-for="ShiftDateVS" placeholder="ShiftDate" onchange="disablePastTimesVS()">
+                                    <label asp-for="ShiftDateVS">Shift Date</label>
+                                </div>
+                            </div>
+                            <div class="mb-3 d-flex">
+                                <div class="form-floating flex-grow-1 me-2">
+                                    <input type="time" class="form-control" asp-for="StartTimeVS" placeholder="StartTime" onchange="disablePastTimesVS()">
+                                    <label asp-for="StartTimeVS">Start Time</label>
+                                </div>
+                                <div class="form-floating flex-grow-1">
+                                    <input type="time" class="form-control" asp-for="EndTimeVS" placeholder="EndTime">
+                                    <label asp-for="EndTimeVS">End Time</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info text-white" id="ReturnViewShift">Return</button>
+                    <button type="button" class="btn btn-info text-white" id="EditViewShift">Edit</button>
+                    <button type="submit" class="btn btn-info text-white d-none" id="SaveViewShift">Save</button>
+                    <button type="button" class="btn btn-danger text-white" id="DeleteViewShift">Delete</button>
+                    <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function loadShifts() {
+        $.ajax({
+            url: '/Admin/GetScheduleData',
+            data: { RegionId: $("#Region").val() },
+            type: 'GET',
+            success: function (data) {
+                calendar.removeAllEvents();
+                data.forEach(function (event) {
+                    calendar.addEvent(event);
+                });
+            },
+            error: function (xhr, status, error) {
+                toastr.error('Error fetching schedule data:', error);
+            }
+        });
+    }
+
+
+    jQuery(function () {
+        var isDateExist = $('input[type="date"]').length;
+        if (isDateExist != 0) {
+            var today = new Date().toISOString().split('T')[0];
+            $('input[type="date"]').attr('min', today);
+        }
+    });
+
+    function disablePastTimesVS() {
+        if ($("#ShiftDateVS").val() == new Date().toISOString().split('T')[0]) {
+            var timeInput = document.getElementById('StartTimeVS');
+            var now = new Date().toTimeString().slice(0, 5);
+            if (timeInput.value < now) {
+                timeInput.value = now
+                console.log(now);
+            }
+        }
+    }
+    $("#EditViewShift").on("click", function () {
+        console.log("Edit")
+        $(this).addClass("d-none");
+        $("#SaveViewShift").removeClass("d-none");
+        $("#EditViewShiftField").removeAttr("disabled");
+    })
+    $("#ReturnViewShift").on("click", function () {
+        var ShiftDetailId = $("#ShiftDetailId").val();
+        $.ajax({
+            url: `/Admin/ReturnViewShift`,
+            method: "GET",
+            data: { ShiftDetailId },
+            success: function (data) {
+                if (data) {
+                    Swal.fire({
+                        title: "Shift Status!",
+                        text: "Your Shift Status has been Changed.",
+                        icon: "success"
+                    });
+                    $("#ViewShiftModal").modal("hide");
+                    loadShifts();
+                }
+                else {
+                    toastr.error("Error While Return Shift");
+                    console.log("error");
+                }
+            },
+            error: function () {
+                toastr.error("Error While Return Account");
+                console.log("error");
+            }
+        })
+    })
+    $("#DeleteViewShift").on("click", function () {
+        var ShiftDetailId = $("#ShiftDetailId").val();
+        console.log("Hey");
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You want to Delete Shift!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, Delete it!"
+        }).then((result) => {
+            $.ajax({
+                method: "GET",
+                url: "/Admin/DeleteViewShift",
+                data: { ShiftDetailId },
+                success: function (data) {
+                    if (data) {
+                        Swal.fire({
+                            title: "Delete Shift!",
+                            text: "Your Shift has been Deleted.",
+                            icon: "success"
+                        });
+                        $("#ViewShiftModal").modal("hide");
+                        loadShifts();
+                    } else {
+                        toastr.error("Error While Delete Shift");
+                        console.log("error");
+                    }
+                },
+                error: function () {
+                    toastr.error("Error While Delete Account");
+                    console.log("error");
+                },
+                complete: function () {
+                    $.LoadingOverlay("hide");
+                }
+            });
+        });
+    });
+
+    $("#ViewShiftForm").on("submit", function (e) {
+        console.log("Submit")
+        e.preventDefault();
+        var actionurl = e.currentTarget.action;
+        $(this).validate();
+        if ($(this).valid()) {
+            $.ajax({
+                url: actionurl,
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (data) {
+                    if (data) {
+                        toastr.success("Shift Edited Successfully");
+                        $("#ViewShiftModal").modal("hide");
+                        loadShifts();
+                    } else {
+                        toastr.error("Error While Editing Shift Information");
+                    }
+                },
+                error: function (data) {
+                    toastr.error("Error While Editing Shift Information");
+                }
+            });
+        }
+    })
+</script>
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation/dist/additional-methods.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

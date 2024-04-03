@@ -2225,6 +2225,37 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin", "ProviderLocation")]
+        public IActionResult ProviderLocation()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 2;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                ProviderLocationViewModel pl = new ProviderLocationViewModel
+                {
+                    locationData = _adminInterface.GetPhysicianLocation(),
+                    adminNavbarModel = an,
+                };
+
+                return View(pl);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to get locations of providers";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
         [CustomAuthorize("Admin", "MyProfile")]
         // function to return Admin Profile view
         public IActionResult MyProfile()
@@ -3322,6 +3353,84 @@ namespace HalloDoc.Controllers
                 TempData["error"] = "Unable to view scheduling page";
                 return RedirectToAction("AdminDashboard");
             }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult GetScheduleData()
+        {
+            string[] color = { "#edacd2", "#a5cfa6" };
+            List<ShiftDetail> shiftDetails = _adminInterface.GetScheduleData();
+
+            List<ShiftDTO> list = shiftDetails.Select(s => new ShiftDTO
+            {
+                resourceId = s.Shift.PhysicianId,
+                Id = s.ShiftDetailId,
+                title =  _adminInterface.GetPhysicianNameFromId(s.Shift.PhysicianId),
+                start = s.ShiftDate.ToString("yyyy-MM-dd") + s.StartTime.ToString("THH:mm:ss"),
+                end = s.ShiftDate.ToString("yyyy-MM-dd") + s.EndTime.ToString("THH:mm:ss"),
+                color = color[s.Status]
+            }).ToList();
+            return Json(list);
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult GetProviderDetailsForSchedule(int RegionId)
+        {
+            List<SchedulingViewModel> model = _adminInterface.GetProviderInformation(RegionId);
+
+            List<ProviderDTO> list = model.Select(p => new ProviderDTO
+            {
+                Id = p.physicianId,
+                title = string.Concat(p.ProviderName, " ") ?? "",
+                imageUrl = "/Physician/" + p.physicianId + "/Profile.png",
+            }).ToList();
+            //}
+            return Json(list);
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult ViewShift(int ShiftDetailId)
+        {
+            return PartialView("~/Views/Shared/ViewShiftModalPartialView.cshtml", _adminInterface.GetViewShift(ShiftDetailId));
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public bool ReturnViewShift(int ShiftDetailId)
+        {
+            try
+            {
+                return _adminInterface.ReturnViewShift(ShiftDetailId);
+            }
+            catch { return false; }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public bool EditViewShift(EditViewShiftModel ShiftDetail)
+        {
+            try
+            {
+                if(_adminInterface.EditViewShift(ShiftDetail) == true)
+                {
+                    TempData["success"] = "Shift edited successfully";
+                    return true;
+                }
+                else
+                {
+                    TempData["error"] = "Unable to edit shift information";
+                    return false;
+                }
+            }
+            catch { return false; }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public bool DeleteViewShift(int ShiftDetailId)
+        {
+            try
+            {
+                return _adminInterface.DeleteViewShift(ShiftDetailId);
+            }
+            catch { return false; }
         }
 
         [CustomAuthorize("Admin", "Scheduling")]

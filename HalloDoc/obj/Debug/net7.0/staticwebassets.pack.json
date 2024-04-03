@@ -65,6 +65,10 @@
       "PackagePath": "staticwebassets\\Physician\\3\\Compilance.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\3\\Profile.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\Signature.png",
       "PackagePath": "staticwebassets\\Physician\\3\\Signature.png"
     },
