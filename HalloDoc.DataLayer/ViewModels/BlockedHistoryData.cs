@@ -17,5 +17,6 @@ public class BlockedHistoryData
     public string Notes { get; set; }
     public bool IsActive { get; set; }
     public int RequestId { get; set; }
+    public int BlockRequestId { get; set; }
 }
 

@@ -15,8 +15,9 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         //public AdminDashboardTableView ModelOfAdminDashboard(int page = 1, int pageSize = 10, string status, int id, string? search, string? requestor, int? region)
         public AdminDashboardTableView ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region, int page = 1, int pageSize = 10);
         public PatientHistoryViewModel PatientHistoryFilteredData(AdminNavbarModel an, string fname, string lname, string pno, string email, int page = 1, int pageSize = 10);
-        public PatientHistoryViewModel PatientRecordsData(int userid, AdminNavbarModel an);
+        public PatientHistoryViewModel PatientRecordsData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
         public ProviderMenuViewModel ProviderMenuFilteredData(AdminNavbarModel an, int? region, int page = 1, int pageSize = 10);
+        public PatientHistoryViewModel PatientRecordsFilteredData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);

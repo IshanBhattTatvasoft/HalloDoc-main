@@ -158,7 +158,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return ph;
         }
 
-        PatientHistoryViewModel IAdminInterface.PatientRecordsData(int userid, AdminNavbarModel an)
+        PatientHistoryViewModel IAdminInterface.PatientRecordsData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10)
         {
             IQueryable<Request> query = _context.Requests.Where(r => r.UserId == userid);
             PatientHistoryViewModel pr = new PatientHistoryViewModel
@@ -167,6 +167,24 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 requests = query.ToList(),
                 p = GetAllPhysicians(),
                 Rwf = GetAllFiles(),
+                userId = userid
+            };
+            return pr;
+        }
+
+        PatientHistoryViewModel IAdminInterface.PatientRecordsFilteredData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10)
+        {
+            IQueryable<Request> query = _context.Requests.Where(r => r.UserId == userid);
+            PatientHistoryViewModel pr = new PatientHistoryViewModel
+            {
+                AdminNavbarModel = an,
+                requests = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                p = GetAllPhysicians(),
+                Rwf = GetAllFiles(),
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = query.Count(),
+                TotalPages = (int)Math.Ceiling((double)query.Count() / pageSize),
             };
             return pr;
         }
@@ -257,6 +275,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 bh.IsActive = item.IsActive[0];
                 bh.PatientName = string.Concat(rc.FirstName, ", ", rc.LastName);
                 bh.RequestId = item.RequestId;
+                bh.BlockRequestId = item.BlockRequestId;
                 allData.Add(bh);
             }
 
@@ -957,7 +976,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             AspNetUser user = _context.AspNetUsers.FirstOrDefault(r => r.Id == physician.AspNetUserId);
             EditProviderAccountViewModel viewmodel = new EditProviderAccountViewModel
             {
-                UserName = physician.FirstName + ' ' + physician.LastName,
+                UserName = user.UserName,
                 FirstName = physician.FirstName,
                 LastName = physician.LastName,
                 Password = user.PasswordHash,
@@ -1029,20 +1048,21 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             var PRegions = _context.PhysicianRegions.Where(r => r.PhysicianId == model.PhysicianId).ToList();
             List<int> selectedRegionIds = null;
+
             if (!string.IsNullOrEmpty(selectedRegionsList))
             {
                 selectedRegionIds = selectedRegionsList.Split(',').Select(int.Parse).ToList();
             }
+
             foreach (var region in PRegions)
             {
                 _context.PhysicianRegions.Remove(region);
             }
 
-            if (selectedRegionsList != null)
+            if (selectedRegionIds != null && selectedRegionIds.Count > 0)
             {
                 for (int ele = 0; ele < selectedRegionIds.Count; ele++)
                 {
-
                     PhysicianRegion ar = new PhysicianRegion
                     {
                         PhysicianId = model.PhysicianId,
@@ -1051,8 +1071,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     _context.PhysicianRegions.Add(ar);
                 }
             }
+
             var currentPhysician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
             var user = _context.Physicians.FirstOrDefault(r => r.AspNetUserId == currentPhysician.AspNetUserId);
+
             if (!user.IsDeleted[0])
             {
                 user.FirstName = model.FirstName;
@@ -1064,6 +1086,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 user.Npinumber = model.NPI;
                 user.ModifiedDate = DateTime.Now;
             }
+
             _context.SaveChanges();
         }
 
@@ -1479,7 +1502,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public string GetPhysicianNameFromId(int id)
         {
             Physician p = _context.Physicians.Where(s => s.PhysicianId == id).FirstOrDefault();
-            return p.FirstName + ", " + p.LastName;
+            return p.FirstName + ", " + p.LastName + ", " + p.City;
         }
 
         public EditViewShiftModel GetViewShift(int ShiftDetailId)

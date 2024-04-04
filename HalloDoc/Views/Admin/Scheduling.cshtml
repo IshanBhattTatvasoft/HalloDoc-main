@@ -1,6 +1,7 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.SchedulingViewModel
 @{
     ViewData["Title"] = "Scheduling";
+    //var x = TempData["month"];
 }
 
 @section Styles{
@@ -97,11 +98,20 @@
         align-items: center !important;
     }
 
-        .fc-datagrid-cell-main img {
-            width: 40px;
-            height: 40px;
-            margin-right: 2px;
-        }
+    .fc-datagrid-cell-main img {
+        width: 40px;
+        height: 40px;
+        margin-right: 2px;
+    }
+
+    #hidden_datepicker {
+        opacity: 0;
+        left: 42%;
+        top: 30%;
+        position: absolute;
+        height: 20px;
+        width: 20px;
+    }
 </style>
 
 <body class="bg-light">
@@ -170,10 +180,11 @@
             </div>
             <div>
                 <div class="d-flex justify-content-between flex-wrap mt-4 mb-4">
-                    <div class="d-flex">
-                        <button class="btn bg-info text-white rounded-pill me-2" onclick="calendarPrev()"><i class="bi bi-chevron-left"></i></button>
-                        <i class="bi bi-calendar3 mt-2" onclick="calendarToday()"></i>
-                        <button class="btn bg-info text-white rounded-pill ms-2" onclick="calendarNext()"><i class="bi bi-chevron-right"></i></button>
+                    <div class="d-flex position-relative">
+                        <button class="btn btn-info rounded-5" onclick="calendarPrev()"><i class="bi bi-chevron-left"></i></button>
+                        <i class="bi bi-calendar-event btn cursor-pointer"></i>
+                        <input type="date" class="cursor-pointer" id="hidden_datepicker" />
+                        <button class="btn btn-info rounded-5" onclick="calendarNext()"><i class="bi bi-chevron-right"></i></button>
                     </div>
                     <div class="flex-grow-1 text-end">
                         <div class="d-flex justify-content-end">
@@ -193,7 +204,7 @@
 
         </div>
     </div>
-
+    <input type="hidden" id="month-val" value="0"/>
     <div id="CreateShift"></div>
     <div id="ViewShift"></div>
 
@@ -335,31 +346,9 @@
 
 <script>
 
-    function addCustomRow() {
-        // Get the container element for the resources
-        const resourceContainer = document.querySelector('.fc-datagrid-body');
-
-        // Get the number of columns in the resource view
-        const columnCount = document.querySelectorAll('.fc-datagrid-cell.fc-datagrid-cell-main').length;
-        const colCount = 10;
-        // Create a new row element
-        const newRow = document.createElement('div');
-        newRow.classList.add('fc-datagrid-row', 'fc-resource-row', 'fc-datagrid-row-custom'); // Add custom class for styling
-        newRow.innerHTML = `
-            <div class="fc-datagrid-cell fc-datagrid-cell-main fc-resource-cell-custom" colspan="${columnCount}">
-                Coverage
-            </div>`; // Set colspan to span across all columns
-
-        // Insert the new row at the top of the resource container
-        resourceContainer.insertBefore(newRow, resourceContainer.firstChild);
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        // Call the function to add the custom row after FullCalendar renders
-        addCustomRow();
+    $("#hidden_datepicker").change(function (dateText) {
+        calendar.gotoDate(dateText.target.value);
     });
-
-
 
 
     var calendar;
@@ -380,6 +369,7 @@
             resourceAreaColumns: [{
                 headerContent: 'Staff',
             }],
+            
             eventTimeFormat: {
                 hour: 'numeric', 
                 minute: '2-digit', 
@@ -409,9 +399,9 @@
         calendar.addResource({
             id: 'new_resource_id', // Unique ID for the new resource
             title: 'New Resource', // Title for the new resource
-            extendedProps: {
-                imageUrl: '/images/new_resource_image.png' // Optional: image URL for the new resource
-            }
+            //extendedProps: {
+            //    imageUrl: '/images/new_resource_image.png' // Optional: image URL for the new resource
+            //}
         }, {
             beforeRender: function (renderInfo) {
                 // Move the new resource to the top
@@ -424,6 +414,11 @@
     let calendarNext = () => calendar.next();
     let calendarPrev = () => calendar.prev();
     let calendarToday = () => calendar.today();
+    //var x = document.getElementById("month-val").value;
+    //console.log(x);
+    //if (x != null || x != undefined) {
+    //    calendar.changeView('dayGridMonth');
+    //}
     let changeView = (type) => calendar.changeView(type);
 
     // filtering based on region

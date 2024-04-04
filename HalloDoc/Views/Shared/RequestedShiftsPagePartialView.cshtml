@@ -1,30 +1,53 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.RequestedShiftsViewModel
 
-<table class="table mt-0">
-    <thead class="table-secondary">
-        <tr>
-            <th style="width:80px !important;"><input type="checkbox" onclick="oncheck()" style="height: 18px;width: 18px;" class="ms-2 me-5" id="checkall" /></th>
-            <th>Staff<i class="fa-solid fa-arrow-up ms-2" style="color: #E2E3E5;"></i></th>
-            <th>Day</th>
-            <th>Time</th>
-            <th>Region</th>
-        </tr>
-    </thead>
+<div class="table-responsive d-none d-md-block">
 
-    @foreach(var item in Model.requestedShiftsTableData)
-    {
-        @if(item.status == 0 && item.isDeleted == false)
-        {
+    <table class="table mt-0">
+        <thead class="table-secondary">
             <tr>
-                <td><input class="checkboxes ms-2" type="checkbox" style="height: 18px;width: 18px;"></td>
-                <td class="d-none"> <input type="hidden" asp-for="@item.shiftDetailId" class="shift-detail-id" /></td>
-                <td>@item.physicianName</td>
-                <td>@item.day</td>
-                <td>@item.time</td>
-                <td>@item.regionName</td>
+                <th style="width:80px !important;"><input type="checkbox" onclick="oncheck()" style="height: 18px;width: 18px;" class="ms-2 me-5" id="checkall" /></th>
+                <th>Staff<i class="fa-solid fa-arrow-up ms-2" style="color: #E2E3E5;"></i></th>
+                <th>Day</th>
+                <th>Time</th>
+                <th>Region</th>
             </tr>
-        }
-    }
+        </thead>
 
-    
-</table>
+        @foreach (var item in Model.requestedShiftsTableData)
+        {
+            @if (item.status == 0 && item.isDeleted == false)
+            {
+                <tr>
+                    <td><input class="checkboxes ms-2" type="checkbox" style="height: 18px;width: 18px;">
+                        <input type="hidden" asp-for="@item.shiftDetailId" class="shift-detail-id" />
+                    </td>
+                    <td>@item.physicianName</td>
+                    <td>@item.day</td>
+                    <td>@item.time</td>
+                    <td>@item.regionName</td>
+                </tr>
+            }
+        }
+
+
+    </table>
+</div>
+
+
+@*Requested Shifts Mobile View*@
+<div class="d-md-none d-block mt-2">
+    @foreach (var item in Model.requestedShiftsTableData)
+    {
+        <div class="border-top border-1 p-2 AdminsData" style="background-color: #EBFAFD;">
+            <div class="form-check">
+                <input class="checkboxes ms-2 me-1 mt-2" type="checkbox" style="height: 18px;width: 18px;">
+                <input type="hidden" asp-for="@item.shiftDetailId" class="shift-detail-id" />
+                <span class="mt-0">@item.physicianName</span>
+            </div>
+            <p class="fs-6 mt-4">@item.day</p>
+            <p class="fs-6">@item.time</p>
+            <p class="fs-6">@item.regionName</p>
+        </div>
+    }
+</div>
+

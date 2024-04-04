@@ -59,7 +59,7 @@ input[type="text"]:focus {
 input:focus {
     outline: #3DB6FF !important;
     /*border: 2px solid white !important;*/
-    box-shadow: none !important;
+    /*box-shadow: none !important;*/
     border-color: #3DB6FF !important;
     /*color: red !important;*/
 }
@@ -67,7 +67,7 @@ input:focus {
 textarea:focus {
     outline: none !important;
     border-color: #3DB6FF !important;
-    box-shadow: none !important;
+    /*box-shadow: none !important;*/
 }
 
     textarea:focus::placeholder {

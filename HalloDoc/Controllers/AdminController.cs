@@ -2457,6 +2457,31 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin", "PatientRecords")]
+        public IActionResult PatientRecordsFilteredData(int userid, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 17;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                PatientHistoryViewModel pr = _adminInterface.PatientRecordsFilteredData(userid, an, page, pageSize);
+                return PartialView("PatientRecordsPagePartialView", pr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view patient records";
+                return RedirectToAction("PatientHistory");
+            }
+        }
+
         [CustomAuthorize("Admin", "ProviderMenu")]
         // function to return Provider Menu view
         public IActionResult ProviderMenu()
@@ -2739,6 +2764,7 @@ namespace HalloDoc.Controllers
             try
             {
                 _adminInterface.SavePasswordOfPhysician(ep);
+                TempData["success"] = "Password changed successfully";
                 return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
             }
 
@@ -2773,6 +2799,7 @@ namespace HalloDoc.Controllers
             try
             {
                 _adminInterface.SaveProviderProfile(ep, selectedRegionsList);
+                TempData["success"] = "Provider information saved successfully";
                 return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
             }
 
@@ -2801,8 +2828,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [HttpPost]
-        [CustomAuthorize("Admin")]
+        [CustomAuthorize("Admin", "ProviderMenu")]
         // function to upload all other docs of provider
         public IActionResult SetAllDocOfPhysician(IFormFile file, int PhysicianId, int num)
         {

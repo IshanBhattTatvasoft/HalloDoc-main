@@ -15,18 +15,12 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="stylesheet" href="~/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
-    <link rel="stylesheet" href="~/css/Patient_Dashboard.css" />
-    <link rel="stylesheet" href="~/css/style.css" />
-    <script src="~/js/AdminDashBoard.js"> </script>
     <script src="~/js/bootstrap.bundle.min.js"> </script>
     @*<script src="~/lib/jquery/dist/jquery.min.js"></script>*@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css" />
     <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,1000&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="~/css/AdminDashboard.css" />
     <style>
         .accordion-button::after {
             display: none; /* Hide the default arrow */
@@ -54,7 +48,7 @@
     <div class="container-sm container-fluid">
         <div class="d-flex justify-content-between align-items-center mt-3">
             <h3 class="fw-semibold">Edit Physician Account</h3>
-            <a class="btn btn-outline-info" asp-controller="Admin" asp-action="ContactProvider" asp-route-id="@Model.PhysicianId"><i class="bi bi-chevron-left btn-outline-info"></i> Back</a>
+            <a class="btn btn-outline-info" asp-controller="Admin" asp-action="UserAccess" asp-route-id="@Model.PhysicianId"><i class="bi bi-chevron-left btn-outline-info"></i> Back</a>
         </div>
         <div class="shadow border-top mt-2 p-4">
 
@@ -63,20 +57,11 @@
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="SavePasswordOfProvider">
                 <input type="hidden" asp-for="PhysicianId" id="IdOfP" />
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control"
-                           id="Username"
-                           placeholder="User Name"
-                           disabled
-                           asp-for="UserName" />
+                    <input type="text" class="form-control" id="Username" placeholder="User Name" disabled asp-for="UserName" />
                     <label for="Username" class="ms-2 text-muted">User Name</label>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="password"
-                           class="form-control password"
-                           id="Password"
-                           placeholder="Password"
-                           asp-for="Password" />
+                    <input type="password" class="form-control password" id="Password" placeholder="Password" asp-for="Password" />
                     <label for="Password" class="ms-2 text-muted">Password</label>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
@@ -111,75 +96,45 @@
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="SaveProviderProfile">
                 <input type="hidden" asp-for="PhysicianId" />
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change1 bg-secondary-subtle"
-                           id="FirstName"
-                           placeholder="First Name"
-                           disabled
-                           asp-for="FirstName" />
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="FirstName" placeholder="First Name" disabled asp-for="FirstName" />
                     <label for="FirstName" class="ms-2 text-muted">First Name</label>
                     <span asp-validation-for="FirstName" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change1 bg-secondary-subtle"
-                           id="LastName"
-                           placeholder="LastName"
-                           disabled
-                           asp-for="LastName" />
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="LastName" placeholder="LastName" disabled asp-for="LastName" />
                     <label for="LastName" class="ms-2 text-muted">LastName</label>
                     <span asp-validation-for="LastName" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="email"
-                           class="form-control Change1 bg-secondary-subtle"
-                           id="Email"
-                           placeholder="Email"
-                           disabled
-                           asp-for="Email" />
+                    <input type="email" class="form-control Change1 bg-secondary-subtle" id="Email"
+                           placeholder="Email" disabled asp-for="Email" />
                     <label for="Email" class="ms-2 text-muted">Email</label>
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
 
 
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="tel"
-                           class="form-control Change1 bg-secondary-subtle"
-                           id="Phone phone"
-                           placeholder="Phone No"
-                           disabled
-                           asp-for="Phone" />
+                    <input type="tel" class="form-control Change1 bg-secondary-subtle" id="Phone phone"
+                           placeholder="Phone No" disabled asp-for="Phone" />
                     <label class="ms-2 text-muted" for="Phone">Phone No</label>
                     <span asp-validation-for="Phone" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change1 bg-secondary-subtle"
-                           id="Phone1 phone1"
-                           placeholder="Medical Licence"
-                           disabled
-                           asp-for="MedicalLicense" />
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="Phone1 phone1"
+                           placeholder="Medical Licence" disabled asp-for="MedicalLicense" />
                     <label class="ms-2 text-muted" for="Phone">Medical Licence</label>
                     <span asp-validation-for="MedicalLicense" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change1 bg-secondary-subtle"
-                           id="Phone2 phone2"
-                           placeholder="NPI Number"
-                           disabled
-                           asp-for="NPI" />
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="Phone2 phone2"
+                           placeholder="NPI Number" disabled asp-for="NPI" />
                     <label class="ms-2 text-muted" for="Phone">NPI Number</label>
                     <span asp-validation-for="NPI" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="email"
-                           class="form-control Change1 bg-secondary-subtle"
-                           id="Phone3 phone3"
-                           placeholder="Synchronizing Email Address"
-                           disabled
-                           asp-for="SyncEmail" />
+                    <input type="email" class="form-control Change1 bg-secondary-subtle" id="Phone3 phone3"
+                           placeholder="Synchronizing Email Address" disabled asp-for="SyncEmail" />
                     <label class="ms-2 text-muted" for="Phone">Synchronizing Email Address</label>
                     <span asp-validation-for="SyncEmail" class="text-danger"></span>
                 </div>
@@ -221,30 +176,17 @@
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="EditProviderBillingInfo">
                 <input type="hidden" asp-for="PhysicianId" />
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change2 bg-secondary-subtle"
-                           id="Address1"
-                           placeholder="Address 1"
-                           readonly
-                           asp-for="Address1" />
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="Address1" placeholder="Address 1" readonly asp-for="Address1" />
                     <label for="Address1" class="ms-2 text-muted">Address 1</label>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change2 bg-secondary-subtle"
-                           id="Address2"
-                           placeholder="Address 2"
-                           asp-for="Address2"
-                           readonly />
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="Address2"
+                           placeholder="Address 2" asp-for="Address2" readonly />
                     <label for="Address2" class="ms-2 text-muted">Address 2</label>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change2 bg-secondary-subtle"
-                           id="City"
-                           placeholder="City"
-                           readonly
-                           asp-for="City" />
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="City"
+                           placeholder="City" readonly asp-for="City" />
                     <input type="hidden" id="lat" asp-for="lati" style="display: none;" />
                     <input type="hidden" id="long" asp-for="longi" style="display: none;" />
                     <label for="City" class="ms-2 text-muted">City</label>
@@ -260,23 +202,15 @@
                     <label for="State" class="ms-2 text-muted">State</label>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control Change2 bg-secondary-subtle"
-                           id="Zip"
-                           placeholder="Zip"
-                           readonly
-                           asp-for="Zip" />
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="Zip"
+                           placeholder="Zip" readonly asp-for="Zip" />
                     <label for="Zip" class="ms-2 text-muted">Zip</label>
                     <span asp-validation-for="Zip" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="tel"
-                           class="form-control Change2 bg-secondary-subtle"
-                           id="MailingPhoneNo phone"
-                           placeholder="Phone No"
-                           asp-for="MailingPhoneNo"
-                           readonly />
+                    <input type="tel" class="form-control Change2 bg-secondary-subtle" id="MailingPhoneNo phone"
+                           placeholder="Phone No" asp-for="MailingPhoneNo" readonly />
                     <label class="ms-2 text-muted" for="MailingPhoneNo">Phone No</label>
                     <span asp-validation-for="MailingPhoneNo" class="text-danger"></span>
                 </div>
@@ -298,46 +232,28 @@
             <form method="post" class="row mb-4 border-1 border-bottom border-dark-subtle" asp-controller="Admin" asp-action="PhysicianProfileUpdate" enctype="multipart/form-data">
                 <input type="hidden" asp-for="PhysicianId" />
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control  bg-secondary-subtle change3"
-                           id="Businessname"
-                           placeholder="Business Name"
-                           readonly
-                           asp-for="BusinessName" />
+                    <input type="text" class="form-control bg-secondary-subtle change3" id="Businessname" placeholder="Business Name" readonly asp-for="BusinessName" />
                     <label for="Businessname" class="ms-2 text-muted">Business Name</label>
                     <span asp-validation-for="BusinessName" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="text"
-                           class="form-control  bg-secondary-subtle change3"
-                           id="BusinessWebsite"
-                           placeholder="Business Website"
-                           asp-for="BusinessWebsite"
-                           readonly />
+                    <input type="text" class="form-control  bg-secondary-subtle change3" id="BusinessWebsite"
+                           placeholder="Business Website" asp-for="BusinessWebsite" readonly />
                     <label for="BusinessWebsite" class="ms-2 text-muted">Business Website</label>
                     <span asp-validation-for="BusinessWebsite" class="text-danger"></span>
                 </div>
 
                 <div class="col-md-6 mb-3 form-floating">
                     <div class="d-flex gap-0">
-                        <input type="file"
-                               class="form-control bg-secondary-subtle rounded-end-0 change3"
-                               id="Photo"
-                               placeholder="Select Photo"
-                               asp-for="Photo"
-                               readonly />
+                        <input type="file" class="form-control bg-secondary-subtle rounded-end-0 change3"
+                               id="Photo" placeholder="Select Photo" asp-for="Photo" readonly />
 
                         <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
                     </div>
                 </div>
                 <div class="col-md-5 mb-3 form-floating">
                     <div class="d-flex gap-0">
-                        <input type="file"
-                               class="form-control bg-secondary-subtle rounded-end-0 change3 bg-secondary-subtle"
-                               id="Signature"
-                               placeholder="Select Signature"
-                               asp-for="Signature"
-                               readonly />
+                        <input type="file" class="form-control bg-secondary-subtle rounded-end-0 change3 bg-secondary-subtle" id="Signature" placeholder="Select Signature" asp-for="Signature" readonly />
                         <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('2')">Upload</button>
                     </div>
                 </div>
@@ -390,8 +306,7 @@
                 </div>
                 <div class="d-flex align-items-center mb-2">
                     <div class="form-check col-6">
-                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                               id="Background" name="checkbox_group"
+                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.BackgroundCheck" id="Background" name="checkbox_group"
                         @if (Model.BackgroundCheck == true)
                         {
                             <text>checked</text>
@@ -412,7 +327,7 @@
                 </div>
                 <div class="d-flex  align-items-center mb-2">
                     <div class="form-check col-6">
-                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
+                        <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Compilance"
                                id="Contract" name="checkbox_group"
                         @if (Model.Compilance == true)
                         {
@@ -462,7 +377,7 @@
                         <p>License Document</p>
                     </div>
                     <div class="d-flex justify-content-start col-4">
-                        <input type="file" class="form-control btn btn-info text-white"  id="LicensedDoc"
+                        <input type="file" class="form-control btn btn-info text-white" id="LicensedDoc"
                                value="Upload" onchange="UploadDoc('5')" hidden />
                         <label class="btn btn-info text-white " for="LicensedDoc">Upload</label>
                         @if (Model.LicensedDoc == true)
@@ -482,8 +397,7 @@
 </body>
 </html>
 
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyARrk6kY-nnnSpReeWotnQxCAo_MoI4qbU&callback=initMap"></script>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
 
     // Edit1
@@ -536,19 +450,34 @@
 
 
 
+    //function AddSelectedRegion() {
+    //    var selectedRegions = [];
+    //    document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
+    //        selectedRegions.push(parseInt(checkbox.value));
+    //    });
+
+    //    if (selectedRegions.length > 0) {
+    //        document.getElementById('selectedRegionsList').value = selectedRegions.join(',');
+    //    } else {
+    //        document.getElementById('selectedRegionsList').value = '';
+    //    }
+    //}
+
     function AddSelectedRegion() {
-        var selectedRegions = []; 
+        var selectedRegions = [];
         document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => {
             selectedRegions.push(parseInt(checkbox.value));
         });
 
+        // Remove any empty values from the array
+        selectedRegions = selectedRegions.filter(region => !isNaN(region));
+
         if (selectedRegions.length > 0) {
             document.getElementById('selectedRegionsList').value = selectedRegions.join(',');
         } else {
-            document.getElementById('selectedRegionsList').value = ''; 
+            document.getElementById('selectedRegionsList').value = '';
         }
     }
-
 
     function UploadDoc(num) {
         var doc;
@@ -561,15 +490,16 @@
         else doc = document.getElementById("LicensedDoc");
         var files = doc.files[0];
         var formData = new FormData();
-        // Append the selected file to the FormData object
-        if(validateFileType(doc))
-        {
+        console.log(files);
+     
+        if (validateFileType(doc)) {
             formData.append("file", files);
             formData.append("PhysicianId", PhysicianId);
             formData.append("num", num);
+            console.log(formData);
             $.ajax({
                 type: "POST",
-                url: "@Url.Action("SetAllDocOfPhysician", "Admin")",
+                url: "/Admin/SetAllDocOfPhysician",
                 data: formData,
                 processData: false,
                 contentType: false,
@@ -583,8 +513,96 @@
                     console.error(error);
                 }
             });
+            //fetch('/Admin/SetAllDocOfPhysician', {
+            //    method: 'POST',
+            //    body: formData
+            //})
+            //    .then(data => {
+            //        // Handle success
+            //        console.log("Done");
+            //        location.reload();
+            //    })
+            //    .catch(error => {
+            //        // Handle error
+            //        console.error(error);
+            //    });
         }
     }
+
+    //function UploadDoc(num) {
+    //    var doc;
+    //    var PhysicianId = document.getElementById('IdOfP').value;
+    //    console.log(num);
+    //    if (num == 1) doc = document.getElementById("contract");
+    //    else if (num == 2) doc = document.getElementById("BackgroundCheck");
+    //    else if (num == 3) doc = document.getElementById("Compilance");
+    //    else if (num == 4) doc = document.getElementById("NonDisclosure");
+    //    else doc = document.getElementById("LicensedDoc");
+    //    var files = doc.files[0];
+    //    var formData = new FormData();
+    //    console.log(files);
+
+    //    if (validateFileType(doc))
+    //        {
+    //            formData.append("file", files);
+    //            formData.append("PhysicianId", PhysicianId);
+    //            formData.append("num", num);
+    //            console.log(formData);
+    //            $.ajax({
+    //                type: "POST",
+    //                url: "/Admin/SetAllDocOfPhysician",
+    //                data: formData,
+    //                success: function (result) {
+    //                    // Handle success
+    //                    console.log("Done");
+    //                    location.reload();
+    //                },
+    //                error: function (error) {
+    //                    // Handle error
+    //                    console.error(error);
+    //                }
+    //            });
+
+
+    //        window.location.href = "/Admin/SetAllDocOfPhysician?file=" + files + "&PhysicianId="+PhysicianId+"&num="+num;
+    //        }
+    //}
+
+    //function UploadDoc(num) {
+    //    var doc;
+    //    var PhysicianId = document.getElementById('IdOfP').value;
+    //    console.log(num);
+    //    if (num == 1) doc = document.getElementById("contract");
+    //    else if (num == 2) doc = document.getElementById("BackgroundCheck");
+    //    else if (num == 3) doc = document.getElementById("Compilance");
+    //    else if (num == 4) doc = document.getElementById("NonDisclosure");
+    //    else doc = document.getElementById("LicensedDoc");
+    //    var files = doc.files[0];
+    //    var formData = new FormData();
+    //    // Append the selected file to the FormData object
+    //    if(validateFileType(doc))
+    //    {
+    //        formData.append("file", files);
+    //        formData.append("PhysicianId", PhysicianId);
+    //        formData.append("num", num);
+    //        $.ajax({
+    //            type: "POST",
+    //            url: "@Url.Action("SetAllDocOfPhysician", "Admin")",
+    //            data: formData,
+    //            processData: false,
+    //            contentType: false,
+    //            success: function (result) {
+    //                // Handle success
+    //                console.log("Done");
+    //                location.reload();
+    //            },
+    //            error: function (error) {
+    //                // Handle error
+    //                console.error(error);
+    //            }
+    //        });
+    //    }
+    //}
 
     function validateFileType(input) {
         console.log(input.value);
@@ -675,27 +693,8 @@
         }
     }
 
-    document.getElementById('City').addEventListener('focusout', getCoordinates);
-    function getCoordinates() {
-        var address = document.getElementById('Address1').value + " " + document.getElementById('Address2').value + " " + document.getElementById('City').value;
-        var geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ address: address }, function (results, status) {
-            if (status == "OK") {
-                var latitude = results[0].geometry.location.lat();
-                var longitude = results[0].geometry.location.lng();
-                document.getElementById('lat').value = latitude;
-                document.getElementById('long').value = longitude;
-                console.log(document.getElementById('lat').value);
-                console.log(document.getElementById('long').value);
-                //return true;
-            } else {
-                console.log("Geocoding failed: " + status);
-                //return false;
-            }
-        });
-        //return true;
-    }
 
-    
+
+
 
 </script>

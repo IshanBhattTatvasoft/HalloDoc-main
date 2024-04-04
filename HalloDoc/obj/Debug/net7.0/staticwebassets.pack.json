@@ -13,8 +13,24 @@
       "PackagePath": "staticwebassets\\Physician\\100\\AgreementDoc.docx"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\100\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\100\\Profile.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\101\\AgreementDoc.docx",
       "PackagePath": "staticwebassets\\Physician\\101\\AgreementDoc.docx"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\101\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\101\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\10\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\10\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\11\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\11\\Profile.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\AgreementDoc.png",
@@ -23,6 +39,18 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\BackgroundDoc.png",
       "PackagePath": "staticwebassets\\Physician\\12\\BackgroundDoc.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\12\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\NonDisclosure.pdf",
+      "PackagePath": "staticwebassets\\Physician\\12\\NonDisclosure.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\12\\Profile.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.pdf",
@@ -71,6 +99,18 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\3\\Signature.png",
       "PackagePath": "staticwebassets\\Physician\\3\\Signature.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\4\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\4\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\6\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\6\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\7\\Profile.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\admin-dashboard.css",
