@@ -1261,3 +1261,4 @@ D:\HalloDoc\HalloDoc\HalloDoc-main-forked\HalloDoc\obj\Debug\net7.0\refint\Hallo
 D:\HalloDoc\HalloDoc\HalloDoc-main-forked\HalloDoc\obj\Debug\net7.0\HalloDoc.pdb
 D:\HalloDoc\HalloDoc\HalloDoc-main-forked\HalloDoc\obj\Debug\net7.0\HalloDoc.genruntimeconfig.cache
 D:\HalloDoc\HalloDoc\HalloDoc-main-forked\HalloDoc\obj\Debug\net7.0\ref\HalloDoc.dll
+C:\Users\pca141\Desktop\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Twilio.dll

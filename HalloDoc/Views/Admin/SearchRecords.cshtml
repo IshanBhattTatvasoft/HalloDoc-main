@@ -26,14 +26,14 @@
     <div class="bg-light" style="overflow: hidden;">
         <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
         <div class="container-fluid">
-            <div class="row d-flex justify-content-between mt-3">
-                <div>
+            <div class="d-flex justify-content-between align-items-center mt-5 w-auto">
+                <div class="ms-5 d-inline-block w-auto">
                     <span class="h5 text-muted fw-bold" id="heading-one">
                         Search Records
                     </span>
                 </div>
 
-                <div>
+                <div class="me-5 d-inline-block w-auto">
                     <button type="button" class="btn btn-info text-white"><i class="fa-solid fa-reply-all fa-flip-horizontal" style="color: #f5f5f5;"></i>Export Data to Excel</button>
                 </div>
             </div>
@@ -42,7 +42,7 @@
                 <div class="row searches">
                     <div class="dropdown form-floating col mt-2 ms-1 search-cols">
                         <select class="btn dropdown-toggle text-secondary w-100" id="select-region" style="text-align: start;" onchange="filter(this.value)">
-                            <option value="-1" selected class="text-muted">All Regions</option>
+                            <option value="-1" selected class="text-muted">Select Request Status</option>
                             <option value="1" class="bg-white text-muted">Unassigned</option>
                             <option value="2" class="bg-white text-muted">Accepted</option>
                             <option value="3" class="bg-white text-muted">Cancelled</option>
@@ -118,3 +118,19 @@
         </div>
     </div>
 </body>
+
+<script>
+    window.onload = () => {
+        console.log("Fun call");
+        $.ajax({
+            url: '/Admin/SearchRecordsFilteredData',
+            type: 'GET',
+            success: function(response){
+                $("#SearchRecordsPartialView").html(response);
+            },
+            error: function(error){
+                alert("An error occurred");
+            }
+        });
+    }
+</script>

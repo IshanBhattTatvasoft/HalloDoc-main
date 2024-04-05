@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "I3FTB6JmKsgPIb1mktoJA197N4Az80o9Vt1SqZ4cDXU=",
+  "Hash": "QK6w0RwkCtYSKMNoYJix2pLXkzphDjtk9P26zwMXpMg=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -338,6 +338,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\submit-request-screen.css"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\vendors.css",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "css/vendors.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\vendors.css"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\view-case.css",

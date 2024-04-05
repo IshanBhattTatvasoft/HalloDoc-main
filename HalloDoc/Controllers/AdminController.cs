@@ -25,6 +25,8 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Drawing.Printing;
 using Newtonsoft.Json.Linq;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -36,12 +38,14 @@ namespace HalloDoc.Controllers
         private readonly IHttpContextAccessor _sescontext;
         private readonly IJwtToken _jwtToken;
         private readonly ILogger<AdminController> _logger;
+        private readonly IConfiguration _configuration;
 
-        public AdminController(IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken)
+        public AdminController(IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken, IConfiguration configuration)
         {
             _adminInterface = adminInterface;
             _sescontext = sescontext;
             _jwtToken = jwtToken;
+            _configuration = configuration;
         }
 
         [HttpPost]
@@ -945,7 +949,7 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Admin", "AdminDashboard")]
         // function called when we want to fetch all the physicians belonging to a certain region as given by RegionId
-        public List<Physician> GetPhysicianByRegion(AdminDashboardTableView model, int RegionId)
+        public List<Physician> GetPhysicianByRegion(int RegionId)
         {
             List<Physician> ph = new List<Physician> { new Physician() };
             try
@@ -963,9 +967,11 @@ namespace HalloDoc.Controllers
                 List<Physician> p = _adminInterface.FetchPhysicianByRegion(RegionId);
                 return p;
             }
-
             catch (Exception ex)
             {
+                // Log the exception here
+                Console.WriteLine("Error in GetPhysicianByRegion: " + ex.Message);
+
                 TempData["error"] = "Unable to fetch physicians";
                 return ph;
             }
@@ -1261,7 +1267,7 @@ namespace HalloDoc.Controllers
             AdminNavbarModel an = new AdminNavbarModel();
             an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
             an.Tab = 1;
-            AdminCreateRequestModel model = new AdminCreateRequestModel 
+            AdminCreateRequestModel model = new AdminCreateRequestModel
             {
                 adminNavbarModel = an,
                 FirstName = "",
@@ -1534,6 +1540,19 @@ namespace HalloDoc.Controllers
             ViewBag.Menu = menus;
             try
             {
+                string messageSMS = $@"Please Request/Register your case. Hii {model.FirstName},hope you are fine, to register your case, please fill the Request Form.Your Request Form,please fill all the required details, for better assistance:https://localhost:44379/Login/SubmitRequest";
+
+                var accountSid = _configuration["Twilio:accountSid"];
+                var authToken = _configuration["Twilio:authToken"];
+                var twilionumber = _configuration["Twilio:twilioNumber"];
+
+                TwilioClient.Init(accountSid, authToken);
+                //var messageBody =
+                var message2 = MessageResource.Create(
+                    from: new Twilio.Types.PhoneNumber(twilionumber),
+                    body: messageSMS,
+                    to: new Twilio.Types.PhoneNumber(model.PhoneNumber)
+                );
 
                 string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
                 string senderPassword = "Ishan@1503";
@@ -1568,7 +1587,7 @@ namespace HalloDoc.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("Email", "Invalid Email");
+                    TempData["error"] = "Invalid email";
                     return RedirectToAction("AdminDashboard");
                 }
             }
@@ -1695,8 +1714,10 @@ namespace HalloDoc.Controllers
         [HttpPost]
         [CustomAuthorize("Admin", "Orders")]
         // function to send order to specified vendor
-        public IActionResult SendOrder(SendOrder model, int vendorId, int noOfRefill)
+        public async Task<IActionResult> SendOrder(SendOrder model, int vendorId, int noOfRefill)
         {
+            int retryCount = 1;
+            bool isSent = false;
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
@@ -1708,6 +1729,90 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+
+                while (retryCount <= 3 && !isSent)
+                {
+                    string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                    string senderPassword = "Ishan@1503";
+                    var platformTitle = "HalloDoc";
+                    var subject = "Order details";
+                    var body = $"Hello, <br />Here are the details you may need to fulfil our order,<br /><br />Order Details: {model.prescription}<br /> Number of refills: {model.numOfRefill}</a><br /><br />Regards,<br/>{platformTitle}<br/>";
+
+                    try
+                    {
+                        SmtpClient client = new SmtpClient("smtp.office365.com")
+                        {
+                            Port = 587,
+                            Credentials = new NetworkCredential(senderEmail, senderPassword),
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false
+                        };
+                        MailMessage mailMessage = new MailMessage
+                        {
+                            From = new MailAddress(senderEmail, "HalloDoc"),
+                            Subject = "Create New Request",
+                            IsBodyHtml = true,
+                            Body = body
+                        };
+
+                        mailMessage.To.Add(model.email);
+
+                        await client.SendMailAsync(mailMessage);
+
+
+                        isSent = true;
+                        //_adminInterface.AddEmailLog(body, subject, model.email, null, -1, -1, -1, true, retryCount, -1);
+                        break;
+                    }
+
+                    catch (Exception e)
+                    {
+                        if (retryCount >= 3)
+                        {
+                            //_adminInterface.AddEmailLog(body, subject, model.email, null, -1, -1, -1, false, retryCount, -1);
+                        }
+                        retryCount++;
+                    }
+                }
+
+                int smsSentTries = 1;
+                bool isSmsSent = false;
+
+                while(smsSentTries <=3 && !isSmsSent)
+                {
+                    string messageSMS = "Hello, Here are the details you may need to fulfil our order. Order details: " + model.prescription + " and Number of refills required: " + noOfRefill;
+                    string recipient = "+917990117699";
+                    var accountSid = _configuration["Twilio:accountSid"];
+                    var authToken = _configuration["Twilio:authToken"];
+                    var twilionumber = _configuration["Twilio:twilioNumber"];
+
+                    try
+                    {
+                        TwilioClient.Init(accountSid, authToken);
+                        //var messageBody =
+                        var message2 = MessageResource.Create(
+                            from: new Twilio.Types.PhoneNumber(twilionumber),
+                            body: messageSMS,
+                            to: new Twilio.Types.PhoneNumber(recipient)
+                        );
+
+                        isSmsSent = true;
+                        // fun call for smslog
+                        break;
+                    }
+
+                    catch(Exception ex)
+                    {
+                        if (smsSentTries >= 3)
+                        {
+                            // fun call
+                        }
+                        smsSentTries++;
+                    }
+                }
+
+                
 
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.VendorId = vendorId;
@@ -2558,69 +2663,96 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Admin", "ProviderMenu")]
         // function called when we submit the Contact Your Provider modal
-        public IActionResult SendMessageToPhysician(string sendType, string email, string message)
+        public IActionResult SendMessageToPhysician(ProviderMenuViewModel model, string flexRadioDefault, string contactProviderMessage)
         {
-            int count = 1;
-            bool isSent = false;
-            string token = Request.Cookies["token"];
-            string roleIdVal = _jwtToken.GetRoleId(token);
-            List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
-            ViewBag.Menu = menus;
-            while (count <= 3 && !isSent)
+
+            try
             {
-                if (sendType == "Email" || sendType == "Both")
+                int count = 1;
+                bool isSent = false;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                if (flexRadioDefault != "SMS" && (flexRadioDefault == "Email" || flexRadioDefault == "Both"))
                 {
-                    try
+                    while (count <= 3 && !isSent)
                     {
-
-
-                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                        string senderPassword = "Ishan@1503";
-
-                        SmtpClient client = new SmtpClient("smtp.office365.com")
+                        try
                         {
-                            Port = 587,
-                            Credentials = new NetworkCredential(senderEmail, senderPassword),
-                            EnableSsl = true,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false
-                        };
-                        string resetToken = Guid.NewGuid().ToString();
-                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/SubmitRequestScreen?token={resetToken}";
+
+
+                            string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                            string senderPassword = "Ishan@1503";
+
+                            SmtpClient client = new SmtpClient("smtp.office365.com")
+                            {
+                                Port = 587,
+                                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                                EnableSsl = true,
+                                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                UseDefaultCredentials = false
+                            };
+                            string resetToken = Guid.NewGuid().ToString();
+                            string resetLink = $"{Request.Scheme}://{Request.Host}/Login/SubmitRequestScreen?token={resetToken}";
 
 
 
-                        MailMessage mailMessage = new MailMessage
-                        {
-                            From = new MailAddress(senderEmail, "HalloDoc"),
-                            Subject = "Contact Your Provider",
-                            IsBodyHtml = true,
-                            Body = $"{message}"
-                        };
+                            MailMessage mailMessage = new MailMessage
+                            {
+                                From = new MailAddress(senderEmail, "HalloDoc"),
+                                Subject = "Contact Your Provider",
+                                IsBodyHtml = true,
+                                Body = $"{contactProviderMessage}"
+                            };
 
-                        if (email != "")
-                        {
-                            mailMessage.To.Add(email);
-                            client.SendMailAsync(mailMessage);
-                            isSent = true;
-                            TempData["success"] = "Email sent successfully";
-                            return RedirectToAction("ProviderMenu");
+                            if (model.email != "")
+                            {
+                                mailMessage.To.Add(model.email);
+                                client.SendMailAsync(mailMessage);
+                                isSent = true;
+                                break;
+                            }
+
+                            else
+                            {
+                                ModelState.AddModelError("Email", "Invalid Email");
+                                return RedirectToAction("ProviderMenu");
+                            }
                         }
-
-                        else
+                        catch (Exception ex)
                         {
-                            ModelState.AddModelError("Email", "Invalid Email");
-                            return RedirectToAction("ProviderMenu");
+                            count++;
                         }
-                    }
-                    catch (Exception ex)
-                    {
-                        return RedirectToAction("ProviderMenu");
                     }
                 }
+
+                else if (flexRadioDefault == "SMS" || flexRadioDefault == "Both")
+                {
+                    string messageSMS = contactProviderMessage;
+                    string recipient = "+91" + model.phoneNumber;
+                    var accountSid = _configuration["Twilio:accountSid"];
+                    var authToken = _configuration["Twilio:authToken"];
+                    var twilionumber = _configuration["Twilio:twilioNumber"];
+
+                    TwilioClient.Init(accountSid, authToken);
+                    //var messageBody =
+                    var message2 = MessageResource.Create(
+                        from: new Twilio.Types.PhoneNumber(twilionumber),
+                        body: messageSMS,
+                        to: new Twilio.Types.PhoneNumber(recipient)
+                    );
+                }
+
+                TempData["success"] = "Message has been sent to provider";
+                return RedirectToAction("ProviderMenu");
             }
-            TempData["error"] = "Unable to send the email";
-            return RedirectToAction("ProviderMenu");
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to send the message";
+                return RedirectToAction("ProviderMenu");
+            }
 
         }
 
@@ -3232,7 +3364,7 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 11; 
+                an.Tab = 11;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
@@ -3353,7 +3485,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "Scheduling")]
-        public IActionResult Scheduling()
+        public IActionResult Scheduling(string? monthId)
         {
             try
             {
@@ -3366,6 +3498,7 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+                ViewBag.monthName = monthId;
                 SchedulingViewModel svm = new SchedulingViewModel
                 {
                     adminNavbarModel = an,
@@ -3374,7 +3507,7 @@ namespace HalloDoc.Controllers
                 return View(svm);
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["error"] = "Unable to view scheduling page";
                 return RedirectToAction("AdminDashboard");
@@ -3382,16 +3515,16 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "Scheduling")]
-        public IActionResult GetScheduleData()
+        public IActionResult GetScheduleData(int RegionId)
         {
             string[] color = { "#edacd2", "#a5cfa6" };
-            List<ShiftDetail> shiftDetails = _adminInterface.GetScheduleData();
+            List<ShiftDetail> shiftDetails = _adminInterface.GetScheduleData(RegionId);
 
             List<ShiftDTO> list = shiftDetails.Select(s => new ShiftDTO
             {
                 resourceId = s.Shift.PhysicianId,
                 Id = s.ShiftDetailId,
-                title =  _adminInterface.GetPhysicianNameFromId(s.Shift.PhysicianId),
+                title = _adminInterface.GetPhysicianNameFromId(s.Shift.PhysicianId, s.ShiftId),
                 start = s.ShiftDate.ToString("yyyy-MM-dd") + s.StartTime.ToString("THH:mm:ss"),
                 end = s.ShiftDate.ToString("yyyy-MM-dd") + s.EndTime.ToString("THH:mm:ss"),
                 color = color[s.Status]
@@ -3435,7 +3568,7 @@ namespace HalloDoc.Controllers
         {
             try
             {
-                if(_adminInterface.EditViewShift(ShiftDetail) == true)
+                if (_adminInterface.EditViewShift(ShiftDetail) == true)
                 {
                     TempData["success"] = "Shift edited successfully";
                     return true;
@@ -3473,7 +3606,7 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                if(_adminInterface.CreateNewShift(model, RepeatedDays, ad.AdminId))
+                if (_adminInterface.CreateNewShift(model, RepeatedDays, ad.AdminId))
                 {
                     TempData["success"] = "Shift created successfully";
                     return RedirectToAction("Scheduling");
@@ -3484,7 +3617,7 @@ namespace HalloDoc.Controllers
                     return RedirectToAction("Scheduling");
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["error"] = "Unable to create the new shift";
                 return RedirectToAction("Scheduling");
@@ -3651,8 +3784,87 @@ namespace HalloDoc.Controllers
 
             catch (Exception ex)
             {
-                TempData["error"] = "Unable to approve deleted shifts";
-                return RedirectToAction("RequestedShifts");
+                TempData["error"] = "Unable to search records";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "SearchRecords")]
+        public IActionResult SearchRecordsFilteredData()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 14;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                SearchRecordsViewModel sr = _adminInterface.SearchRecordsFilteredData(an);
+                return PartialView("SearchRecordsPagePartialView", sr);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to search records";
+                return RedirectToAction("SearchRecords");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Partners")]
+        public IActionResult Vendors()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 8;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                VendorsViewModel v = new VendorsViewModel
+                {
+                    adminNavbarModel = an,
+                    professionType = _adminInterface.GetHealthProfessionalType()
+                };
+                return View(v);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view vendors information";
+                return RedirectToAction("AdmiDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Partners")]
+        public IActionResult VendorsFilteredData(string? name = "", int? professionalId = -1, int page = 1, int pageSize = 10)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 8;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                VendorsViewModel v = _adminInterface.VendorsFilteredData(an, name, professionalId, page, pageSize);
+                return PartialView("VendorsPagePartialView", v);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view vendors information";
+                return RedirectToAction("AdmiDashboard");
             }
         }
 
@@ -3663,6 +3875,6 @@ namespace HalloDoc.Controllers
     }
 
 
-    
+
 }
 

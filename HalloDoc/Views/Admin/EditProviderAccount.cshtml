@@ -39,6 +39,9 @@
             visibility: hidden;
         }
 
+        textarea{
+            resize: none;
+        }
     </style>
 </head>
 <body>
@@ -91,6 +94,7 @@
 
                 </div>
             </form>
+
             @* Edit 1 form for Physician Information *@
             <h4 class="my-3"> Physician Information</h4>
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="SaveProviderProfile">
@@ -144,7 +148,7 @@
                         @for (int i = 0; i < Model.regions.Count; i++)
                         {
                             <div class="form-check">
-                                <input type="checkbox" disabled class="form-check-input border-2 region-check" value="@Model.regions[i].RegionId"
+                                <input type="checkbox" disabled class="form-check-input border-2 region-check first-region" value="@Model.regions[i].RegionId"
                                        id="checkbox@(i)" name="checkbox_group"
                                 @if (Model.selectedregions != null && Model.selectedregions.Any(r => r.RegionId == Model.regions[i].RegionId))
                                 {
@@ -166,12 +170,13 @@
                     <button type="submit" id="Save2" class="savebutton px-4 me-2 btn btn-outline-info" onclick="AddSelectedRegion()">
                         Save
                     </button>
-                    <a type="button" id="Cancel2" asp-controller="Admin" asp-action="EditProviderAccount" asp-route-id="@Model.PhysicianId" class="savebutton px-4 me-2 btn btn-outline-info">
+                    <a type="button" id="Cancel2" onclick="disableElements()" class="savebutton px-4 me-2 btn btn-outline-info">
                         Cancel
                     </a>
                 </div>
             </form>
             <h4 class="my-3"> Mailing & Billing Information</h4>
+            
             @* form for Billing information *@
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="EditProviderBillingInfo">
                 <input type="hidden" asp-for="PhysicianId" />
@@ -222,11 +227,12 @@
                     <button type="submit" id="Save3" class="savebutton px-4 me-2 btn btn-outline-info">
                         Save
                     </button>
-                    <a type="button" id="Cancel3" asp-controller="Admin" asp-action="EditProviderAccount" asp-route-id="@Model.PhysicianId" class="savebutton px-4 me-2 btn btn-outline-info">
+                    <a type="button" id="Cancel3" class="savebutton px-4 me-2 btn btn-outline-info">
                         Cancel
                     </a>
                 </div>
             </form>
+
             @* form for signature and photo *@
             <div id="document-container"></div>
             <form method="post" class="row mb-4 border-1 border-bottom border-dark-subtle" asp-controller="Admin" asp-action="PhysicianProfileUpdate" enctype="multipart/form-data">
@@ -277,7 +283,7 @@
                     <button type="submit" id="Save4" class="savebutton px-4 me-2 btn btn-outline-info">
                         Save
                     </button>
-                    <a id="Cancel4" asp-controller="Admin" asp-action="EditProviderAccount" asp-route-id="@Model.PhysicianId" class="savebutton px-4 me-2 btn btn-outline-info">
+                    <a id="Cancel4" class="savebutton px-4 me-2 btn btn-outline-info">
                         Cancel
                     </a>
                 </div>
@@ -420,13 +426,32 @@
         $("#Edit2").hide();
     });
 
+    function disableElements()
+    {
+        var inputs = document.getElementsByClassName("Change1");
+        var rc = document.getElementsByClassName("region-check");
+        for (var i = 0; i < rc.length; i++) {
+            console.log(rc[i]);
+            rc[i].setAttribute('disabled', true);
+        }
+        console.log("hey");
+
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].setAttribute("disabled", true);
+            inputs[i].classList.remove("bg-secondary-subtle");
+        }
+        $("#Save2").hide();
+        $("#Cancel2").hide();
+        $("#Edit2").show();
+    }
+
     // Edit2
     $("#Save3").hide();
     $("#Cancel3").hide();
     $("#Edit3").click(function () {
         var inputs = document.getElementsByClassName("Change2");
         for (var i = 0; i < inputs.length; i++) {
-            inputs[i].removeAttribute("readonly");
+            inputs[i].removeAttribute("disabled");
             inputs[i].classList.remove("bg-secondary-subtle");
         }
         $("#Save3").show();
@@ -434,12 +459,25 @@
         $("#Edit3").hide();
     });
 
+    // Cancel 2
+    $("#Cancel3").click(function(){
+        var inputs = document.getElementsByClassName("Change2");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].setAttribute("disabled", true);
+            inputs[i].classList.remove("bg-secondary-subtle");
+        }
+        $("#Save3").hide();
+        $("#Cancel3").hide();
+        $("#Edit3").show();
+    });
+
+    // Edit 3
     $("#Save4").hide();
     $("#Cancel4").hide();
     $("#Edit4").click(function () {
         var inputs = document.getElementsByClassName("change3");
         for (var i = 0; i < inputs.length; i++) {
-            inputs[i].removeAttribute("readonly");
+            inputs[i].removeAttribute("disabled");
             inputs[i].classList.remove("bg-secondary-subtle");
         }
         $("#Save4").show();
@@ -447,7 +485,17 @@
         $("#Edit4").hide();
     });
 
-
+    // Cancel 3
+    $("#Cancel4").click(function(){
+        var inputs = document.getElementsByClassName("change3");
+        for (var i = 0; i < inputs.length; i++) {
+            inputs[i].setAttribute("disabled", true);
+            inputs[i].classList.remove("bg-secondary-subtle");
+        }
+        $("#Save4").hide();
+        $("#Cancel4").hide();
+        $("#Edit4").show();
+    });
 
 
     //function AddSelectedRegion() {

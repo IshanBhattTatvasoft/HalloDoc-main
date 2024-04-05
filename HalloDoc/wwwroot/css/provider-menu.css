@@ -1,4 +1,8 @@
-﻿.moon-flex {
+﻿html {
+    background-color: #F8F9FA;
+}
+
+.moon-flex {
     display: flex;
     justify-content: flex-end;
     position: absolute;

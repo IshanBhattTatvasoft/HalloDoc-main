@@ -140,6 +140,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlckFjY2Vzcy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/Vendors.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmVuZG9ycy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Admin/ViewCase.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVmlld0Nhc2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -270,6 +274,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/UserAccessPagePartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFVzZXJBY2Nlc3NQYWdlUGFydGlhbFZpZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/VendorsPagePartialView.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXFZlbmRvcnNQYWdlUGFydGlhbFZpZXcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/ViewShiftModalPartialView.cshtml]

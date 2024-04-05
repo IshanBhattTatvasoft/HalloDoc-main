@@ -181,6 +181,10 @@
       "PackagePath": "staticwebassets\\css\\submit-request-screen.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\vendors.css",
+      "PackagePath": "staticwebassets\\css\\vendors.css"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\view-case.css",
       "PackagePath": "staticwebassets\\css\\view-case.css"
     },

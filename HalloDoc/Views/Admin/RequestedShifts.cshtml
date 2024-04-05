@@ -57,7 +57,7 @@
 
 
                     <div id="three-btn" class="right-side-button d-flex flex-wrap gap-2">
-                        <a type="button" class="shadow btn btn-success mt-3 flex-grow-1" asp-action="Scheduling" asp-controller="Admin" asp-route-monthId="MonthName">View Current Month Shifts</a>
+                        <a type="button" class="shadow btn btn-success mt-3 flex-grow-1" onclick="ViewCurrentMonthShift()">View Current Month Shifts</a>
                         <button type="button" class="shadow btn btn-success text-white mt-3 flex-grow-1" onclick="approveShifts()">Approve Selected</button>
                         <button type="button" class="shadow btn btn-danger text-white mt-3 flex-grow-1" onclick="deleteShifts()">Delete Selected</button>
                     </div>
@@ -93,6 +93,10 @@
         }
     }
 
+    function ViewCurrentMonthShift() {
+        window.location = "/Admin/Scheduling";
+        localStorage.setItem('type', 'Month');
+    }
 
     addClassBasedOnWidth();
     window.addEventListener("resize", addClassBasedOnWidth);

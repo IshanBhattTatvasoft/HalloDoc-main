@@ -47,6 +47,7 @@
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
                         <select class="form-select" aria-label="Default select example" onchange="selectBusiness()" id="select-profession">
+                            <option value="0" selected disabled>Select Profession</option>
                             @foreach (var item in Model.hpType)
                             {
                                 <option value="@item.HealthProfessionalId" class="bg-white">@item.ProfessionName</option>

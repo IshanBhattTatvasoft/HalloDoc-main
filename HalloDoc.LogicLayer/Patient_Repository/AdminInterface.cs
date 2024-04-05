@@ -245,12 +245,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             DateOnly checkdate = new DateOnly(0001, 1, 1);
 
 
-            if (email != null || email!="")
+            if (email != null || email != "")
             {
                 query = query.Where(r => r.Email.ToLower().Contains(email.ToLower()));
             }
 
-            if(phoneNo != null || phoneNo!="")
+            if (phoneNo != null || phoneNo != "")
             {
                 query = query.Where(r => r.PhoneNumber.Contains(phoneNo));
             }
@@ -286,6 +286,73 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             };
 
             return bhvm;
+        }
+
+        SearchRecordsViewModel IAdminInterface.SearchRecordsFilteredData(AdminNavbarModel an)
+        {
+            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).OrderByDescending(e => e.CreatedDate);
+
+            SearchRecordsViewModel sr = new SearchRecordsViewModel();
+            sr.adminNavbarModel = an;
+
+            foreach (var item in query)
+            {
+                SearchRecordsTableData srt = new SearchRecordsTableData();
+                RequestStatusLog rsl = _context.RequestStatusLogs.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
+                RequestStatusLog requestStatusLogForDOS = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 2).FirstOrDefault();
+                RequestStatusLog requestStatusLogForCCD = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 9).FirstOrDefault();
+                RequestNote rn = _context.RequestNotes.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
+                Physician p = _context.Physicians.Where(rs => rs.PhysicianId == requestStatusLogForCCD.PhysicianId).FirstOrDefault();
+                srt.patientName = item.RequestClient.FirstName + ", " + item.RequestClient.LastName;
+                srt.requestor = item.RequestTypeId;
+                if (item.Status == 2)
+                {
+                    srt.dateOfService = DateOnly.FromDateTime(requestStatusLogForDOS.CreatedDate);
+                }
+                if (item.Status == 9)
+                {
+                    srt.closeCaseDate = DateOnly.FromDateTime(requestStatusLogForCCD.CreatedDate);
+                }
+                srt.email = item.RequestClient.Email;
+                srt.phoneNumber = item.RequestClient.PhoneNumber;
+                srt.address = item.RequestClient.Street + ", " + item.RequestClient.City + ", " + item.RequestClient.State;
+                srt.zipcode = item.RequestClient.ZipCode;
+                srt.physician = "Dr. " + p.FirstName;
+                srt.physicianNote = (requestStatusLogForCCD == null) ? "-" : requestStatusLogForCCD.Notes;
+                srt.cancelledByProviderNote = "-";
+                srt.adminNote = (rn == null) ? "-" : rn.AdminNotes;
+                srt.patientNote = rsl.Notes;
+                sr.tableData.Add(srt);
+            }
+
+            return sr;
+        }
+
+        public VendorsViewModel VendorsFilteredData(AdminNavbarModel an, string? name = "", int? professionalId = -1, int page = 1, int pageSize = 10)
+        {
+            List<HealthProfessional> hp = _context.HealthProfessionals.ToList();
+
+            IQueryable<HealthProfessional> query = _context.HealthProfessionals.OrderByDescending(r => r.CreatedDate);
+
+            if(name!="" && name!=null)
+            {
+                query = query.Where(r => r.VendorName.ToLower().Contains(name.ToLower()));
+            }
+
+            if(professionalId!=null && professionalId!=-1)
+            {
+                query = query.Where(r => r.Profession == professionalId);
+            }
+
+            VendorsViewModel v = new VendorsViewModel { 
+                vendorsTableData = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = query.Count(),
+                TotalPages = (int)Math.Ceiling((double)query.Count() / pageSize),
+            };
+
+            return v;
         }
 
         public void ChangeNotificationValue(int id)
@@ -395,7 +462,20 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<Physician> FetchPhysicianByRegion(int RegionId)
         {
-            return _context.Physicians.Where(p => p.RegionId == RegionId).ToList();
+            //List<PhysicianRegion> pr = _context.PhysicianRegions.Where(p2 => p2.RegionId == RegionId).ToList();
+            //List<Physician> p = new List<Physician>();
+
+            //foreach(var item in pr)
+            //{
+            //    Physician p1 = _context.Physicians.Where(ph => ph.PhysicianId == item.PhysicianId).FirstOrDefault();
+            //    p.Add(p1);
+            //}
+
+            //return p;
+
+            BitArray isDeleted = new BitArray(1, false);
+
+            return _context.PhysicianRegions.Where(pr => pr.RegionId == RegionId && pr.Physician.IsDeleted == isDeleted).Select(ph => ph.Physician).ToList();
         }
 
         public void AddBlockRequestData(BlockRequest br)
@@ -1012,11 +1092,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public void SavePasswordOfPhysician(EditProviderAccountViewModel model)
         {
-            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
+            Physician physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
             AspNetUser user = _context.AspNetUsers.FirstOrDefault(r => r.Id == physician.AspNetUserId);
 
             user.PasswordHash = model.Password;
             physician.ModifiedDate = DateTime.Now;
+            _context.Physicians.Update(physician);
+            _context.AspNetUsers.Update(user);
             _context.SaveChanges();
         }
 
@@ -1388,7 +1470,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        
+
 
         public List<string> GetAllMenus(string roleId)
         {
@@ -1425,12 +1507,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             List<RequestedShiftsData> rsd = new List<RequestedShiftsData>();
             List<ShiftDetail> sd = _context.ShiftDetails.Where(s => s.Status == 0).ToList();
 
-            if(regionId!=-1 && regionId!=null)
+            if (regionId != -1 && regionId != null)
             {
                 sd = sd.Where(r => r.RegionId == regionId).ToList();
             }
 
-            foreach(var item in sd)
+            foreach (var item in sd)
             {
                 DataLayer.Models.Region r = _context.Regions.Where(re => re.RegionId == item.RegionId).FirstOrDefault();
                 Shift s = _context.Shifts.Where(s => s.ShiftId == item.ShiftId).FirstOrDefault();
@@ -1460,11 +1542,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        public List<ShiftDetail> GetScheduleData()
+        public List<ShiftDetail> GetScheduleData(int RegionId)
         {
             try
             {
-                return _context.ShiftDetails.Include(m => m.Shift).Where(m => m.IsDeleted == new System.Collections.BitArray(new[] { false })).ToList();
+                var allphyRegion = _context.PhysicianRegions.ToList();
+                return _context.ShiftDetails.Include(m => m.Shift).Where(m => (RegionId == 0 || m.RegionId == RegionId) && m.IsDeleted == new System.Collections.BitArray(new[] { false })).ToList();
+
             }
             catch { return new List<ShiftDetail> { }; }
         }
@@ -1499,11 +1583,15 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
         }
 
-        public string GetPhysicianNameFromId(int id)
+        public string GetPhysicianNameFromId(int id, int shiftId)
         {
             Physician p = _context.Physicians.Where(s => s.PhysicianId == id).FirstOrDefault();
-            return p.FirstName + ", " + p.LastName + ", " + p.City;
+            ShiftDetail shiftDetail = _context.ShiftDetails.Where(s => s.ShiftId == shiftId).FirstOrDefault();
+            DataLayer.Models.Region r = _context.Regions.Where(re => re.RegionId == shiftDetail.RegionId).FirstOrDefault();
+            return p.FirstName + ", " + p.LastName + ", " + r.Abbreviation;
         }
+
+
 
         public EditViewShiftModel GetViewShift(int ShiftDetailId)
         {
@@ -1579,7 +1667,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == ShiftDetailId);
                 if (shiftDetail != null)
                 {
-                    shiftDetail.IsDeleted = new BitArray(1,true);
+                    shiftDetail.IsDeleted = new BitArray(1, true);
                     _context.SaveChanges();
                     return true;
                 }
@@ -1599,7 +1687,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             shift.StartDate = DateOnly.FromDateTime((DateTime)model.startDate);
 
             // check if shift is repeated or not
-            if(model.repeat != 0)
+            if (model.repeat != 0)
             {
                 shift.IsRepeat = new BitArray(1, true);
             }
@@ -1647,24 +1735,24 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.ShiftDetails.Add(sd);
 
             // if shift is repeated and atleast one checkbox is checked
-            if(shift.IsRepeat != new BitArray(1,false) && RepeatedDays != null)
+            if (shift.IsRepeat != new BitArray(1, false) && RepeatedDays != null)
             {
                 int current = 0; //variable to count and stop when the total numbered of entered data is greater than 'total'
                 int total = RepeatedDays.Count() * (int)model.repeat; //total number of entries in ShiftDetail other than current entry (when we submit)
-                
-                for(int i=0;i<=model.repeat;i++)
+
+                for (int i = 0; i <= model.repeat; i++)
                 {
                     DateTime shiftDate = (DateTime)model.startDate;
                     DateTime tempdate = new DateTime();
-                    
+
                     // when we want to store the repeated shift related data in current week
-                    if(i==0)
+                    if (i == 0)
                     {
                         // if day of shiftDate is wednesday, then 0-4 = -4 i.e. day of tempdate would be sunday
                         tempdate = shiftDate.AddDays((7 * i) - (int)shiftDate.DayOfWeek);
 
                         // make entry for each checked day
-                        foreach(var day in RepeatedDays)
+                        foreach (var day in RepeatedDays)
                         {
                             // if checked day is greater than day of shiftDate, which is Sunday
                             if (day > (int)shiftDate.DayOfWeek)
@@ -1688,8 +1776,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     else
                     {
                         // start from Sunday of next week
-                        tempdate = shiftDate.AddDays((7*i) - (int)shiftDate.DayOfWeek);
-                        for(int j=0;j<7;j++)
+                        tempdate = shiftDate.AddDays((7 * i) - (int)shiftDate.DayOfWeek);
+                        for (int j = 0; j < 7; j++)
                         {
                             // break when number of entered entries in ShiftDetail increases than total variable
                             if (total <= current)
@@ -1698,7 +1786,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                             }
 
                             // check if j ==  any of the checked day and if that is true, do entry in table and set current = current + 1;
-                            if(RepeatedDays.Any(r => r == j))
+                            if (RepeatedDays.Any(r => r == j))
                             {
                                 ShiftDetail shiftDetail2 = new ShiftDetail();
                                 shiftDetail2.Shift = shift;
@@ -1724,7 +1812,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void ApproveSelectedShifts(string shiftDetailIdString)
         {
             string[] detailId = shiftDetailIdString.Split(',').Select(x => x.Trim()).ToArray();
-            for(int i=0;i<detailId.Length;i++)
+            for (int i = 0; i < detailId.Length; i++)
             {
                 ShiftDetail sd = _context.ShiftDetails.Where(s => s.ShiftDetailId == int.Parse(detailId[i])).FirstOrDefault();
                 sd.Status = 1;
@@ -1736,7 +1824,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void DeleteSelectedShifts(string shiftDetailIdString)
         {
             string[] detailId = shiftDetailIdString.Split(',').Select(x => x.Trim()).ToArray();
-            for(int i = 0; i < detailId.Length; i++)
+            for (int i = 0; i < detailId.Length; i++)
             {
                 ShiftDetail sd = _context.ShiftDetails.Where(s => s.ShiftDetailId == int.Parse(detailId[i])).FirstOrDefault();
                 sd.IsDeleted = new BitArray(1, true);
@@ -1751,7 +1839,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             List<Physician> onCall = new List<Physician>();
             List<Physician> offDuty = new List<Physician>();
 
-            List<ShiftDetail> shifts = _context.ShiftDetails.Where(s => s.ShiftDate.Date == DateTime.Now.Date && TimeOnly.FromDateTime(DateTime.Now) >= s.StartTime && TimeOnly.FromDateTime(DateTime.Now) <= s.EndTime && s.Status==1 && s.IsDeleted == new BitArray(1,false)).Include(sh => sh.Shift).Include(shi => shi.Shift.Physician).ToList();
+            List<ShiftDetail> shifts = _context.ShiftDetails.Where(s => s.ShiftDate.Date == DateTime.Now.Date && TimeOnly.FromDateTime(DateTime.Now) >= s.StartTime && TimeOnly.FromDateTime(DateTime.Now) <= s.EndTime && s.Status == 1 && s.IsDeleted == new BitArray(1, false)).Include(sh => sh.Shift).Include(shi => shi.Shift.Physician).ToList();
 
             foreach (var item in shifts)
             {
@@ -1759,9 +1847,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 onCall.Add(p);
             }
 
-            foreach(var item in allPhysician)
+            foreach (var item in allPhysician)
             {
-                if(onCall.Any(r=>r==item))
+                if (onCall.Any(r => r == item))
                 {
                     continue;
                 }
@@ -1781,5 +1869,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             return moc;
         }
+
+        //public void EmailLogSendOrder
     }
 }

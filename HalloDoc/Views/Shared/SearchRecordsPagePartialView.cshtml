@@ -1,5 +1,63 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model HalloDoc.DataLayer.ViewModels.SearchRecordsViewModel
+@using static HalloDoc.DataLayer.Models.Enums;
+
+<div class="table-responsive d-none d-md-block">
+    <table class="table mt-0">
+        <thead class="table-secondary">
+            <tr>
+                <th class="text-muted">Patient Name</th>
+                <th class="text-muted">Requestor</th>
+                <th class="text-muted">Date Of Service</th>
+                <th class="text-muted">Case Close Date<i class="fa-solid fa-arrow-down" style="color: #6D6D6C;"></i></th>
+                <th class="text-muted">Email</th>
+                <th class="text-muted">Phone Number</th>
+                <th class="text-muted">Address</th>
+                <th class="text-muted">Zip</th>
+                <th class="text-muted">Request Status</th>
+                <th class="text-muted">Physician</th>
+                <th class="text-muted">Physician Note</th>
+                <th class="text-muted">Cancelled By Provider Note</th>
+                <th class="text-muted">Admin Note</th>
+                <th class="text-muted">Patient Note</th>
+                <th class="text-muted">Delete Permanently</th>
+            </tr>
+        </thead>
+        @foreach (var item in Model.tableData)
+        {
+            <tr>
+                <td>@item.patientName</td>
+                <td>
+                    @if(item.requestor == 1)
+                    {
+                        <span>Patient</span>
+                    }
+                    else if(item.requestor == 2)
+                    {
+                        <span>Family</span>
+                    }
+                    else if(item.requestor == 3)
+                    {
+                        <span>Concierge</span>
+                    }
+                    else
+                    {
+                        <span>Business</span>
+                    }
+                </td>
+                <td>@item.dateOfService</td>
+                <td>@item.closeCaseDate</td>
+                <td>@item.email</td>
+                <td>@item.phoneNumber</td>
+                <td>@item.address</td>
+                <td>@item.zipcode</td>
+                <td>@Enum.GetName(typeof(Status), item.requestStatus)</td>
+                <td>@item.physician</td>
+                <td>@item.physicianNote</td>
+                <td>@item.cancelledByProviderNote</td>
+                <td>@item.adminNote</td>
+                <td>@item.patientNote</td>
+                <td class="text-end"><a type="button" asp-action="DeleteFromSearchRecord" asp-controller="Admin" class="btn btn-outline-info ps-auto pe-auto">Delete</a></td>
+            </tr>
+        }
+    </table>
+</div>

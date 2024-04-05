@@ -1,0 +1,92 @@
+﻿@using static HalloDoc.DataLayer.Models.Enums;
+@model HalloDoc.DataLayer.ViewModels.VendorsViewModel
+@{
+    ViewData["Title"] = "Vendors";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/vendors.css" />
+}
+
+<div class="bg-light h-100">
+    <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+
+    <partial name="Toast" />
+
+    <div class="container-fluid">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col me-5">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="PatientHistory" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col mt-2 ms-5">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Vendor(s)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white mt-4 rounded ms-5 me-5">
+            <div class="d-flex justify-content-between searches">
+                <div class="row w-auto">
+                    <div class="col form-floating d-inline-block w-auto ms-3 me-2 mt-3">
+                        <input type="text" id="first-name" class="form-control search-input"
+                               placeholder="First Name" onchange="filter()">
+                        <label for="floatingInput" class="ms-2 text-muted">Search Vendors</label>
+                    </div>
+                    <div class="col form-floating d-inline-block w-auto mt-3">
+                        <select class="form-select" id="select-professional" asp-for="professionId" onchange="filter()">
+                            <option selected disabled value="-1">Search Vendor</option>
+                            @for (int y = 0; y < Model.professionType.Count; y++)
+                            {
+                                <option value="@Model.professionType[y].HealthProfessionalId"> @Model.professionType[y].ProfessionName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div>
+                    <button type="button" class="btn btn-outline-info me-3 mt-3"><i class="fa-solid fa-plus me-1" style="color: #9BBABA;"></i>Add Business</button>
+                </div>
+            </div>
+
+            <div>
+                <div class="mt-4 ms-3 me-3 myTable" id="VendorsPartialView"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = () => {
+        filter(1,10);
+    }
+
+    const filter = (p, ps) => {
+
+        var name = document.getElementById('first-name').value;
+        var professional = document.getElementById('select-professional').value;
+
+        $.ajax({
+            url: '/Admin/VendorsFilteredData',
+            type: 'POST',
+            datatype: 'html',
+            data: {name: name, professionalId: professional, page: p, pageSize: ps},
+            success: function(response){
+                $("#VendorsPartialView").html(response);
+            },
+            error: function(error){
+                alert("An error occurred");
+            }
+        });
+    }
+</script>

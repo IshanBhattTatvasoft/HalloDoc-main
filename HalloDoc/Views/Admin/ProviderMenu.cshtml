@@ -58,22 +58,9 @@
 </div>
 
 <script>
-    $.ajax({
-        url: '/Admin/ProviderMenuFilter',
-        type: 'POST',
-        datatype: 'html',
-        data: {
-            region: document.getElementById("select-region").value
-        },
-        success: function (response) {
-            $("#ProviderMenuPagePartialView").html(response);
-
-        },
-        error: function () {
-            alert('An error occurred.');
-        }
-
-    });
+    window.onload = () => {
+        filter(1,10);
+    }
 
 
     function filter(page, pageSize) {
@@ -110,23 +97,27 @@
         });
     }
 
-    function fetchEmail(email) {
+    function setId(id, email, num) {
+        document.getElementById('physicianId').value = id;
         document.getElementById('phy-email').value = email;
+        document.getElementById('phy-num').value = num;
+        console.log(document.getElementById('physicianId').value);
         console.log(document.getElementById('phy-email').value);
+        console.log(document.getElementById('phy-num').value);
     }
 
-    function sendMessageToPhy(email, msg) {
+    function sendMessageToPhy(email, mobile, msg) {
         console.log("hey");
         const selectedRadio = document.querySelector('input[name="flexRadioDefault"]:checked');
 
         const labelForRadio = document.querySelector(`label[for="${selectedRadio.id}"]`);
         var label = labelForRadio.textContent.trim();
-
+        console.log(label);
         $.ajax({
             url: '/Admin/SendMessageToPhysician',
             type: 'POST',
             datatype: 'html',
-            data: { sendType: label, email: email, message: msg },
+            data: { sendType: label, email: email, phoneNo: mobile, message: msg },
             success: function (response) {
                 console.log("hello");
             },

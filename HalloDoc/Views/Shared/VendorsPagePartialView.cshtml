@@ -1,0 +1,139 @@
+﻿@using static HalloDoc.DataLayer.Models.Enums;
+@model HalloDoc.DataLayer.ViewModels.VendorsViewModel
+
+<div class="table-responsive d-none d-md-block mt-3">
+    <table class="table mb-0">
+        <thead class="table-secondary">
+            <tr>
+                <th>Profession</th>
+                <th>Business Name</th>
+                <th>Email</th>
+                <th>Fax Number</th>
+                <th>Phone Number</th>
+                <th>Business Contact</th>
+                <th class="text-end">Actions</th>
+            </tr>
+        </thead>
+
+        @foreach(var item in Model.vendorsTableData)
+        {
+            <tr>
+                <td>
+                    @if(item.Profession == 1)
+                    {
+                        <span>Pharmacy</span>
+                    }
+                    @if (item.Profession == 2)
+                    {
+                        <span>Wound Care Nursing</span>
+                    }
+                    @if (item.Profession == 3)
+                    {
+                        <span>Cardiology</span>
+                    }
+                    @if(item.Profession == 4)
+                    {
+                        <span>ENT</span>
+                    }
+                    @if(item.Profession == 5)
+                    {
+                        <span>Dentist</span>
+                    }
+                    @if (item.Profession == 6)
+                    {
+                        <span>Imaging-Xray, CT, MRI</span>
+                    }
+                </td>
+                <td>@item.VendorName</td>
+                <td>@item.Email</td>
+                <td>@item.FaxNumber</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.BusinessContact</td>
+                <td>
+                    <button type="button" class="btn btn-outline-info">Edit</button>
+                    <button type="button" class="btn btn-outline-info">Delete</button>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+
+@*vendors page mobile view*@
+<div class="d-md-none">
+    <div class="accordion accordion-flush" id="accordionExample">
+        @foreach (var item in Model.vendorsTableData)
+        {
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-heading@(item.VendorId)">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(@item.VendorId)" aria-expanded="false" aria-controls="collapseThree(@item.VendorId)" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100 mb-3">
+                            <span>@item.VendorName</span>
+                        </div>
+                    </button>
+                </h2>
+
+                <div id="collapseThree(@item.VendorId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.VendorId) data-bs-parent="#accordionExample">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+                        <div style="position: relative;">
+                            <div>
+                                <span><i class="fa-regular fa-regular-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px;"></i>Email: @item.Email</span>
+                            </div>
+
+                            <div class="mt-3">
+                                <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Fax: @item.FaxNumber</span>
+                            </div>
+
+                            <div class="mt-3">
+                                <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone Number: @item.PhoneNumber</span>
+                            </div>
+
+                            <div class="mt-3">
+                                <span><i class="fa-regular fa-regular-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px;"></i>Business Contact: @item.BusinessContact</span>
+                            </div>
+
+                            <div class="w-100">
+                                <div class="w-100 d-flex align-items-center justify-content-center mt-2">
+                                    <a class="btn btn-outline-info text-decoration-none text-info w-100 ms-4 me-4" asp-action="ViewCase" asp-controller="Admin">Edit</a>
+                                </div>
+                                <div class="d-flex align-items-center justify-content-center mt-2">
+                                    <a class="btn btn-outline-info w-100 ms-4 me-4" asp-controller="Admin" asp-action="ViewUploads">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="pagination mt-3">
+    <span style="margin-right:10px;">Page No:</span>
+    @if (Model.CurrentPage > 1)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@(Model.CurrentPage - 1)" class="mx-4 text-decoration-none pagination-text">Previous</a>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@i" class="@(i == Model.CurrentPage ? "pagination-active" : "") mx-4 text-decoration-none pagination-text">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important;" data-page="@(Model.CurrentPage + 1)" class="mx-4 text-decoration-none pagination-text">Next</a>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.pagination a').click(function (e) {
+            e.preventDefault();
+            //console.log("hiiiiiii");
+            var page = $(this).attr('data-page');
+
+            filter(page, 10);
+        });
+    });
+</script>

@@ -18,6 +18,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public PatientHistoryViewModel PatientRecordsData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
         public ProviderMenuViewModel ProviderMenuFilteredData(AdminNavbarModel an, int? region, int page = 1, int pageSize = 10);
         public PatientHistoryViewModel PatientRecordsFilteredData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
+        public SearchRecordsViewModel SearchRecordsFilteredData(AdminNavbarModel an);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);
@@ -109,7 +110,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<string> GetAllMenus(string roleId);
         public List<BlockedHistoryData> GetBlockedHistoryData();
         public void UnblockRequest(int id);
-        public List<ShiftDetail> GetScheduleData();
+        public List<ShiftDetail> GetScheduleData(int RegionId);
         public List<SchedulingViewModel> GetProviderInformation(int Region);
         public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
         public EditViewShiftModel GetViewShift(int ShiftDetailId);
@@ -121,8 +122,9 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void ApproveSelectedShifts(string shiftDetailIdString);
         public void DeleteSelectedShifts(string shiftDetailIdString);
         public MdsOnCallViewModel GetMdsData(AdminNavbarModel an);
-        public string GetPhysicianNameFromId(int id);
+        public string GetPhysicianNameFromId(int id, int shiftId);
         public List<PhysicianLocation> GetPhysicianLocation();
+        public VendorsViewModel VendorsFilteredData(AdminNavbarModel an, string? name = "", int? professionalId = -1, int page = 1, int pageSize = 10);
 
 
     }

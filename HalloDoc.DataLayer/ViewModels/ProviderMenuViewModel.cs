@@ -20,6 +20,10 @@ public class ProviderMenuViewModel
     public int PageSize { get; set; }
     public int TotalItems { get; set; }
     public int TotalPages { get; set; }
+    public int? phyId { get; set; }
+    public string? messageType { get; set; }
+    public string? email { get; set; }
+    public string? phoneNumber { get; set; }
     public string? sendMessage { get; set; }
 }
 

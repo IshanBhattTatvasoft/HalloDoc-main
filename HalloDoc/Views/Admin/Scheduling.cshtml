@@ -60,7 +60,7 @@
         background-color: dimgray;
     }
 
-    .fc-event-title{
+    .fc-event-title {
         white-space: wrap;
     }
 
@@ -87,7 +87,7 @@
         margin-top: 1px !important;
     }
 
-    .fc-license-message{
+    .fc-license-message {
         display: none;
     }
 
@@ -98,11 +98,11 @@
         align-items: center !important;
     }
 
-    .fc-datagrid-cell-main img {
-        width: 40px;
-        height: 40px;
-        margin-right: 2px;
-    }
+        .fc-datagrid-cell-main img {
+            width: 40px;
+            height: 40px;
+            margin-right: 2px;
+        }
 
     #hidden_datepicker {
         opacity: 0;
@@ -204,7 +204,7 @@
 
         </div>
     </div>
-    <input type="hidden" id="month-val" value="0"/>
+    <input type="hidden" id="month-val" value="0" />
     <div id="CreateShift"></div>
     <div id="ViewShift"></div>
 
@@ -346,39 +346,43 @@
 
 <script>
 
+    window.addEventListener('beforeunload', function () {
+        // Delete the specific local storage item
+        localStorage.removeItem('type');
+    });
+
     $("#hidden_datepicker").change(function (dateText) {
         calendar.gotoDate(dateText.target.value);
     });
 
+    document.addEventListener('DOMContentLoaded', function () {
 
-    var calendar;
-    GetCalendar(0);
-    function GetCalendar(RegionId) {
+
         var calendarEl = document.getElementById('calendar');
         calendar = new FullCalendar.Calendar(calendarEl, {
             height: 'auto',
-            //schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
+            schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
             themeSystem: 'bootstrap5',
             headerToolbar: false,
             initialView: 'resourceTimeline',
             eventDisplay: 'block',
+            resourceAreaHeaderContent: 'Providers',
             datesSet: function (info) {
                 var title = info.view.title;
-                $("#calendarTitle").html(title);
+                document.getElementById("calendarTitle").innerHTML = title;
+                loadResources();
+                loadShifts();
             },
-            resourceAreaColumns: [{
-                headerContent: 'Staff',
-            }],
-            
             eventTimeFormat: {
-                hour: 'numeric', 
-                minute: '2-digit', 
-                meridiem: 'short' 
+                hour: 'numeric',
+                minute: '2-digit',
+                meridiem: 'short'
             },
 
             eventClick: function (info, jsEvent, view) {
                 ViewShift(info.event.id);
             },
+
             views: {
                 resourceTimelineWeek: {
 
@@ -388,58 +392,69 @@
             },
             resourceLabelDidMount: function (resourceObj) {
                 const img = document.createElement('img');
-                img.src = resourceObj.resource.extendedProps.imageUrl || "/images/doctor-person.png";
+                img.src = resourceObj.resource.extendedProps.imageUrl || "/images/doc-ico.png";
                 img.style.maxHeight = '40px';
                 resourceObj.el.querySelector('.fc-datagrid-cell-main').appendChild(img);
+
             },
-            resources: "/Admin/GetProviderDetailsForSchedule?RegionId=" + RegionId,
-            events: "/Admin/GetScheduleData",
+            // resources: "/Admin/GetProviderDetailsForSchedule?RegionId=" + RegionId,
+            // events: "/admin/getscheduledata",
         });
+        let type1 = localStorage.getItem('type') || 'Day';
+        $("#" + type1).click();
         calendar.render();
-        calendar.addResource({
-            id: 'new_resource_id', // Unique ID for the new resource
-            title: 'New Resource', // Title for the new resource
-            //extendedProps: {
-            //    imageUrl: '/images/new_resource_image.png' // Optional: image URL for the new resource
-            //}
-        }, {
-            beforeRender: function (renderInfo) {
-                // Move the new resource to the top
-                if (renderInfo.resource.id === 'new_resource_id') {
-                    renderInfo.resource.moveBefore(renderInfo.resources.get('resource_id_of_first_resource'));
-                }
-            }
-        });
-    }
-    let calendarNext = () => calendar.next();
-    let calendarPrev = () => calendar.prev();
-    let calendarToday = () => calendar.today();
-    //var x = document.getElementById("month-val").value;
+    })
+    
     //console.log(x);
     //if (x != null || x != undefined) {
     //    calendar.changeView('dayGridMonth');
     //}
-    let changeView = (type) => calendar.changeView(type);
 
     // filtering based on region
-    function filter()
-    {
-        var regionId = document.getElementById("Role").value;
+    let calendarNext = () => calendar.next();
+    let calendarPrev = () => calendar.prev();
+    let calendarToday = () => calendar.today();
+    //var x = document.getElementById("month-val").value;
+    let changeView = (type) => calendar.changeView(type);
 
+    function loadResources() {
         $.ajax({
             url: '/Admin/GetProviderDetailsForSchedule',
-            datatype: 'html',
-            data: { RegionId : regionId},
-            success: function(response){
-                GetCalendar(regionId);
+            data: { RegionId: $("#Role").val() },
+            type: 'GET',
+            success: function (data) {
+                var resources = calendar.getResources();
+                resources.forEach(function (resource) {
+                    resource.remove();
+                });
+                data.forEach(function (event) {
+                    calendar.addResource(event);
+                });
             },
-            error: function(response){
-                alert("An error occurred");
+            error: function (xhr, status, error) {
+                toastr.error('Error fetching schedule data:', error);
+            }
+        });
+    }
+    function loadShifts() {
+        $.ajax({
+            url: '/Admin/GetScheduleData',
+            data: { RegionId: $("#Role").val() },
+            type: 'GET',
+            success: function (data) {
+                calendar.removeAllEvents();
+                data.forEach(function (event) {
+                    calendar.addEvent(event);
+                });
+            },
+            error: function (xhr, status, error) {
+                toastr.error('Error fetching schedule data:', error);
             }
         });
     }
 
-    
+
+
     // View shift data
     function ViewShift(ShiftDetailId) {
         $.ajax({
@@ -602,5 +617,12 @@
             return timeDiff >= 30; // Check if difference is at least 30 minutes
         }
     });
+    function filter() {
+       
 
+        loadShifts();
+        loadResources();
+
+
+    }
 </script>

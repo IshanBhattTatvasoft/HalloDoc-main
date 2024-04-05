@@ -779,6 +779,7 @@
                 // stores RegionId in regionId variable and this variable is passed to the controller
                 data: { regionId: selectedRegionId },
                 success: function (data) {
+                    console.log("Success");
                     // to remove the previously present physicians selected based on a different region
                     $("#select-physician").empty();
                     $("#select-physician").append('<option value="" disabled selected>Select Physician</option>');
