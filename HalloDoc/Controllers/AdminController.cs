@@ -1023,13 +1023,13 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
 
                 Request r = _adminInterface.ValidateRequest(model.RequestId);
-                r.Status = 2;
+                r.Status = 1;
                 r.PhysicianId = selectedPhysicianId;
 
                 RequestStatusLog rsl = new RequestStatusLog();
                 rsl.RequestId = model.RequestId;
                 rsl.Notes = assignCaseDescription;
-                rsl.Status = 2;
+                rsl.Status = 1;
                 rsl.CreatedDate = DateTime.Now;
                 rsl.TransToPhysicianId = selectedPhysicianId;
                 rsl.PhysicianId = selectedPhysicianId;
@@ -3790,7 +3790,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "SearchRecords")]
-        public IActionResult SearchRecordsFilteredData()
+        public IActionResult SearchRecordsFilteredData(int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNumber = null, int page = 1, int pageSize = 10)
         {
             try
             {
@@ -3803,7 +3803,7 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                SearchRecordsViewModel sr = _adminInterface.SearchRecordsFilteredData(an);
+                SearchRecordsViewModel sr = _adminInterface.SearchRecordsFilteredData(an, page, pageSize, requestStatus, patientName, requestType, fromDate, toDate, providerName, email, phoneNumber);
                 return PartialView("SearchRecordsPagePartialView", sr);
             }
 
@@ -3865,6 +3865,147 @@ namespace HalloDoc.Controllers
             {
                 TempData["error"] = "Unable to view vendors information";
                 return RedirectToAction("AdmiDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Partners")]
+        public IActionResult AddBusiness()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 8;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                AddVendorViewModel av = new AddVendorViewModel 
+                { 
+                    adminNavbarModel = an,
+                    professionType = _adminInterface.GetHealthProfessionalType(),
+                    allRegions = _adminInterface.GetAllRegion()
+                };
+                return View(av);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to add vendors data";
+                return RedirectToAction("Vendors");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Partners")]
+        public IActionResult AddNewBusiness(AddVendorViewModel model)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 8;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                if(_adminInterface.AddNewVendor(model))
+                {
+                    TempData["success"] = "New vendor added successfully";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to add new vendor";
+                }
+                return RedirectToAction("Vendors");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to add vendors data";
+                return RedirectToAction("Vendors");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Partners")]
+        public IActionResult EditBusiness(int id)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 8;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                AddVendorViewModel av = _adminInterface.GetVendorDataFromId(id, an);
+                return View(av);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit vendor data";
+                return RedirectToAction("Vendors");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Partners")]
+        public IActionResult SaveEditedBusinessInfo(AddVendorViewModel model, int id)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 8;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                if (_adminInterface.SaveEditedBusinessInfo(model,id))
+                {
+                    TempData["success"] = "Vendor info edited successfully";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to edit vendor info";
+                }
+                return RedirectToAction("Vendors");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to edit vendor data";
+                return RedirectToAction("Vendors");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Partners")]
+        public IActionResult DeleteBusinessProfile(int id)
+        {
+            try
+            {
+                if(_adminInterface.DeleteBusinessProfile(id))
+                {
+                    TempData["success"] = "Profile deleted successfully";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to delete the profile";
+                }
+                return RedirectToAction("Vendors");
+            }
+            catch(Exception ex)
+            {
+                TempData["error"] = "An error occured";
+                return RedirectToAction("Vendors");
             }
         }
 

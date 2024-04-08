@@ -36,28 +36,30 @@
         </div>
 
         <div class="bg-white mt-4 rounded ms-5 me-5">
-            <div class="d-flex justify-content-between searches">
-                <div class="row w-auto">
-                    <div class="col form-floating d-inline-block w-auto ms-3 me-2 mt-3">
+            <div class="w-auto search-and-dropdown">
+                <div class="w-auto">
+                    <div class="form-floating d-inline-block ms-3 me-2 mt-3 search">
                         <input type="text" id="first-name" class="form-control search-input"
-                               placeholder="First Name" onchange="filter()">
+                               placeholder="First Name" onkeyup="filter()">
                         <label for="floatingInput" class="ms-2 text-muted">Search Vendors</label>
                     </div>
-                    <div class="col form-floating d-inline-block w-auto mt-3">
+
+                    <div class="form-floating d-inline-block ms-3 me-2 mt-3 search">
                         <select class="form-select" id="select-professional" asp-for="professionId" onchange="filter()">
-                            <option selected disabled value="-1">Search Vendor</option>
+                            <option selected value="-1">Search Vendor</option>
                             @for (int y = 0; y < Model.professionType.Count; y++)
                             {
                                 <option value="@Model.professionType[y].HealthProfessionalId"> @Model.professionType[y].ProfessionName</option>
                             }
                         </select>
                     </div>
-                </div>
 
-                <div>
-                    <button type="button" class="btn btn-outline-info me-3 mt-3"><i class="fa-solid fa-plus me-1" style="color: #9BBABA;"></i>Add Business</button>
+                </div>
+                <div class="d-flex justify-content-end w-auto">
+                    <a type="button" class="btn btn-outline-info me-3 mt-3" asp-action="AddBusiness" asp-controller="Admin"><i class="fa-solid fa-plus me-1" style="color: #39CBEC;"></i><span class="d-none d-md-inline-block">Add Business</span></a>
                 </div>
             </div>
+
 
             <div>
                 <div class="mt-4 ms-3 me-3 myTable" id="VendorsPartialView"></div>
@@ -68,7 +70,7 @@
 
 <script>
     window.onload = () => {
-        filter(1,10);
+        filter(1, 10);
     }
 
     const filter = (p, ps) => {
@@ -80,11 +82,11 @@
             url: '/Admin/VendorsFilteredData',
             type: 'POST',
             datatype: 'html',
-            data: {name: name, professionalId: professional, page: p, pageSize: ps},
-            success: function(response){
+            data: { name: name, professionalId: professional, page: p, pageSize: ps },
+            success: function (response) {
                 $("#VendorsPartialView").html(response);
             },
-            error: function(error){
+            error: function (error) {
                 alert("An error occurred");
             }
         });

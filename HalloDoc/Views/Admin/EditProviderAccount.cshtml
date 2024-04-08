@@ -198,10 +198,10 @@
                     <span asp-validation-for="City" class="text-danger"></span>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <select class="form-select mb-3 Change2 bg-secondary-subtle" id="State" name="State" readonly>
-                        @for (int x = 0; x < Model.selectedregions.Count; x++)
+                    <select class="form-select mb-3 Change2 bg-secondary-subtle" id="State" asp-for="regionId" readonly>
+                        @for (int x = 0; x < Model.regions.Count; x++)
                         {
-                            <option value="@Model.selectedregions[x].RegionId">@Model.selectedregions[x].Name</option>
+                            <option value="@Model.regions[x].RegionId">@Model.regions[x].Name</option>
                         }
                     </select>
                     <label for="State" class="ms-2 text-muted">State</label>

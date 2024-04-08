@@ -11,7 +11,7 @@ public class VendorsViewModel
 {
     public List<HealthProfessional> vendorsTableData { get; set; }
     public AdminNavbarModel adminNavbarModel { get; set; }
-    public HealthProfessionalType professionType { get; set; }
+    public List<HealthProfessionalType> professionType { get; set; }
     public int? professionId { get; set; }
     public int CurrentPage { get; set; }
     public int PageSize { get; set; }

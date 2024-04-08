@@ -18,7 +18,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public PatientHistoryViewModel PatientRecordsData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
         public ProviderMenuViewModel ProviderMenuFilteredData(AdminNavbarModel an, int? region, int page = 1, int pageSize = 10);
         public PatientHistoryViewModel PatientRecordsFilteredData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
-        public SearchRecordsViewModel SearchRecordsFilteredData(AdminNavbarModel an);
+        public SearchRecordsViewModel SearchRecordsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNumber = null);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);
@@ -125,6 +125,11 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public string GetPhysicianNameFromId(int id, int shiftId);
         public List<PhysicianLocation> GetPhysicianLocation();
         public VendorsViewModel VendorsFilteredData(AdminNavbarModel an, string? name = "", int? professionalId = -1, int page = 1, int pageSize = 10);
+        public bool AddNewVendor(AddVendorViewModel model);
+        public AddVendorViewModel GetVendorDataFromId(int id, AdminNavbarModel an);
+        public bool SaveEditedBusinessInfo(AddVendorViewModel model, int id);
+        public bool DeleteBusinessProfile(int id);
+
 
 
     }

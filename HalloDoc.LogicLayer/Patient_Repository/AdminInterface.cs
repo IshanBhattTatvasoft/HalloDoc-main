@@ -288,42 +288,99 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return bhvm;
         }
 
-        SearchRecordsViewModel IAdminInterface.SearchRecordsFilteredData(AdminNavbarModel an)
+        SearchRecordsViewModel IAdminInterface.SearchRecordsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNumber = null)
         {
-            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).OrderByDescending(e => e.CreatedDate);
+            var q = from r in _context.Requests
+                                    join rc in _context.RequestClients
+                                    on r.RequestClientId equals rc.RequestClientId
+                                    select new SearchRecordsTableData
+                                    {
+                                        patientName = rc.FirstName + ", " +rc.LastName,
+                                        requestor = r.RequestTypeId,
+                                        dateOfService = (DateTime)r.AcceptedDate,
+                                        closeCaseDate = _context.RequestStatusLogs.Where(rs => rs.RequestId == r.RequestId).OrderBy(rs => rs.CreatedDate).LastOrDefault().CreatedDate.Date,
+                                        email = rc.Email ?? "-",
+                                        phoneNumber = rc.PhoneNumber ?? "-",
+                                        address = rc.Street + " " + rc.City + " " + rc.State,
+                                        zipcode = rc.ZipCode,
+                                        requestStatus = r.Status,
+                                        physician = "Dr. " + _context.Physicians.FirstOrDefault(rp => rp.PhysicianId == r.PhysicianId).FirstName ?? "-" + _context.Physicians.FirstOrDefault(rp => rp.PhysicianId == r.PhysicianId).LastName ?? "-",
+                                        physicianNote = _context.RequestNotes.FirstOrDefault(re => re.RequestId == r.RequestId).PhysicianNotes ?? "-",
+                                        cancelledByProviderNote = _context.RequestStatusLogs.FirstOrDefault(re => re.RequestId == r.RequestId && re.Status == 3).Notes ?? "-",
+                                        adminNote = _context.RequestNotes.FirstOrDefault(rn => rn.RequestId == r.RequestId).AdminNotes ?? "-",
+                                        patientNote = rc.Notes ?? "-",
+                                        startDate = r.CreatedDate != null ? r.CreatedDate : DateTime.Today,
+                                        endDate = r.AcceptedDate != null ? r.AcceptedDate : DateTime.Today
+        };
+
+            if(requestStatus != null && requestStatus != -1)
+            {
+                q = q.Where(r => r.requestStatus == requestStatus);
+            }
+
+            if(patientName != null && patientName != "")
+            {
+                q = q.Where(r => r.patientName.ToLower().Contains(patientName.ToLower()));
+            }
+
+            if(requestType != null && requestType != -1)
+            {
+                q = q.Where(r => r.requestor == requestType);
+            }
+
+            if(fromDate.Value != null)
+            {
+                q = q.Where(r => r.startDate <= fromDate.Value);
+            }
+
+            if(toDate.Value != null)
+            {
+                q = q.Where(r => r.endDate <= toDate.Value);
+            }
+
+            if(providerName != null && providerName != "")
+            {
+                 q = q.Where(r => r.physician.ToLower().Contains(providerName.ToLower()));
+            }
 
             SearchRecordsViewModel sr = new SearchRecordsViewModel();
             sr.adminNavbarModel = an;
+            sr.CurrentPage = page;
+            sr.PageSize = pageSize;
+            sr.TotalItems = q.Count();
+            sr.TotalPages = (int)Math.Ceiling((double)q.Count() / pageSize);
+            sr.tableData = q.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
-            foreach (var item in query)
-            {
-                SearchRecordsTableData srt = new SearchRecordsTableData();
-                RequestStatusLog rsl = _context.RequestStatusLogs.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
-                RequestStatusLog requestStatusLogForDOS = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 2).FirstOrDefault();
-                RequestStatusLog requestStatusLogForCCD = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 9).FirstOrDefault();
-                RequestNote rn = _context.RequestNotes.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
-                Physician p = _context.Physicians.Where(rs => rs.PhysicianId == requestStatusLogForCCD.PhysicianId).FirstOrDefault();
-                srt.patientName = item.RequestClient.FirstName + ", " + item.RequestClient.LastName;
-                srt.requestor = item.RequestTypeId;
-                if (item.Status == 2)
-                {
-                    srt.dateOfService = DateOnly.FromDateTime(requestStatusLogForDOS.CreatedDate);
-                }
-                if (item.Status == 9)
-                {
-                    srt.closeCaseDate = DateOnly.FromDateTime(requestStatusLogForCCD.CreatedDate);
-                }
-                srt.email = item.RequestClient.Email;
-                srt.phoneNumber = item.RequestClient.PhoneNumber;
-                srt.address = item.RequestClient.Street + ", " + item.RequestClient.City + ", " + item.RequestClient.State;
-                srt.zipcode = item.RequestClient.ZipCode;
-                srt.physician = "Dr. " + p.FirstName;
-                srt.physicianNote = (requestStatusLogForCCD == null) ? "-" : requestStatusLogForCCD.Notes;
-                srt.cancelledByProviderNote = "-";
-                srt.adminNote = (rn == null) ? "-" : rn.AdminNotes;
-                srt.patientNote = rsl.Notes;
-                sr.tableData.Add(srt);
-            }
+            //foreach (var item in query)
+            //{
+            //    SearchRecordsTableData srt = new SearchRecordsTableData();
+            //    RequestStatusLog rsl = _context.RequestStatusLogs.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
+            //    RequestStatusLog requestStatusLogForDOS = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 2).FirstOrDefault();
+            //    RequestStatusLog requestStatusLogForCCD = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 9).FirstOrDefault();
+            //    RequestNote rn = _context.RequestNotes.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
+            //    srt.patientName = item.RequestClient.FirstName + ", " + item.RequestClient.LastName;
+            //    srt.requestor = item.RequestTypeId;
+            //    if (item.Status == 2 && item.AcceptedDate != null)
+            //    {
+            //        srt.dateOfService = DateOnly.FromDateTime((DateTime)item.AcceptedDate);
+            //    }
+            //    if (item.Status == 9 && requestStatusLogForCCD.CreatedDate != null)
+            //    {
+            //        srt.closeCaseDate = DateOnly.FromDateTime(requestStatusLogForCCD.CreatedDate);
+            //    }
+            //    srt.email = item.RequestClient.Email;
+            //    srt.phoneNumber = item.RequestClient.PhoneNumber;
+            //    srt.address = item.RequestClient.Street + ", " + item.RequestClient.City + ", " + item.RequestClient.State;
+            //    srt.zipcode = item.RequestClient.ZipCode;
+            //    string physicianName = _context.Physicians.FirstOrDefault(r => r.PhysicianId == item.PhysicianId)?.FirstName?? "-" + _context.Physicians.FirstOrDefault(r => r.PhysicianId == item.PhysicianId)?.LastName?? "-";
+            //    srt.physician = "Dr. " + physicianName;
+            //    srt.physicianNote = _context.RequestNotes.FirstOrDefault(r => r.RequestId == item.RequestId)?.PhysicianNotes?? "-";
+            //    srt.cancelledByProviderNote = _context.RequestStatusLogs.FirstOrDefault(r => r.RequestId == item.RequestId && r.Status == 3)?.Notes?? "-";
+            //    srt.adminNote = (rn == null) ? "-" : rn.AdminNotes;
+            //    srt.patientNote = item.RequestClient?.Notes?? "-";
+
+            //    sr.tableData.Add(srt);
+            //}
 
             return sr;
         }
@@ -462,17 +519,6 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<Physician> FetchPhysicianByRegion(int RegionId)
         {
-            //List<PhysicianRegion> pr = _context.PhysicianRegions.Where(p2 => p2.RegionId == RegionId).ToList();
-            //List<Physician> p = new List<Physician>();
-
-            //foreach(var item in pr)
-            //{
-            //    Physician p1 = _context.Physicians.Where(ph => ph.PhysicianId == item.PhysicianId).FirstOrDefault();
-            //    p.Add(p1);
-            //}
-
-            //return p;
-
             BitArray isDeleted = new BitArray(1, false);
 
             return _context.PhysicianRegions.Where(pr => pr.RegionId == RegionId && pr.Physician.IsDeleted == isDeleted).Select(ph => ph.Physician).ToList();
@@ -1086,6 +1132,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 adminNavbarModel = an,
                 Photo = null,
                 roles = _context.Roles.Where(r => r.AccountType == (short)2).ToList(),
+                regionId = physician.RegionId
             };
             return viewmodel;
         }
@@ -1104,7 +1151,6 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public void EditProviderBillingInfo(EditProviderAccountViewModel model)
         {
-            int regionId = int.Parse(model.State);
             Physician physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == model.PhysicianId);
             PhysicianLocation pl = _context.PhysicianLocations.FirstOrDefault(plo => plo.PhysicianId == model.PhysicianId);
             if (!physician.IsDeleted[0])
@@ -1113,7 +1159,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 physician.Address2 = model.Address2;
                 physician.City = model.City;
                 physician.Zip = model.Zip;
-                physician.RegionId = regionId;
+                physician.RegionId = model.regionId;
                 physician.AltPhone = model.MailingPhoneNo;
                 physician.ModifiedDate = DateTime.Now;
 
@@ -1546,7 +1592,6 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             try
             {
-                var allphyRegion = _context.PhysicianRegions.ToList();
                 return _context.ShiftDetails.Include(m => m.Shift).Where(m => (RegionId == 0 || m.RegionId == RegionId) && m.IsDeleted == new System.Collections.BitArray(new[] { false })).ToList();
 
             }
@@ -1557,7 +1602,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             try
             {
-                var physician = _context.PhysicianNotifications.Include(m => m.Physician).Where(m => Region == 0 || m.Physician.RegionId == Region);
+                var physician = _context.PhysicianRegions.Include(m => m.Physician).Where(m => Region == 0 || m.RegionId == Region);
+
+
                 List<SchedulingViewModel> model = new List<SchedulingViewModel>();
                 foreach (var item in physician)
                 {
@@ -1566,7 +1613,6 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                         SchedulingViewModel providerInformationViewModel = new SchedulingViewModel()
                         {
                             physicianId = item.Physician.PhysicianId,
-                            StopNotification = item.IsNotificationStopped.Get(0),
                             ProviderName = item.Physician.FirstName + " " + item.Physician.LastName,
                             ProviderEmail = item.Physician.Email,
                             Role = item.Physician.RoleId.ToString(),
@@ -1575,7 +1621,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                         model.Add(providerInformationViewModel);
                     }
                 }
-                return model;
+                return model.ToList();
             }
             catch
             {
@@ -1870,6 +1916,85 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return moc;
         }
 
-        //public void EmailLogSendOrder
+        public bool AddNewVendor(AddVendorViewModel model)
+        {
+            HalloDoc.DataLayer.Models.Region r = GetRegFromId(model.regionId);
+            HealthProfessional hp = new HealthProfessional
+            {
+                VendorName = model.businessName,
+                Profession = model.professionId,
+                FaxNumber = model.faxNumber,
+                Address = model.street,
+                City = model.city,
+                State = r.Name,
+                Zip = model.zipCode,
+                RegionId = model.regionId,
+                CreatedDate = DateTime.Now,
+                IsDeleted = new BitArray(1, false),
+                Email = model.email,
+                PhoneNumber = model.phoneNumber,
+                BusinessContact = model.businessContact
+            };
+
+            _context.HealthProfessionals.Add(hp);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public AddVendorViewModel GetVendorDataFromId(int id, AdminNavbarModel an)
+        {
+            HealthProfessional hp = _context.HealthProfessionals.Where(h => h.VendorId == id).FirstOrDefault();
+            AddVendorViewModel av = new AddVendorViewModel
+            {
+                vendorId = id,
+                adminNavbarModel = an,
+                businessName = hp.VendorName,
+                professionId = (int)hp.Profession,
+                faxNumber = hp.FaxNumber,
+                phoneNumber = hp.PhoneNumber,
+                email = hp.Email,
+                businessContact = hp.BusinessContact,
+                street = hp.Address,
+                city = hp.City,
+                regionId = (int)hp.RegionId,
+                zipCode = hp.Zip,
+                professionType = GetHealthProfessionalType(),
+                allRegions = GetAllRegion(),
+            };
+            return av;
+        }
+
+        public bool SaveEditedBusinessInfo(AddVendorViewModel model, int id)
+        {
+            HealthProfessional hp = _context.HealthProfessionals.Where(h => h.VendorId == id).FirstOrDefault();
+            HalloDoc.DataLayer.Models.Region r = GetRegFromId(model.regionId);
+
+            hp.VendorName = model.businessName;
+            hp.Profession = model.professionId;
+            hp.FaxNumber = model.faxNumber;
+            hp.Address = model.street;
+            hp.City = model.city;
+            hp.State = r.Name;
+            hp.Zip = model.zipCode;
+            hp.RegionId = model.regionId;
+            hp.CreatedDate = DateTime.Now;
+            hp.IsDeleted = new BitArray(1, false);
+            hp.Email = model.email;
+            hp.PhoneNumber = model.phoneNumber;
+            hp.BusinessContact = model.businessContact;
+            
+            _context.HealthProfessionals.Update(hp);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public bool DeleteBusinessProfile(int id)
+        {
+            HealthProfessional hp = _context.HealthProfessionals.Where(h => h.VendorId == id).FirstOrDefault();
+            hp.IsDeleted = new BitArray(1, true);
+            _context.HealthProfessionals.Update(hp);
+            _context.SaveChanges();
+            return true;
+        }
     }
 }

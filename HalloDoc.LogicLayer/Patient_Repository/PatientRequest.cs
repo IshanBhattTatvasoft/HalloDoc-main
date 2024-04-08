@@ -140,11 +140,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                  
             }
 
-            requestStatusLog.RequestId = request.RequestId;
-            requestStatusLog.Status = 1;
-            requestStatusLog.Notes = model.Symptoms;
-            requestStatusLog.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(requestStatusLog);
+            
             _context.SaveChanges();
         }
 

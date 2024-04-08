@@ -1,0 +1,146 @@
+﻿@using static HalloDoc.DataLayer.Models.Enums;
+@model HalloDoc.DataLayer.ViewModels.AddVendorViewModel
+@{
+    ViewData["Title"] = "Vendors";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/vendors.css" />
+}
+
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    }
+
+<div class="bg-light h-100">
+    <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+
+    <partial name="Toast" />
+
+    <div class="container">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col me-5">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="Vendors" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col mt-2 ms-5">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Add Business
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white shadow mt-4 rounded p-3 ms-5 me-5">
+            <form method="post" asp-action="AddNewBusiness" asp-controller="Admin">
+                <div class="row">
+                    <div class="col mb-3">
+                        <p class="h5 text-muted fw-bold ms-0" id="heading-one">
+                            Submit Information
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="businessName">
+                        <label for="floatingInput" class="ms-2 text-muted">Business Name</label>
+                        <span asp-validation-for="businessName" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select class="form-select" id="select-professional" asp-for="professionId" onchange="filter()">
+                            <option selected value="-1">Search Vendor</option>
+                            @for (int y = 0; y < Model.professionType.Count; y++)
+                            {
+                                <option value="@Model.professionType[y].HealthProfessionalId"> @Model.professionType[y].ProfessionName</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="faxNumber">
+                        <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
+                        <span asp-validation-for="faxNumber" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-4 col-12">
+                        <input id="phone" class="form-control" type="tel" asp-for="phoneNumber" required />
+                        <span asp-validation-for="phoneNumber" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="street">
+                        <label for="floatingInput" class="ms-2 text-muted">Street</label>
+                        <span asp-validation-for="street" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="city">
+                        <label for="floatingInput" class="ms-2 text-muted">City</label>
+                        <span asp-validation-for="city" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <select class="form-select" id="select-professional" asp-for="regionId" onchange="filter()">
+                            <option selected value="-1">Select State</option>
+                            @for (int y = 0; y < Model.allRegions.Count; y++)
+                            {
+                                <option value="@Model.allRegions[y].RegionId"> @Model.allRegions[y].Name</option>
+                            }
+                        </select>
+                        <span asp-validation-for="regionId" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="zipCode">
+                        <label for="floatingInput" class="ms-2 text-muted">Zip/postal</label>
+                        <span asp-validation-for="zipCode" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="email">
+                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                        <span asp-validation-for="email" class="text-danger"></span>
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="businessContact">
+                        <label for="floatingInput" class="ms-2 text-muted">Business Contact</label>
+                        <span asp-validation-for="businessContact" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-3">
+                        <a type="button" asp-controller="Admin" asp-action="Vendors" class="btn btn-outline-info float-end mb-3">Cancel</a>
+                        <button type="submit" class="btn btn-info float-end me-3 mb-3">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    const phoneInputField = document.querySelector("#phone");
+    const phoneInput = window.intlTelInput(phoneInputField, {
+        innerHeight: 1,
+        utilsScript:
+            "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+    });
+</script>

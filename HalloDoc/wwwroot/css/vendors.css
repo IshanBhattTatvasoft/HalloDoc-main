@@ -1,4 +1,4 @@
-﻿html {
+﻿body {
     background-color: #F8F9FA;
 }
 
@@ -23,3 +23,4 @@ textarea:focus {
 .form-floating:focus-within label {
     color: #3DB6FF !important;
 }
+

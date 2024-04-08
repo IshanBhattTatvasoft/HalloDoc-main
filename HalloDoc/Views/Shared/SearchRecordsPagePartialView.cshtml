@@ -27,15 +27,15 @@
             <tr>
                 <td>@item.patientName</td>
                 <td>
-                    @if(item.requestor == 1)
+                    @if (item.requestor == 1)
                     {
                         <span>Patient</span>
                     }
-                    else if(item.requestor == 2)
+                    else if (item.requestor == 2)
                     {
                         <span>Family</span>
                     }
-                    else if(item.requestor == 3)
+                    else if (item.requestor == 3)
                     {
                         <span>Concierge</span>
                     }
@@ -44,8 +44,8 @@
                         <span>Business</span>
                     }
                 </td>
-                <td>@item.dateOfService</td>
-                <td>@item.closeCaseDate</td>
+                <td>@item.dateOfService?.ToString("MMM d, yyyy")</td>
+                <td>@item.closeCaseDate?.ToString("MMM d, yyyy")</td>
                 <td>@item.email</td>
                 <td>@item.phoneNumber</td>
                 <td>@item.address</td>
@@ -61,3 +61,33 @@
         }
     </table>
 </div>
+
+<div class="pagination d-flex flex-wrap mt-3 mb-3">
+    <span class="me-2">Page No:</span>
+    @if (Model.CurrentPage > 1)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@(Model.CurrentPage - 1)" class="mx-4 text-decoration-none pagination-text">Previous</a>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@i" class="@(i == Model.CurrentPage ? "pagination-active" : "") mx-4 text-decoration-none pagination-text">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important;" data-page="@(Model.CurrentPage + 1)" class="mx-4 text-decoration-none pagination-text">Next</a>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.pagination a').click(function (e) {
+            e.preventDefault();
+            //console.log("hiiiiiii");
+            var page = $(this).attr('data-page');
+
+            filter(page, 10);
+        });
+    });
+</script>

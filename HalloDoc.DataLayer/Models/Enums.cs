@@ -4,7 +4,7 @@
     {
         public enum Status
         {
-            Unassigned = 1, Accepted = 2, Cancelled = 3, Reserving = 4, MDEnRoute = 5, MDOnSite = 6, FollowUp = 7, Closed = 8, Locked = 9, Declined = 10, Consult = 11, Clear = 12, CancelledByProvider = 13, CUploadedByClient = 14, CCApprovedByAdmin = 15
+            Unassigned = 1, Accepted = 2, Cancelled = 3, MDEnRoute = 4, MDONSite = 5, Conclude = 6, CancelledByPatient = 7, Closed = 8, Unpaid = 9, Clear = 10, Blocked = 11
         }
 
     }

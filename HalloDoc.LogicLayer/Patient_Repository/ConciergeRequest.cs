@@ -123,11 +123,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             //    _context.SaveChangesAsync();
             //}
 
-            requestStatusLog.RequestId = request.RequestId;
-            requestStatusLog.Status = 1;
-            requestStatusLog.Notes = model.Symptoms;
-            requestStatusLog.CreatedDate = DateTime.Now;
-            _context.RequestStatusLogs.Add(requestStatusLog);
+           
             
 
             concierge.ConciergeName = model.ConciergeFirstName;
