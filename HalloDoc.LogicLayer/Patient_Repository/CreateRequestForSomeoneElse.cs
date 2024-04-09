@@ -76,6 +76,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.RequestClientId = requestClient.RequestClientId;
             request.ConfirmationNumber = ConfirmationNumber;
             request.RelationName = model.Relation;
+            request.IsDeleted = new System.Collections.BitArray(1, false);
             _context.Requests.Add(request);
             _context.SaveChangesAsync();
 

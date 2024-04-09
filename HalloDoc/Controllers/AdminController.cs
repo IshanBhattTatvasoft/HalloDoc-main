@@ -27,6 +27,9 @@ using System.Drawing.Printing;
 using Newtonsoft.Json.Linq;
 using Twilio;
 using Twilio.Rest.Api.V2010.Account;
+using System.Configuration.Provider;
+using Twilio.Base;
+using Twilio.Types;
 //using System.Diagnostics;
 //using HalloDoc.Data;
 
@@ -382,7 +385,7 @@ namespace HalloDoc.Controllers
                 var workbook = new XLWorkbook();
                 var worksheet = workbook.Worksheets.Add("Data");
 
-                if (model.status == "New")
+                if (model.status == "N")
                 {
                     worksheet.Cell(1, 1).Value = "Name";
                     worksheet.Cell(1, 2).Value = "Date Of Birth";
@@ -433,7 +436,7 @@ namespace HalloDoc.Controllers
                     }
                 }
 
-                else if (model.status == "Pending" || model.status == "Active")
+                else if (model.status == "P" || model.status == "A")
                 {
                     worksheet.Cell(1, 1).Value = "Name";
                     worksheet.Cell(1, 2).Value = "Date Of Birth";
@@ -486,7 +489,7 @@ namespace HalloDoc.Controllers
                     }
                 }
 
-                else if (model.status == "Conclude")
+                else if (model.status == "C")
                 {
                     worksheet.Cell(1, 1).Value = "Name";
                     worksheet.Cell(1, 2).Value = "Date Of Birth";
@@ -537,7 +540,7 @@ namespace HalloDoc.Controllers
                     }
                 }
 
-                else if (model.status == "ToClose")
+                else if (model.status == "T")
                 {
                     worksheet.Cell(1, 1).Value = "Name";
                     worksheet.Cell(1, 2).Value = "Date Of Birth";
@@ -586,7 +589,7 @@ namespace HalloDoc.Controllers
                     }
                 }
 
-                else if (model.status == "Unpaid")
+                else if (model.status == "U")
                 {
                     worksheet.Cell(1, 1).Value = "Name";
                     worksheet.Cell(1, 2).Value = "Physician Name";
@@ -639,7 +642,14 @@ namespace HalloDoc.Controllers
                 var memoryStream = new MemoryStream();
                 workbook.SaveAs(memoryStream);
                 memoryStream.Seek(0, SeekOrigin.Begin);
-                string fileName = $"{model.status}.xlsx";
+                string s = "";
+                if (model.status == "N") s = "New";
+                else if (model.status == "P") s = "Pending";
+                else if (model.status == "A") s = "Active";
+                else if (model.status == "C") s = "Conclude";
+                else if (model.status == "T") s = "ToClose";
+                else s = "Unpaid";
+                string fileName = $"{s}.xlsx";
                 return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
             }
             catch (Exception ex)
@@ -1538,21 +1548,45 @@ namespace HalloDoc.Controllers
             string roleIdVal = _jwtToken.GetRoleId(token);
             List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
             ViewBag.Menu = menus;
+            int emailCount = 1;
+            int smsCount = 1;
+            bool isEmailSent = false;
+            bool isSMSSent = false;
             try
             {
-                string messageSMS = $@"Please Request/Register your case. Hii {model.FirstName},hope you are fine, to register your case, please fill the Request Form.Your Request Form,please fill all the required details, for better assistance:https://localhost:44379/Login/SubmitRequest";
+                while (smsCount <= 3 && !isSMSSent)
+                {
+                    string messageSMS = $@"Please Request/Register your case. Hii {model.FirstName},hope you are fine, to register your case, please fill the Request Form.Your Request Form,please fill all the required details, for better assistance:https://localhost:44379/Login/SubmitRequest";
 
-                var accountSid = _configuration["Twilio:accountSid"];
-                var authToken = _configuration["Twilio:authToken"];
-                var twilionumber = _configuration["Twilio:twilioNumber"];
+                    var accountSid = _configuration["Twilio:accountSid"];
+                    var authToken = _configuration["Twilio:authToken"];
+                    var twilionumber = _configuration["Twilio:twilioNumber"];
+                    string num = "+917990117699";
+                    try
+                    {
+                        TwilioClient.Init(accountSid, authToken);
+                        //var messageBody =
+                        var message2 = MessageResource.Create(
+                            from: new Twilio.Types.PhoneNumber(twilionumber),
+                            body: messageSMS,
+                            to: new Twilio.Types.PhoneNumber(num)
+                        );
+                        isSMSSent = true;
+                        DateTime temp = DateTime.Now;
+                        _adminInterface.AddSmsLogFromSendLink(messageSMS, num, ad.AdminId, temp, smsCount);
+                        break;
+                    }
 
-                TwilioClient.Init(accountSid, authToken);
-                //var messageBody =
-                var message2 = MessageResource.Create(
-                    from: new Twilio.Types.PhoneNumber(twilionumber),
-                    body: messageSMS,
-                    to: new Twilio.Types.PhoneNumber(model.PhoneNumber)
-                );
+                    catch (Exception ex)
+                    {
+                        if (smsCount >= 3)
+                        {
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddSmsLogFromSendLink(messageSMS, num, ad.AdminId, temp, smsCount);
+                        }
+                        smsCount++;
+                    }
+                }
 
                 string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
                 string senderPassword = "Ishan@1503";
@@ -1779,7 +1813,7 @@ namespace HalloDoc.Controllers
                 int smsSentTries = 1;
                 bool isSmsSent = false;
 
-                while(smsSentTries <=3 && !isSmsSent)
+                while (smsSentTries <= 3 && !isSmsSent)
                 {
                     string messageSMS = "Hello, Here are the details you may need to fulfil our order. Order details: " + model.prescription + " and Number of refills required: " + noOfRefill;
                     string recipient = "+917990117699";
@@ -1798,21 +1832,23 @@ namespace HalloDoc.Controllers
                         );
 
                         isSmsSent = true;
-                        // fun call for smslog
+                        DateTime temp = DateTime.Now;
+                        _adminInterface.AddSmsLogFromSendOrder(messageSMS, recipient, ad.AdminId, temp, smsSentTries);
                         break;
                     }
 
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         if (smsSentTries >= 3)
                         {
-                            // fun call
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddSmsLogFromSendOrder(messageSMS, recipient, ad.AdminId, temp, smsSentTries);
                         }
                         smsSentTries++;
                     }
                 }
 
-                
+
 
                 OrderDetail orderDetail = new OrderDetail();
                 orderDetail.VendorId = vendorId;
@@ -2665,15 +2701,21 @@ namespace HalloDoc.Controllers
         // function called when we submit the Contact Your Provider modal
         public IActionResult SendMessageToPhysician(ProviderMenuViewModel model, string flexRadioDefault, string contactProviderMessage)
         {
-
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            an.Tab = 5;
             try
             {
-                int count = 1;
-                bool isSent = false;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+                int count = 1;
+                int smsSentTries = 1;
+                bool isSMSSent = false;
+                bool isSent = false;
                 if (flexRadioDefault != "SMS" && (flexRadioDefault == "Email" || flexRadioDefault == "Both"))
                 {
                     while (count <= 3 && !isSent)
@@ -2727,21 +2769,43 @@ namespace HalloDoc.Controllers
                     }
                 }
 
-                else if (flexRadioDefault == "SMS" || flexRadioDefault == "Both")
+                if (flexRadioDefault == "SMS" || flexRadioDefault == "Both")
                 {
                     string messageSMS = contactProviderMessage;
-                    string recipient = "+91" + model.phoneNumber;
+                    string recipient = "+917990117699";
                     var accountSid = _configuration["Twilio:accountSid"];
                     var authToken = _configuration["Twilio:authToken"];
                     var twilionumber = _configuration["Twilio:twilioNumber"];
 
-                    TwilioClient.Init(accountSid, authToken);
-                    //var messageBody =
-                    var message2 = MessageResource.Create(
-                        from: new Twilio.Types.PhoneNumber(twilionumber),
-                        body: messageSMS,
-                        to: new Twilio.Types.PhoneNumber(recipient)
-                    );
+                    while (smsSentTries <= 3 && !isSMSSent)
+                    {
+                        try
+                        {
+                            TwilioClient.Init(accountSid, authToken);
+                            //var messageBody =
+                            var message2 = MessageResource.Create(
+                                from: new Twilio.Types.PhoneNumber(twilionumber),
+                                body: messageSMS,
+                                to: new Twilio.Types.PhoneNumber(recipient)
+                            );
+
+                            isSMSSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddSmsLogFromContactProvider(messageSMS, recipient, ad.AdminId, (int)model.phyId, temp, smsSentTries);
+                            break;
+                        }
+
+                        catch(Exception ex)
+                        {
+                            if(smsSentTries >= 3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddSmsLogFromContactProvider(messageSMS, recipient, ad.AdminId, (int)model.phyId, temp, smsSentTries);
+                            }
+                            smsSentTries++;
+                        }
+                    }
+
                 }
 
                 TempData["success"] = "Message has been sent to provider";
@@ -3564,22 +3628,25 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "Scheduling")]
-        public bool EditViewShift(EditViewShiftModel ShiftDetail)
+        public IActionResult EditViewShift(EditViewShiftModel ShiftDetail)
         {
             try
             {
                 if (_adminInterface.EditViewShift(ShiftDetail) == true)
                 {
                     TempData["success"] = "Shift edited successfully";
-                    return true;
+                    return View("Scheduling");
                 }
                 else
                 {
                     TempData["error"] = "Unable to edit shift information";
-                    return false;
+                    return View("Scheduling");
                 }
             }
-            catch { return false; }
+            catch
+            {
+                return View("Scheduling");
+            }
         }
 
         [CustomAuthorize("Admin", "Scheduling")]
@@ -3790,7 +3857,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "SearchRecords")]
-        public IActionResult SearchRecordsFilteredData(int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNumber = null, int page = 1, int pageSize = 10)
+        public IActionResult SearchRecordsFilteredData(DateTime fromDate, DateTime toDate, int page = 1, int pageSize = 10, int? requestStatus = -1, string? patientName = "", int? requestType = -1, string? providerName = "", string? email = "", string? phoneNumber = null)
         {
             try
             {
@@ -3812,6 +3879,190 @@ namespace HalloDoc.Controllers
                 TempData["error"] = "Unable to search records";
                 return RedirectToAction("SearchRecords");
             }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult ExportSearchRecords(SearchRecordsViewModel model)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 14;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                try
+                {
+                    DateTime temp = new DateTime(1, 1, 1, 0, 0, 0);
+                    int reqStatus = (int)((model.requestStatus == null) ? -1 : model.requestStatus);
+                    string pName = (model.patientName == null) ? "" : model.patientName;
+                    int reqType = (int)((model.requestType == null) ? -1 : model.requestType);
+                    DateTime fDate = (DateTime)((model.fromDate == null) ? temp : model.fromDate);
+                    DateTime toDate = (DateTime)((model.toDate == null) ? temp : model.toDate);
+                    string proName = (model.providerName == null) ? "" : model.providerName;
+                    string e = (model.email == null) ? "" : model.email;
+                    string pn = (model.phoneNumber == null) ? "" : model.phoneNumber;
+
+                    SearchRecordsViewModel sr = _adminInterface.SearchRecordsFilteredData(an, 1, 10, reqStatus, pName, reqType, fDate, toDate, proName, e, pn);
+                    List<SearchRecordsTableData> data = sr.allDataForExcel;
+                    var workbook = new XLWorkbook();
+                    var worksheet = workbook.Worksheets.Add("Data");
+
+                    worksheet.Cell(1, 1).Value = "Patient Name";
+                    worksheet.Cell(1, 2).Value = "Requestor";
+                    worksheet.Cell(1, 3).Value = "Date Of Service";
+                    worksheet.Cell(1, 4).Value = "Close Case Date";
+                    worksheet.Cell(1, 5).Value = "Email";
+                    worksheet.Cell(1, 6).Value = "Phone Number";
+                    worksheet.Cell(1, 7).Value = "Address";
+                    worksheet.Cell(1, 8).Value = "Zip";
+                    worksheet.Cell(1, 9).Value = "Request Status";
+                    worksheet.Cell(1, 10).Value = "Physician";
+                    worksheet.Cell(1, 11).Value = "Physician Note";
+                    worksheet.Cell(1, 12).Value = "Cancelled By Provider Note";
+                    worksheet.Cell(1, 13).Value = "Admin Note";
+                    worksheet.Cell(1, 14).Value = "Patient Note";
+
+                    int row = 2;
+                    string requestType = "";
+                    string requestStatus = "";
+                    foreach (var item in data)
+                    {
+                        worksheet.Cell(row, 1).Value = item.patientName;
+
+                        if (item.requestor == 1)
+                        {
+                            requestType = "Patient";
+                        }
+                        else if (item.requestor == 2)
+                        {
+                            requestType = "Family";
+                        }
+                        else if (item.requestor == 3)
+                        {
+                            requestType = "Concierge";
+                        }
+                        else
+                        {
+                            requestType = "Business";
+                        }
+
+                        worksheet.Cell(row, 2).Value = requestType;
+                        worksheet.Cell(row, 3).Value = item.dateOfService;
+                        worksheet.Cell(row, 4).Value = item.closeCaseDate;
+                        worksheet.Cell(row, 5).Value = item.email;
+                        worksheet.Cell(row, 6).Value = item.phoneNumber;
+                        worksheet.Cell(row, 7).Value = item.address;
+                        worksheet.Cell(row, 8).Value = item.zipcode;
+
+                        if (item.requestStatus == 1)
+                        {
+                            requestStatus = "Unassigned";
+                        }
+                        else if (item.requestStatus == 2)
+                        {
+                            requestStatus = "Accepted";
+                        }
+                        else if (item.requestStatus == 3)
+                        {
+                            requestStatus = "Cancelled";
+                        }
+                        else if (item.requestStatus == 4)
+                        {
+                            requestStatus = "MDEnRoute";
+                        }
+                        else if (item.requestStatus == 5)
+                        {
+                            requestStatus = "MDONSite";
+                        }
+                        else if (item.requestStatus == 6)
+                        {
+                            requestStatus = "Conclude";
+                        }
+                        else if (item.requestStatus == 7)
+                        {
+                            requestStatus = "Cancelled By Patient";
+                        }
+                        else if (item.requestStatus == 8)
+                        {
+                            requestStatus = "Closed";
+                        }
+                        else if (item.requestStatus == 9)
+                        {
+                            requestStatus = "Unpaid";
+                        }
+                        else if (item.requestStatus == 10)
+                        {
+                            requestStatus = "Clear";
+                        }
+                        else
+                        {
+                            requestStatus = "Blocked";
+                        }
+                        worksheet.Cell(row, 9).Value = item.requestStatus;
+                        worksheet.Cell(row, 10).Value = item.physician;
+                        worksheet.Cell(row, 11).Value = item.physicianNote;
+                        worksheet.Cell(row, 12).Value = item.cancelledByProviderNote;
+                        worksheet.Cell(row, 13).Value = item.adminNote;
+                        worksheet.Cell(row, 14).Value = item.patientNote;
+                        row++;
+                    }
+
+                    worksheet.Columns().AdjustToContents();
+
+                    var memoryStream = new MemoryStream();
+                    workbook.SaveAs(memoryStream);
+                    memoryStream.Seek(0, SeekOrigin.Begin);
+                    return File(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Search_Records.xlsx");
+                }
+
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Exception: {ex.Message}");
+                    Console.WriteLine($"Stack Trace: {ex.StackTrace}");
+                    throw;
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to export records";
+            }
+            return RedirectToAction("Scheduling");
+        }
+
+        [CustomAuthorize("Admin", "SearchRecords")]
+        public IActionResult DeleteFromSearchRecord(int id)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 14;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                if (_adminInterface.DeleteSearchRecord(id))
+                {
+                    TempData["success"] = "Record delete successfully";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to delete the record";
+                }
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to delete the record";
+            }
+            return RedirectToAction("SearchRecords");
         }
 
         [CustomAuthorize("Admin", "Partners")]
@@ -3882,8 +4133,8 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                AddVendorViewModel av = new AddVendorViewModel 
-                { 
+                AddVendorViewModel av = new AddVendorViewModel
+                {
                     adminNavbarModel = an,
                     professionType = _adminInterface.GetHealthProfessionalType(),
                     allRegions = _adminInterface.GetAllRegion()
@@ -3912,7 +4163,7 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                if(_adminInterface.AddNewVendor(model))
+                if (_adminInterface.AddNewVendor(model))
                 {
                     TempData["success"] = "New vendor added successfully";
                 }
@@ -3969,7 +4220,7 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                if (_adminInterface.SaveEditedBusinessInfo(model,id))
+                if (_adminInterface.SaveEditedBusinessInfo(model, id))
                 {
                     TempData["success"] = "Vendor info edited successfully";
                 }
@@ -3992,7 +4243,7 @@ namespace HalloDoc.Controllers
         {
             try
             {
-                if(_adminInterface.DeleteBusinessProfile(id))
+                if (_adminInterface.DeleteBusinessProfile(id))
                 {
                     TempData["success"] = "Profile deleted successfully";
                 }
@@ -4002,7 +4253,7 @@ namespace HalloDoc.Controllers
                 }
                 return RedirectToAction("Vendors");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["error"] = "An error occured";
                 return RedirectToAction("Vendors");

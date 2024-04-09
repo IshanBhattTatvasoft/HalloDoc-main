@@ -12,5 +12,9 @@ public class BlockedHistoryViewModel
 {
     public List<BlockedHistoryData> allData {  get; set; }
     public AdminNavbarModel adminNavbarModel { get; set; }
+    //public int CurrentPage { get; set; }
+    //public int PageSize { get; set; }
+    //public int TotalItems { get; set; }
+    //public int TotalPages { get; set; }
 }
 

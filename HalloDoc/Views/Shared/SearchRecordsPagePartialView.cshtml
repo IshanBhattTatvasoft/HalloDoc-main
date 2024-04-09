@@ -24,42 +24,149 @@
         </thead>
         @foreach (var item in Model.tableData)
         {
-            <tr>
-                <td>@item.patientName</td>
-                <td>
-                    @if (item.requestor == 1)
-                    {
-                        <span>Patient</span>
-                    }
-                    else if (item.requestor == 2)
-                    {
-                        <span>Family</span>
-                    }
-                    else if (item.requestor == 3)
-                    {
-                        <span>Concierge</span>
-                    }
-                    else
-                    {
-                        <span>Business</span>
-                    }
-                </td>
-                <td>@item.dateOfService?.ToString("MMM d, yyyy")</td>
-                <td>@item.closeCaseDate?.ToString("MMM d, yyyy")</td>
-                <td>@item.email</td>
-                <td>@item.phoneNumber</td>
-                <td>@item.address</td>
-                <td>@item.zipcode</td>
-                <td>@Enum.GetName(typeof(Status), item.requestStatus)</td>
-                <td>@item.physician</td>
-                <td>@item.physicianNote</td>
-                <td>@item.cancelledByProviderNote</td>
-                <td>@item.adminNote</td>
-                <td>@item.patientNote</td>
-                <td class="text-end"><a type="button" asp-action="DeleteFromSearchRecord" asp-controller="Admin" class="btn btn-outline-info ps-auto pe-auto">Delete</a></td>
-            </tr>
+            @if (item.isDeleted[0] == false)
+            {
+
+                <tr>
+                    <td>@item.patientName</td>
+                    <td>
+                        @if (item.requestor == 1)
+                        {
+                            <span>Patient</span>
+                        }
+                        else if (item.requestor == 2)
+                        {
+                            <span>Family</span>
+                        }
+                        else if (item.requestor == 3)
+                        {
+                            <span>Concierge</span>
+                        }
+                        else
+                        {
+                            <span>Business</span>
+                        }
+                    </td>
+                    <td>@item.dateOfService?.ToString("MMM d, yyyy")</td>
+                    <td>@item.closeCaseDate?.ToString("MMM d, yyyy")</td>
+                    <td>@item.email</td>
+                    <td>@item.phoneNumber</td>
+                    <td>@item.address</td>
+                    <td>@item.zipcode</td>
+                    <td>@Enum.GetName(typeof(Status), item.requestStatus)</td>
+                    <td>@item.physician</td>
+                    <td>@item.physicianNote</td>
+                    <td>@item.cancelledByProviderNote</td>
+                    <td>@item.adminNote</td>
+                    <td>@item.patientNote</td>
+                    <td class="text-end"><a type="button" asp-action="DeleteFromSearchRecord" asp-controller="Admin" asp-route-id="@item.requestId" class="btn btn-outline-info ps-auto pe-auto">Delete</a></td>
+                </tr>
+            }
         }
     </table>
+</div>
+
+<div class="d-md-none">
+    <div class="accordion accordion-flush" id="accordionFlushExample">
+        @foreach (var item in Model.tableData)
+        {
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="flush-heading@(item.requestId)">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse@(item.requestId)" aria-expanded="true" aria-controls="flush-collapse" style="background-color: #E5EEF5;">
+                        <div class="d-flex flex-column w-100">
+                            <div class="w-100">
+                                <span>@item.patientName</span>
+                            </div>
+                            <div class="w-100">
+                                <span>@item.address</span>
+                            </div>
+                        </div>
+                    </button>
+                </h2>
+
+                <div id="flush-collapse@(item.requestId)" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body" style="background-color: #E5EEF5;">
+
+                        <div style="position: relative;">
+                            <div>
+                                <span>
+                                    <i class="fa-regular fa-user me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Requestor:
+                                    @if (item.requestor == 1)
+                                    {
+                                        <span>Patient</span>
+                                    }
+                                    else if (item.requestor == 2)
+                                    {
+                                        <span>Family</span>
+                                    }
+                                    else if (item.requestor == 3)
+                                    {
+                                        <span>Concierge</span>
+                                    }
+                                    else
+                                    {
+                                        <span>Business</span>
+                                    }
+                                </span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Date Of Service: @item.dateOfService</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Case Close Date: @item.closeCaseDate</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Email: @item.email</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone: @item.phoneNumber</span>
+                            </div>
+                            <div class="mt-2">
+                                <span><i class="fa-solid fa-location-dot me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Address: @item.address</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-solid fa-location-dot me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Zipcode: @item.zipcode</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Request Status: @Enum.GetName(typeof(Status), item.requestStatus)</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-solid fa-user-doctor me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Provider: @item.physician</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Provider Note: @item.physicianNote</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Cancelled By Provider Note: @item.cancelledByProviderNote</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Admin Note: @item.adminNote</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Cancellation Reason: @item.cancelledByProviderNote</span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Patient Note: @item.patientNote</span>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>
 
 <div class="pagination d-flex flex-wrap mt-3 mb-3">

@@ -1,6 +1,7 @@
 ﻿using HalloDoc.DataLayer.Models;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,8 +25,11 @@ public class SearchRecordsTableData
     public string? physicianNote { get; set; }
     public string? cancelledByProviderNote { get; set; }
     public string? adminNote { get; set; }
+    public string? cancellationReason { get; set; }
     public string? patientNote { get; set; }
     public DateTime? startDate { get; set; }
     public DateTime? endDate { get; set; }
+    public BitArray? isDeleted { get; set; }
+    public int? requestId { get; set; }
 }
 

@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Drawing;
+﻿using ClosedXML.Excel;
+using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
@@ -8,6 +9,7 @@ using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using HalloDocMvc.Entity.ViewModel;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections;
@@ -288,68 +290,83 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return bhvm;
         }
 
-        SearchRecordsViewModel IAdminInterface.SearchRecordsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNumber = null)
+        SearchRecordsViewModel IAdminInterface.SearchRecordsFilteredData(AdminNavbarModel an, int? page = 1, int? pageSize = 10, int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNo = null)
         {
+            DateTime temp = new DateTime(1, 1, 1, 0, 0, 0);
             var q = from r in _context.Requests
-                                    join rc in _context.RequestClients
-                                    on r.RequestClientId equals rc.RequestClientId
-                                    select new SearchRecordsTableData
-                                    {
-                                        patientName = rc.FirstName + ", " +rc.LastName,
-                                        requestor = r.RequestTypeId,
-                                        dateOfService = (DateTime)r.AcceptedDate,
-                                        closeCaseDate = _context.RequestStatusLogs.Where(rs => rs.RequestId == r.RequestId).OrderBy(rs => rs.CreatedDate).LastOrDefault().CreatedDate.Date,
-                                        email = rc.Email ?? "-",
-                                        phoneNumber = rc.PhoneNumber ?? "-",
-                                        address = rc.Street + " " + rc.City + " " + rc.State,
-                                        zipcode = rc.ZipCode,
-                                        requestStatus = r.Status,
-                                        physician = "Dr. " + _context.Physicians.FirstOrDefault(rp => rp.PhysicianId == r.PhysicianId).FirstName ?? "-" + _context.Physicians.FirstOrDefault(rp => rp.PhysicianId == r.PhysicianId).LastName ?? "-",
-                                        physicianNote = _context.RequestNotes.FirstOrDefault(re => re.RequestId == r.RequestId).PhysicianNotes ?? "-",
-                                        cancelledByProviderNote = _context.RequestStatusLogs.FirstOrDefault(re => re.RequestId == r.RequestId && re.Status == 3).Notes ?? "-",
-                                        adminNote = _context.RequestNotes.FirstOrDefault(rn => rn.RequestId == r.RequestId).AdminNotes ?? "-",
-                                        patientNote = rc.Notes ?? "-",
-                                        startDate = r.CreatedDate != null ? r.CreatedDate : DateTime.Today,
-                                        endDate = r.AcceptedDate != null ? r.AcceptedDate : DateTime.Today
-        };
+                    join rc in _context.RequestClients
+                    on r.RequestClientId equals rc.RequestClientId
+                    select new SearchRecordsTableData
+                    {
+                        patientName = rc.FirstName + ", " + rc.LastName,
+                        requestor = r.RequestTypeId,
+                        dateOfService = (DateTime)r.AcceptedDate,
+                        closeCaseDate = _context.RequestStatusLogs.Where(rs => rs.RequestId == r.RequestId && rs.Status == 8).OrderBy(rs => rs.CreatedDate).LastOrDefault().CreatedDate.Date,
+                        email = rc.Email ?? "-",
+                        phoneNumber = rc.PhoneNumber ?? "-",
+                        address = rc.Street + ", " + rc.City + ", " + rc.State,
+                        zipcode = rc.ZipCode,
+                        requestStatus = r.Status,
+                        physician = "Dr. " + _context.Physicians.FirstOrDefault(rp => rp.PhysicianId == r.PhysicianId).FirstName ?? "-" + _context.Physicians.FirstOrDefault(rp => rp.PhysicianId == r.PhysicianId).LastName ?? "-",
+                        physicianNote = _context.RequestNotes.FirstOrDefault(re => re.RequestId == r.RequestId).PhysicianNotes ?? "-",
+                        cancelledByProviderNote = _context.RequestStatusLogs.FirstOrDefault(re => re.RequestId == r.RequestId && re.Status == 3).Notes ?? "-",
+                        adminNote = _context.RequestNotes.FirstOrDefault(rn => rn.RequestId == r.RequestId).AdminNotes ?? "-",
+                        patientNote = rc.Notes ?? "-",
+                        startDate = r.CreatedDate != null ? r.CreatedDate : DateTime.Today,
+                        endDate = r.AcceptedDate != null ? r.AcceptedDate : DateTime.Today,
+                        isDeleted = (r.IsDeleted == null) ? new BitArray(1, false) : r.IsDeleted,
+                        requestId = r.RequestId,
+                        cancellationReason = _context.RequestStatusLogs.FirstOrDefault(rs => rs.RequestId == r.RequestId && rs.Status == 3).Notes
+                    };
 
-            if(requestStatus != null && requestStatus != -1)
+            if (requestStatus != null && requestStatus != -1)
             {
                 q = q.Where(r => r.requestStatus == requestStatus);
             }
 
-            if(patientName != null && patientName != "")
+            if (patientName != null && patientName != "")
             {
                 q = q.Where(r => r.patientName.ToLower().Contains(patientName.ToLower()));
             }
 
-            if(requestType != null && requestType != -1)
+            if (requestType != null && requestType != -1)
             {
                 q = q.Where(r => r.requestor == requestType);
             }
 
-            if(fromDate.Value != null)
+            if (fromDate.Value != null && fromDate != temp)
             {
-                q = q.Where(r => r.startDate <= fromDate.Value);
+                q = q.Where(r => r.startDate >= fromDate.Value);
             }
 
-            if(toDate.Value != null)
+            if (toDate.Value != null && toDate != temp)
             {
                 q = q.Where(r => r.endDate <= toDate.Value);
             }
 
-            if(providerName != null && providerName != "")
+            if (providerName != null && providerName != "")
             {
-                 q = q.Where(r => r.physician.ToLower().Contains(providerName.ToLower()));
+                q = q.Where(r => r.physician.ToLower().Contains(providerName.ToLower()));
+            }
+
+            if (email != null && email != "")
+            {
+                q = q.Where(r => r.email.ToLower().Contains(email.ToLower()));
+            }
+
+            if (phoneNo != null && phoneNo != "")
+            {
+                q = q.Where(r => r.phoneNumber.ToLower().Contains(phoneNo.ToLower()));
             }
 
             SearchRecordsViewModel sr = new SearchRecordsViewModel();
             sr.adminNavbarModel = an;
-            sr.CurrentPage = page;
-            sr.PageSize = pageSize;
+            sr.CurrentPage = (int)page;
+            sr.PageSize = (int)pageSize;
             sr.TotalItems = q.Count();
-            sr.TotalPages = (int)Math.Ceiling((double)q.Count() / pageSize);
-            sr.tableData = q.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            sr.TotalPages = (int)Math.Ceiling((double)q.Count() / (int)pageSize);
+            sr.tableData = q.Skip(((int)page - 1) * (int)pageSize).Take((int)pageSize).ToList();
+            sr.allDataForExcel = q.ToList();
 
             //foreach (var item in query)
             //{
@@ -391,17 +408,18 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             IQueryable<HealthProfessional> query = _context.HealthProfessionals.OrderByDescending(r => r.CreatedDate);
 
-            if(name!="" && name!=null)
+            if (name != "" && name != null)
             {
                 query = query.Where(r => r.VendorName.ToLower().Contains(name.ToLower()));
             }
 
-            if(professionalId!=null && professionalId!=-1)
+            if (professionalId != null && professionalId != -1)
             {
                 query = query.Where(r => r.Profession == professionalId);
             }
 
-            VendorsViewModel v = new VendorsViewModel { 
+            VendorsViewModel v = new VendorsViewModel
+            {
                 vendorsTableData = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
                 CurrentPage = page,
                 PageSize = pageSize,
@@ -638,6 +656,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.Status = 1;
             request.CreatedDate = DateTime.Now;
             request.RequestClientId = requestClient.RequestClientId;
+            request.IsDeleted = new BitArray(1, false);
             _context.Requests.Add(request);
             _context.SaveChanges();
 
@@ -1982,7 +2001,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             hp.Email = model.email;
             hp.PhoneNumber = model.phoneNumber;
             hp.BusinessContact = model.businessContact;
-            
+
             _context.HealthProfessionals.Update(hp);
             _context.SaveChanges();
             return true;
@@ -1996,5 +2015,66 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
             return true;
         }
+
+        public bool DeleteSearchRecord(int id)
+        {
+            Request r = _context.Requests.Where(re => re.RequestId == id).FirstOrDefault();
+            r.IsDeleted = new BitArray(1, true);
+            _context.Requests.Update(r);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public void AddSmsLogFromSendLink(string body, string number, int adminId, DateTime temp, int count)
+        {
+            Smslog sl = new Smslog();
+            sl.Smstemplate = body;
+            sl.MobileNumber = number;
+            sl.AdminId = adminId;
+            sl.CreateDate = temp;
+            sl.SentDate = DateTime.Now;
+            sl.IsSmssent = new BitArray(1, true);
+            sl.SentTries = count;
+            sl.Action = 1;
+            sl.RoleId = 2;
+
+            _context.Smslogs.Add(sl);
+            _context.SaveChanges();
+        }
+
+        public void AddSmsLogFromSendOrder(string body, string number, int adminId, DateTime temp, int count)
+        {
+            Smslog sl = new Smslog();
+            sl.Smstemplate = body;
+            sl.MobileNumber = number;
+            sl.AdminId = adminId;
+            sl.CreateDate = temp;
+            sl.SentDate = DateTime.Now;
+            sl.IsSmssent = new BitArray(1, true);
+            sl.SentTries = count;
+            sl.Action = 1;
+
+            _context.Smslogs.Add(sl);
+            _context.SaveChanges();
+        }
+
+        public void AddSmsLogFromContactProvider(string body, string number, int adminId, int phyId, DateTime temp, int count)
+        {
+            Smslog sl = new Smslog();
+            sl.Smstemplate = body;
+            sl.MobileNumber = number;
+            sl.AdminId = adminId;
+            sl.CreateDate = temp;
+            sl.SentDate = DateTime.Now;
+            sl.IsSmssent = new BitArray(1, true);
+            sl.SentTries = count;
+            sl.Action = 1;
+            sl.RoleId = 2;
+            sl.PhysicianId = phyId;
+
+            _context.Smslogs.Add(sl);
+            _context.SaveChanges();
+        }
+
     }
 }

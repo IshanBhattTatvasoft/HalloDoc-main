@@ -2,6 +2,7 @@
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.DataLayer.Data;
 using HalloDoc.LogicLayer.Patient_Interface;
+using System.Collections;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {
@@ -110,6 +111,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.Status = 1;
             request.CreatedDate = DateTime.Now;
             request.RequestClientId = requestClient.RequestClientId;
+            request.IsDeleted = new BitArray(1, false);
             _context.Requests.Add(request);
             _context.SaveChanges();
 

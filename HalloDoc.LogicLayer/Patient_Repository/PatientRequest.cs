@@ -119,6 +119,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.Status = 1;
             request.CreatedDate = DateTime.Now;
             request.RequestClientId = requestClient.RequestClientId;
+            request.IsDeleted = new System.Collections.BitArray(1, false);
             _context.Requests.Add(request);
             _context.SaveChanges();
             
