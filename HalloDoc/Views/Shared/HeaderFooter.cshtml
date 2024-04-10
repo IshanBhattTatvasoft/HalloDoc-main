@@ -346,11 +346,11 @@
                 {
                     @if (Model.Tab == 16)
                     {
-                        <li><a class="text-muted dropdown-item dropdown-item-active mb-2" href="#">SMS Logs</a></li>
+                        <li><a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="SmsLogs" asp-controller="Admin">SMS Logs</a></li>
                     }
                     else
                     {
-                        <li><a class="text-muted dropdown-item mb-2" href="#">SMS Logs</a></li>
+                        <li><a class="text-muted dropdown-item mb-2" asp-action="SmsLogs" asp-controller="Admin">SMS Logs</a></li>
                     }
                 }
 

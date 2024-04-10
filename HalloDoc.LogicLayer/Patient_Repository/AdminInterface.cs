@@ -368,38 +368,65 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             sr.tableData = q.Skip(((int)page - 1) * (int)pageSize).Take((int)pageSize).ToList();
             sr.allDataForExcel = q.ToList();
 
-            //foreach (var item in query)
-            //{
-            //    SearchRecordsTableData srt = new SearchRecordsTableData();
-            //    RequestStatusLog rsl = _context.RequestStatusLogs.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
-            //    RequestStatusLog requestStatusLogForDOS = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 2).FirstOrDefault();
-            //    RequestStatusLog requestStatusLogForCCD = _context.RequestStatusLogs.Where(rs => rs.RequestId == item.RequestId && rs.Status == 9).FirstOrDefault();
-            //    RequestNote rn = _context.RequestNotes.Where(r => r.RequestId == item.RequestId).FirstOrDefault();
-            //    srt.patientName = item.RequestClient.FirstName + ", " + item.RequestClient.LastName;
-            //    srt.requestor = item.RequestTypeId;
-            //    if (item.Status == 2 && item.AcceptedDate != null)
-            //    {
-            //        srt.dateOfService = DateOnly.FromDateTime((DateTime)item.AcceptedDate);
-            //    }
-            //    if (item.Status == 9 && requestStatusLogForCCD.CreatedDate != null)
-            //    {
-            //        srt.closeCaseDate = DateOnly.FromDateTime(requestStatusLogForCCD.CreatedDate);
-            //    }
-            //    srt.email = item.RequestClient.Email;
-            //    srt.phoneNumber = item.RequestClient.PhoneNumber;
-            //    srt.address = item.RequestClient.Street + ", " + item.RequestClient.City + ", " + item.RequestClient.State;
-            //    srt.zipcode = item.RequestClient.ZipCode;
-            //    string physicianName = _context.Physicians.FirstOrDefault(r => r.PhysicianId == item.PhysicianId)?.FirstName?? "-" + _context.Physicians.FirstOrDefault(r => r.PhysicianId == item.PhysicianId)?.LastName?? "-";
-            //    srt.physician = "Dr. " + physicianName;
-            //    srt.physicianNote = _context.RequestNotes.FirstOrDefault(r => r.RequestId == item.RequestId)?.PhysicianNotes?? "-";
-            //    srt.cancelledByProviderNote = _context.RequestStatusLogs.FirstOrDefault(r => r.RequestId == item.RequestId && r.Status == 3)?.Notes?? "-";
-            //    srt.adminNote = (rn == null) ? "-" : rn.AdminNotes;
-            //    srt.patientNote = item.RequestClient?.Notes?? "-";
-
-            //    sr.tableData.Add(srt);
-            //}
 
             return sr;
+        }
+
+        SmsLogsViewModel IAdminInterface.SmsLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? phoneNumber = "", DateTime? createdDate = null, DateTime? sentDate = null)
+        {
+            DateTime temp = new DateTime(1, 1, 1, 0, 0, 0);
+            var q = from s in _context.Smslogs
+                    select new SmsLogsTableData
+                    {
+                        recipient = _context.Physicians.FirstOrDefault(p => p.PhysicianId == s.PhysicianId).FirstName + " " + _context.Physicians.FirstOrDefault(p => p.PhysicianId == s.PhysicianId).LastName,
+                        action = "-",
+                        roleId = s.RoleId,
+                        roleName = s.RoleId != null ? _context.AspNetRoles.FirstOrDefault(a => a.Id == s.RoleId).Name : "-",
+                        phoneNumber = s.MobileNumber,
+                        createdDate = s.CreateDate,
+                        sentDate = (DateTime)s.SentDate,
+                        sent = s.IsSmssent[0] == true ? "Yes" : "No",
+                        sentTries = s.SentTries,
+                        confirmationNo = "-"
+
+                    };
+
+            if (role != null && role != 0)
+            {
+                q = q.Where(r => r.roleId == role);
+            }
+
+            if (recipientName != null && recipientName != "")
+            {
+                q = q.Where(r => r.recipient.ToLower().Contains(recipientName.ToLower()));
+            }
+
+            if (phoneNumber != null && phoneNumber != "")
+            {
+                q = q.Where(r => r.phoneNumber.Contains(phoneNumber));
+            }
+
+            if (createdDate != null && createdDate != temp)
+            {
+                DateOnly date1 = DateOnly.FromDateTime((DateTime)createdDate);
+                q = q.Where(r => DateOnly.FromDateTime((DateTime)r.createdDate) == date1);
+            }
+
+            if (sentDate != null && sentDate != temp)
+            {
+                DateOnly date2 = DateOnly.FromDateTime((DateTime)sentDate);
+                q = q.Where(r => DateOnly.FromDateTime((DateTime)r.sentDate) == date2);
+            }
+
+            SmsLogsViewModel smsLogsViewModel = new SmsLogsViewModel();
+            smsLogsViewModel.tableData = q.Skip(((int)page - 1) * (int)pageSize).Take((int)pageSize).ToList();
+            smsLogsViewModel.CurrentPage = (int)page;
+            smsLogsViewModel.PageSize = (int)pageSize;
+            smsLogsViewModel.TotalItems = q.Count();
+            smsLogsViewModel.TotalPages = (int)Math.Ceiling((double)q.Count() / (int)pageSize);
+
+            return smsLogsViewModel;
+
         }
 
         public VendorsViewModel VendorsFilteredData(AdminNavbarModel an, string? name = "", int? professionalId = -1, int page = 1, int pageSize = 10)
@@ -487,6 +514,18 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public Physician FetchPhysician(int id)
         {
             return _context.Physicians.FirstOrDefault(p => p.PhysicianId == id);
+        }
+
+        public Physician GetPhysicianFromAspNetUser(string email)
+        {
+            AspNetUser anu = _context.AspNetUsers.Where(r => r.Email == email).FirstOrDefault();
+            return _context.Physicians.Where(p => p.AspNetUserId == anu.Id).FirstOrDefault();
+        }
+
+        public Admin GetAdminFromAspNetUser(string email)
+        {
+            AspNetUser anu = _context.AspNetUsers.Where(r => r.Email == email).FirstOrDefault();
+            return _context.Admins.Where(p => p.AspNetUserId == anu.Id).FirstOrDefault();
         }
 
         public void EditViewNotesAction(ViewNotes model)
@@ -710,6 +749,16 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public AspNetUser ValidAspNetUser(string email)
         {
             return _context.AspNetUsers.Where(a => a.Email == email).FirstOrDefault();
+        }
+
+        public bool FindAdminFromAspNetUser(int id)
+        {
+            return _context.Admins.Any(r => r.AspNetUserId == id);
+        }
+
+        public bool FindPhysicianFromAspNetUser(int id)
+        {
+            return _context.Physicians.Any(r => r.AspNetUserId == id);
         }
 
         public RequestClient ValidatePatientEmail(string email)
@@ -1361,9 +1410,9 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     physician.IsLicenseDoc = new BitArray(1, true);
                     physician.ModifiedDate = DateTime.Now;
                 }
-                using (var stream = System.IO.File.Create(filePath))
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
-                    file.CopyToAsync(stream);
+                    file.CopyTo(fileStream);
                 }
             }
 
@@ -2025,15 +2074,15 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return true;
         }
 
-        public void AddSmsLogFromSendLink(string body, string number, int adminId, DateTime temp, int count)
+        public void AddSmsLogFromSendLink(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent)
         {
             Smslog sl = new Smslog();
             sl.Smstemplate = body;
             sl.MobileNumber = number;
             sl.AdminId = adminId;
             sl.CreateDate = temp;
-            sl.SentDate = DateTime.Now;
-            sl.IsSmssent = new BitArray(1, true);
+            sl.SentDate = isSMSSent ? DateTime.Now : null;
+            sl.IsSmssent = isSMSSent ? new BitArray(1, true) : new BitArray(1, false);
             sl.SentTries = count;
             sl.Action = 1;
             sl.RoleId = 2;
@@ -2042,15 +2091,15 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        public void AddSmsLogFromSendOrder(string body, string number, int adminId, DateTime temp, int count)
+        public void AddSmsLogFromSendOrder(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent)
         {
             Smslog sl = new Smslog();
             sl.Smstemplate = body;
             sl.MobileNumber = number;
             sl.AdminId = adminId;
             sl.CreateDate = temp;
-            sl.SentDate = DateTime.Now;
-            sl.IsSmssent = new BitArray(1, true);
+            sl.SentDate = isSMSSent ? DateTime.Now : null;
+            sl.IsSmssent = isSMSSent ? new BitArray(1, true) : new BitArray(1, false);
             sl.SentTries = count;
             sl.Action = 1;
 
@@ -2058,15 +2107,15 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        public void AddSmsLogFromContactProvider(string body, string number, int adminId, int phyId, DateTime temp, int count)
+        public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent)
         {
             Smslog sl = new Smslog();
             sl.Smstemplate = body;
             sl.MobileNumber = number;
             sl.AdminId = adminId;
             sl.CreateDate = temp;
-            sl.SentDate = DateTime.Now;
-            sl.IsSmssent = new BitArray(1, true);
+            sl.SentDate = isSMSSent ? DateTime.Now : null;
+            sl.IsSmssent = isSMSSent ? new BitArray(1, true) : new BitArray(1, false);
             sl.SentTries = count;
             sl.Action = 1;
             sl.RoleId = 2;
@@ -2074,6 +2123,31 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             _context.Smslogs.Add(sl);
             _context.SaveChanges();
+        }
+
+        public void AddEmailLog(string body, string subject, string email, int RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount)
+        {
+
+            EmailLog emailLog = new EmailLog
+            {
+                EmailTemplate = body,
+                SubjectName = subject,
+                EmailId = email,
+                ConfirmationNumber = ConfirmationNumber,
+                FilePath = filePath,
+                RoleId = RoleId == -1 ? null : RoleId,
+                RequestId = RequestId,
+                AdminId = AdminId,
+                PhysicianId = PhysicianId,
+                IsEmailSent = new BitArray(1, isEmailSent),
+                SentTries = emailSentCount,
+                CreateDate = (DateTime)createdDate,
+                SentDate = DateTime.Now
+            };
+
+            _context.EmailLogs.Add(emailLog);
+            _context.SaveChanges();
+
         }
 
     }

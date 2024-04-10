@@ -4,10 +4,10 @@
 }
 
 @section Styles {
-        <link href="~/css/create-patient-request.css" rel="stylesheet" type="text/css" />
-        <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    @*<link href="~/css/create-patient-request.css" rel="stylesheet" type="text/css" />*@
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 }
 
 <!--Location Modal -->
@@ -46,11 +46,41 @@
     </div>
 </div>
 
+<style>
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
 
-<partial name="HeaderFooter" model="@Model.adminNavbarModel"/>
+    select:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        border-color: #3DB6FF !important;
+        /*box-shadow: none !important;*/
+    }
+
+        textarea:focus::placeholder {
+            color: #3DB6FF !important;
+        }
+
+    .form-floating:focus-within label {
+        color: #3DB6FF !important;
+    }
+</style>
 
 <div class="bg-light">
     <div id="main-page">
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
         <partial name="Toast" />
         <div class="container mt-4 shadowalign-content-lg-around bg-muted rounded">
             <div class="row d-flex flex-row">
@@ -60,7 +90,7 @@
                     </p>
                 </div>
                 <div class="w-50 mt-3">
-                    <a class="float-end text-info" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;">
+                    <a class="float-end text-info" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
                         </svg>
@@ -297,7 +327,7 @@
                     toastr.error("Entered address does not belong to the available services");
                 }
                 else {
-                    toastr.error("Enter valid region");
+                    toastr.error("Enter a valid region value");
                 }
             }
         })
@@ -312,6 +342,6 @@
 
 @section Scripts {
     @{
-                <partial name="_ValidationScriptsPartial" />
+        <partial name="_ValidationScriptsPartial" />
     }
 }

@@ -42,13 +42,15 @@ namespace HalloDoc.Controllers
         private readonly IJwtToken _jwtToken;
         private readonly ILogger<AdminController> _logger;
         private readonly IConfiguration _configuration;
+        private readonly IPatientRequest _patientRequest;
 
-        public AdminController(IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken, IConfiguration configuration)
+        public AdminController(IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken, IConfiguration configuration, IPatientRequest patientRequest)
         {
             _adminInterface = adminInterface;
             _sescontext = sescontext;
             _jwtToken = jwtToken;
             _configuration = configuration;
+            _patientRequest = patientRequest;
         }
 
         [HttpPost]
@@ -1181,6 +1183,17 @@ namespace HalloDoc.Controllers
             }
         }
 
+        public bool PatientCheck(string email)
+        {
+            AspNetUser existingUser = _patientRequest.GetEmailFromAspNet(email);
+            bool isValidEmail = true;
+            if (existingUser == null)
+            {
+                isValidEmail = false;
+            }
+            return isValidEmail;
+        }
+
         [HttpPost]
         [CustomAuthorize("Admin", "CreateRequest")]
         // function called when admin creates the request for a patient
@@ -1202,6 +1215,60 @@ namespace HalloDoc.Controllers
 
                 if (ModelState.IsValid)
                 {
+                    if (!PatientCheck(model.Email))
+                    {
+                        int emailSentCount = 1;
+                        bool isEmailSent = false;
+                        string resetToken = Guid.NewGuid().ToString();
+                        string subject = "HalloDoc - Create your account";
+                        string platformTitle = "HalloDoc";
+                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount";
+                        var body = $"<h3>Hey {model.FirstName + " " + model.LastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a><br /><br />Regards,<br/>{platformTitle}<br/>";
+                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                        string senderPassword = "Ishan@1503";
+
+                        while (emailSentCount <= 3 && !isEmailSent)
+                        {
+                            try
+                            {
+
+                                SmtpClient client = new SmtpClient("smtp.office365.com")
+                                {
+                                    Port = 587,
+                                    Credentials = new NetworkCredential(senderEmail, senderPassword),
+                                    EnableSsl = true,
+                                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                                    UseDefaultCredentials = false
+                                };
+
+                                MailMessage mailMessage = new MailMessage
+                                {
+                                    From = new MailAddress(senderEmail, "HalloDoc"),
+                                    Subject = "Create account for patient " + model.FirstName,
+                                    IsBodyHtml = true,
+                                    Body = $"<h3>Hey {model.FirstName + " " + model.LastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a>"
+                                };
+                                mailMessage.To.Add(model.Email);
+
+                                await client.SendMailAsync(mailMessage);
+
+                                isEmailSent = true;
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, isEmailSent, emailSentCount);
+                            }
+                            catch (Exception ex)
+                            {
+                                if (emailSentCount >= 3)
+                                {
+                                    DateTime temp = DateTime.Now;
+                                    _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, false, emailSentCount);
+                                }
+                                emailSentCount++;
+                                ModelState.AddModelError("Email", "Invalid Email");
+                                return RedirectToAction("PatientSite");
+                            }
+                        }
+                    }
                     var region = _adminInterface.ValidateRegion(model);
                     if (region == null)
                     {
@@ -1248,7 +1315,7 @@ namespace HalloDoc.Controllers
 
                 if (state == null)
                 {
-                    return Json(new { isVerified = 2 });
+                    return Json(new { isVerified = 3 });
                 }
                 bool isVerified = _adminInterface.VerifyLocation(state);
                 if (isVerified)
@@ -1484,50 +1551,81 @@ namespace HalloDoc.Controllers
             ViewBag.Menu = menus;
             try
             {
-                string[] files = fileName.Split(',').Select(x => x.Trim()).ToArray();
-                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                string senderPassword = "Ishan@1503";
-
-                SmtpClient client = new SmtpClient("smtp.office365.com")
-                {
-                    Port = 587,
-                    Credentials = new NetworkCredential(senderEmail, senderPassword),
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false
-                };
+                int emailSentCount = 1;
                 Request r = _adminInterface.ValidateRequest(requestid);
                 RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
                 string name = rc.FirstName + " " + rc.LastName;
+                bool isEmailSent = false;
+                string resetToken = Guid.NewGuid().ToString();
+                string subject = "HalloDoc - Create your account";
+                string platformTitle = "HalloDoc";
+                string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount";
+                var body = $"<h2>Documents</h2><p>Here are the documents uploaded for the request of Patient: {name}</p><br /><br />Regards,<br/>{platformTitle}<br/>";
+                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                string senderPassword = "Ishan@1503";
+
+                string[] files = fileName.Split(',').Select(x => x.Trim()).ToArray();
+                Request req = _adminInterface.GetRequestWithUser(requestid);
+
+                while (emailSentCount <= 3 && !isEmailSent)
+                {
+                    try
+                    {
+                        SmtpClient client = new SmtpClient("smtp.office365.com")
+                        {
+                            Port = 587,
+                            Credentials = new NetworkCredential(senderEmail, senderPassword),
+                            EnableSsl = true,
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false
+                        };
 
 
-                MailMessage mailMessage = new MailMessage
-                {
-                    From = new MailAddress(senderEmail, "HalloDoc"),
-                    Subject = "Documents uploaded for patient request",
-                    IsBodyHtml = true,
-                    Body = $"<h2>Documents</h2><p>Here are the documents uploaded for the request of Patient: {name}</p>"
-                };
-                var user = _adminInterface.ValidAspNetUser(rc.Email);
-                foreach (var file in files)
-                {
-                    var filePath = Path.Combine("wwwroot/uploads", file);
-                    var attachment = new Attachment(filePath);
-                    mailMessage.Attachments.Add(attachment);
+                        MailMessage mailMessage = new MailMessage
+                        {
+                            From = new MailAddress(senderEmail, "HalloDoc"),
+                            Subject = subject,
+                            IsBodyHtml = true,
+                            Body = body,
+                        };
+                        var user = _adminInterface.ValidAspNetUser(rc.Email);
+                        foreach (var file in files)
+                        {
+                            var filePath = Path.Combine("wwwroot/uploads", file);
+                            var attachment = new Attachment(filePath);
+                            mailMessage.Attachments.Add(attachment);
+                        }
+                        if (user != null)
+                        {
+                            mailMessage.To.Add(rc.Email);
+                            client.SendMailAsync(mailMessage);
+                            isEmailSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, null, null, temp, isEmailSent, emailSentCount);
+                            TempData["success"] = "Mail sent successfully";
+                            return RedirectToAction("ViewUploads", new { requestID = requestid });
+                        }
+                        else
+                        {
+                            ModelState.AddModelError("Email", "Invalid Email");
+                            TempData["error"] = "Unable to send the mail";
+                            return RedirectToAction("ViewUploads", new { requestID = requestid });
+                        }
+                    }
+
+                    catch(Exception ex)
+                    {
+                        if (emailSentCount >= 3)
+                        {
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, null, null, temp, false, emailSentCount);
+                        }
+                        emailSentCount++;
+                        return RedirectToAction("ForgotPassword");
+                    }
                 }
-                if (user != null)
-                {
-                    mailMessage.To.Add(rc.Email);
-                    client.SendMailAsync(mailMessage);
-                    TempData["success"] = "Mail sent successfully";
-                    return RedirectToAction("ViewUploads", new { requestID = requestid });
-                }
-                else
-                {
-                    ModelState.AddModelError("Email", "Invalid Email");
-                    TempData["error"] = "Unable to send the mail";
-                    return RedirectToAction("ViewUploads", new { requestID = requestid });
-                }
+                TempData["success"] = "Mail sent successfully";
+                return RedirectToAction("ViewUploads", new { requestID = requestid });
             }
             catch (Exception ex)
             {
@@ -1573,7 +1671,7 @@ namespace HalloDoc.Controllers
                         );
                         isSMSSent = true;
                         DateTime temp = DateTime.Now;
-                        _adminInterface.AddSmsLogFromSendLink(messageSMS, num, ad.AdminId, temp, smsCount);
+                        _adminInterface.AddSmsLogFromSendLink(messageSMS, num, null, temp, smsCount, isSMSSent);
                         break;
                     }
 
@@ -1582,7 +1680,7 @@ namespace HalloDoc.Controllers
                         if (smsCount >= 3)
                         {
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddSmsLogFromSendLink(messageSMS, num, ad.AdminId, temp, smsCount);
+                            _adminInterface.AddSmsLogFromSendLink(messageSMS, num, null, temp, smsCount, isSMSSent);
                         }
                         smsCount++;
                     }
@@ -1833,7 +1931,7 @@ namespace HalloDoc.Controllers
 
                         isSmsSent = true;
                         DateTime temp = DateTime.Now;
-                        _adminInterface.AddSmsLogFromSendOrder(messageSMS, recipient, ad.AdminId, temp, smsSentTries);
+                        _adminInterface.AddSmsLogFromSendOrder(messageSMS, recipient, null, temp, smsSentTries, isSmsSent);
                         break;
                     }
 
@@ -1842,7 +1940,7 @@ namespace HalloDoc.Controllers
                         if (smsSentTries >= 3)
                         {
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddSmsLogFromSendOrder(messageSMS, recipient, ad.AdminId, temp, smsSentTries);
+                            _adminInterface.AddSmsLogFromSendOrder(messageSMS, recipient, null, temp, smsSentTries, isSmsSent);
                         }
                         smsSentTries++;
                     }
@@ -1947,44 +2045,63 @@ namespace HalloDoc.Controllers
             List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
             ViewBag.Menu = menus;
 
+            Request r = _adminInterface.GetRequestWithUser(model.RequestId);
             string email = _adminInterface.GetMailToSentAgreement(model.RequestId);
             RequestClient rc = _adminInterface.GetPatientData(model.RequestId);
             string url = $"{Request.Scheme}://{Request.Host}/Admin/ReviewAgreement?id={rc.RequestClientId}";
-            try
+            int emailSentCount = 1;
+            bool isEmailSent = false;
+            string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+            string senderPassword = "Ishan@1503";
+            string subject = "HalloDoc - Review Agreement";
+            string platformTitle = "HalloDoc";
+            var body = $"Please click the following link to reset your password: <br><br><a href='{url}'>Click Here</a><br /><br />Regards,<br/>{platformTitle}<br/>";
+
+            while (emailSentCount <= 3 && !isEmailSent)
             {
-                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                string senderPassword = "Ishan@1503";
 
-                SmtpClient client = new SmtpClient("smtp.office365.com")
+                try
                 {
-                    Port = 587,
-                    Credentials = new NetworkCredential(senderEmail, senderPassword),
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false
-                };
 
-                MailMessage mailMessage = new MailMessage
+                    SmtpClient client = new SmtpClient("smtp.office365.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential(senderEmail, senderPassword),
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false
+                    };
+
+                    MailMessage mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(senderEmail, "HalloDoc"),
+                        Subject = "Review the agreement",
+                        IsBodyHtml = true,
+                        Body = body,
+                    };
+
+
+                    mailMessage.To.Add(model.sendAgreeEmail);
+                    _sescontext.HttpContext.Session.SetString("UserEmail", model.sendAgreeEmail);
+                    await client.SendMailAsync(mailMessage);
+                    isEmailSent = true;
+                    DateTime temp = DateTime.Now;
+                    _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, ad.AdminId, null, temp, isEmailSent, emailSentCount);
+                    TempData["success"] = "Mail sent successfully. Please check it";
+
+
+
+                }
+                catch (Exception ex)
                 {
-                    From = new MailAddress(senderEmail, "HalloDoc"),
-                    Subject = "Review the agreement",
-                    IsBodyHtml = true,
-                    Body = $"Please click the following link to reset your password: <br><br><a href='{url}'>Click Here</a>"
-                };
-
-
-                mailMessage.To.Add(model.sendAgreeEmail);
-                _sescontext.HttpContext.Session.SetString("UserEmail", model.sendAgreeEmail);
-                await client.SendMailAsync(mailMessage);
-                TempData["success"] = "Mail sent successfully. Please check it";
-
-                ModelState.AddModelError("Email", "Invalid Email");
-
-
-            }
-            catch (Exception ex)
-            {
-                TempData["error"] = "Failed to send the agreement to the provided mail";
+                    if (emailSentCount >= 3)
+                    {
+                        DateTime temp = DateTime.Now;
+                        _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, ad.AdminId, null, temp, false, emailSentCount);
+                    }
+                    emailSentCount++;
+                    TempData["error"] = "Failed to send the agreement to the provided mail";
+                }
             }
             return RedirectToAction("AdminDashboard");
         }
@@ -2288,8 +2405,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [HttpPost]
-        [CustomAuthorize("Admin", "AdminDashboard")]
+        
         // function called when we case is closed
         public IActionResult ClickOnCloseCase(int id)
         {
@@ -2321,13 +2437,13 @@ namespace HalloDoc.Controllers
                 _adminInterface.AddRequestClosedData(rc);
 
                 TempData["success"] = "Request Closed Successfully";
-                return View("AdminDashboard");
+                return RedirectToAction("AdminDashboard");
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Case is not closed";
-                return View("AdminDashboard");
+                return RedirectToAction("AdminDashboard");
             }
         }
 
@@ -2714,6 +2830,7 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
                 int count = 1;
                 int smsSentTries = 1;
+                string subject = "HalloDoc - Contact Your Provider";
                 bool isSMSSent = false;
                 bool isSent = false;
                 if (flexRadioDefault != "SMS" && (flexRadioDefault == "Email" || flexRadioDefault == "Both"))
@@ -2735,15 +2852,13 @@ namespace HalloDoc.Controllers
                                 DeliveryMethod = SmtpDeliveryMethod.Network,
                                 UseDefaultCredentials = false
                             };
-                            string resetToken = Guid.NewGuid().ToString();
-                            string resetLink = $"{Request.Scheme}://{Request.Host}/Login/SubmitRequestScreen?token={resetToken}";
 
 
 
                             MailMessage mailMessage = new MailMessage
                             {
                                 From = new MailAddress(senderEmail, "HalloDoc"),
-                                Subject = "Contact Your Provider",
+                                Subject = subject,
                                 IsBodyHtml = true,
                                 Body = $"{contactProviderMessage}"
                             };
@@ -2753,6 +2868,8 @@ namespace HalloDoc.Controllers
                                 mailMessage.To.Add(model.email);
                                 client.SendMailAsync(mailMessage);
                                 isSent = true;
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(contactProviderMessage, subject, model.email, 2, null, null, null, null, (int)model.phyId, temp, isSent, count);
                                 break;
                             }
 
@@ -2764,6 +2881,11 @@ namespace HalloDoc.Controllers
                         }
                         catch (Exception ex)
                         {
+                            if (count >= 3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(contactProviderMessage, subject, model.email, 2, null, null, null, null, (int)model.phyId, temp, isSent, count);
+                            }
                             count++;
                         }
                     }
@@ -2791,16 +2913,16 @@ namespace HalloDoc.Controllers
 
                             isSMSSent = true;
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddSmsLogFromContactProvider(messageSMS, recipient, ad.AdminId, (int)model.phyId, temp, smsSentTries);
+                            _adminInterface.AddSmsLogFromContactProvider(messageSMS, recipient, null, (int)model.phyId, temp, smsSentTries, isSMSSent);
                             break;
                         }
 
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
-                            if(smsSentTries >= 3)
+                            if (smsSentTries >= 3)
                             {
                                 DateTime temp = DateTime.Now;
-                                _adminInterface.AddSmsLogFromContactProvider(messageSMS, recipient, ad.AdminId, (int)model.phyId, temp, smsSentTries);
+                                _adminInterface.AddSmsLogFromContactProvider(messageSMS, recipient, null, (int)model.phyId, temp, smsSentTries, isSMSSent);
                             }
                             smsSentTries++;
                         }
@@ -4063,6 +4185,59 @@ namespace HalloDoc.Controllers
                 TempData["error"] = "Unable to delete the record";
             }
             return RedirectToAction("SearchRecords");
+        }
+
+        [CustomAuthorize("Admin", "SMSLogs")]
+        public IActionResult SmsLogs()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 16;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                SmsLogsViewModel sl = new SmsLogsViewModel
+                {
+                    adminNavbarModel = an,
+                };
+                return View(sl);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view vendors information";
+                return RedirectToAction("AdmiDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "SMSLogs")]
+        public IActionResult SmsLogsFilteredData(DateTime createdDate, DateTime sentDate, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? phoneNumber = "")
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 16;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                SmsLogsViewModel sl = _adminInterface.SmsLogsFilteredData(an, page, pageSize, role, recipientName, phoneNumber, createdDate, sentDate);
+                return PartialView("SmsLogsPagePartialView", sl);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view vendors information";
+                return RedirectToAction("AdmiDashboard");
+            }
         }
 
         [CustomAuthorize("Admin", "Partners")]

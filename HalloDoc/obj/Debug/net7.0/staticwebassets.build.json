@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "QK6w0RwkCtYSKMNoYJix2pLXkzphDjtk9P26zwMXpMg=",
+  "Hash": "SZth0ynSuj/Xv0V6mcg+3IRnNzS/kekRA9XnzU9O4GM=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -2686,6 +2686,40 @@
       "OriginalItemSpec": "wwwroot\\Physician\\6\\Profile.png"
     },
     {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\AgreementDoc.pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "Physician/7/AgreementDoc.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Physician\\7\\AgreementDoc.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\NonDisclosure.pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "Physician/7/NonDisclosure.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Physician\\7\\NonDisclosure.pdf"
+    },
+    {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\Profile.png",
       "SourceId": "HalloDoc",
       "SourceType": "Discovered",
@@ -3670,6 +3704,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\uploads\\Unpaid.xlsx"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Updated-Training-Plan-20March24.pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "uploads/Updated-Training-Plan-20March24.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\uploads\\Updated-Training-Plan-20March24.pdf"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",

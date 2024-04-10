@@ -109,6 +109,14 @@
       "PackagePath": "staticwebassets\\Physician\\6\\Profile.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\7\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\NonDisclosure.pdf",
+      "PackagePath": "staticwebassets\\Physician\\7\\NonDisclosure.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\Profile.png",
       "PackagePath": "staticwebassets\\Physician\\7\\Profile.png"
     },
@@ -771,6 +779,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Unpaid.xlsx",
       "PackagePath": "staticwebassets\\uploads\\Unpaid.xlsx"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Updated-Training-Plan-20March24.pdf",
+      "PackagePath": "staticwebassets\\uploads\\Updated-Training-Plan-20March24.pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Video 1 Intro to HTML5_CSS ppt.pdf",

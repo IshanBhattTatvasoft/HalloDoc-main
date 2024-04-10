@@ -1,0 +1,65 @@
+﻿@model HalloDoc.DataLayer.ViewModels.SmsLogsViewModel
+@using static HalloDoc.DataLayer.Models.Enums;
+
+<div class="table-responsive d-none d-md-block">
+    <table class="table mt-0">
+        <thead class="table-secondary">
+            <tr>
+                <th class="text-muted">Recipient Name</th>
+                <th class="text-muted">Action</th>
+                <th class="text-muted">Role Name</th>
+                <th class="text-muted">Mobile Number</th>
+                <th class="text-muted">Created Date<i class="fa-solid fa-arrow-down" style="color: #6D6D6C;"></i></th>
+                <th class="text-muted">Sent Date</th>
+                <th class="text-muted">Sent</th>
+                <th class="text-muted">Sent Tries</th>
+                <th class="text-muted">Confirmation Number</th>
+            </tr>
+        </thead>
+
+        @foreach(var item in Model.tableData)
+        {
+            <tr>
+                <td>@item.recipient</td>
+                <td>@item.action</td>
+                <td>@item.roleName</td>
+                <td>@item.phoneNumber</td>
+                <td>@item.createdDate</td>
+                <td>@item.sentDate.Date.ToString("MMM dd, yyyy")</td>
+                <td>@item.sent</td>
+                <td>@item.sentTries</td>
+                <td>@item.confirmationNo</td>
+            </tr>
+        }
+    </table>
+</div>
+
+<div class="pagination d-flex flex-wrap mt-3 mb-3">
+    <span class="me-2">Page No: </span>
+    @if (Model.CurrentPage > 1)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@(Model.CurrentPage - 1)" class="mx-4 text-decoration-none pagination-text">Previous</a>
+    }
+
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important" data-page="@i" class="@(i == Model.CurrentPage ? "pagination-active" : "") mx-4 text-decoration-none pagination-text">@i</a>
+    }
+
+    @if (Model.CurrentPage < Model.TotalPages)
+    {
+        <a style="color:#00ccff !important; cursor: pointer !important;" data-page="@(Model.CurrentPage + 1)" class="mx-4 text-decoration-none pagination-text">Next</a>
+    }
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.pagination a').click(function (e) {
+            e.preventDefault();
+            //console.log("hiiiiiii");
+            var page = $(this).attr('data-page');
+
+            filter(page, 10);
+        });
+    });
+</script>

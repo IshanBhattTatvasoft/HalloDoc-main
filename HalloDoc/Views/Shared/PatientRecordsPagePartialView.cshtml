@@ -37,8 +37,17 @@
                         @item.ModifiedDate
                     }
                 </td>
-                <td>@item.Status</td>
-                <td><a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">View</a></td>
+                <td>@Enum.GetName(typeof(Status), item.Status)</td>
+                <td>
+                    @if (Enum.GetName(typeof(Status), item.Status) == "Unpaid")
+                    {
+                        <a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">View</a>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-outline-info" type="button" data-bs-toggle="dropdown" aria-expanded="false">

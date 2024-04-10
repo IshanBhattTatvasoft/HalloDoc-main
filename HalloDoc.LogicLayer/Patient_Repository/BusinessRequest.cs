@@ -48,7 +48,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = model.Password;
+                aspNetUser.PasswordHash = "";
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChanges();
 

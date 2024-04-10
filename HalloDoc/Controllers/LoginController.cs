@@ -14,6 +14,7 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using DocumentFormat.OpenXml.InkML;
 using HalloDoc.LogicLayer.Patient_Repository;
+using Microsoft.CodeAnalysis.Elfie.Serialization;
 
 namespace HalloDoc.Controllers
 {
@@ -66,20 +67,20 @@ namespace HalloDoc.Controllers
                 //var user = _loginPage.ValidateAspNetUser(model);
                 AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
                 if (user != null)
-                { 
+                {
                     var token = _jwtToken.GenerateJwtToken(user);
                     if (model.PasswordHash == user.PasswordHash)
                     {
                         Admin ad = _adminInterface.ValidateUser(user.Email);
                         User user2 = _loginPage.ValidateUsers(model);
-                        if(ad==null)
+                        if (ad == null)
                         {
                             HttpContext.Session.SetInt32("id", user2.UserId);
                             HttpContext.Session.SetString("Name", user2.FirstName);
                             HttpContext.Session.SetString("IsLoggedIn", "true");
                             Response.Cookies.Append("token", token.ToString());
                         }
-                        if(ad!=null)
+                        if (ad != null)
                         {
                             HttpContext.Session.SetInt32("id", ad.AdminId);
                             HttpContext.Session.SetString("name", ad.FirstName);
@@ -124,74 +125,93 @@ namespace HalloDoc.Controllers
 
         public async Task<IActionResult> SendMailForSetUpAccount(LoginViewModel model)
         {
-            //try
-            //{
-            //    var response = await _emailSender.SendEmail(model);
+            AspNetUser anu = _adminInterface.ValidAspNetUser(model.UserName);
+            bool isAdmin = false;
+            bool isPhysician = false;
+            isAdmin = _adminInterface.FindAdminFromAspNetUser(anu.Id);
+            isPhysician = _adminInterface.FindPhysicianFromAspNetUser(anu.Id);
 
-            //    if (response.IsSuccess)
-            //    {
-            //        return RedirectToAction("PatientLoginPage");
-            //    }
-            //    else
-            //    {
-            //        ModelState.AddModelError("Email", response.ErrorMessage);
-            //        return RedirectToAction("ForgotPassword");
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    return RedirectToAction("ForgotPassword");
-            //}
             PasswordReset passwordReset = new PasswordReset();
+            int emailSentCount = 1;
+            bool isEmailSent = false;
 
-            try
+            while (emailSentCount <= 3 && !isEmailSent)
             {
-
-                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                string senderPassword = "Ishan@1503";
-
-                SmtpClient client = new SmtpClient("smtp.office365.com")
-                {
-                    Port = 587,
-                    Credentials = new NetworkCredential(senderEmail, senderPassword),
-                    EnableSsl = true,
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false
-                };
                 string resetToken = Guid.NewGuid().ToString();
                 string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePassword?token={resetToken}";
-
-                passwordReset.Token = resetToken;
-                passwordReset.CreatedDate = DateTime.Now;
-                passwordReset.Email = model.UserName;
-                passwordReset.IsModified = false;
-
-                MailMessage mailMessage = new MailMessage
+                string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                string senderPassword = "Ishan@1503";
+                string subject = "HalloDoc - Set up your account";
+                string platformTitle = "HalloDoc";
+                var body = $"Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a><br /><br />Regards,<br/>{platformTitle}<br/>";
+                try
                 {
-                    From = new MailAddress(senderEmail, "HalloDoc"),
-                    Subject = "Set up your Account",
-                    IsBodyHtml = true,
-                    Body = $"Please click the following link to reset your password: <a href='{resetLink}'>Click Here</a>"
-                };
-                var user = _loginPage.ValidateAspNetUser(model);
-                if (user != null)
-                {
-                    mailMessage.To.Add(model.UserName);
-                    _sescontext.HttpContext.Session.SetString("Token", resetToken);
-                    _sescontext.HttpContext.Session.SetString("UserEmail", model.UserName);
-                    await client.SendMailAsync(mailMessage);
+
+                    SmtpClient client = new SmtpClient("smtp.office365.com")
+                    {
+                        Port = 587,
+                        Credentials = new NetworkCredential(senderEmail, senderPassword),
+                        EnableSsl = true,
+                        DeliveryMethod = SmtpDeliveryMethod.Network,
+                        UseDefaultCredentials = false
+                    };
+
+                    passwordReset.Token = resetToken;
+                    passwordReset.CreatedDate = DateTime.Now;
+                    passwordReset.Email = model.UserName;
+                    passwordReset.IsModified = false;
+
+                    MailMessage mailMessage = new MailMessage
+                    {
+                        From = new MailAddress(senderEmail, "HalloDoc"),
+                        Subject = subject,
+                        IsBodyHtml = true,
+                        Body = body
+                    };
+                    var user = _loginPage.ValidateAspNetUser(model);
+                    if (user != null)
+                    {
+                        mailMessage.To.Add(model.UserName);
+                        _sescontext.HttpContext.Session.SetString("Token", resetToken);
+                        _sescontext.HttpContext.Session.SetString("UserEmail", model.UserName);
+                        await client.SendMailAsync(mailMessage);
+                        isEmailSent = true;
+                        DateTime temp = DateTime.Now;
+                        if (isAdmin)
+                        {
+                            Admin a = _adminInterface.GetAdminFromAspNetUser(anu.Email);
+                            _adminInterface.AddEmailLog(body, subject, model.UserName, 1, null, null, null, a.AdminId, null, temp, isEmailSent, emailSentCount);
+                        }
+                        else if (isPhysician)
+                        {
+                            Physician p = _adminInterface.GetPhysicianFromAspNetUser(anu.Email);
+                            _adminInterface.AddEmailLog(body, subject, model.UserName, 2, null, null, null, null, p.PhysicianId, temp, isEmailSent, emailSentCount);
+                        }
+                        else
+                        {
+                            _adminInterface.AddEmailLog(body, subject, model.UserName, 3, null, null, null, null, null, temp, isEmailSent, emailSentCount);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Hey");
+                    }
                     return RedirectToAction("PatientLoginPage");
                 }
-                else
+                catch (Exception ex)
                 {
+                    if (emailSentCount >= 3)
+                    {
+                        DateTime temp = DateTime.Now;
+                        _adminInterface.AddEmailLog(body, subject, model.UserName, 3, null, null, null, null, null, temp, false, emailSentCount);
+                    }
+                    emailSentCount++;
                     ModelState.AddModelError("Email", "Invalid Email");
                     return RedirectToAction("ForgotPassword");
                 }
             }
-            catch (Exception ex)
-            {
-                return RedirectToAction("ForgotPassword");
-            }
+
+            return RedirectToAction("PatientLoginPage");
         }
 
         [HttpPost]
@@ -238,7 +258,7 @@ namespace HalloDoc.Controllers
 
         public IActionResult CreateAccount(CreatePatientAccountViewModel model)
         {
-            if(_patientRequest.GetEmailFromAspNet(model.email) == null)
+            if (_patientRequest.GetEmailFromAspNet(model.email) == null)
             {
                 _patientRequest.InsertIntoAspNetUser(model);
                 _patientRequest.InsertPatientIntoUserRoles(model);

@@ -24,8 +24,9 @@ namespace HalloDoc.Controllers
         private readonly IFamilyRequest _familyRequest;
         private readonly IBusinessRequest _businessRequest;
         private readonly IConciergeRequest _conciergeRequest;
+        private readonly IAdminInterface _adminInterface;
         [ActivatorUtilitiesConstructor]
-        public PatientRequestController(ApplicationDbContext context, IPatientRequest patientRequest, IFamilyRequest familyRequest, IBusinessRequest businessRequest, IConciergeRequest conciergeRequest, IHttpContextAccessor sescontext)
+        public PatientRequestController(ApplicationDbContext context, IPatientRequest patientRequest, IFamilyRequest familyRequest, IBusinessRequest businessRequest, IConciergeRequest conciergeRequest, IHttpContextAccessor sescontext, IAdminInterface adminInterface)
         {
             /* _logger = logger;*/
             _context = context;
@@ -34,6 +35,7 @@ namespace HalloDoc.Controllers
             _businessRequest = businessRequest;
             _conciergeRequest = conciergeRequest;
             _sescontext = sescontext;
+            _adminInterface = adminInterface;
         }
 
         /*public PatientRequestController(ILogger<PatientRequestController> logger)
@@ -52,8 +54,8 @@ namespace HalloDoc.Controllers
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
-            
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 var region = _patientRequest.ValidateRegion(model);
 
@@ -105,52 +107,65 @@ namespace HalloDoc.Controllers
             RequestWiseFile requestWiseFile = new RequestWiseFile();
             RequestStatusLog requestStatusLog = new RequestStatusLog();
 
-            
 
-            
 
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
 
                 if (!PatientCheck(model.Email))
                 {
-                    try
+                    int emailSentCount = 1;
+                    bool isEmailSent = false;
+                    string resetToken = Guid.NewGuid().ToString();
+                    string subject = "HalloDoc - Create your account";
+                    string platformTitle = "HalloDoc";
+                    string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount";
+                    var body = $"<h3>Hey {model.FirstName + " " + model.LastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a><br /><br />Regards,<br/>{platformTitle}<br/>";
+                    string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                    string senderPassword = "Ishan@1503";
+
+                    while (emailSentCount <= 3 && !isEmailSent)
                     {
 
-                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                        string senderPassword = "Ishan@1503";
-
-                        SmtpClient client = new SmtpClient("smtp.office365.com")
+                        try
                         {
-                            Port = 587,
-                            Credentials = new NetworkCredential(senderEmail, senderPassword),
-                            EnableSsl = true,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false
-                        };
-                        string resetToken = Guid.NewGuid().ToString();
-                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount?token={resetToken}";
 
-                        //passwordReset.Token = resetToken;
-                        //passwordReset.CreatedDate = DateTime.Now;
-                        //passwordReset.Email = model.UserName;
-                        //passwordReset.IsModified = false;
 
-                        MailMessage mailMessage = new MailMessage
+                            SmtpClient client = new SmtpClient("smtp.office365.com")
+                            {
+                                Port = 587,
+                                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                                EnableSsl = true,
+                                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                UseDefaultCredentials = false
+                            };
+
+                            MailMessage mailMessage = new MailMessage
+                            {
+                                From = new MailAddress(senderEmail, "HalloDoc"),
+                                Subject = subject,
+                                IsBodyHtml = true,
+                                Body = body,
+                            };
+                            mailMessage.To.Add(model.Email);
+
+                            await client.SendMailAsync(mailMessage);
+                            isEmailSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, isEmailSent, emailSentCount);
+                        }
+                        catch (Exception ex)
                         {
-                            From = new MailAddress(senderEmail, "HalloDoc"),
-                            Subject = "Create account for patient " + model.FirstName,
-                            IsBodyHtml = true,
-                            Body = $"<h3>Hey {model.FamilyFirstName + " " + model.FamilyLastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a>"
-                        };
-                        mailMessage.To.Add(model.Email);
-
-                        await client.SendMailAsync(mailMessage);
-                        
-                    }
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError("Email", "Invalid Email");
+                            if (emailSentCount >= 3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, false, emailSentCount);
+                            }
+                            emailSentCount++;
+                            ModelState.AddModelError("Email", "Invalid Email");
+                            return RedirectToAction("PatientSite");
+                        }
                     }
                 }
 
@@ -198,49 +213,68 @@ namespace HalloDoc.Controllers
             RequestConcierge requestConcierge = new RequestConcierge();
             Region region = new Region();
 
-            
 
-            if(ModelState.IsValid)
+
+            if (ModelState.IsValid)
             {
                 if (!PatientCheck(model.Email))
                 {
-                    try
+                    int emailSentCount = 1;
+                    bool isEmailSent = false;
+                    string resetToken = Guid.NewGuid().ToString();
+                    string subject = "HalloDoc - Create your account";
+                    string platformTitle = "HalloDoc";
+                    string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount";
+                    var body = $"<h3>Hey {model.FirstName + " " + model.LastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a><br /><br />Regards,<br/>{platformTitle}<br/>";
+                    string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                    string senderPassword = "Ishan@1503";
+
+                    while (emailSentCount <= 3 && !isEmailSent)
                     {
-
-                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                        string senderPassword = "Ishan@1503";
-
-                        SmtpClient client = new SmtpClient("smtp.office365.com")
+                        try
                         {
-                            Port = 587,
-                            Credentials = new NetworkCredential(senderEmail, senderPassword),
-                            EnableSsl = true,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false
-                        };
-                        string resetToken = Guid.NewGuid().ToString();
-                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount?token={resetToken}";
 
-                        //passwordReset.Token = resetToken;
-                        //passwordReset.CreatedDate = DateTime.Now;
-                        //passwordReset.Email = model.UserName;
-                        //passwordReset.IsModified = false;
 
-                        MailMessage mailMessage = new MailMessage
+                            SmtpClient client = new SmtpClient("smtp.office365.com")
+                            {
+                                Port = 587,
+                                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                                EnableSsl = true,
+                                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                UseDefaultCredentials = false
+                            };
+
+                            //passwordReset.Token = resetToken;
+                            //passwordReset.CreatedDate = DateTime.Now;
+                            //passwordReset.Email = model.UserName;
+                            //passwordReset.IsModified = false;
+
+                            MailMessage mailMessage = new MailMessage
+                            {
+                                From = new MailAddress(senderEmail, "HalloDoc"),
+                                Subject = "Create account for patient " + model.FirstName,
+                                IsBodyHtml = true,
+                                Body = body,
+                            };
+                            mailMessage.To.Add(model.Email);
+
+                            await client.SendMailAsync(mailMessage);
+                            isEmailSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, isEmailSent, emailSentCount);
+
+                        }
+                        catch (Exception ex)
                         {
-                            From = new MailAddress(senderEmail, "HalloDoc"),
-                            Subject = "Create account for patient " + model.FirstName,
-                            IsBodyHtml = true,
-                            Body = $"<h3>Hey {model.ConciergeFirstName + " " + model.ConciergeLastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a>"
-                        };
-                        mailMessage.To.Add(model.Email);
-
-                        await client.SendMailAsync(mailMessage);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError("Email", "Invalid Email");
+                            if (emailSentCount >= 3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, false, emailSentCount);
+                            }
+                            emailSentCount++;
+                            ModelState.AddModelError("Email", "Invalid Email");
+                            return RedirectToAction("PatientSite");
+                        }
                     }
                 }
 
@@ -261,7 +295,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> CreateBusinessRequest(BusinessRequestModel model)
+        public async Task<IActionResult> CreateBusinessRequest(BusinessRequestModel model)
         {
             AspNetUser aspNetUser = new AspNetUser();
             User user = new User();
@@ -274,51 +308,64 @@ namespace HalloDoc.Controllers
             Region region2 = new Region();
 
 
-            
 
-            
+
+
 
             if (ModelState.IsValid)
             {
                 if (!PatientCheck(model.Email))
                 {
-                    try
+                    int emailSentCount = 1;
+                    bool isEmailSent = false;
+                    string resetToken = Guid.NewGuid().ToString();
+                    string subject = "HalloDoc - Create your account";
+                    string platformTitle = "HalloDoc";
+                    string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount";
+                    var body = $"<h3>Hey {model.FirstName + " " + model.LastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a><br /><br />Regards,<br/>{platformTitle}<br/>";
+                    string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                    string senderPassword = "Ishan@1503";
+
+                    while (emailSentCount <= 3 && !isEmailSent)
                     {
-
-                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
-                        string senderPassword = "Ishan@1503";
-
-                        SmtpClient client = new SmtpClient("smtp.office365.com")
+                        try
                         {
-                            Port = 587,
-                            Credentials = new NetworkCredential(senderEmail, senderPassword),
-                            EnableSsl = true,
-                            DeliveryMethod = SmtpDeliveryMethod.Network,
-                            UseDefaultCredentials = false
-                        };
-                        string resetToken = Guid.NewGuid().ToString();
-                        string resetLink = $"{Request.Scheme}://{Request.Host}/Login/CreatePatientAccount?token={resetToken}";
 
-                        //passwordReset.Token = resetToken;
-                        //passwordReset.CreatedDate = DateTime.Now;
-                        //passwordReset.Email = model.UserName;
-                        //passwordReset.IsModified = false;
+                            SmtpClient client = new SmtpClient("smtp.office365.com")
+                            {
+                                Port = 587,
+                                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                                EnableSsl = true,
+                                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                UseDefaultCredentials = false
+                            };
 
-                        MailMessage mailMessage = new MailMessage
+                            MailMessage mailMessage = new MailMessage
+                            {
+                                From = new MailAddress(senderEmail, "HalloDoc"),
+                                Subject = subject,
+                                IsBodyHtml = true,
+                                Body = body,
+                            };
+                            mailMessage.To.Add(model.Email);
+
+                            await client.SendMailAsync(mailMessage);
+
+                            isEmailSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, isEmailSent, emailSentCount);
+                        }
+                        catch (Exception ex)
                         {
-                            From = new MailAddress(senderEmail, "HalloDoc"),
-                            Subject = "Create account for patient " + model.FirstName,
-                            IsBodyHtml = true,
-                            Body = $"<h3>Hey {model.BusinessFirstName + " " + model.BusinessLastName}</h3><br> Please click the following link to reset your password:<br> <a href='{resetLink}'>Click Here</a>"
-                        };
-                        mailMessage.To.Add(model.Email);
-
-                        await client.SendMailAsync(mailMessage);
-
-                    }
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError("Email", "Invalid Email");
+                            if (emailSentCount >= 3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, false, emailSentCount);
+                            }
+                            emailSentCount++;
+                            ModelState.AddModelError("Email", "Invalid Email");
+                            return RedirectToAction("PatientSite");
+                        }
                     }
                 }
                 var region = _businessRequest.ValidateRegion(model);
@@ -341,7 +388,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        
+
 
         public bool PatientCheck(string email)
         {
@@ -376,7 +423,7 @@ namespace HalloDoc.Controllers
             return View();
         }
 
-        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

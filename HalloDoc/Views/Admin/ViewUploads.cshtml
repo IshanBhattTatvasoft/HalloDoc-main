@@ -400,9 +400,14 @@
 
                     var currentCheckBox = checkedBoxes[i];
                     var closestEntry = currentCheckBox.closest('tr');
-                    var fileName = closestEntry.querySelector('#filename-display').textContent;
-                    fileId.push(fileName);
-                    //console.log(fileName);
+                    if (closestEntry) {
+                        var fileNameElement = closestEntry.querySelector('#filename-display');
+                        if (fileNameElement) {
+                            var fileName = fileNameElement.textContent;
+                            fileId.push(fileName);
+                        }
+                    }
+                    console.log(fileName);
                 }
                 var fileIdString = fileId.join(',');
                 window.location.href = "/Admin/SendSelectedFiles?requestid=" + id + "&fileName=" + fileIdString;

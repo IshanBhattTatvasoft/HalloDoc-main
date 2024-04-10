@@ -155,7 +155,11 @@
 <script>
     window.onload = () => {
         var today = new Date().toISOString().split('T')[0];
+        console.log(today);
         document.getElementById("fromDate").setAttribute('max', today);
+
+        var today2 = new Date().toISOString().split('T')[0];
+        document.getElementById("toDate").setAttribute('min', today2);
 
         $.ajax({
             url: '/Admin/SearchRecordsFilteredData',

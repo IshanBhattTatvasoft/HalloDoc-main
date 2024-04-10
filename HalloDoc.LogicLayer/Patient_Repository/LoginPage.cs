@@ -20,7 +20,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         }
         public AspNetUser ValidateAspNetUser(LoginViewModel model)
         {
-             return _context.AspNetUsers.FirstOrDefault(u => u.UserName == model.UserName);
+             return _context.AspNetUsers.FirstOrDefault(u => u.Email == model.UserName);
              
         }
 

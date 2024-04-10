@@ -19,6 +19,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public ProviderMenuViewModel ProviderMenuFilteredData(AdminNavbarModel an, int? region, int page = 1, int pageSize = 10);
         public PatientHistoryViewModel PatientRecordsFilteredData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
         public SearchRecordsViewModel SearchRecordsFilteredData(AdminNavbarModel an, int? page = 1, int? pageSize = 10, int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNo = null);
+        public SmsLogsViewModel SmsLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? phoneNumber = "", DateTime? createdDate = null, DateTime? sentDate = null);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);
@@ -43,6 +44,10 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public Request GetRequestWithUser(int requestid);
         public void AddFile(RequestWiseFile requestWiseFile);
         public AspNetUser ValidAspNetUser(string email);
+        public bool FindAdminFromAspNetUser(int id);
+        public Admin GetAdminFromAspNetUser(string email)
+        public Physician GetPhysicianFromAspNetUser(string email)
+        public bool FindPhysicianFromAspNetUser(int id);
         public List<HealthProfessional> getBusinessData(int professionId);
         public PasswordReset ValidateToken(string token);
         public AspNetUser ValidateUserForResetPassword(ResetPasswordViewModel model, string useremail);
@@ -130,10 +135,10 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public bool SaveEditedBusinessInfo(AddVendorViewModel model, int id);
         public bool DeleteBusinessProfile(int id);
         public bool DeleteSearchRecord(int id);
-        public void AddSmsLogFromSendLink(string body, string number, int adminId, DateTime temp, int count);
-        public void AddSmsLogFromSendOrder(string body, string number, int adminId, DateTime temp, int count);
-        public void AddSmsLogFromContactProvider(string body, string number, int adminId, int phyId, DateTime temp, int count);
-
+        public void AddSmsLogFromSendLink(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent);
+        public void AddSmsLogFromSendOrder(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent);
+        public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent);
+        public void AddEmailLog(string body, string subject, string email, int RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount);
 
     }
 }
