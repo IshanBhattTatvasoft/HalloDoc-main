@@ -73,28 +73,31 @@
                 </div>
                 <img src="~/images/caret-down-fil3.svg" id="concludeState-img" class="caret hide-caret" />
             </a>
-            <a class="col-4 col-lg-2 custom-btn lower-three-button" style="text-decoration: none;" id="to-close-state" onclick="changeStyle()">
-                <div class="state tocloseState ms-2" onclick="changeStatus(this)">
-                    <div class="d-flex align-items-center state-sub-div">
-                        <img src="~/images/toclose.svg" id="tocloseState" class="icon-size pe-1">
-                        <img src="~/images/toclose_active.png" id="tocloseState-active" class="icon-size hide pe-1">
-                        <span class="title-sub-div" id="to-close-text">TO CLOSE</span>
+            @if (Model.an.roleName == "Admin")
+            {
+                <a class="col-4 col-lg-2 custom-btn lower-three-button" style="text-decoration: none;" id="to-close-state" onclick="changeStyle()">
+                    <div class="state tocloseState ms-2" onclick="changeStatus(this)">
+                        <div class="d-flex align-items-center state-sub-div">
+                            <img src="~/images/toclose.svg" id="tocloseState" class="icon-size pe-1">
+                            <img src="~/images/toclose_active.png" id="tocloseState-active" class="icon-size hide pe-1">
+                            <span class="title-sub-div" id="to-close-text">TO CLOSE</span>
+                        </div>
+                        <span class="state-count">@Model.toclose_count</span>
                     </div>
-                    <span class="state-count">@Model.toclose_count</span>
-                </div>
-                <img src="~/images/caret-down-fill4.svg" id="tocloseState-img" class="caret hide-caret" />
-            </a>
-            <a class="col-4 col-lg-2 custom-btn lower-three-button" style="text-decoration: none;" id="unpaid-state" onclick="changeStyle()">
-                <div class="state unpaidState ms-2" onclick="changeStatus(this)">
-                    <div class="d-flex align-items-center state-sub-div">
-                        <img src="~/images/unpaid.svg" id="unpaidState" class="icon-size pe-1">
-                        <img src="~/images/unpaid_active.png" id="unpaidState-active" class="icon-size hide pe-1">
-                        <span class="title-sub-div">UNPAID</span>
+                    <img src="~/images/caret-down-fill4.svg" id="tocloseState-img" class="caret hide-caret" />
+                </a>
+                <a class="col-4 col-lg-2 custom-btn lower-three-button" style="text-decoration: none;" id="unpaid-state" onclick="changeStyle()">
+                    <div class="state unpaidState ms-2" onclick="changeStatus(this)">
+                        <div class="d-flex align-items-center state-sub-div">
+                            <img src="~/images/unpaid.svg" id="unpaidState" class="icon-size pe-1">
+                            <img src="~/images/unpaid_active.png" id="unpaidState-active" class="icon-size hide pe-1">
+                            <span class="title-sub-div">UNPAID</span>
+                        </div>
+                        <span class="state-count">@Model.unpaid_count</span>
                     </div>
-                    <span class="state-count">@Model.unpaid_count</span>
-                </div>
-                <img src="~/images/caret-down-fill5.svg" id="unpaidState-img" class="caret hide-caret" />
-            </a>
+                    <img src="~/images/caret-down-fill5.svg" id="unpaidState-img" class="caret hide-caret" />
+                </a>
+            }
         </div>
         <!-- Patient (new) and 5 buttons row -->
 
@@ -119,34 +122,37 @@
                     </svg>
                     <p class="five-blue-buttons-text me-2" style="padding-left: 13px; margin-top: -20px !important;">Create Requests</p>
                 </a>
-                <button class="five-blue-buttons" id="downloadExcelButton" onclick="downloadSpecificExcel()">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
-                         class="bi bi-arrow-up-right dashboard-sub-div-icon" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                              d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z" />
-                    </svg>
-                    <span class="five-blue-buttons-text me-2">Export</span>
-                </button>
-                <a class="five-blue-buttons" asp-action="DownloadAll" asp-controller="Admin" style="text-decoration: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
-                         class="bi bi-box-arrow-up-right dashboard-sub-div-icon mt-2" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                              d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
-                        <path fill-rule="evenodd"
-                              d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
-                    </svg>
-                    <p class="five-blue-buttons-text me-2 mt-3" style="margin-top: -20px !important;
+                @if (Model.an.roleName == "Admin")
+                {
+                    <button class="five-blue-buttons" id="downloadExcelButton" onclick="downloadSpecificExcel()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                             class="bi bi-arrow-up-right dashboard-sub-div-icon" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M14 2.5a.5.5 0 0 0-.5-.5h-6a.5.5 0 0 0 0 1h4.793L2.146 13.146a.5.5 0 0 0 .708.708L13 3.707V8.5a.5.5 0 0 0 1 0z" />
+                        </svg>
+                        <span class="five-blue-buttons-text me-2">Export</span>
+                    </button>
+                    <a class="five-blue-buttons" asp-action="DownloadAll" asp-controller="Admin" style="text-decoration: none;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                             class="bi bi-box-arrow-up-right dashboard-sub-div-icon mt-2" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5" />
+                            <path fill-rule="evenodd"
+                                  d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0z" />
+                        </svg>
+                        <p class="five-blue-buttons-text me-2 mt-3" style="margin-top: -20px !important;
                        padding-left: 10px;">Export All</p>
-                </a>
-                <button type="button" class="five-blue-buttons me-4" data-bs-toggle="modal" data-bs-target="#requestSupportModal">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
-                         class="bi bi-person-plus dashboard-sub-div-icon" viewBox="0 0 16 16">
-                        <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                        <path fill-rule="evenodd"
-                              d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5" />
-                    </svg>
-                    <span class="five-blue-buttons-text me-2">Request DTY Support</span>
-                </button>
+                    </a>
+                    <button type="button" class="five-blue-buttons me-4" data-bs-toggle="modal" data-bs-target="#requestSupportModal">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
+                             class="bi bi-person-plus dashboard-sub-div-icon" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                            <path fill-rule="evenodd"
+                                  d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5" />
+                        </svg>
+                        <span class="five-blue-buttons-text me-2">Request DTY Support</span>
+                    </button>
+                }
             </div>
         </div>
 
@@ -532,6 +538,28 @@
         </div>
     </div>
 
+    @*Accept Case Modal*@
+    <div class="modal fade" id="acceptCaseModal" tabindex="-1" aria-labelledby="acceptCaseModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h1 class="modal-title fs-5" id="acceptCaseModal">Accept Case</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" asp-action="AcceptCase" asp-controller="Admin">
+                    <input type="hidden" id="r-id-six" asp-for="RequestId"/>
+                    <div class="modal-body">
+                        Are you sure you want to accept this case?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">No</button>
+                        <button type="submit" class="btn btn-info">Yes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 
 
     <script>
@@ -541,10 +569,10 @@
         const designStatus = (name2) => {
             const states = document.getElementsByClassName("state");
             const current_state = name2 + "State";
-            
+            console.log("Current state designStatus: " + name2);
 
             for (let i = 0; i < states.length; ++i) {
-                
+
                 if (states[i].classList.length == 4 && states[i].classList[1] == current_state) {
                     break;
                 }
@@ -578,13 +606,13 @@
                 }
                 else if (states[i].classList[1] == current_state) {
                     states[i].classList.add(`${states[i].classList[1]}-active`);
-                    let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
-                    let finalName = name.split("State")[0];
-                    localStorage.setItem("status", finalName);
                     document.getElementById(`${states[i].classList[1]}-active`).classList.remove('hide');
                     document.getElementById(`${states[i].classList[1]}`).classList.add('hide');
                     //console.log(document.getElementById(`${states[i].classList[1]}`));
                     document.getElementById(`${states[i].classList[1]}-img`).classList.remove('hide-caret');
+                    let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
+                    let finalName = name.split("State")[0];
+                    localStorage.setItem("status", finalName);
                 }
                 else if (states[i].classList.length == 4) {
                     states[i].classList.remove(`${states[i].classList[1]}-active`);
@@ -608,7 +636,7 @@
                 url: `/Admin/${finalName.charAt(0).toUpperCase() + finalName.slice(1)}`,
                 type: 'POST',
                 dataType: 'html',
-                data: {status: statusName, page: 1, pageSize: 10 },
+                data: { status: statusName, page: 1, pageSize: 10 },
                 // Pass your data here
                 success: function (response) {
                     $("#AdminDashboardPartialView").html(response);
@@ -662,7 +690,7 @@
                         url: `/Admin/${document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)}`,
                         type: 'POST',
                         dataType: 'html',
-                        data: {status: statusName, search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1], page: page, pageSize: pageSize },
+                        data: { status: statusName, search: document.getElementById("search").value, region: document.getElementById("region").value, requestor: states[i].classList[1], page: page, pageSize: pageSize },
 
                         success: function (response) {
                             $("#AdminDashboardPartialView").html(response);
@@ -685,20 +713,20 @@
         });
 
         window.onload = () => {
-            var className = localStorage.getItem("status").toLowerCase();
-            className = className.charAt(0).toUpperCase();
+            //var className = localStorage.getItem("status").toLowerCase();
+            //className = className.charAt(0).toUpperCase();
             //console.log("Class name:" + className);
             if (localStorage.getItem("status") == null) {
                 console.log("1");
-                designStatus("newState");
+                designStatus("new");
                 $.ajax({
                     url: `/Admin/New`,
                     type: 'POST',
                     dataType: 'html',
-                    data: { status: className, page: 1, pageSize: 10 },
+                    data: { status: "New", page: 1, pageSize: 10 },
                     // Pass your data here
                     success: function (response) {
-                        console.log("Success response of " + className);
+                        console.log("Success response of New");
                         $("#AdminDashboardPartialView").html(response);
 
                     },
@@ -720,7 +748,7 @@
                     url: `/Admin/${classNameUpperCase}`,
                     type: 'POST',
                     dataType: 'html',
-            
+
                     // Pass your data here
                     success: function (response) {
 
@@ -735,24 +763,24 @@
             }
         }
 
-        
+
 
         // styling of boxes of 6 states in tablet and mobile view
-        function changeStyle() {
-            if ($(window).width() < 992) {
-                const classes = document.getElementsByClassName("lower-three-button");
-                for (let i = 0; i < classes.length; i++) {
-                    console.log("hey");
-                    classes[i].style.marginTop = "20px";
-                }
-            } else {
-                const classes = document.getElementsByClassName("lower-three-button");
-                for (let i = 0; i < classes.length; i++) {
-                    console.log("hey");
-                    classes[i].style.marginTop = "0px";
-                }
-            }
-        }
+        //function changeStyle() {
+        //    if ($(window).width() < 992) {
+        //        const classes = document.getElementsByClassName("lower-three-button");
+        //        for (let i = 0; i < classes.length; i++) {
+        //            console.log("hey");
+        //            classes[i].style.marginTop = "20px";
+        //        }
+        //    } else {
+        //        const classes = document.getElementsByClassName("lower-three-button");
+        //        for (let i = 0; i < classes.length; i++) {
+        //            console.log("hey");
+        //            classes[i].style.marginTop = "0px";
+        //        }
+        //    }
+        //}
 
 
         // code to fetch Patient Name and RequestId in Cancel Case Modal
@@ -833,6 +861,13 @@
         // code to fetch RequestId in Clear Case Modal
         function clearCaseData(id) {
             document.getElementById("r-id-five").value = id;
+        }
+
+        // code to fetch RequestId in Accept Case Modal
+        function acceptCaseData(id){
+            console.log(id);
+            document.getElementById("r-id-six").value = id;
+            console.log(document.getElementById("r-id-six").value);
         }
 
         // code to fetch PhoneNumber, Receiver Email, RequestTypeId and RequestId in Send Agreement Modal

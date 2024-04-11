@@ -39,6 +39,11 @@
     .form-floating:focus-within label {
         color: #3DB6FF !important;
     }
+
+    .accordion-button:not(.collapsed)::after,
+    .accordion-button::after {
+        background-image: unset !important;
+    }
 </style>
 
 <partial name="Toast" />
@@ -153,6 +158,12 @@
 
     function removeFilter()
     {
+        document.getElementById("selectRole").value = "";
+        document.getElementById("receiverName").value = "";
+        document.getElementById("mobileNumber").value = "";
+        document.getElementById("createdDate").value = "";
+        document.getElementById("sentDate").value = "";
+
         $.ajax({
             url: '/Admin/SmsLogsFilteredData',
             type: 'POST',

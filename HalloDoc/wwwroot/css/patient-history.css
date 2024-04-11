@@ -60,6 +60,11 @@ input[type="text"]:focus {
     flex-direction: row;
 }
 
+.accordion-button:not(.collapsed)::after,
+.accordion-button::after {
+    background-image: unset !important;
+}
+
 input:focus {
     outline: #3DB6FF !important;
     /*border: 2px solid white !important;*/

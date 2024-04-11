@@ -72,8 +72,9 @@ namespace HalloDoc.Controllers
                     if (model.PasswordHash == user.PasswordHash)
                     {
                         Admin ad = _adminInterface.ValidateUser(user.Email);
+                        Physician p = _adminInterface.ValidatePhysician(user.Email);
                         User user2 = _loginPage.ValidateUsers(model);
-                        if (ad == null)
+                        if (ad == null && p == null)
                         {
                             HttpContext.Session.SetInt32("id", user2.UserId);
                             HttpContext.Session.SetString("Name", user2.FirstName);
@@ -82,8 +83,15 @@ namespace HalloDoc.Controllers
                         }
                         if (ad != null)
                         {
-                            HttpContext.Session.SetInt32("id", ad.AdminId);
+                            HttpContext.Session.SetInt32("id", user.Id);
                             HttpContext.Session.SetString("name", ad.FirstName);
+                            Response.Cookies.Append("token", token.ToString());
+                            HttpContext.Session.SetString("IsLoggedIn", "true");
+                        }
+                        if(p != null)
+                        {
+                            HttpContext.Session.SetInt32("id", user.Id);
+                            HttpContext.Session.SetString("name", p.FirstName);
                             Response.Cookies.Append("token", token.ToString());
                             HttpContext.Session.SetString("IsLoggedIn", "true");
                         }
@@ -203,7 +211,20 @@ namespace HalloDoc.Controllers
                     if (emailSentCount >= 3)
                     {
                         DateTime temp = DateTime.Now;
-                        _adminInterface.AddEmailLog(body, subject, model.UserName, 3, null, null, null, null, null, temp, false, emailSentCount);
+                        if (isAdmin)
+                        {
+                            Admin a = _adminInterface.GetAdminFromAspNetUser(anu.Email);
+                            _adminInterface.AddEmailLog(body, subject, model.UserName, 1, null, null, null, a.AdminId, null, temp, false, emailSentCount);
+                        }
+                        else if (isPhysician)
+                        {
+                            Physician p = _adminInterface.GetPhysicianFromAspNetUser(anu.Email);
+                            _adminInterface.AddEmailLog(body, subject, model.UserName, 2, null, null, null, null, p.PhysicianId, temp, false, emailSentCount);
+                        }
+                        else
+                        {
+                            _adminInterface.AddEmailLog(body, subject, model.UserName, 3, null, null, null, null, null, temp, false, emailSentCount);
+                        }
                     }
                     emailSentCount++;
                     ModelState.AddModelError("Email", "Invalid Email");

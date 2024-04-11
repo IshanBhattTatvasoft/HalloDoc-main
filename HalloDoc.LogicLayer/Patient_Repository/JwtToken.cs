@@ -34,6 +34,16 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             AspNetUserRole anur = _context.AspNetUserRoles.Where(a => a.UserId == user.Id).FirstOrDefault();
             Admin ad = _context.Admins.Where(a => a.AspNetUserId == user.Id).FirstOrDefault();
+            Physician p = _context.Physicians.Where(ph => ph.AspNetUserId == user.Id).FirstOrDefault();
+            string role = "";
+            if(ad!=null)
+            {
+                role = ad.RoleId.ToString();
+            }
+            if(p!=null)
+            {
+                role = p.RoleId.ToString();
+            }
             AspNetRole anr = _context.AspNetRoles.Where(b => b.Id == anur.RoleId).FirstOrDefault();
             
             var claims = new List<Claim>
@@ -41,7 +51,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, anr.Name),
                 new Claim("userId", user.Id.ToString()),
-                new Claim("roleId", anur.RoleId.ToString())
+                new Claim("roleId", role)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));

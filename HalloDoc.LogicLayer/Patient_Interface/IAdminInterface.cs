@@ -20,6 +20,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public PatientHistoryViewModel PatientRecordsFilteredData(int userid, AdminNavbarModel an, int page = 1, int pageSize = 10);
         public SearchRecordsViewModel SearchRecordsFilteredData(AdminNavbarModel an, int? page = 1, int? pageSize = 10, int? requestStatus = -1, string? patientName = "", int? requestType = -1, DateTime? fromDate = null, DateTime? toDate = null, string? providerName = "", string? email = "", string? phoneNo = null);
         public SmsLogsViewModel SmsLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? phoneNumber = "", DateTime? createdDate = null, DateTime? sentDate = null);
+        public EmailLogsViewModel EmailLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? emailId = "", DateTime? createdDate = null, DateTime? sentDate = null);
         public Request ValidateRequest(int requestId);
         public RequestClient ValidateRequestClient(int requestClientId);
         public void EditViewCaseAction(ViewCaseModel userProfile, RequestClient userToUpdate);
@@ -39,14 +40,15 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public bool VerifyLocation(string state);
         public AspNetUser ValidateAspNetUser(LoginViewModel model);
         public Admin ValidateUser(string email);
+        public Physician ValidatePhysician(string email);
         public User ValidateUserByRequestId(Request r);
         public List<RequestWiseFile> GetFileData(int requestid);
         public Request GetRequestWithUser(int requestid);
         public void AddFile(RequestWiseFile requestWiseFile);
         public AspNetUser ValidAspNetUser(string email);
         public bool FindAdminFromAspNetUser(int id);
-        public Admin GetAdminFromAspNetUser(string email)
-        public Physician GetPhysicianFromAspNetUser(string email)
+        public Admin GetAdminFromAspNetUser(string email);
+        public Physician GetPhysicianFromAspNetUser(string email);
         public bool FindPhysicianFromAspNetUser(int id);
         public List<HealthProfessional> getBusinessData(int professionId);
         public PasswordReset ValidateToken(string token);
@@ -64,6 +66,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<HealthProfessional> GetBusinessDataFromProfession(int professionId);
         public HealthProfessional GetOtherDataFromBId(int businessId);
         public void AddOrderDetails(OrderDetail orderDetail);
+        public Request GetReqFromReqId(int id);
+        public bool AcceptCase(int id);
         public RequestClient GetPatientData(int id);
         public string GetMailToSentAgreement(int reqId);
         public RequestClient GetRequestClientFromId(int id);
@@ -77,6 +81,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void UpdateRequestClient(RequestClient rc);
         public List<HalloDoc.DataLayer.Models.Region> GetAllRegions();
         public Admin GetAdminFromId(int id);
+        public Physician GetPhysicianFromId(int id);
         public AspNetUser GetAdminDataFromId(int id);
         public HalloDoc.DataLayer.Models.Region GetRegFromId(int id);
         public AspNetUser GetAspNetFromAdminId(int id);
@@ -135,10 +140,10 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public bool SaveEditedBusinessInfo(AddVendorViewModel model, int id);
         public bool DeleteBusinessProfile(int id);
         public bool DeleteSearchRecord(int id);
-        public void AddSmsLogFromSendLink(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent);
-        public void AddSmsLogFromSendOrder(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent);
-        public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent);
-        public void AddEmailLog(string body, string subject, string email, int RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount);
+        public void AddSmsLogFromSendLink(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent, int action);
+        public void AddSmsLogFromSendOrder(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent, int action);
+        public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent, int action);
+        public void AddEmailLog(string body, string subject, string email, int? RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount);
 
     }
 }

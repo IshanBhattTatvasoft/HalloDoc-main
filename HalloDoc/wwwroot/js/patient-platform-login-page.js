@@ -16,7 +16,7 @@ function onpress() {
 window.onload = function checkingTheme() {
 
 
-    localStorage.removeItem("status");
+    localStorage.setItem("status", "new");
 
     let themeCheck = localStorage.getItem('theme');
     if (themeCheck == null || themeCheck == 'light') {

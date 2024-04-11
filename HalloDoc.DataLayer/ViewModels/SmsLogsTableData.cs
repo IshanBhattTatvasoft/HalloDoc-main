@@ -11,7 +11,7 @@ namespace HalloDoc.DataLayer.ViewModels;
 public class SmsLogsTableData
 {
     public string? recipient { get; set; }
-    public string? action { get; set; }
+    public int? action { get; set; }
     public int? roleId { get; set; }
     public string? roleName { get; set; }
     public string? phoneNumber { get; set; }
@@ -21,5 +21,6 @@ public class SmsLogsTableData
     public string? sent { get; set; }
     public int? sentTries { get; set; }
     public string? confirmationNo { get; set; }
+    public int? smsLogId { get; set; }
 }
 

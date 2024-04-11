@@ -1,0 +1,174 @@
+﻿@using static HalloDoc.DataLayer.Models.Enums;
+@model HalloDoc.DataLayer.ViewModels.EmailLogsViewModel
+
+@{
+    ViewData["Title"] = "Email Logs";
+}
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<style>
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    select:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        border-color: #3DB6FF !important;
+        /*box-shadow: none !important;*/
+    }
+
+        textarea:focus::placeholder {
+            color: #3DB6FF !important;
+        }
+
+    .form-floating:focus-within label {
+        color: #3DB6FF !important;
+    }
+</style>
+
+<partial name="Toast" />
+
+<body class="bg-light">
+    <div class="bg-light" style="overflow: hidden;">
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+        <div class="container-fluid">
+            <div class="row">
+                <div style="top: 42px; position: relative;" class="col me-5">
+                    <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        Back
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-2 ms-5">
+                        <p class="h5 text-muted fw-bold" id="heading-one">
+                            Email Logs (Gmail)
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white mt-4 rounded ms-5 me-5">
+                <div class="row">
+                    <div class="dropdown form-floating col-xl col-md-6 col-sm-12 mt-2 search-cols">
+                        <select class="form-select dropdown-toggle text-secondary w-100" id="selectRole" style="text-align: start;">
+                            <option value="" disabled hidden selected class="text-muted">Search by role</option>
+                            <option value="0" class="text-muted">All</option>
+                            <option value="1" class="text-muted">Admin</option>
+                            <option value="2" class="text-muted">Provider</option>
+                            <option value="3" class="text-muted">Patient</option>
+                        </select>
+                    </div>
+                    <div class="form-floating col-xl col-md-6 col-sm-12 mt-2 search-cols">
+                        <input type="text" id="receiverName" class="form-control search-input"
+                               placeholder="Last Name">
+                        <label for="floatingInput" class="ms-2 text-muted">Receiver Name</label>
+                    </div>
+                    <div class="form-floating col-xl col-md-6 col-sm-12 mt-2 search-cols">
+                        <input type="text" id="emailId" class="form-control search-input"
+                               placeholder="Last Name">
+                        <label for="floatingInput" class="ms-2 text-muted">Email Id</label>
+                    </div>
+                    <div class="form-floating col-xl col-md-6 col-sm-12 mt-2 search-cols">
+                        <input type="date" id="createdDate" class="form-control search-input"
+                               placeholder="Date">
+                        <label for="floatingInput" class="ms-2 text-muted">Created Date</label>
+                    </div>
+                    <div class="form-floating col-xl col-md-6 col-sm-12 mt-2 search-cols">
+                        <input type="date" id="sentDate" class="form-control search-input"
+                               placeholder="Date">
+                        <label for="floatingInput" class="ms-2 text-muted">Sent Date</label>
+                    </div>
+                    <div class="form-floating d-flex col-xl col-md-6 col-sm-12 mt-3 search-cols">
+                        <div class="w-100">
+                            <button type="button" class="btn btn-outline-info float-end me-3" id="cancelButton" onclick="removeFilter()">Clear</button>
+                            <button type="button" class="btn btn-info text-white float-end me-3" id="searchButton" onclick="filter()">Search</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="mt-4 ms-3 me-3 myTable" id="EmailLogsPartialView"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    window.onload = () => {
+        $.ajax({
+            url: '/Admin/EmailLogsFilteredData',
+            type: 'GET',
+            success: function (response) {
+                $("#EmailLogsPartialView").html(response);
+            },
+            error: function (error) {
+                alert("An error occurred");
+            }
+        });
+    }
+
+    function filter(page, pageSize) {
+        var role = document.getElementById("selectRole").value;
+        var name = document.getElementById("receiverName").value;
+        var email = document.getElementById("emailId").value;
+        var start = document.getElementById("createdDate").value;
+        var end = document.getElementById("sentDate").value;
+
+        $.ajax({
+            url: '/Admin/EmailLogsFilteredData',
+            type: 'POST',
+            data: { createdDate: start, sentDate: end, page: page, pageSize: pageSize, role: role, recipientName: name, emailId: email },
+            success: function (response) {
+                $("#EmailLogsPartialView").html(response);
+            },
+            error: function (error) {
+                alert("An error occurred");
+            }
+        });
+
+    }
+
+    function removeFilter() {
+
+        document.getElementById("selectRole").value = "";
+        document.getElementById("receiverName").value = "";
+        document.getElementById("emailId").value = "";
+        document.getElementById("createdDate").value = "";
+        document.getElementById("sentDate").value = "";
+
+
+        $.ajax({
+            url: '/Admin/EmailLogsFilteredData',
+            type: 'POST',
+            data: { createdDate: "", sentDate: "", role: "", recipientName: "", emailId: "" },
+            success: function (response) {
+                $("#EmailLogsPartialView").html(response);
+            },
+            error: function (error) {
+                alert("An error occurred");
+            }
+        });
+    }
+</script>

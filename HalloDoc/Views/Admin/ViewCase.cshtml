@@ -208,7 +208,7 @@
                 <div class="col">
                         <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData(@Model.RequestId, @Model.FirstName, @Model.LastName)" type="button" class="btn btn-danger float-end mb-3">Cancel</button>
                     <a asp-action="ViewNotes" asp-route-requestId="@Model.RequestId" asp-controller="Admin" type="button" class="btn btn-info float-end me-3 mb-3">View Notes</a>
-                    @if (Model.Status == 1)
+                    @if (Model.Status == 1 && Model.an.roleName == "Admin")
                         {
                             <button data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData(@Model.RequestId)" type="button" class="btn btn-info float-end me-3 mb-3">Assign</button>
                         }

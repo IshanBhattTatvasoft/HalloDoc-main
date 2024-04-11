@@ -63,7 +63,7 @@ namespace HalloDoc.Controllers
 
                 return;
             }
-            if (string.IsNullOrWhiteSpace(_role) || roleClaim.Value != _role)
+            if (string.IsNullOrWhiteSpace(_role) || !_role.Contains(roleClaim.Value))
             {
                 context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Login", action = "PatientLoginPage", }));
 

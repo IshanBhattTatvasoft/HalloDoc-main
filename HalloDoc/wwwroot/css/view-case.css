@@ -488,7 +488,7 @@ input:focus {
 
 textarea:focus {
     outline: none !important;
-    border-color: #3DB6FF !important;
+    /*border-color: #3DB6FF !important;*/
     box-shadow: none !important;
 }
 

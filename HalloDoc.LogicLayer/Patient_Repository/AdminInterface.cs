@@ -35,6 +35,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         AdminDashboardTableView IAdminInterface.ModelOfAdminDashboard(string status, int id, string? search, string? requestor, int? region, int page = 1, int pageSize = 10)
         {
+            int count_new = 0;
+            int count_pending = 0;
+            int count_active = 0;
+            int count_conclude = 0;
+            int count_toclose = 0;
+            int count_unpaid = 0;
 
             Expression<Func<Request, bool>> exp;
             if (status == "New")
@@ -62,13 +68,32 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 exp = r => r.Status == 9;
             }
 
-            Admin ad = _context.Admins.Where(a => a.AdminId == id).FirstOrDefault();
-            var count_new = _context.Requests.Count(r => r.Status == 1);
-            var count_pending = _context.Requests.Count(r => r.Status == 2);
-            var count_active = _context.Requests.Count(r => r.Status == 4 || r.Status == 5);
-            var count_conclude = _context.Requests.Count(r => r.Status == 6);
-            var count_toclose = _context.Requests.Count(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
-            var count_unpaid = _context.Requests.Count(r => r.Status == 9);
+            Admin ad = GetAdminFromId((int)id);
+            Physician p = GetPhysicianFromId((int)id);
+            AdminNavbarModel an = new AdminNavbarModel();
+            if (ad != null)
+            {
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.roleName = "Admin";
+                count_new = _context.Requests.Count(r => r.Status == 1);
+                count_pending = _context.Requests.Count(r => r.Status == 2);
+                count_active = _context.Requests.Count(r => r.Status == 4 || r.Status == 5);
+                count_conclude = _context.Requests.Count(r => r.Status == 6);
+                count_toclose = _context.Requests.Count(r => r.Status == 3 || r.Status == 7 || r.Status == 8);
+                count_unpaid = _context.Requests.Count(r => r.Status == 9);
+            }
+            else
+            {
+                an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                an.roleName = "Provider";
+                count_new = _context.Requests.Count(r => r.Status == 1 && r.PhysicianId == p.PhysicianId);
+                count_pending = _context.Requests.Count(r => r.Status == 2 && r.PhysicianId == p.PhysicianId);
+                count_active = _context.Requests.Count(r => (r.Status == 4 || r.Status == 5) && r.PhysicianId == p.PhysicianId);
+                count_conclude = _context.Requests.Count(r => r.Status == 6 && r.PhysicianId == p.PhysicianId);
+            }
+            an.Tab = 1;
+            
+            
             List<HalloDoc.DataLayer.Models.Region> r = _context.Regions.ToList();
             List<CaseTag> c = _context.CaseTags.ToList();
 
@@ -103,10 +128,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 query = query.Where(r => r.RequestClient.RegionId == region);
             }
 
-            string ad_name = string.Concat(ad.FirstName, " ", ad.LastName);
-            AdminNavbarModel adminNavbarModel = new AdminNavbarModel();
-            adminNavbarModel.Admin_Name = ad_name;
-            adminNavbarModel.Tab = 1;
+            if(p!=null)
+            {
+                query = query.Where(r => r.PhysicianId == p.PhysicianId);
+            }
+
             AdminDashboardTableView adminDashboardViewModel = new AdminDashboardTableView
             {
                 new_count = count_new,
@@ -120,7 +146,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 caseTags = c,
                 email = "abc",
                 requests = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
-                an = adminNavbarModel,
+                an = an,
                 CurrentPage = page,
                 PageSize = pageSize,
                 TotalItems = query.Count(),
@@ -379,7 +405,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     select new SmsLogsTableData
                     {
                         recipient = _context.Physicians.FirstOrDefault(p => p.PhysicianId == s.PhysicianId).FirstName + " " + _context.Physicians.FirstOrDefault(p => p.PhysicianId == s.PhysicianId).LastName,
-                        action = "-",
+                        action = s.Action,
                         roleId = s.RoleId,
                         roleName = s.RoleId != null ? _context.AspNetRoles.FirstOrDefault(a => a.Id == s.RoleId).Name : "-",
                         phoneNumber = s.MobileNumber,
@@ -387,8 +413,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                         sentDate = (DateTime)s.SentDate,
                         sent = s.IsSmssent[0] == true ? "Yes" : "No",
                         sentTries = s.SentTries,
-                        confirmationNo = "-"
-
+                        confirmationNo = "-",
+                        smsLogId = s.SmslogId,
                     };
 
             if (role != null && role != 0)
@@ -427,6 +453,93 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             return smsLogsViewModel;
 
+        }
+
+        EmailLogsViewModel IAdminInterface.EmailLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? emailId = "", DateTime? createdDate = null, DateTime? sentDate = null)
+        {
+            DateTime temp = new DateTime(1, 1, 1, 0, 0, 0);
+
+            List<EmailLog> allLogs = _context.EmailLogs.ToList();
+            List<EmailLogsTableData> listOfData = new List<EmailLogsTableData>();
+            
+            string name = "";
+            string conf = "";
+            foreach(var q in allLogs)
+            {
+                if(q.PhysicianId!=null)
+                {
+                    name = _context.Physicians.FirstOrDefault(p => p.PhysicianId == q.PhysicianId).FirstName + " " + _context.Physicians.FirstOrDefault(p => p.PhysicianId == q.PhysicianId).LastName;
+                }
+                else if(q.AdminId!=null)
+                {
+                    name = _context.Admins.FirstOrDefault(a => a.AdminId == q.AdminId).FirstName + " " + _context.Admins.FirstOrDefault(a => a.AdminId == q.AdminId).LastName;
+                }
+                else if(q.RequestId != null)
+                {
+                    name = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.FirstName + " " + _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.LastName;
+                    conf = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).ConfirmationNumber;
+                }
+                else
+                {
+                    name = "";
+                }
+
+                EmailLogsTableData eltd = new EmailLogsTableData
+                {
+                    recipientName = name,
+                    action = q.SubjectName,
+                    roleId = q.RoleId,
+                    emailId = q.EmailId,
+                    createdDate = q.CreateDate,
+                    sentDate = (DateTime)q.SentDate,
+                    isSent = q.IsEmailSent[0] == true ? "Yes" : "No",
+                    sentTries = q.SentTries,
+                    confirmationNo = conf,
+                    emailLogId = q.EmailLogId
+                };
+
+                listOfData.Add(eltd);
+            }
+
+            if(role!=null && role!=0)
+            {
+                listOfData = listOfData.Where(r => r.roleId == role).ToList();
+            }
+
+            if(recipientName != null && recipientName != "")
+            {
+                listOfData = listOfData.Where(r => r.recipientName.ToLower().Contains(recipientName.ToLower())).ToList();
+            }
+
+            if(emailId!=null && emailId!="")
+            {
+                listOfData = listOfData.Where(r => r.emailId.ToLower().Contains(emailId.ToLower())).ToList();
+            }
+
+            if (createdDate != null && createdDate != temp)
+            {
+                DateOnly date1 = DateOnly.FromDateTime((DateTime)createdDate);
+                listOfData = listOfData.Where(r => DateOnly.FromDateTime((DateTime)r.createdDate) == date1).ToList();
+            }
+
+            if (sentDate != null && sentDate != temp)
+            {
+                DateOnly date2 = DateOnly.FromDateTime((DateTime)sentDate);
+                listOfData = listOfData.Where(r => DateOnly.FromDateTime((DateTime)r.sentDate) == date2).ToList();
+            }
+
+            EmailLogsViewModel el = new EmailLogsViewModel
+            {
+                tableData = listOfData,
+                adminNavbarModel = an,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = listOfData.Count(),
+                TotalPages = (int)Math.Ceiling((double)listOfData.Count() / pageSize),
+            };
+            el.tableData.Skip(((int)page - 1) * (int)pageSize).Take((int)pageSize).ToList();
+
+            return el;
         }
 
         public VendorsViewModel VendorsFilteredData(AdminNavbarModel an, string? name = "", int? professionalId = -1, int page = 1, int pageSize = 10)
@@ -533,7 +646,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Request r = _context.Requests.Where(r => r.RequestId == model.RequestId).FirstOrDefault();
             User u = _context.Users.Where(u => u.UserId == r.UserId).FirstOrDefault();
             RequestNote rn = _context.RequestNotes.Where(r => r.RequestId == model.RequestId).FirstOrDefault();
-            if (rn == null)
+            if (rn == null && model.an.roleName == "Admin")
             {
                 RequestNote rn1 = new RequestNote();
                 rn1.AdminNotes = model.AdminNotes;
@@ -542,9 +655,25 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 rn1.CreatedDate = DateTime.Now;
                 _context.RequestNotes.Add(rn1);
             }
-            else
+
+            else if(rn == null && model.an.roleName == "Provider")
+            {
+                RequestNote rn1 = new RequestNote();
+                rn1.PhysicianNotes = model.PhysicianNotes;
+                rn1.RequestId = model.RequestId;
+                rn1.CreatedBy = (int)u.AspNetUserId;
+                rn1.CreatedDate = DateTime.Now;
+                _context.RequestNotes.Add(rn1);
+            }
+
+            else if(rn != null && model.an.roleName == "Admin")
             {
                 rn.AdminNotes = model.AdminNotes;
+                _context.RequestNotes.Update(rn);
+            }
+            else
+            {
+                rn.PhysicianNotes = model.PhysicianNotes;
                 _context.RequestNotes.Update(rn);
             }
 
@@ -560,6 +689,25 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             _context.RequestStatusLogs.Add(rs);
             _context.SaveChanges();
+        }
+
+        public Request GetReqFromReqId(int id)
+        {
+            return _context.Requests.Where(r => r.RequestId == id).FirstOrDefault();
+        }
+
+        public bool AcceptCase(int id)
+        {
+            bool isAccepted = false;
+            Request r = GetReqFromReqId(id);
+            if(r.Status == 1)
+            {
+                r.Status = 2;
+                _context.Requests.Update(r);
+                _context.SaveChanges();
+                isAccepted = true;
+            }
+            return isAccepted;
         }
 
         public void AddRequestClosedData(RequestClosed rc)
@@ -725,6 +873,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return user;
         }
 
+        public Physician ValidatePhysician(string email)
+        {
+            Physician p = _context.Physicians.FirstOrDefault(x => x.Email == email);
+            return p;
+        }
+
         public User ValidateUserByRequestId(Request r)
         {
             return _context.Users.FirstOrDefault(u => u.UserId == r.UserId);
@@ -843,7 +997,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<HealthProfessional> GetBusinessDataFromProfession(int professionId)
         {
-            return _context.HealthProfessionals.Where(h => h.Profession == professionId).ToList();
+            BitArray b = new BitArray(1, false);
+            return _context.HealthProfessionals.Where(h => h.Profession == professionId && h.IsDeleted == b).ToList();
         }
 
         public HealthProfessional GetOtherDataFromBId(int businessId)
@@ -930,7 +1085,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public Admin GetAdminFromId(int id)
         {
-            return _context.Admins.Where(a => a.AdminId == id).FirstOrDefault();
+            return _context.Admins.Where(a => a.AspNetUserId == id).FirstOrDefault();
+        }
+
+        public Physician GetPhysicianFromId(int id)
+        {
+            return _context.Physicians.Where(p => p.AspNetUserId == id).FirstOrDefault();
         }
 
         public List<HalloDoc.DataLayer.Models.Region> GetAllRegions()
@@ -2074,7 +2234,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return true;
         }
 
-        public void AddSmsLogFromSendLink(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent)
+        public void AddSmsLogFromSendLink(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent, int action)
         {
             Smslog sl = new Smslog();
             sl.Smstemplate = body;
@@ -2084,14 +2244,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             sl.SentDate = isSMSSent ? DateTime.Now : null;
             sl.IsSmssent = isSMSSent ? new BitArray(1, true) : new BitArray(1, false);
             sl.SentTries = count;
-            sl.Action = 1;
+            sl.Action = action;
             sl.RoleId = 2;
 
             _context.Smslogs.Add(sl);
             _context.SaveChanges();
         }
 
-        public void AddSmsLogFromSendOrder(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent)
+        public void AddSmsLogFromSendOrder(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent, int action)
         {
             Smslog sl = new Smslog();
             sl.Smstemplate = body;
@@ -2101,13 +2261,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             sl.SentDate = isSMSSent ? DateTime.Now : null;
             sl.IsSmssent = isSMSSent ? new BitArray(1, true) : new BitArray(1, false);
             sl.SentTries = count;
-            sl.Action = 1;
+            sl.Action = action;
 
             _context.Smslogs.Add(sl);
             _context.SaveChanges();
         }
 
-        public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent)
+        public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent, int action)
         {
             Smslog sl = new Smslog();
             sl.Smstemplate = body;
@@ -2117,7 +2277,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             sl.SentDate = isSMSSent ? DateTime.Now : null;
             sl.IsSmssent = isSMSSent ? new BitArray(1, true) : new BitArray(1, false);
             sl.SentTries = count;
-            sl.Action = 1;
+            sl.Action = action;
             sl.RoleId = 2;
             sl.PhysicianId = phyId;
 
@@ -2125,7 +2285,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        public void AddEmailLog(string body, string subject, string email, int RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount)
+        public void AddEmailLog(string body, string subject, string email, int? RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount)
         {
 
             EmailLog emailLog = new EmailLog

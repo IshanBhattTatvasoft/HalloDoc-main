@@ -12,5 +12,6 @@ namespace HalloDoc.DataLayer.ViewModels
     {
         public string Admin_Name { get; set; }
         public int Tab { get; set; }
+        public string? roleName { get; set; }
     }
 }
