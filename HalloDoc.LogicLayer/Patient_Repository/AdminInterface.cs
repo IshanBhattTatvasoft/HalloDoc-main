@@ -92,12 +92,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 count_conclude = _context.Requests.Count(r => r.Status == 6 && r.PhysicianId == p.PhysicianId);
             }
             an.Tab = 1;
-            
-            
+
+
             List<HalloDoc.DataLayer.Models.Region> r = _context.Regions.ToList();
             List<CaseTag> c = _context.CaseTags.ToList();
 
-            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Where(exp).OrderByDescending(e => e.CreatedDate);
+            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Include(e => e.EncounterForms).Where(exp).OrderByDescending(e => e.CreatedDate);
 
             if (search != null && search != "")
             {
@@ -128,7 +128,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 query = query.Where(r => r.RequestClient.RegionId == region);
             }
 
-            if(p!=null)
+            if (p != null)
             {
                 query = query.Where(r => r.PhysicianId == p.PhysicianId);
             }
@@ -455,33 +455,33 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         }
 
-        EmailLogsViewModel IAdminInterface.EmailLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? emailId = "", DateTime? createdDate = null, DateTime? sentDate = null)
+        EmailLogsViewModel IAdminInterface.EmailLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 5, int? role = 0, string? recipientName = "", string? emailId = "", DateTime? createdDate = null, DateTime? sentDate = null)
         {
             DateTime temp = new DateTime(1, 1, 1, 0, 0, 0);
 
             List<EmailLog> allLogs = _context.EmailLogs.ToList();
             List<EmailLogsTableData> listOfData = new List<EmailLogsTableData>();
-            
+
             string name = "";
             string conf = "";
-            foreach(var q in allLogs)
+            foreach (var q in allLogs)
             {
-                if(q.PhysicianId!=null)
+                if (q.PhysicianId != null)
                 {
                     name = _context.Physicians.FirstOrDefault(p => p.PhysicianId == q.PhysicianId).FirstName + " " + _context.Physicians.FirstOrDefault(p => p.PhysicianId == q.PhysicianId).LastName;
                 }
-                else if(q.AdminId!=null)
+                else if (q.AdminId != null)
                 {
                     name = _context.Admins.FirstOrDefault(a => a.AdminId == q.AdminId).FirstName + " " + _context.Admins.FirstOrDefault(a => a.AdminId == q.AdminId).LastName;
                 }
-                else if(q.RequestId != null)
+                else if (q.RequestId == null)
                 {
-                    name = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.FirstName + " " + _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.LastName;
-                    conf = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).ConfirmationNumber;
+                    name = "";
                 }
                 else
                 {
-                    name = "";
+                    name = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.FirstName + " " + _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.LastName;
+                    conf = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).ConfirmationNumber;
                 }
 
                 EmailLogsTableData eltd = new EmailLogsTableData
@@ -501,17 +501,17 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 listOfData.Add(eltd);
             }
 
-            if(role!=null && role!=0)
+            if (role != null && role != 0)
             {
                 listOfData = listOfData.Where(r => r.roleId == role).ToList();
             }
 
-            if(recipientName != null && recipientName != "")
+            if (recipientName != null && recipientName != "")
             {
                 listOfData = listOfData.Where(r => r.recipientName.ToLower().Contains(recipientName.ToLower())).ToList();
             }
 
-            if(emailId!=null && emailId!="")
+            if (emailId != null && emailId != "")
             {
                 listOfData = listOfData.Where(r => r.emailId.ToLower().Contains(emailId.ToLower())).ToList();
             }
@@ -530,14 +530,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             EmailLogsViewModel el = new EmailLogsViewModel
             {
-                tableData = listOfData,
+                tableData = listOfData.Skip(((int)page - 1) * (int)pageSize).Take((int)pageSize).ToList(),
                 adminNavbarModel = an,
                 CurrentPage = page,
                 PageSize = pageSize,
                 TotalItems = listOfData.Count(),
                 TotalPages = (int)Math.Ceiling((double)listOfData.Count() / pageSize),
             };
-            el.tableData.Skip(((int)page - 1) * (int)pageSize).Take((int)pageSize).ToList();
 
             return el;
         }
@@ -656,7 +655,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.RequestNotes.Add(rn1);
             }
 
-            else if(rn == null && model.an.roleName == "Provider")
+            else if (rn == null && model.an.roleName == "Provider")
             {
                 RequestNote rn1 = new RequestNote();
                 rn1.PhysicianNotes = model.PhysicianNotes;
@@ -666,7 +665,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.RequestNotes.Add(rn1);
             }
 
-            else if(rn != null && model.an.roleName == "Admin")
+            else if (rn != null && model.an.roleName == "Admin")
             {
                 rn.AdminNotes = model.AdminNotes;
                 _context.RequestNotes.Update(rn);
@@ -700,7 +699,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             bool isAccepted = false;
             Request r = GetReqFromReqId(id);
-            if(r.Status == 1)
+            if (r.Status == 1)
             {
                 r.Status = 2;
                 _context.Requests.Update(r);
@@ -708,6 +707,51 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 isAccepted = true;
             }
             return isAccepted;
+        }
+
+        public bool ProviderTransferRequest(string notes, int id)
+        {
+            bool isTransferred = false;
+            Request r = GetReqFromReqId(id);
+            RequestStatusLog rsl = new RequestStatusLog();
+            if (r.Status != 1)
+            {
+                r.Status = 1;
+                r.PhysicianId = null;
+                _context.Requests.Update(r);
+
+                rsl.Status = 1;
+                rsl.Notes = notes;
+                rsl.RequestId = id;
+                rsl.TransToAdmin = new BitArray(1, true);
+                rsl.CreatedDate = DateTime.Now;
+                _context.RequestStatusLogs.Add(rsl);
+
+                _context.SaveChanges();
+                isTransferred = true;
+            }
+            return isTransferred;
+        }
+
+        public int SelectCallTypeOfRequest(int id, int callType)
+        {
+            int x = 0;
+            Request r = _context.Requests.Where(r => r.RequestId == id).FirstOrDefault();
+            if (callType == 1)
+            {
+                r.Status = 5;
+                r.CallType = 1;
+                x = 1;
+            }
+            else if (callType == 2)
+            {
+                r.Status = 6;
+                r.CallType = 2;
+                x = 2;
+            }
+            _context.Requests.Update(r);
+            _context.SaveChanges();
+            return x;
         }
 
         public void AddRequestClosedData(RequestClosed rc)
@@ -729,9 +773,28 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.PhysicianRegions.Where(pr => pr.RegionId == RegionId && pr.Physician.IsDeleted == isDeleted).Select(ph => ph.Physician).ToList();
         }
 
-        public void AddBlockRequestData(BlockRequest br)
+        public void AddBlockRequestData(int id, string num, string email, string notes)
         {
-            _context.BlockRequests.Add(br);
+            BlockRequest br = _context.BlockRequests.Where(b => b.RequestId == id).FirstOrDefault();
+
+            if (br == null)
+            {
+                BlockRequest br2 = new BlockRequest();
+                br2.RequestId = id;
+                br2.IsActive = new BitArray(1, true);
+                br2.CreatedDate = DateTime.Now;
+                br2.PhoneNumber = num;
+                br2.Reason = notes;
+                _context.BlockRequests.Add(br2);
+            }
+
+            else
+            {
+                br.IsActive = new BitArray(1, true);
+                br.CreatedDate = DateTime.Now;
+                br.Reason = notes;
+                _context.BlockRequests.Update(br);
+            }
             _context.SaveChanges();
         }
 
@@ -1046,35 +1109,84 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.EncounterForms.Where(e => e.RequestId == reqId).FirstOrDefault();
         }
 
-        public void UpdateEncounterFormData(EncounterFormModel model, RequestClient rc)
+        public void UpdateEncounterFormData(EncounterFormModel model)
         {
-            string address = model.Location;
-            int firstCom = address.IndexOf(',');
-            string street = firstCom >= 0 ? address.Substring(0, firstCom) : address;
-            int secondCom = address.IndexOf(',', firstCom + 1);
-            string city = "";
-            if (secondCom != -1)
+            EncounterForm ef = _context.EncounterForms.Where(r => r.RequestId == model.reqId).FirstOrDefault();
+
+            if (ef != null)
             {
-                city = address.Substring(firstCom + 2, secondCom - (firstCom + 2));
+                ef.HistoryIllness = model.HistoryOfIllness;
+                ef.MedicalHistory = model.MedicalHistory;
+                ef.Medications = model.Medications;
+                ef.Allergies = model.Allergies;
+                ef.Temp = model.Temp;
+                ef.Hr = model.HR;
+                ef.Rr = model.RR;
+                ef.BpS = model.BPS;
+                ef.BpD = model.BPD;
+                ef.O2 = model.O2;
+                ef.Pain = model.Pain;
+                ef.Heent = model.Heent;
+                ef.Cv = model.CV;
+                ef.Chest = model.Chest;
+                ef.Abd = model.ABD;
+                ef.Extr = model.Extr;
+                ef.Skin = model.Skin;
+                ef.Neuro = model.Neuro;
+                ef.Other = model.Other;
+                ef.Diagnosis = model.Diagnosis;
+                ef.TreatmentPlan = model.TreatmentPlan;
+                ef.MedicationDispensed = model.MedicationsDispensed;
+                ef.Procedures = model.Procedures;
+                ef.FollowUp = model.FollowUp;
             }
-            string[] parts = address.Split(',');
-            string state = parts.Length >= 2 ? parts[parts.Length - 2].Trim() : "";
-            int lastCommaIndex = address.LastIndexOf(',');
-            string zipcode = address.Substring(lastCommaIndex + 1).Trim();
 
+            else
+            {
+                EncounterForm ef2 = new EncounterForm();
+                ef2.RequestId = (int)model.reqId;
+                ef2.HistoryIllness = model.HistoryOfIllness;
+                ef2.MedicalHistory = model.MedicalHistory;
+                ef2.Medications = model.Medications;
+                ef2.Allergies = model.Allergies;
+                ef2.Temp = model.Temp;
+                ef2.Hr = model.HR;
+                ef2.Rr = model.RR;
+                ef2.BpS = model.BPS;
+                ef2.BpD = model.BPD;
+                ef2.O2 = model.O2;
+                ef2.Pain = model.Pain;
+                ef2.Heent = model.Heent;
+                ef2.Cv = model.CV;
+                ef2.Chest = model.Chest;
+                ef2.Abd = model.ABD;
+                ef2.Extr = model.Extr;
+                ef2.Skin = model.Skin;
+                ef2.Neuro = model.Neuro;
+                ef2.Other = model.Other;
+                ef2.Diagnosis = model.Diagnosis;
+                ef2.TreatmentPlan = model.TreatmentPlan;
+                ef2.MedicationDispensed = model.MedicationsDispensed;
+                ef2.Procedures = model.Procedures;
+                ef2.FollowUp = model.FollowUp;
+            }
 
-
-            rc.FirstName = model.FirstName;
-            rc.LastName = model.LastName;
-            rc.Email = model.Email;
-            rc.PhoneNumber = model.PhoneNumber;
-            rc.Street = street;
-            rc.City = city;
-            rc.State = state;
-            rc.ZipCode = zipcode;
-
-            _context.RequestClients.Update(rc);
+            _context.EncounterForms.Update(ef);
             _context.SaveChanges();
+        }
+
+        public bool FinalizeEncounterForm(int id)
+        {
+            bool isFinalized = false;
+            EncounterForm ef = _context.EncounterForms.Where(r => r.RequestId == id).FirstOrDefault();
+            if (ef != null)
+            {
+                ef.IsFinalized = new BitArray(1, true);
+                _context.EncounterForms.Update(ef);
+                _context.SaveChanges();
+                isFinalized = true;
+            }
+            return isFinalized;
         }
 
         public void UpdateRequestClient(RequestClient rc)

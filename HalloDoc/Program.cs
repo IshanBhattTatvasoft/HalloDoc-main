@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 //This line imports the entire Microsoft.EntityFrameworkCore namespace into your code.Entity Framework Core(EF Core) is an object-relational mapper(ORM) framework from Microsoft that simplifies working with relational databases in .NET applications.It enables you to interact with database tables by creating corresponding C# classes (models) that map to those tables' columns.
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Rotativa.AspNetCore;
 using System.Text;
 
 //Following function marks the starting point for building an ASP.NET Core web application by providing a flexible and efficient configuration API.
@@ -76,11 +77,16 @@ app.UseRouting();
 //This middleware is used to enable authorization in the application. It performs authentication and authorization checks for incoming requests based on the configured policies and requirements.
 app.UseAuthorization();
 
+
+
+    
 app.UseSession();
 
 //This method configures MVC-style routing for controller actions. It defines a route named "default" with a pattern that specifies the default controller (LoginController) and action to be invoked when a request matches the specified pattern. The {id?} part indicates that the id parameter is optional.
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=PatientSite}/{id?}");
+
+app.UseRotativa();
 //This method is the terminal middleware in the request processing pipeline. It delegates the handling of requests to the application's request-handling logic.
 app.Run();

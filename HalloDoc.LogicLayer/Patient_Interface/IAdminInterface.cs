@@ -31,7 +31,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public CaseTag FetchCaseTag(int caseTagId);
         public void AddRequestStatusLogFromCancelCase(RequestStatusLog rs);
         public List<Physician> FetchPhysicianByRegion(int RegionId);
-        public void AddBlockRequestData(BlockRequest br);
+        public void AddBlockRequestData(int id, string num, string email, string notes);
         public void UpdateRequest(Request r);
         public DataLayer.Models.Region ValidateRegion(AdminCreateRequestModel model);
         public BlockRequest ValidateBlockRequest(AdminCreateRequestModel model);
@@ -68,6 +68,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void AddOrderDetails(OrderDetail orderDetail);
         public Request GetReqFromReqId(int id);
         public bool AcceptCase(int id);
+        public bool ProviderTransferRequest(string notes, int id);
         public RequestClient GetPatientData(int id);
         public string GetMailToSentAgreement(int reqId);
         public RequestClient GetRequestClientFromId(int id);
@@ -76,7 +77,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void AddRequestStatusLogFromAgreement(RequestStatusLog rsl);
         //AdminDashboardTableView ModelOfAdminDashboard(string? status, int userId);
         public EncounterForm GetEncounterFormData(int reqId);
-        public void UpdateEncounterFormData(EncounterFormModel model, RequestClient rc);
+        public void UpdateEncounterFormData(EncounterFormModel model);
+        public bool FinalizeEncounterForm(int id);
         public void AddRequestClosedData(RequestClosed rc);
         public void UpdateRequestClient(RequestClient rc);
         public List<HalloDoc.DataLayer.Models.Region> GetAllRegions();
@@ -144,6 +146,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void AddSmsLogFromSendOrder(string body, string number, int? adminId, DateTime temp, int count, bool isSMSSent, int action);
         public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent, int action);
         public void AddEmailLog(string body, string subject, string email, int? RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount);
+        public int SelectCallTypeOfRequest(int id, int callType);
 
     }
 }

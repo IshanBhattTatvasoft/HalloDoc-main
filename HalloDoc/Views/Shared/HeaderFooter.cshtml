@@ -69,8 +69,8 @@
     }
 
     /*.records{
-                        border-bottom: 2px solid #00CCFF !important;
-                    }*/
+                            border-bottom: 2px solid #00CCFF !important;
+                        }*/
 
     .dropdown-toggle:focus {
         outline: none !important;
@@ -104,7 +104,18 @@
     </div>
     <div class="d-flex align-items-center gap-1 flex-wrap">
         <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block"
-           style="margin-top: 20px !important;">welcome <strong> @Model.Admin_Name</strong></p>
+           style="margin-top: 20px !important;">
+            welcome
+            @if (Model.roleName == "Admin")
+            {
+                <strong> @Model.Admin_Name</strong>
+            }
+            else
+            {
+                <strong> Dr. @Model.Admin_Name</strong>
+
+            }
+        </p>
         <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="PatientLoginPage"
            style="margin-right:100px;">Logout</a>
         <a class="btn btn-outline-info d-inline-block d-sm-none logout-icon" asp-controller="Login"
@@ -158,7 +169,7 @@
             else
             {
                 <a class="nav-link text-muted ps-3 ms-4 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
-            }   
+            }
         }
 
         @if (roleMenu.Any(r => r == "ProviderLocation"))
@@ -176,6 +187,18 @@
                    aria-controls="nav-Location" aria-selected="false" asp-action="ProviderLocation">
                     Provider Location
                 </a>
+            }
+        }
+
+        @if (roleMenu.Any(r => r == "MySchedule"))
+        {
+            @if (Model.Tab == 19)
+            {
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Schedule</a>
+            }
+            else
+            {
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Schedule</a>
             }
         }
 
@@ -292,7 +315,7 @@
                 }
 
 
-                @if(roleMenu.Any(r => r == "CreateAdminAccount"))
+                @if (roleMenu.Any(r => r == "CreateAdminAccount"))
                 {
                     @if (Model.Tab == 12)
                     {
@@ -319,7 +342,7 @@
                 }
             }
             <ul class="dropdown-menu">
-                @if(roleMenu.Any(r => r == "SearchRecords"))
+                @if (roleMenu.Any(r => r == "SearchRecords"))
                 {
                     @if (Model.Tab == 14)
                     {
@@ -330,7 +353,7 @@
                         <li><a class="text-muted dropdown-item mb-2" asp-action="SearchRecords" asp-controller="Admin">Search Records</a></li>
                     }
                 }
-                @if(roleMenu.Any(r => r == "EmailLogs"))
+                @if (roleMenu.Any(r => r == "EmailLogs"))
                 {
                     @if (Model.Tab == 15)
                     {
@@ -341,8 +364,8 @@
                         <li><a class="text-muted dropdown-item mb-2" asp-action="EmailLogs" asp-controller="Admin">Email Logs</a></li>
                     }
                 }
-                
-                @if(roleMenu.Any(r => r == "SMSLogs"))
+
+                @if (roleMenu.Any(r => r == "SMSLogs"))
                 {
                     @if (Model.Tab == 16)
                     {
@@ -354,7 +377,7 @@
                     }
                 }
 
-                @if(roleMenu.Any(r => r == "PatientHistory"))
+                @if (roleMenu.Any(r => r == "PatientHistory"))
                 {
                     @if (Model.Tab == 17)
                     {
@@ -366,7 +389,7 @@
                     }
                 }
 
-                @if(roleMenu.Any(r => r == "BlockedHistory"))
+                @if (roleMenu.Any(r => r == "BlockedHistory"))
                 {
                     @if (Model.Tab == 18)
                     {

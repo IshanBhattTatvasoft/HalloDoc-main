@@ -42,4 +42,5 @@ public class AdminDashboardTableView
     public int TotalPages { get; set; }
     public DateOnly? waitTime { get; set; }
     public string? sendAgreementEmail { get; set; }
+    public string? providerTransferDescription { get; set; }
 }

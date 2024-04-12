@@ -1,6 +1,7 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.EncounterFormModel
 @{
     ViewData["Title"] = "Encounter Form";
+    var y = ViewBag.x;
 }
 
 @section Styles {
@@ -43,7 +44,7 @@
 
     <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
         <form method="post" asp-action="EncounterFormSubmit" asp-controller="Admin">
-            <input type="num" hidden asp-for="reqId" id="encounter-req-id"/>
+            <input type="num" hidden asp-for="reqId" id="encounter-req-id" />
             <div class="d-flex justify-content-center align-items-center">
                 <p class="h3 text-info fw-bolder">Medical Report - Confidential</p>
             </div>
@@ -98,11 +99,11 @@
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="History of Present Illness or Injury" rows="3" asp-for="HistoryOfIllness" disabled></textarea>
+                    <textarea class="form-control" placeholder="History of Present Illness or Injury" rows="1" asp-for="HistoryOfIllness" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">History of Present Illness or Injury</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Medical History" rows="3" asp-for="MedicalHistory" disabled></textarea>
+                    <textarea class="form-control" placeholder="Medical History" rows="1" asp-for="MedicalHistory" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Medical History</label>
                 </div>
             </div>
@@ -156,12 +157,12 @@
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Heent" rows="2"
+                    <textarea class="form-control" placeholder="Heent" rows="1"
                               asp-for="Heent" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Heent</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="CV" rows="2"
+                    <textarea class="form-control" placeholder="CV" rows="1"
                               asp-for="CV" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">CV</label>
                 </div>
@@ -169,12 +170,12 @@
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Chest" rows="2" id="myTextArea"
+                    <textarea class="form-control" placeholder="Chest" rows="1" id="myTextArea"
                               asp-for="Chest" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Chest</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="ABD" rows="2"
+                    <textarea class="form-control" placeholder="ABD" rows="1"
                               asp-for="ABD" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">ABD</label>
                 </div>
@@ -182,12 +183,12 @@
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Extr" rows="2"
+                    <textarea class="form-control" placeholder="Extr" rows="1"
                               asp-for="Extr" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Extr</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Skin" rows="2"
+                    <textarea class="form-control" placeholder="Skin" rows="1"
                               asp-for="Skin" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Skin</label>
                 </div>
@@ -195,12 +196,12 @@
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Neuro" rows="2"
+                    <textarea class="form-control" placeholder="Neuro" rows="1"
                               asp-for="Neuro" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Neuro</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Other" rows="2"
+                    <textarea class="form-control" placeholder="Other" rows="1"
                               asp-for="Other" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Other</label>
                 </div>
@@ -208,12 +209,12 @@
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Diagnosis" rows="2"
+                    <textarea class="form-control" placeholder="Diagnosis" rows="1"
                               asp-for="Diagnosis" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Diagnosis</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Treatmen Plan" rows="2"
+                    <textarea class="form-control" placeholder="Treatmen Plan" rows="1"
                               asp-for="TreatmentPlan" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Treatment Plan</label>
                 </div>
@@ -221,12 +222,12 @@
 
             <div class="row mt-3">
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Medications Dispensed" rows="3"
+                    <textarea class="form-control" placeholder="Medications Dispensed" rows="1"
                               asp-for="MedicationsDispensed" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Medications Dispensed</label>
                 </div>
                 <div class="col-sm-6 form-floating">
-                    <textarea class="form-control" placeholder="Procedures" rows="3"
+                    <textarea class="form-control" placeholder="Procedures" rows="1"
                               asp-for="Procedures" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Procedures</label>
                 </div>
@@ -234,7 +235,7 @@
 
             <div class="row mt-3">
                 <div class="col-sm-12 form-floating">
-                    <textarea class="form-control" placeholder="Followup" rows="2"
+                    <textarea class="form-control" placeholder="Followup" rows="1"
                               asp-for="FollowUp" disabled></textarea>
                     <label for="floatingInput" class="ms-2 text-muted">Followup</label>
                 </div>
@@ -242,8 +243,16 @@
 
             <div class="row mt-3 d-flex align-items-end justify-content-end">
                 <div class="col-sm-2 mt-4 d-inline-block w-auto">
-                    <button class="btn btn-info text-white" type="submit" id="submitButton">Submit</button>
+                    <button class="btn btn-info text-white" type="submit" id="submitButton">Save Changes</button>
                 </div>
+
+                @if (y == 2)
+                {
+                    <div class="col-sm-2 mt-4 d-inline-block w-auto">
+                        <a type="button" asp-action="FinalizeEncounterForm" asp-controller="Admin" asp-route-id="@Model.reqId" class="btn text-white" type="submit" id="finalizeButton" style="background-color: #9C27B0; display: none;">Finalize</a>
+                    </div>
+                }
+
                 <div class="col-sm-2 mt-4 d-inline-block w-auto" style="width: 86px;">
                     <a class="btn border-info text-info" id="cancelButton" style="padding: 5px;">Cancel</a>
                 </div>
@@ -257,8 +266,7 @@
 
 <script>
 
-    function ecnounterFormReqId(id)
-    {
+    function ecnounterFormReqId(id) {
         document.getElementById("encounter-req-id").value = id;
     }
 
@@ -279,19 +287,20 @@
     document.getElementById('editButton').addEventListener('click', function () {
         document.getElementById('submitButton').style.display = "flex";
         document.getElementById('cancelButton').style.display = "flex";
+        document.getElementById('finalizeButton').style.display = "flex";
         document.getElementById('editButton').style.display = "none";
-        for (var i = 0; i < 7; i++) {
+        for (var i = 7; i < 31; i++) {
             classCount[i].removeAttribute('disabled');
         }
     });
     document.getElementById('cancelButton').addEventListener('click', function () {
         document.getElementById('editButton').style.display = "flex";
         document.getElementById('submitButton').style.display = "none";
+        document.getElementById('finalizeButton').style.display = "none";
         document.getElementById('cancelButton').style.display = "none";
-        for (var i = 0; i < 7; i++) {
+        for (var i = 7; i < 31; i++) {
             classCount[i].setAttribute('disabled', 'disabled');
         }
-        location.reload();
     });
 
     window.onload = function () {

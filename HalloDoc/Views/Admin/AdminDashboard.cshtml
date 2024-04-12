@@ -538,7 +538,7 @@
         </div>
     </div>
 
-    @*Accept Case Modal*@
+    @*Provider Dashboard - Accept Case Modal*@
     <div class="modal fade" id="acceptCaseModal" tabindex="-1" aria-labelledby="acceptCaseModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -560,6 +560,88 @@
         </div>
     </div>
 
+    @*Provider Dashboard - Transfer Modal*@
+    <div class="modal fade" id="providerTransferModal" tabindex="-1" aria-labelledby="providerTransferModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h1 class="modal-title fs-5" id="providerTransferModal">Transfer Request</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" asp-action="ProviderTransferRequest" asp-controller="Admin">
+                    <input type="hidden" id="r-id-seven" asp-for="RequestId" />
+                    <div class="modal-body">
+                        <textarea class="form-control border border-info" id="exampleFormControlTextarea2" placeholder="Description" rows="5" name="additionalNotes" asp-for="providerTransferDescription"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Submit</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    @*Provider Dashboard - Type of Care Modal*@
+    <div class="modal fade" id="typeOfCareModal" tabindex="-1" aria-labelledby="typeOfCareModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white" id="typeOfCareModalLabel">
+                        Select Type Of Care
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" asp-action="SaveCallType" asp-route-id="@Model.RequestId" asp-controller="Admin">
+                        <input type="hidden" id="r-id-eight" name="requestid" value="" asp-for="RequestId" />
+                        <div class="d-flex justify-content-center gap-3">
+                            <div>
+                                <input type="radio" class="btn-check" name="Calltype" id="Housecall-outlined" value="1" autocomplete="off">
+                                <label class="btn btn-outline-info" for="Housecall-outlined">HouseCall</label>
+
+                                <input type="radio" class="btn-check" name="Calltype" id="info-outlined" value="2" autocomplete="off">
+                                <label class="btn btn-outline-info" for="info-outlined">Consult</label>
+                            </div>
+
+
+                        </div>
+
+                        <div class="text-end mb-3 me-3 mt-3">
+                            <button type="submit" class="btn btn-info text-white" id="continueBtn" data-bs-dismiss="modal">Save</button>
+                            <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">
+                                Cancel
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Encounter Form Finalized Modal*@
+    <div class="modal fade" id="DownloadEncounterModal" tabindex="-1" aria-labelledby="DownloadEncounterModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title text-white" id="DownloadEncounterModalLabel">
+                        Encounter Form
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="requestForm" method="post" asp-action="DownloadEncounterForm" asp-controller="Admin">
+                        <input type="hidden" id="r-id-nine" name="requestid" value="" />
+                        <p class="mb-3 text-muted">Encounter Form Finalized Successfully</p>
+                        <div class="d-flex justify-content-center">
+                            <button class="btn btn-info" type="submit">Download</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <script>
@@ -864,10 +946,28 @@
         }
 
         // code to fetch RequestId in Accept Case Modal
-        function acceptCaseData(id){
+        function acceptCaseData(id) {
             console.log(id);
             document.getElementById("r-id-six").value = id;
             console.log(document.getElementById("r-id-six").value);
+        }
+
+        // code to fetch RequestId in Transfer Modal
+        function transferData(id) {
+            console.log(id);
+            document.getElementById("r-id-seven").value = id;
+        }
+
+        // code to fetch RequestId in Type of Call Modal
+        function typeOfCallData(id) {
+            console.log(id);
+            document.getElementById("r-id-eight").value = id;
+        }
+
+        // code to fetch requestId in download encoutner form modal
+        function downloadEncounterForm(id) {
+            console.log(id);
+            document.getElementById("r-id-nine").value = id;
         }
 
         // code to fetch PhoneNumber, Receiver Email, RequestTypeId and RequestId in Send Agreement Modal
