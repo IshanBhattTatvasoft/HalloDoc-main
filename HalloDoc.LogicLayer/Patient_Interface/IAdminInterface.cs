@@ -78,7 +78,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         //AdminDashboardTableView ModelOfAdminDashboard(string? status, int userId);
         public EncounterForm GetEncounterFormData(int reqId);
         public void UpdateEncounterFormData(EncounterFormModel model);
-        public bool FinalizeEncounterForm(int id);
+        public bool FinalizeEncounterForm(EncounterFormModel model, RequestClient rc, int id, int bitCheck);
         public void AddRequestClosedData(RequestClosed rc);
         public void UpdateRequestClient(RequestClient rc);
         public List<HalloDoc.DataLayer.Models.Region> GetAllRegions();
@@ -125,11 +125,11 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<ShiftDetail> GetScheduleData(int RegionId);
         public List<SchedulingViewModel> GetProviderInformation(int Region);
         public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
-        public EditViewShiftModel GetViewShift(int ShiftDetailId);
+        public EditViewShiftModel GetViewShift(int ShiftDetailId, AdminNavbarModel model);
         public bool ReturnViewShift(int ShiftDetailId);
-        public bool EditViewShift(EditViewShiftModel Shift);
+        public int EditViewShift(EditViewShiftModel Shift);
         public bool DeleteViewShift(int ShiftDetailId);
-        public BlockedHistoryViewModel BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo);
+        public BlockedHistoryViewModel BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo, int? page = 1, int? pageSize = 10);
         public List<RequestedShiftsData> GetRequestedShiftsData(int? regionId = -1);
         public void ApproveSelectedShifts(string shiftDetailIdString);
         public void DeleteSelectedShifts(string shiftDetailIdString);
@@ -147,6 +147,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void AddSmsLogFromContactProvider(string body, string number, int? adminId, int phyId, DateTime temp, int count, bool isSMSSent, int action);
         public void AddEmailLog(string body, string subject, string email, int? RoleId, string? filePath, string? ConfirmationNumber, int? RequestId, int? AdminId, int? PhysicianId, DateTime? createdDate, bool isEmailSent, int emailSentCount);
         public int SelectCallTypeOfRequest(int id, int callType);
+        public bool ActiveToConclude(int id);
+        public List<KeyValuePair<int, string>> GetEmailForDtySupport();
 
     }
 }

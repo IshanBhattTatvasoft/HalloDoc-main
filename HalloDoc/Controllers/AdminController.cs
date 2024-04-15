@@ -34,6 +34,10 @@ using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.VisualBasic;
+using Twilio.Http;
+using Request = HalloDoc.DataLayer.Models.Request;
+using Org.BouncyCastle.Asn1.Ocsp;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -48,7 +52,7 @@ namespace HalloDoc.Controllers
         private readonly ILogger<AdminController> _logger;
         private readonly IConfiguration _configuration;
         private readonly IPatientRequest _patientRequest;
-        
+
 
         public AdminController(IAdminInterface adminInterface, IHttpContextAccessor sescontext, IJwtToken jwtToken, IConfiguration configuration, IPatientRequest patientRequest)
         {
@@ -676,6 +680,85 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin", "AdminDashboard")]
+        public async Task<IActionResult> RequestDtySupport(string reason)
+        {
+            try
+            {
+
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                List<KeyValuePair<int, string>> unscheduledPhy = _adminInterface.GetEmailForDtySupport();
+
+                int emailSentCount = 1;
+                bool isEmailSent = false;
+                foreach (var item in unscheduledPhy)
+                {
+                    emailSentCount = 1;
+                    isEmailSent = false;
+                    while(emailSentCount <= 3 && !isEmailSent)
+                    {
+                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                        string senderPassword = "Ishan@1503";
+                        string subject = "HalloDoc - Request for Support";
+                        string platformTitle = "HalloDoc";
+                        var body = $"Hey, <br/> If you are free, we need support due to the following reason <br/> {reason}<br/> Please help us if you can<br /><br />Regards,<br/>{platformTitle}<br/>";
+
+                        try
+                        {
+                            SmtpClient client = new SmtpClient("smtp.office365.com")
+                            {
+                                Port = 587,
+                                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                                EnableSsl = true,
+                                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                UseDefaultCredentials = false
+                            };
+
+                            MailMessage mailMessage = new MailMessage
+                            {
+                                From = new MailAddress(senderEmail, "HalloDoc"),
+                                Subject = subject,
+                                IsBodyHtml = true,
+                                Body = body
+                            };
+
+                            mailMessage.To.Add(item.Value);
+                            await client.SendMailAsync(mailMessage);
+                            isEmailSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddEmailLog(body, subject, item.Value, 1, null, null, null, null, item.Key, temp, isEmailSent, emailSentCount);
+                        }
+
+                        catch(Exception ex)
+                        {
+                            if(emailSentCount>=3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(body, subject, item.Value, 1, null, null, null, null, item.Key, temp, false, emailSentCount);
+                            }
+                        }
+                    }
+                }
+                TempData["success"] = "Case data updated successfully";
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                
+                TempData["error"] = "Unable to edit the case information";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
         [CustomAuthorize("Admin Provider", "AdminDashboard")]
         // function to display data in View Case view
         public IActionResult ViewCase(int requestId)
@@ -1245,6 +1328,49 @@ namespace HalloDoc.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to select call type of request";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin Provider", "AdminDashboard")]
+        public IActionResult ActiveToConclude(int id)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                bool isConcluded = _adminInterface.ActiveToConclude(id);
+                if (isConcluded)
+                {
+                    TempData["success"] = "Request transferred to conclude state";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to transfer the request to conclude state";
+                }
+                return RedirectToAction("AdminDashboard");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to transfer the request to conclude state";
                 return RedirectToAction("AdminDashboard");
             }
         }
@@ -2627,42 +2753,39 @@ namespace HalloDoc.Controllers
 
                 if (ef != null)
                 {
+                    EncounterFormModel efm = new EncounterFormModel();
+                    efm.reqId = reqId;
+                    efm.FirstName = rc.FirstName;
+                    efm.LastName = rc.LastName;
+                    efm.Email = rc.Email;
+                    efm.Location = string.Concat(rc.Street, ", ", rc.City, ", ", rc.State, ", ", rc.ZipCode);
+                    efm.PhoneNumber = rc.PhoneNumber;
+                    efm.DOB = new DateTime((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate);
+                    efm.Date = ef.Date;
+                    efm.Medications = ef.Medications;
+                    efm.Allergies = ef.Allergies;
+                    efm.Temp = (decimal)ef.Temp;
+                    efm.HR = (decimal)ef.Hr;
+                    efm.RR = (decimal)ef.Rr;
+                    efm.BPS = (int)ef.BpS;
+                    efm.BPD = (int)ef.BpD;
+                    efm.O2 = (decimal)ef.O2;
+                    efm.Pain = ef.Pain;
+                    efm.Heent = ef.Heent;
+                    efm.CV = ef.Cv;
+                    efm.Chest = ef.Chest;
+                    efm.ABD = ef.Abd;
+                    efm.Extr = ef.Extr;
+                    efm.Skin = ef.Skin;
+                    efm.Neuro = ef.Neuro;
+                    efm.Other = ef.Other;
+                    efm.Diagnosis = ef.Diagnosis;
+                    efm.TreatmentPlan = ef.TreatmentPlan;
+                    efm.MedicationsDispensed = ef.MedicationDispensed;
+                    efm.Procedures = ef.Procedures;
+                    efm.FollowUp = ef.FollowUp;
+                    efm.an = an;
 
-
-                    EncounterFormModel efm = new EncounterFormModel
-                    {
-                        reqId = reqId,
-                        FirstName = rc.FirstName,
-                        LastName = rc.LastName,
-                        Email = rc.Email,
-                        Location = string.Concat(rc.Street, ", ", rc.City, ", ", rc.State, ", ", rc.ZipCode),
-                        PhoneNumber = rc.PhoneNumber,
-                        DOB = new DateTime((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate),
-                        Date = (DateTime)ef.Date,
-                        Medications = ef.Medications,
-                        Allergies = ef.Allergies,
-                        Temp = (decimal)ef.Temp,
-                        HR = (decimal)ef.Hr,
-                        RR = (decimal)ef.Rr,
-                        BPS = (int)ef.BpS,
-                        BPD = (int)ef.BpD,
-                        O2 = (decimal)ef.O2,
-                        Pain = ef.Pain,
-                        Heent = ef.Heent,
-                        CV = ef.Cv,
-                        Chest = ef.Chest,
-                        ABD = ef.Abd,
-                        Extr = ef.Extr,
-                        Skin = ef.Skin,
-                        Neuro = ef.Neuro,
-                        Other = ef.Other,
-                        Diagnosis = ef.Diagnosis,
-                        TreatmentPlan = ef.TreatmentPlan,
-                        MedicationsDispensed = ef.MedicationDispensed,
-                        Procedures = ef.Procedures,
-                        FollowUp = ef.FollowUp,
-                        an = an
-                    };
                     return View(efm);
                 }
 
@@ -2693,7 +2816,7 @@ namespace HalloDoc.Controllers
         [HttpPost]
         [CustomAuthorize("Admin Provider", "EncounterForm")]
         // function called when we submit the encounter form
-        public IActionResult EncounterFormSubmit(EncounterFormModel model)
+        public IActionResult EncounterFormSubmit(EncounterFormModel model, int id, int bitCheck)
         {
             try
             {
@@ -2716,7 +2839,7 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-
+                bool isFinalized = false;
                 int requestId = (int)model.reqId;
                 if (requestId != null)
                 {
@@ -2724,11 +2847,19 @@ namespace HalloDoc.Controllers
                     RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
                     if (rc != null)
                     {
-                        _adminInterface.UpdateEncounterFormData(model);
+                        isFinalized = _adminInterface.FinalizeEncounterForm(model, rc, id, bitCheck);
 
                     }
                 }
-                TempData["success"] = "Welcome again!";
+
+                if (!isFinalized)
+                {
+                    TempData["success"] = "Welcome again!";
+                }
+                else
+                {
+                    TempData["success"] = "Form finalized successfully";
+                }
                 return RedirectToAction("AdminDashboard");
             }
 
@@ -2740,7 +2871,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin Provider", "EncounterForm")]
-        public IActionResult FinalizeEncounterForm(int id)
+        public IActionResult FinalizeEncounterForm(EncounterFormModel model, int id, int bitCheck)
         {
             try
             {
@@ -2763,8 +2894,9 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-
-                if (_adminInterface.FinalizeEncounterForm(id))
+                Request r = _adminInterface.ValidateRequest(id);
+                RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
+                if (_adminInterface.FinalizeEncounterForm(model, rc, id, bitCheck))
                 {
                     TempData["success"] = "Form finalized successfully";
                     return RedirectToAction("AdminDashboard");
@@ -3075,8 +3207,12 @@ namespace HalloDoc.Controllers
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
-                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 3;
+                if(ad!=null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.Tab = 3;
+                    an.roleName = "Admin";
+                }
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
@@ -4173,7 +4309,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "BlockedHistory")]
-        public IActionResult BlockedHistoryFilteredData(DateOnly date, string? name = "", string? phoneNumber = "", string? email = "")
+        public IActionResult BlockedHistoryFilteredData(DateOnly date, string? name = "", string? phoneNumber = "", string? email = "", int page = 1, int pageSize = 10)
         {
             try
             {
@@ -4186,7 +4322,7 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                BlockedHistoryViewModel bh = _adminInterface.BlockedHistoryFilteredData(an, name, date, email, phoneNumber);
+                BlockedHistoryViewModel bh = _adminInterface.BlockedHistoryFilteredData(an, name, date, email, phoneNumber, page, pageSize);
                 return PartialView("BlockedHistoryPagePartialView", bh);
             }
 
@@ -4256,43 +4392,96 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin", "Scheduling")]
         public IActionResult GetScheduleData(int RegionId)
         {
-            string[] color = { "#edacd2", "#a5cfa6" };
-            List<ShiftDetail> shiftDetails = _adminInterface.GetScheduleData(RegionId);
-
-            List<ShiftDTO> list = shiftDetails.Select(s => new ShiftDTO
+            try
             {
-                resourceId = s.Shift.PhysicianId,
-                Id = s.ShiftDetailId,
-                title = _adminInterface.GetPhysicianNameFromId(s.Shift.PhysicianId, s.ShiftId),
-                start = s.ShiftDate.ToString("yyyy-MM-dd") + s.StartTime.ToString("THH:mm:ss"),
-                end = s.ShiftDate.ToString("yyyy-MM-dd") + s.EndTime.ToString("THH:mm:ss"),
-                color = color[s.Status]
-            }).ToList();
-            return Json(list);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                string[] color = { "#edacd2", "#a5cfa6" };
+                List<ShiftDetail> shiftDetails = _adminInterface.GetScheduleData(RegionId);
+
+                List<ShiftDTO> list = shiftDetails.Select(s => new ShiftDTO
+                {
+                    resourceId = s.Shift.PhysicianId,
+                    Id = s.ShiftDetailId,
+                    title = _adminInterface.GetPhysicianNameFromId(s.Shift.PhysicianId, s.ShiftId),
+                    start = s.ShiftDate.ToString("yyyy-MM-dd") + s.StartTime.ToString("THH:mm:ss"),
+                    end = s.ShiftDate.ToString("yyyy-MM-dd") + s.EndTime.ToString("THH:mm:ss"),
+                    color = color[s.Status]
+                }).ToList();
+                return Json(list);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to fetch provider scheduling data";
+                return RedirectToAction("AdminDashboard");
+            }
+
         }
 
         [CustomAuthorize("Admin", "Scheduling")]
         public IActionResult GetProviderDetailsForSchedule(int RegionId)
         {
-            List<SchedulingViewModel> model = _adminInterface.GetProviderInformation(RegionId);
-
-            List<ProviderDTO> list = model.Select(p => new ProviderDTO
+            try
             {
-                Id = p.physicianId,
-                title = string.Concat(p.ProviderName, " ") ?? "",
-                imageUrl = "/Physician/" + p.physicianId + "/Profile.png",
-            }).ToList();
-            //}
-            return Json(list);
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                List<SchedulingViewModel> model = _adminInterface.GetProviderInformation(RegionId);
+
+                List<ProviderDTO> list = model.Select(p => new ProviderDTO
+                {
+                    Id = p.physicianId,
+                    title = string.Concat(p.ProviderName, " ") ?? "",
+                    imageUrl = "/Physician/" + p.physicianId + "/Profile.png",
+                }).ToList();
+                //}
+                return Json(list);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to fetch provider scheduling data";
+                return RedirectToAction("AdminDashboard");
+            }
+
         }
 
-        [CustomAuthorize("Admin", "Scheduling")]
+        [CustomAuthorize("Admin Provider", "Scheduling")]
         public IActionResult ViewShift(int ShiftDetailId)
         {
-            return PartialView("~/Views/Shared/ViewShiftModalPartialView.cshtml", _adminInterface.GetViewShift(ShiftDetailId));
+            var userId = HttpContext.Session.GetInt32("id");
+            Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+            AdminNavbarModel an = new AdminNavbarModel();
+            if (ad != null)
+            {
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.roleName = "Admin";
+            }
+            else
+            {
+                an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                an.roleName = "Provider";
+            }
+            return PartialView("~/Views/Shared/ViewShiftModalPartialView.cshtml", _adminInterface.GetViewShift(ShiftDetailId, an));
         }
 
-        [CustomAuthorize("Admin", "Scheduling")]
+        [CustomAuthorize("Admin Provider", "Scheduling")]
         public bool ReturnViewShift(int ShiftDetailId)
         {
             try
@@ -4302,14 +4491,21 @@ namespace HalloDoc.Controllers
             catch { return false; }
         }
 
-        [CustomAuthorize("Admin", "Scheduling")]
+        [CustomAuthorize("Admin Provider", "Scheduling")]
         public IActionResult EditViewShift(EditViewShiftModel ShiftDetail)
         {
             try
             {
-                if (_adminInterface.EditViewShift(ShiftDetail) == true)
+                int x = 0;
+                x = _adminInterface.EditViewShift(ShiftDetail);
+                if (x == 0)
                 {
                     TempData["success"] = "Shift edited successfully";
+                    return View("Scheduling");
+                }
+                else if (x == 1)
+                {
+                    TempData["error"] = "Shift already exists at that time";
                     return View("Scheduling");
                 }
                 else
@@ -4324,7 +4520,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin", "Scheduling")]
+        [CustomAuthorize("Admin Provider", "Scheduling")]
         public bool DeleteViewShift(int ShiftDetailId)
         {
             try

@@ -248,6 +248,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGF0aWVudFJlcXVlc3RcQ3JlYXRlUGF0aWVudFJlcXVlc3QuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Provider/ConcludeCare.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmlkZXJcQ29uY2x1ZGVDYXJlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Provider/MySchedule.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmlkZXJcTXlTY2hlZHVsZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pca141/Desktop/HalloDoc-main/HalloDoc/Views/Shared/AdminDashboardTablePartialView.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEFkbWluRGFzaGJvYXJkVGFibGVQYXJ0aWFsVmlldy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

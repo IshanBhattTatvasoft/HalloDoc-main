@@ -10,8 +10,8 @@ namespace HalloDoc.DataLayer.ViewModels
 {
     public class AdminNavbarModel
     {
-        public string Admin_Name { get; set; }
-        public int Tab { get; set; }
+        public string? Admin_Name { get; set; }
+        public int? Tab { get; set; }
         public string? roleName { get; set; }
     }
 }

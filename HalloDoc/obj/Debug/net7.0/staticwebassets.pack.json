@@ -5,6 +5,14 @@
       "PackagePath": "staticwebassets\\HalloDoc.bundle.scp.css"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\EncounterForms\\patient-29.pdf",
+      "PackagePath": "staticwebassets\\EncounterForms\\patient-29.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\EncounterForms\\patient-49.pdf",
+      "PackagePath": "staticwebassets\\EncounterForms\\patient-49.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\100\\AgreementDoc.csv",
       "PackagePath": "staticwebassets\\Physician\\100\\AgreementDoc.csv"
     },
@@ -685,6 +693,10 @@
       "PackagePath": "staticwebassets\\uploads\\BackgroundDoc (2).docx"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\EncounterReport-ISBH0008 (1).pdf",
+      "PackagePath": "staticwebassets\\uploads\\EncounterReport-ISBH0008 (1).pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\HealthProfessionals.csv",
       "PackagePath": "staticwebassets\\uploads\\HealthProfessionals.csv"
     },
@@ -879,6 +891,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\globe-central-south-asia.svg",
       "PackagePath": "staticwebassets\\uploads\\globe-central-south-asia.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\halloDoc_data_dictonary.xlsx",
+      "PackagePath": "staticwebassets\\uploads\\halloDoc_data_dictonary.xlsx"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",

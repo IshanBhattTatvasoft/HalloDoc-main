@@ -16,11 +16,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Path = System.IO.Path;
+using System.Xml.Linq;using iText.Kernel.Pdf;using iText.Layout;using iText.Layout.Element;using System.IO;using Paragraph = iText.Layout.Element.Paragraph;using Document = iText.Layout.Document;using iText.Layout.Properties;using iText.Kernel.Font;using TextAlignment = iText.Layout.Properties.TextAlignment;using iText.Kernel.Font;using DocumentFormat.OpenXml.Spreadsheet;using static System.Runtime.InteropServices.JavaScript.JSType;using iText.IO.Font.Constants;using Style = iText.Layout.Style;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {
@@ -261,7 +261,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return ua;
         }
 
-        BlockedHistoryViewModel IAdminInterface.BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo)
+        BlockedHistoryViewModel IAdminInterface.BlockedHistoryFilteredData(AdminNavbarModel an, string name, DateOnly date, string email, string phoneNo, int? page = 1, int? pageSize = 10)
         {
             var query = from b in _context.BlockRequests
                         join r in _context.Requests on b.RequestId equals r.RequestId
@@ -309,8 +309,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             BlockedHistoryViewModel bhvm = new BlockedHistoryViewModel
             {
-                allData = allData,
+                allData = allData.Skip((int)((page - 1) * pageSize)).Take((int)pageSize).ToList(),
                 adminNavbarModel = an,
+                CurrentPage = page,
+                PageSize = pageSize,
+                TotalItems = allData.Count(),
+                TotalPages = (int)Math.Ceiling((double)((double)allData.Count() / pageSize)),
             };
 
             return bhvm;
@@ -754,6 +758,21 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return x;
         }
 
+        public bool ActiveToConclude(int id)
+        {
+            bool isConcluded = false;
+            Request r = _context.Requests.Where(re => re.RequestId == id).FirstOrDefault();
+            if (r != null)
+            {
+                r.Status = 6;
+                r.CallType = 2;
+                _context.Requests.Update(r);
+                _context.SaveChanges();
+                isConcluded = true;
+            }
+            return isConcluded;
+        }
+
         public void AddRequestClosedData(RequestClosed rc)
         {
             _context.RequestCloseds.Add(rc);
@@ -823,7 +842,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public bool VerifyLocation(string state)
         {
             var temp = state.ToLower().Trim();
-            return _context.Regions.Any(r => r.Name == temp);
+            return _context.Regions.Any(r => r.Name.ToLower().Trim() == temp);
         }
 
         public void InsertDataOfRequest(AdminCreateRequestModel model)
@@ -871,6 +890,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.Users.Add(user);
                 _context.SaveChanges();
             }
+            HalloDoc.DataLayer.Models.Region r = _context.Regions.Where(re => re.Name == model.State).FirstOrDefault();
             requestClient.FirstName = model.FirstName;
             requestClient.LastName = model.LastName;
             requestClient.PhoneNumber = model.PhoneNumber;
@@ -890,8 +910,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.RequestClients.Add(requestClient);
             _context.SaveChanges();
 
-            int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
-            string ConfirmationNumber = string.Concat(region2.Abbreviation, model.FirstName.Substring(0, 2).ToUpper(), model.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+            int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
+            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString().Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
 
             request.RequestTypeId = 1;
             if (!userExists)
@@ -1175,17 +1195,141 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        public bool FinalizeEncounterForm(int id)
+        public bool FinalizeEncounterForm(EncounterFormModel model, RequestClient rc, int id, int bitCheck)
         {
             bool isFinalized = false;
             EncounterForm ef = _context.EncounterForms.Where(r => r.RequestId == id).FirstOrDefault();
+            EncounterForm ef2 = new EncounterForm();
             if (ef != null)
             {
-                ef.IsFinalized = new BitArray(1, true);
+                ef.HistoryIllness = model.HistoryOfIllness;
+                ef.MedicalHistory = model.MedicalHistory;
+                ef.Medications = model.Medications;
+                ef.Allergies = model.Allergies;
+                ef.Temp = model.Temp;
+                ef.Hr = model.HR;
+                ef.Rr = model.RR;
+                ef.BpS = model.BPS;
+                ef.BpD = model.BPD;
+                ef.O2 = model.O2;
+                ef.Pain = model.Pain;
+                ef.Heent = model.Heent;
+                ef.Cv = model.CV;
+                ef.Chest = model.Chest;
+                ef.Abd = model.ABD;
+                ef.Extr = model.Extr;
+                ef.Skin = model.Skin;
+                ef.Neuro = model.Neuro;
+                ef.Other = model.Other;
+                ef.Diagnosis = model.Diagnosis;
+                ef.TreatmentPlan = model.TreatmentPlan;
+                ef.MedicationDispensed = model.MedicationsDispensed;
+                ef.Procedures = model.Procedures;
+                ef.FollowUp = model.FollowUp;
+                if (bitCheck == 1)
+                {
+                    ef.IsFinalized = new BitArray(1, true);
+                }
                 _context.EncounterForms.Update(ef);
-                _context.SaveChanges();
                 isFinalized = true;
             }
+
+            else
+            {
+                ef2.RequestId = (int)model.reqId;
+                ef2.HistoryIllness = model.HistoryOfIllness;
+                ef2.MedicalHistory = model.MedicalHistory;
+                ef2.Medications = model.Medications;
+                ef2.Allergies = model.Allergies;
+                ef2.Temp = model.Temp;
+                ef2.Hr = model.HR;
+                ef2.Rr = model.RR;
+                ef2.BpS = model.BPS;
+                ef2.BpD = model.BPD;
+                ef2.O2 = model.O2;
+                ef2.Pain = model.Pain;
+                ef2.Heent = model.Heent;
+                ef2.Cv = model.CV;
+                ef2.Chest = model.Chest;
+                ef2.Abd = model.ABD;
+                ef2.Extr = model.Extr;
+                ef2.Skin = model.Skin;
+                ef2.Neuro = model.Neuro;
+                ef2.Other = model.Other;
+                ef2.Diagnosis = model.Diagnosis;
+                ef2.TreatmentPlan = model.TreatmentPlan;
+                ef2.MedicationDispensed = model.MedicationsDispensed;
+                ef2.Procedures = model.Procedures;
+                ef2.FollowUp = model.FollowUp;
+                _context.EncounterForms.Add(ef2);
+                isFinalized = false;
+            }
+
+            EncounterForm ef3 = new EncounterForm();
+            if (ef == null) ef3 = ef2;
+            else if (ef2 == null) ef3 = ef;
+
+            if (bitCheck == 1)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\EncounterForms", $"patient-{id}.pdf");
+
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    using (PdfWriter writer = new PdfWriter(fileStream))
+                    {
+                        using (PdfDocument pdf = new PdfDocument(writer))
+                        {
+                            Document document = new Document(pdf);
+                            Style valueStyle = new Style()
+                            .SetFont(PdfFontFactory.CreateFont(StandardFonts.HELVETICA))
+                            .SetFontSize(12)
+                            .SetTextAlignment(TextAlignment.LEFT);
+                            // Add a title
+                            document.Add(new Paragraph("Patient Information").SetTextAlignment(TextAlignment.CENTER).SetFontSize(22).SetBold());
+
+
+
+                            // Add form fields
+                            document.Add(new Paragraph("Patient Name: " + rc.FirstName + ' ' + rc.LastName));
+                            document.Add(new Paragraph("patient Location: " + string.Concat(rc.Street, ", ", rc.City, ", ", rc.State, ", ", rc.ZipCode)));
+                            document.Add(new Paragraph("Date of birth: " + new DateTime((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate)));
+                            document.Add(new Paragraph("PhoneNumber: " + rc.PhoneNumber));
+                            document.Add(new Paragraph("Patient Email: " + rc.Email));
+                            document.Add(new Paragraph("History Of present illness Or injury: " + ef3.HistoryIllness));
+                            document.Add(new Paragraph("Medical History: " + ef3.MedicalHistory));
+                            document.Add(new Paragraph("Medications: " + ef3.Medications));
+                            document.Add(new Paragraph("Allergies: " + ef3.Allergies));
+                            document.Add(new Paragraph("Temp: " + ef3.Temp));
+                            document.Add(new Paragraph("HR: " + ef3.Hr));
+                            document.Add(new Paragraph("RR: " + ef3.Rr));
+                            document.Add(new Paragraph("Blood Pressure(S): " + ef3.BpS));
+                            document.Add(new Paragraph("Blood Pressure(D): " + ef3.BpD));
+                            document.Add(new Paragraph("O2: " + ef3.O2));
+                            document.Add(new Paragraph("Pain: " + ef3.Pain));
+                            document.Add(new Paragraph("HEENT: " + ef3.Heent));
+                            document.Add(new Paragraph("CV: " + ef3.Cv));
+                            document.Add(new Paragraph("Chest: " + ef3.Chest));
+                            document.Add(new Paragraph("ABD: " + ef3.Abd));
+                            document.Add(new Paragraph("Extremities: " + ef3.Extr));
+                            document.Add(new Paragraph("Skin: " + ef3.Skin));
+                            document.Add(new Paragraph("Neuro: " + ef3.Neuro));
+                            document.Add(new Paragraph("Other: " + ef3.Other));
+                            document.Add(new Paragraph("Diagnosis: " + ef3.Diagnosis));
+                            document.Add(new Paragraph("Treatment Plan: " + ef3.TreatmentPlan));
+                            document.Add(new Paragraph("Medication Dispensed: " + ef3.MedicationDispensed));
+                            document.Add(new Paragraph("Procedures: " + ef3.Procedures));
+                            document.Add(new Paragraph("Follow Up: " + ef3.FollowUp));
+
+
+                            document.Close();
+
+                        }
+                    }
+
+                    isFinalized = true;
+                }
+            }
+            _context.SaveChanges();
             return isFinalized;
         }
 
@@ -1974,29 +2118,33 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Physician p = _context.Physicians.Where(s => s.PhysicianId == id).FirstOrDefault();
             ShiftDetail shiftDetail = _context.ShiftDetails.Where(s => s.ShiftId == shiftId).FirstOrDefault();
             DataLayer.Models.Region r = _context.Regions.Where(re => re.RegionId == shiftDetail.RegionId).FirstOrDefault();
-            return p.FirstName + ", " + p.LastName + ", " + r.Abbreviation;
+            if(r!=null)
+                return p.FirstName + ", " + p.LastName + ", " + r.Abbreviation;
+            else
+            {
+                return p.FirstName + ", " + p.LastName;
+            }
         }
 
 
 
-        public EditViewShiftModel GetViewShift(int ShiftDetailId)
+        public EditViewShiftModel GetViewShift(int ShiftDetailId, AdminNavbarModel model)
         {
             try
             {
                 ShiftDetail shiftDetail = _context.ShiftDetails.Include(m => m.Shift).ThenInclude(m => m.Physician).FirstOrDefault(m => m.ShiftDetailId == ShiftDetailId);
                 if (shiftDetail != null)
                 {
-                    EditViewShiftModel editViewShift = new EditViewShiftModel()
-                    {
-                        ShiftDetailId = ShiftDetailId,
-                        PhysicianRegionVS = (int)shiftDetail.RegionId,
-                        PhysicianRegionName = _context.Regions.FirstOrDefault(m => m.RegionId == shiftDetail.RegionId).Name,
-                        PhysicianIdVS = shiftDetail.Shift.PhysicianId,
-                        PhysicianName = shiftDetail.Shift.Physician.FirstName + " " + shiftDetail.Shift.Physician.LastName,
-                        ShiftDateVS = shiftDetail.ShiftDate.ToString("yyyy-MM-dd"),
-                        StartTimeVS = shiftDetail.StartTime,
-                        EndTimeVS = shiftDetail.EndTime,
-                    };
+                    EditViewShiftModel editViewShift = new EditViewShiftModel();
+                    editViewShift.ShiftDetailId = ShiftDetailId;
+                    editViewShift.an = model;
+                    editViewShift.PhysicianRegionVS = (int)shiftDetail.RegionId;
+                    editViewShift.PhysicianRegionName = _context.Regions.FirstOrDefault(m => m.RegionId == shiftDetail.RegionId).Name;
+                    editViewShift.PhysicianIdVS = shiftDetail.Shift.PhysicianId;
+                    editViewShift.PhysicianName = shiftDetail.Shift.Physician.FirstName + " " + shiftDetail.Shift.Physician.LastName;
+                    editViewShift.ShiftDateVS = shiftDetail.ShiftDate.ToString("yyyy-MM-dd");
+                    editViewShift.StartTimeVS = shiftDetail.StartTime;
+                    editViewShift.EndTimeVS = shiftDetail.EndTime;
                     return editViewShift;
                 }
                 return new EditViewShiftModel();
@@ -2027,11 +2175,17 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             catch { return false; }
         }
 
-        public bool EditViewShift(EditViewShiftModel Shift)
+        public int EditViewShift(EditViewShiftModel Shift)
         {
             try
             {
                 ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == Shift.ShiftDetailId);
+
+                if (_context.ShiftDetails.Any(s => s.ShiftDetailId == Shift.ShiftDetailId && (s.ShiftDate.Equals(Shift.ShiftDateVS) || s.StartTime >= Shift.StartTimeVS || s.EndTime <= Shift.EndTimeVS)))
+                {
+                    return 1;
+                }
+
                 if (shiftDetail != null)
                 {
                     shiftDetail.ShiftDate = DateTime.Parse(Shift.ShiftDateVS);
@@ -2039,11 +2193,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     shiftDetail.EndTime = Shift.EndTimeVS;
 
                     _context.SaveChangesAsync();
-                    return true;
+                    return 0;
                 }
-                return false;
+                return 2;
             }
-            catch { return false; }
+            catch { return 2; }
         }
 
         public bool DeleteViewShift(int ShiftDetailId)
@@ -2217,6 +2371,43 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.ShiftDetails.Update(sd);
             }
             _context.SaveChanges();
+        }
+
+        public List<KeyValuePair<int, string>> GetEmailForDtySupport()
+        {
+            var idAndEmail = new List<KeyValuePair<int, string>>(); 
+            List<Physician> allPhysician = _context.Physicians.ToList();
+            List<Physician> onCall = new List<Physician>();
+            List<Physician> offDuty = new List<Physician>();
+
+            List<ShiftDetail> shifts = _context.ShiftDetails.Where(s => s.ShiftDate.Date == DateTime.Now.Date && TimeOnly.FromDateTime(DateTime.Now) >= s.StartTime && TimeOnly.FromDateTime(DateTime.Now) <= s.EndTime && s.Status == 1 && s.IsDeleted == new BitArray(1, false)).Include(sh => sh.Shift).Include(shi => shi.Shift.Physician).ToList();
+
+            foreach (var item in shifts)
+            {
+                Physician p = item.Shift.Physician;
+                onCall.Add(p);
+            }
+
+            foreach (var item in allPhysician)
+            {
+                if (onCall.Any(r => r == item))
+                {
+                    continue;
+                }
+                else
+                {
+                    offDuty.Add(item);
+                }
+            }
+
+            offDuty = offDuty.GroupBy(p => p.PhysicianId).Select(g => g.First()).ToList();
+
+            foreach(var item in offDuty)
+            {
+                idAndEmail.Add(new KeyValuePair<int, string>(item.PhysicianId, item.Email));
+            }
+
+            return idAndEmail;
         }
 
         public MdsOnCallViewModel GetMdsData(AdminNavbarModel an)

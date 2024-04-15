@@ -57,6 +57,7 @@ builder.Services.AddScoped<ICreateRequestForMe, CreateRequestForMe>();
 builder.Services.AddScoped<ICreateRequestForSomeoneElse,  CreateRequestForSomeoneElse>();
 builder.Services.AddScoped<IAdminInterface, AdminInterface>();
 builder.Services.AddScoped<IJwtToken, JwtToken>();
+builder.Services.AddScoped<IProviderInterface, ProviderInterface>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

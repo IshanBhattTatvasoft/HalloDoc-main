@@ -91,6 +91,14 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.4.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             }
           },
           "imports": [
@@ -196,6 +204,14 @@
             "System.IdentityModel.Tokens.Jwt": {
               "target": "Package",
               "version": "[7.4.0, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             }
           },
           "imports": [
@@ -317,6 +333,14 @@
             "Twilio": {
               "target": "Package",
               "version": "[7.0.4, )"
+            },
+            "itext7": {
+              "target": "Package",
+              "version": "[8.0.3, )"
+            },
+            "itext7.bouncy-castle-adapter": {
+              "target": "Package",
+              "version": "[8.0.3, )"
             }
           },
           "imports": [

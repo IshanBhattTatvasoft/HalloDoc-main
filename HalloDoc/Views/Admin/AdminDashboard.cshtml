@@ -27,6 +27,7 @@
     <div id="main-sub-div" class="tabcontent">
         <!-- boxes of 6 states -->
         <div class="row mt-5">
+            
             <a class="col-4 col-lg-2 custom-btn cursor-pointer" style="text-decoration: none;">
                 <div class="state newState newState-active ms-1" onclick="changeStatus(this)">
                     <div class="d-flex align-items-center state-sub-div">
@@ -210,6 +211,12 @@
 
         @* div to show output of partial view *@
         <div>
+            <div id="loader2" class="loader2">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <div class="mt-4 ms-3 me-3 myTable" id="AdminDashboardPartialView"></div>
         </div>
     </div>
@@ -521,16 +528,16 @@
                     <h1 class="modal-title fs-5 text-white" id="requestSupportModalLabel">Request Support</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form>
+                <form method="post" asp-action="RequestDtySupport" asp-controller="Admin">
                     <div class="modal-body">
                         <span>To all unscheduled physicians: We are short on coverage and needs additional support on call to respond to requests.</span>
 
                         <div class="form-group">
-                            <textarea class="form-control border border-muted mt-3 textarea-class" id="requestSupportTextarea" placeholder="Message" rows="5" name="reasonForBlockRequest"></textarea>
+                            <textarea class="form-control border border-muted mt-3 textarea-class" id="requestSupportTextarea" placeholder="Message" rows="5" name="reason"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-info">Send</button>
+                        <button type="submit" class="btn btn-info text-white">Send</button>
                         <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
@@ -543,7 +550,7 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
-                    <h1 class="modal-title fs-5" id="acceptCaseModal">Accept Case</h1>
+                    <h1 class="modal-title fs-5 text-white" id="acceptCaseModal">Accept Case</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" asp-action="AcceptCase" asp-controller="Admin">
@@ -631,13 +638,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="DownloadEncounterForm" asp-controller="Admin">
+                    @*<form id="requestForm" method="post" asp-action="DownloadEncounterForm" asp-controller="Admin">*@
                         <input type="hidden" id="r-id-nine" name="requestid" value="" />
                         <p class="mb-3 text-muted">Encounter Form Finalized Successfully</p>
                         <div class="d-flex justify-content-center">
-                            <button class="btn btn-info" type="submit">Download</button>
+                        <a type="button" class="btn btn-info" id="pdf" href="" download>Download</a>
                         </div>
-                    </form>
+                    @*</form>*@
                 </div>
             </div>
         </div>
@@ -714,6 +721,7 @@
                 document.getElementById("status-text").innerHTML = `(${finalName.charAt(0).toUpperCase() + finalName.slice(1)})`;
             }
             var statusName = localStorage.getItem("status").charAt(0).toUpperCase();
+            document.getElementById("loader2").style.display = "flex";
             $.ajax({
                 url: `/Admin/${finalName.charAt(0).toUpperCase() + finalName.slice(1)}`,
                 type: 'POST',
@@ -721,6 +729,7 @@
                 data: { status: statusName, page: 1, pageSize: 10 },
                 // Pass your data here
                 success: function (response) {
+                    document.getElementById("loader2").style.display = "none";
                     $("#AdminDashboardPartialView").html(response);
 
                 },
@@ -750,9 +759,13 @@
                 }
                 else if (states[i].classList[1] == curr_state) {
                     states[i].classList.add('filter-active');
+                    states[i].classList.remove('border-white');
+                    states[i].classList.add('border-dark-subtle');
                 }
                 else if (states[i].classList.length == 11) {
                     states[i].classList.remove('filter-active');
+                    states[i].classList.add('border-white');
+                    states[i].classList.remove('border-dark-subtle');
                 }
             }
 
@@ -968,6 +981,8 @@
         function downloadEncounterForm(id) {
             console.log(id);
             document.getElementById("r-id-nine").value = id;
+            var name = document.getElementById("pdf");
+            name.href = `/EncounterForms/patient-${id}.pdf`;
         }
 
         // code to fetch PhoneNumber, Receiver Email, RequestTypeId and RequestId in Send Agreement Modal

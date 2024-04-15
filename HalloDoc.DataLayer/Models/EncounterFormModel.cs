@@ -3,25 +3,25 @@ using Microsoft.AspNetCore.Http;
 namespace HalloDoc.DataLayer.ViewModels;
 public class EncounterFormModel
 {
-    [Required(ErrorMessage = "First name is required")]
+    //[Required(ErrorMessage = "First name is required")]
     [StringLength(100, ErrorMessage = "Name must not be longer than 100 characters", MinimumLength = 1)]
     [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name must contain letters only")]
-    public required string FirstName { get; set; }
+    public string? FirstName { get; set; }
 
-    [Required(ErrorMessage = "Last name is required")]
+    //[Required(ErrorMessage = "Last name is required")]
     [StringLength(100, ErrorMessage = "Name must not be longer than 100 characters", MinimumLength = 1)]
     [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name must contain letters only")]
-    public required string LastName { get; set; }
-    [Required(ErrorMessage = "Location is required")]
-    public required string Location { get; set; }
-    public DateTime DOB { get; set; }
-    public DateTime Date { get; set; }
-    [Required(ErrorMessage = "Phone number is required")]
+    public string? LastName { get; set; }
+    //[Required(ErrorMessage = "Location is required")]
+    public string? Location { get; set; }
+    public DateTime? DOB { get; set; }
+    public DateTime? Date { get; set; }
+    //[Required(ErrorMessage = "Phone number is required")]
     [RegularExpression(@"^[1-9][0-9]{9}$", ErrorMessage = "Please enter a valid 10-digit phone number")]
-    public required string PhoneNumber { get; set; }
-    [Required(ErrorMessage = "Email is required")]
+    public string? PhoneNumber { get; set; }
+    //[Required(ErrorMessage = "Email is required")]
     [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter valid Email")]
-    public required string Email { get; set; }
+    public string? Email { get; set; }
     public string? HistoryOfIllness { get; set; }
     public string? MedicalHistory { get; set; }
     public string? Medications { get; set; }

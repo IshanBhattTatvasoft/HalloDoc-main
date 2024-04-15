@@ -69,8 +69,8 @@
     }
 
     /*.records{
-                            border-bottom: 2px solid #00CCFF !important;
-                        }*/
+                                border-bottom: 2px solid #00CCFF !important;
+                            }*/
 
     .dropdown-toggle:focus {
         outline: none !important;
@@ -190,15 +190,15 @@
             }
         }
 
-        @if (roleMenu.Any(r => r == "MySchedule"))
+        @if (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Provider")
         {
             @if (Model.Tab == 19)
             {
-                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Schedule</a>
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MySchedule">My Schedule</a>
             }
             else
             {
-                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Schedule</a>
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider" asp-action="MySchedule">My Schedule</a>
             }
         }
 
@@ -215,7 +215,7 @@
         }
 
         <div class="dropdown d-inline-block w-auto">
-            @if (roleMenu.Any(r => r == "ProviderMenu") || roleMenu.Any(r => r == "Scheduling") || roleMenu.Any(r => r == "Invoicing"))
+            @if (roleMenu.Any(r => r == "ProviderMenu") || (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Admin") || roleMenu.Any(r => r == "Invoicing"))
             {
                 @if (Model.Tab == 4 || Model.Tab == 5 || Model.Tab == 6 || Model.Tab == 7)
                 {
@@ -239,7 +239,7 @@
                     }
                 }
 
-                @if (roleMenu.Any(r => r == "Scheduling"))
+                @if (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Admin")
                 {
                     @if (Model.Tab == 6)
                     {
@@ -414,287 +414,364 @@
     <div class="offcanvas-body">
         <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block ps-4 h5 mb-3"
            style="margin-top: 20px !important;">Welcome, <strong> @Model.Admin_Name</strong></p>
-        @if (Model.Tab == 1)
+        @if (roleMenu.Any(r => r == "AdminDashboard"))
         {
-            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
-                <span class="h5">Dashboard</span>
-            </a>
-        }
-        else
-        {
-            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
-                <span class="h5">Dashboard</span>
-            </a>
-        }
-
-        @if (Model.Tab == 2)
-        {
-            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
-                <span class="h5">Provider Location</span>
-            </a>
-        }
-        else
-        {
-            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
-                <span class="h5">Provider Location</span>
-            </a>
-        }
-
-        @if (Model.Tab == 3)
-        {
-            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                <span class="h5">My Profile</span>
-            </a>
-        }
-        else
-        {
-            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                <span class="h5">My Profile</span>
-            </a>
-        }
-        <div class="dropdown">
-
-            @if (Model.Tab == 4 || Model.Tab == 5 || Model.Tab == 6 || Model.Tab == 7)
+            @if (Model.Tab == 1)
             {
-                <button class="btn dropdown-toggle nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
-                    <span class="h5">Providers</span>
-                </button>
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
+                    <span class="h5">Dashboard</span>
+                </a>
             }
             else
             {
-                <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
-                    <span class="h5">Providers</span>
-                </button>
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
+                    <span class="h5">Dashboard</span>
+                </a>
             }
-            <ul class="dropdown-menu">
-                @if (Model.Tab == 5)
-                {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Provider</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Provider</span>
-                        </a>
-                    </li>
-                }
-                @if (Model.Tab == 6)
-                {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Scheduling</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Scheduling</span>
-                        </a>
-                    </li>
-                }
-                @if (Model.Tab == 7)
-                {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Invoicing</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Invoicing</span>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-        @if (Model.Tab == 8)
-        {
-            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
-                <span class="h5">Partners</span>
-            </a>
-        }
-        else
-        {
-            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
-               aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
-                <span class="h5">Partners</span>
-            </a>
         }
 
-        <div class="dropdown">
-            @if (Model.Tab == 9 || Model.Tab == 10 || Model.Tab == 11 || Model.Tab == 12)
+        @if (roleMenu.Any(r => r == "ProviderLocation"))
+        {
+            @if (Model.Tab == 2)
             {
-                <button class="btn dropdown-toggle mobile-active nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
-                    <span class="h5">Access</span>
-                </button>
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
+                   aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                    <span class="h5">Provider Location</span>
+                </a>
             }
             else
             {
-                <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
-                    <span class="h5">Access</span>
-                </button>
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
+                   aria-controls="nav-Location" aria-selected="false" asp-action="MyProfile">
+                    <span class="h5">Provider Location</span>
+                </a>
             }
+        }
 
+        @if (roleMenu.Any(r => r == "MyProfile"))
+        {
+            @if (Model.Tab == 3)
+            {
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                    <span class="h5">My Profile</span>
+                </a>
+            }
+            else
+            {
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                    <span class="h5">My Profile</span>
+                </a>
+            }
+        }
+
+        <div class="dropdown">
+            @if (roleMenu.Any(r => r == "ProviderMenu") || roleMenu.Any(r => r == "Scheduling") || roleMenu.Any(r => r == "Invoicing"))
+            {
+
+                @if (Model.Tab == 4 || Model.Tab == 5 || Model.Tab == 6 || Model.Tab == 7)
+                {
+                    <button class="btn dropdown-toggle nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                        <span class="h5">Providers</span>
+                    </button>
+                }
+                else
+                {
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                        <span class="h5">Providers</span>
+                    </button>
+                }
+            }
             <ul class="dropdown-menu">
-                @if (Model.Tab == 10)
+                @if (roleMenu.Any(r => r == "ProviderMenu"))
                 {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Account Access</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 5)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Provider</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Provider</span>
+                            </a>
+                        </li>
+                    }
                 }
-                else
+
+                @if (roleMenu.Any(r => r == "Scheduling"))
                 {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Account Access</span>
-                        </a>
-                    </li>
+                    @if (Model.Tab == 6)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Scheduling</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Scheduling</span>
+                            </a>
+                        </li>
+                    }
                 }
-                @if (Model.Tab == 11)
+
+                @if (roleMenu.Any(r => r == "Invoicing"))
                 {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">User Access</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">User Access</span>
-                        </a>
-                    </li>
-                }
-                @if (Model.Tab == 12)
-                {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Create Admin Account</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Create Admin Account</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 7)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Invoicing</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Invoicing</span>
+                            </a>
+                        </li>
+                    }
                 }
             </ul>
         </div>
 
+        @if (roleMenu.Any(r => r == "Partners"))
+        {
 
-        <div class="dropdown">
-            @if (Model.Tab == 13 || Model.Tab == 14 || Model.Tab == 15 || Model.Tab == 16 || Model.Tab == 17 || Model.Tab == 18)
+            @if (Model.Tab == 8)
             {
-                <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
-                    <span class="h5">Records</span>
-                </button>
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
+                   aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
+                    <span class="h5">Partners</span>
+                </a>
             }
             else
             {
-                <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
-                    <span class="h5">Records</span>
-                </button>
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Home" role="tab"
+                   aria-controls="nav-Location" aria-selected="false" asp-action="Partners">
+                    <span class="h5">Partners</span>
+                </a>
+            }
+        }
+
+        <div class="dropdown">
+            @if (roleMenu.Any(r => r == "AccountAccess") || roleMenu.Any(r => r == "UserAccess") || roleMenu.Any(r => r == "CreateAdminAccount"))
+            {
+
+                @if (Model.Tab == 9 || Model.Tab == 10 || Model.Tab == 11 || Model.Tab == 12)
+                {
+                    <button class="btn dropdown-toggle mobile-active nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                        <span class="h5">Access</span>
+                    </button>
+                }
+                else
+                {
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                        <span class="h5">Access</span>
+                    </button>
+                }
             }
 
             <ul class="dropdown-menu">
-                @if (Model.Tab == 14)
+                @if (roleMenu.Any(r => r == "AccountAccess"))
                 {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Search Records</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 10)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Account Access</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Account Access</span>
+                            </a>
+                        </li>
+                    }
+                }
+
+                @if (roleMenu.Any(r => r == "UserAccess"))
+                {
+
+                    @if (Model.Tab == 11)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">User Access</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">User Access</span>
+                            </a>
+                        </li>
+                    }
+                }
+
+                @if (roleMenu.Any(r => r == "CreateAdminAccount"))
+                {
+
+                    @if (Model.Tab == 12)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Create Admin Account</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Create Admin Account</span>
+                            </a>
+                        </li>
+                    }
+                }
+            </ul>
+        </div>
+
+
+        <div class="dropdown">
+            @if (roleMenu.Any(r => r == "SearchRecords") || roleMenu.Any(r => r == "EmailLogs") || roleMenu.Any(r => r == "SMSLogs") || roleMenu.Any(r => r == "PatientRecords") || roleMenu.Any(r => r == "BlockedHistory"))
+            {
+
+                @if (Model.Tab == 13 || Model.Tab == 14 || Model.Tab == 15 || Model.Tab == 16 || Model.Tab == 17 || Model.Tab == 18)
+                {
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                        <span class="h5">Records</span>
+                    </button>
                 }
                 else
                 {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Search Records</span>
-                        </a>
-                    </li>
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                        <span class="h5">Records</span>
+                    </button>
                 }
-                @if (Model.Tab == 15)
+            }
+
+            <ul class="dropdown-menu">
+                @if (roleMenu.Any(r => r == "SearchRecords"))
                 {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Email Logs</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 14)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Search Records</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Search Records</span>
+                            </a>
+                        </li>
+                    }
                 }
-                else
+
+                @if (roleMenu.Any(r => r == "EmailLogs"))
                 {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Email Logs</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 15)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Email Logs</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Email Logs</span>
+                            </a>
+                        </li>
+                    }
                 }
-                @if (Model.Tab == 16)
+
+                @if (roleMenu.Any(r => r == "SMSLogs"))
                 {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">SMS Logs</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 16)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">SMS Logs</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">SMS Logs</span>
+                            </a>
+                        </li>
+                    }
                 }
-                else
+
+                @if (roleMenu.Any(r => r == "PatientHistory"))
                 {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">SMS Logs</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 17)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Patient Records</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">PatienBlock Historys</span>
+                            </a>
+                        </li>
+                    }
                 }
-                @if (Model.Tab == 17)
+
+                @if (roleMenu.Any(r => r == "BlockedHistory"))
                 {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Patient Records</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">PatienBlock Historys</span>
-                        </a>
-                    </li>
-                }
-                @if (Model.Tab == 18)
-                {
-                    <li>
-                        <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Block History</span>
-                        </a>
-                    </li>
-                }
-                else
-                {
-                    <li>
-                        <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
-                            <span class="h5">Block History</span>
-                        </a>
-                    </li>
+
+                    @if (Model.Tab == 18)
+                    {
+                        <li>
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Block History</span>
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <span class="h5">Block History</span>
+                            </a>
+                        </li>
+                    }
                 }
             </ul>
         </div>

@@ -12,6 +12,7 @@
                 <div class="modal-body">
                     <div class="">
                         <input type="hidden" asp-for="ShiftDetailId" />
+                        <input type="hidden" id="roleName" asp-for="an.roleName" name="roleName"/>
                         <div class="mb-3">
                             <div class="form-floating">
                                 <select class="form-select" aria-label="Default select example" asp-for="PhysicianRegionVS" disabled>
@@ -61,6 +62,24 @@
 </div>
 <script>
     function loadShifts() {
+        console.log(document.getElementById("roleName").value);
+        if (document.getElementById("roleName").value = "Provider")
+        {
+            $.ajax({
+                url: '/Provider/GetProviderScheduleData',
+                type: 'GET',
+                success: function (data) {
+                    calendar.removeAllEvents();
+                    data.forEach(function (event) {
+                        calendar.addEvent(event);
+                    });
+                },
+                error: function (xhr, status, error) {
+                    toastr.error('Error fetching schedule data:', error);
+                }
+            });
+        }
+
         $.ajax({
             url: '/Admin/GetScheduleData',
             data: { RegionId: $("#Region").val() },
@@ -78,13 +97,13 @@
     }
 
 
-    jQuery(function () {
-        var isDateExist = $('input[type="date"]').length;
-        if (isDateExist != 0) {
-            var today = new Date().toISOString().split('T')[0];
-            $('input[type="date"]').attr('min', today);
-        }
-    });
+    // jQuery(function () {
+    //     var isDateExist = $('input[type="date"]').length;
+    //     if (isDateExist != 0) {
+    //         var today = new Date().toISOString().split('T')[0];
+    //         $('input[type="date"]').attr('min', today);
+    //     }
+    // });
 
     function disablePastTimesVS() {
         if ($("#ShiftDateVS").val() == new Date().toISOString().split('T')[0]) {

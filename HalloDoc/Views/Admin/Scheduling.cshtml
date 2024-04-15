@@ -11,13 +11,16 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 }
 
-@section Scripts{
+@*@section Scripts{
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
-}
+}*@
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.6/dist/sweetalert2.all.min.js"></script>
+<partial name="_ValidationScriptsPartial" />
 
 <style>
     .dark-green-button {
@@ -250,7 +253,7 @@
                         <div class="row g-2">
                             <div class="col-md col-12">
                                 <div class="form-floating mb-3">
-                                    <input type="time" class="form-control" id="startTime" placeholder="start" asp-for="startTime">
+                                    <input type="time" class="form-control" id="startTime" placeholder="start" asp-for="startTime" onchange="checkStartTime()">
                                     <label for="startTime" class="dm">Start</label>
                                     <span asp-validation-for="startTime" class="text-danger"></span>
                                 </div>
@@ -264,7 +267,7 @@
                             </div>
                             <div class="form-check form-switch mb-2 ms-2">
                                 <label class="form-check-label me-1" for="flexSwitchCheckChecked">Repeat</label>
-                                <input class="form-check-input  check" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                <input class="form-check-input check" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
                             </div>
                         </div>
                         <div id="days" class="mt-2 mb-2">
@@ -404,7 +407,7 @@
         $("#" + type1).click();
         calendar.render();
     })
-    
+
     //console.log(x);
     //if (x != null || x != undefined) {
     //    calendar.changeView('dayGridMonth');
@@ -617,8 +620,29 @@
             return timeDiff >= 30; // Check if difference is at least 30 minutes
         }
     });
+
+    function checkStartTime() {
+        // Get the selected start time
+        var selectedStartTime = document.getElementById("startTime").value;
+
+        // Get the current date and time
+        var currentDate = new Date();
+        var currentHour = currentDate.getHours();
+        var currentMinute = currentDate.getMinutes();
+
+        // Format current time as "HH:mm"
+        var currentTime = (currentHour < 10 ? '0' : '') + currentHour + ':' + (currentMinute < 10 ? '0' : '') + currentMinute;
+
+        // If the selected time is earlier than the current time on the current date
+        if (selectedStartTime < currentTime) {
+            // Reset the input field value to the current time
+            alert("Selected start time is lesser than current time");
+        }
+    }
+
+
     function filter() {
-       
+
 
         loadShifts();
         loadResources();

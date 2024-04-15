@@ -279,7 +279,7 @@ input[type="text"]:focus {
     margin-top: -6px;
 }
 
-#sub-div-icon-1{
+#sub-div-icon-1 {
     margin-right: 90px !important;
     margin-top: -30px !important;
 }
@@ -342,23 +342,25 @@ input[type="text"]:focus {
         font-size: 13px;
         margin-top: 5px !important;
     }
-    .dashboard-sub-div-2-sub{
+
+    .dashboard-sub-div-2-sub {
         flex-direction: column !important;
     }
+
     .search-div {
         flex-direction: column !important;
         width: 80%;
-        
     }
-    .categories-div-all-button{
+
+    .categories-div-all-button {
         display: none !important;
     }
 
-    .newState{
+    .newState {
         margin-left: 0px !important;
     }
 
-    .concludeState{
+    .concludeState {
         margin-left: 0px !important;
     }
 }
@@ -385,7 +387,7 @@ input[type="text"]:focus {
         height: 43px;
     }
 
-    .dashboard-sub-div-icon{
+    .dashboard-sub-div-icon {
         width: 10px !important;
     }
 }
@@ -402,7 +404,7 @@ input[type="text"]:focus {
     .state {
         border-radius: 0px !important;
     }
-/*
+    /*
     .newState {
         margin-left: 9px !important;
     }*/
@@ -426,28 +428,32 @@ input[type="text"]:focus {
     }
 }*/
 
-@media only screen and (max-width: 768px)
-{
-    .icon-size{
+@media only screen and (max-width: 768px) {
+    .icon-size {
         display: none !important;
     }
-    .title-sub-div{
+
+    .title-sub-div {
         margin: auto;
     }
-    .state-count{
+
+    .state-count {
         display: flex;
         justify-content: center;
         align-items: center;
         margin: auto !important;
     }
-    .dashboard-sub-div{
+
+    .dashboard-sub-div {
         font-size: 14px !important;
     }
-    .patient-title{
+
+    .patient-title {
         margin-left: 0px !important;
         font-size: 13px !important;
     }
-    .status-text{
+
+    .status-text {
         font-size: 11px !important;
     }
 }
@@ -702,9 +708,9 @@ td {
     height: 50px;
 }
 
-.hover-dropdown-item:hover {
-    background: #ded9d9;
-}
+    .hover-dropdown-item:hover {
+        background: #ded9d9;
+    }
 
 .iti {
     display: inline-block;
@@ -718,14 +724,59 @@ td {
     /*width: 110px;*/
 }
 
-.physician-dropdown{
+.physician-dropdown {
     z-index: 21;
 }
 
-.description{
+.description {
     z-index: 1;
 }
 
-.textarea-class{
+.textarea-class {
     resize: none;
 }
+
+
+.loader2 span:nth-child(1) {
+    animation-delay: 0.2s;
+}
+
+.loader2 span:nth-child(2) {
+    animation-delay: 0.4s;
+}
+
+.loader2 span:nth-child(3) {
+    animation-delay: 0.6s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.loader2 {
+    display: none;
+    height: 40px;
+    margin: 95px auto;
+    margin-bottom: 180px !important;
+    align-self: center;
+    color: #00ccff !important;
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+}
+
+    .loader2 span {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #00ccff;
+        animation: bounce 1.2s ease-in-out infinite;
+        margin-right: 5px;
+    }

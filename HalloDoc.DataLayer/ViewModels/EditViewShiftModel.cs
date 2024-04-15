@@ -18,4 +18,5 @@ public class EditViewShiftModel
     public string ShiftDateVS { get; set; }
     public TimeOnly StartTimeVS { get; set; }
     public TimeOnly EndTimeVS { get; set; }
+    public AdminNavbarModel? an { get; set; }
 }

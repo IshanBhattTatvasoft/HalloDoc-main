@@ -10,13 +10,13 @@ namespace HalloDoc.DataLayer.ViewModels
 {
     public class ViewUploadsModel
     {
-        public string confirmation_number { get; set; }
-        public List<Models.RequestWiseFile> requestWiseFiles { get; set; }
+        public string? confirmation_number { get; set; }
+        public List<Models.RequestWiseFile>? requestWiseFiles { get; set; }
         public IFormFile? ImageContent { get; set; }
-        public int requestId { get; set; }
-        public User user { get; set; }
+        public int? requestId { get; set; }
+        public User? user { get; set; }
         public AdminNavbarModel? an { get; set; }
         public string? FullName { get; set; }
-
+        public string? providerNotes { get; set; }
     }
 }
