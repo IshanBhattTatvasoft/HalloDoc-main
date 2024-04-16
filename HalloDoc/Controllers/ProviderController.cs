@@ -39,6 +39,7 @@ using Twilio.Http;
 using Request = HalloDoc.DataLayer.Models.Request;
 using Org.BouncyCastle.Asn1.Ocsp;
 using DocumentFormat.OpenXml.Bibliography;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -434,6 +435,167 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin Provider", "MyProfile")]
+        public IActionResult MyProfile()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 20;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                EditProviderAccountViewModel model = _providerInterface.GetProviderProfile(p.PhysicianId, an);
+                return View(model);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view provider profile";
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
+        }
+
+        [CustomAuthorize("Admin Provider", "MyProfile")]
+        public async Task<IActionResult> RequestToEditProfile(int id, string requestProfile)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 20;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                List<Admin> ad2 = _providerInterface.GetAllAdmins();
+
+                int emailSentCount = 1;
+                bool isEmailSent = false;
+                foreach (var item in ad2)
+                {
+                    emailSentCount = 1;
+                    isEmailSent = false;
+                    while (emailSentCount <= 3 && !isEmailSent)
+                    {
+                        string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
+                        string senderPassword = "Ishan@1503";
+                        string subject = "HalloDoc - Request to edit profile";
+                        string platformTitle = "HalloDoc";
+                        var body = $"Hey, <br/> Please edit my profile. I want to edit following details: <br/> {requestProfile} <br /><br />Regards,<br/>{platformTitle}<br/>";
+
+                        try
+                        {
+                            SmtpClient client = new SmtpClient("smtp.office365.com")
+                            {
+                                Port = 587,
+                                Credentials = new NetworkCredential(senderEmail, senderPassword),
+                                EnableSsl = true,
+                                DeliveryMethod = SmtpDeliveryMethod.Network,
+                                UseDefaultCredentials = false
+                            };
+
+                            MailMessage mailMessage = new MailMessage
+                            {
+                                From = new MailAddress(senderEmail, "HalloDoc"),
+                                Subject = subject,
+                                IsBodyHtml = true,
+                                Body = body
+                            };
+
+                            mailMessage.To.Add(item.Email);
+                            await client.SendMailAsync(mailMessage);
+                            isEmailSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddEmailLog(body, subject, item.Email, 2, null, null, null, item.AdminId, null, temp, isEmailSent, emailSentCount);
+                        }
+
+                        catch (Exception ex)
+                        {
+                            if (emailSentCount >= 3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddEmailLog(body, subject, item.Email, 2, null, null, null, item.AdminId, null, temp, false, emailSentCount);
+                            }
+                            emailSentCount++;
+                        }
+                    }
+
+                    int smsCount = 1;
+                    bool isSMSSent = false;
+                    while (smsCount <= 3 && !isSMSSent)
+                    {
+                        string messageSMS = $@"Hey, Please edit my profile. I want to edit following details: {requestProfile}";
+
+                        var accountSid = _configuration["Twilio:accountSid"];
+                        var authToken = _configuration["Twilio:authToken"];
+                        var twilionumber = _configuration["Twilio:twilioNumber"];
+                        string num = "+917990117699";
+                        try
+                        {
+                            TwilioClient.Init(accountSid, authToken);
+                            //var messageBody =
+                            var message2 = MessageResource.Create(
+                                from: new Twilio.Types.PhoneNumber(twilionumber),
+                                body: messageSMS,
+                                to: new Twilio.Types.PhoneNumber(num)
+                            );
+                            isSMSSent = true;
+                            DateTime temp = DateTime.Now;
+                            _adminInterface.AddSmsLogFromSendLink(messageSMS, num, null, temp, smsCount, isSMSSent, 1);
+                            break;
+                        }
+
+                        catch (Exception ex)
+                        {
+                            if (smsCount >= 3)
+                            {
+                                DateTime temp = DateTime.Now;
+                                _adminInterface.AddSmsLogFromSendLink(messageSMS, num, null, temp, smsCount, false, 1);
+                            }
+                            smsCount++;
+                        }
+                    }
+                }
+                TempData["success"] = "Request to edit profile sent successfully";
+                return RedirectToAction("MyProfile");
+
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view provider profile";
+                return RedirectToAction("AdminDashboard", "Admin");
+            }
+        }
 
     }
 }

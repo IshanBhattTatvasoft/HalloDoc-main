@@ -9,6 +9,10 @@
       "PackagePath": "staticwebassets\\EncounterForms\\patient-29.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\EncounterForms\\patient-47.pdf",
+      "PackagePath": "staticwebassets\\EncounterForms\\patient-47.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\EncounterForms\\patient-49.pdf",
       "PackagePath": "staticwebassets\\EncounterForms\\patient-49.pdf"
     },
@@ -59,6 +63,22 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\12\\Profile.png",
       "PackagePath": "staticwebassets\\Physician\\12\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\13\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\13\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\14\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\14\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\14\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\14\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\14\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\14\\Compilance.pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.pdf",
@@ -167,6 +187,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\forgot-password.css",
       "PackagePath": "staticwebassets\\css\\forgot-password.css"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\header-footer.css",
+      "PackagePath": "staticwebassets\\css\\header-footer.css"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\css\\patient-dashboard-and-medical-history.css",
@@ -411,6 +435,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\view-case-image.png",
       "PackagePath": "staticwebassets\\images\\view-case-image.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\view-case.png",
+      "PackagePath": "staticwebassets\\images\\view-case.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\view-notes-image.png",

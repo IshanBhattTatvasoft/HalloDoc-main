@@ -287,16 +287,11 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="Contract" name="checkbox_group"
-                            @if (Model.Contract == true)
-                            {
-                                <text>checked</text>
-                            }
-                            />
+                                   id="Contract" name="checkbox_group" />
                             <p class="ms-1">Independent Contract Agreement</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="contract" value="Upload" onchange="UploadDoc('1')" asp-for="ContractAgreementFile" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="contract" value="Upload" asp-for="ContractAgreementFile" hidden />
                             <label class="btn btn-info text-white" for="contract">Upload</label>
                             @if (Model.Contract == true)
                             {
@@ -308,16 +303,11 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="Background" name="checkbox_group"
-                            @if (Model.BackgroundCheck == true)
-                            {
-                                <text>checked</text>
-                            }
-                            />
+                                   id="Background" name="checkbox_group" />
                             <p>Background Check</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="BackgroundCheck" value="Upload" onchange="UploadDoc('2')" asp-for="BackgroundCheckFile" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="BackgroundCheck" value="Upload" asp-for="BackgroundCheckFile" hidden />
                             <label class="btn btn-info text-white" for="BackgroundCheck">Upload</label>
                             <div>
                                 @if (Model.BackgroundCheck == true)
@@ -331,16 +321,11 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="Compliance" name="checkbox_group"
-                            @if (Model.Compilance == true)
-                            {
-                                <text>checked</text>
-                            }
-                            />
+                                   id="Compliance" name="checkbox_group" />
                             <p>HIPAA Compliance</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="Compilance" value="Upload" onchange="UploadDoc('3')" asp-for="HippaFile" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="Compilance" value="Upload" asp-for="HippaFile" hidden />
                             <label class="btn btn-info text-white" for="Compilance">Upload</label>
                             @if (Model.Compilance == true)
                             {
@@ -352,16 +337,11 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="NonDisclosure" name="checkbox_group"
-                            @if (Model.NonDisclosure == true)
-                            {
-                                <text>checked</text>
-                            }
-                            />
+                                   id="NonDisclosure" name="checkbox_group" />
                             <p>Non-disclosure Agreement</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="NonDisclosure" value="Upload" onchange="UploadDoc('4')" asp-for="NonDisclosureAgreement" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="NonDisclosure" value="Upload" asp-for="NonDisclosureAgreement" hidden />
                             <label class="btn btn-info text-white" for="NonDisclosure">Upload</label>
                             @if (Model.NonDisclosure == true)
                             {
@@ -428,5 +408,40 @@
             }
         });
         //return true;
+    }
+
+    function UploadDoc(num) {
+        var doc;
+        var PhysicianId = document.getElementById('IdOfP').value;
+        console.log(num);
+        if (num == 1) doc = document.getElementById("contract");
+        else if (num == 2) doc = document.getElementById("BackgroundCheck");
+        else if (num == 3) doc = document.getElementById("Compilance");
+        else if (num == 4) doc = document.getElementById("NonDisclosure");
+        else doc = document.getElementById("LicensedDoc");
+        var files = doc.files[0];
+        if (!validateFileType(files)) {
+            var formData = new FormData();
+            // Append the selected file to the FormData object
+            formData.append("file", files);
+            formData.append("PhysicianId", PhysicianId);
+            formData.append("num", num);
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("SetAllDocOfPhysician", "Admin")",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (result) {
+                    // Handle success
+                    console.log("Done");
+                    window.location.href = `EditPhysicianAccount?id=${PhysicianId}`;
+                },
+                error: function (error) {
+                    // Handle error
+                    console.error(error);
+                }
+            });
+        }
     }
 </script>

@@ -2,7 +2,21 @@
 
 @{
     List<string> roleMenu = ViewBag.Menu;
+
+    var dashboardAccess = roleMenu.Any(r => r == "AdminDashboard") ? "" : "d-none";
+    var providerLocationAccess = roleMenu.Any(r => r == "ProviderLocation") ? "" : "d-none";
+    var adminProfileAccess = roleMenu.Any(r => r == "MyProfile") && Model.roleName == "Admin" ? "" : "d-none";
+
+    var providerAccess = roleMenu.Any(r => r == "ProviderMenu") ? "" : "d-none";
+    var schedulingAccess = roleMenu.Any(r => r == "Scheduling") ? "" : "d-none";
+    var invoicingAccess = roleMenu.Any(r => r == "Invoicing") ? "" : "d-none";
+    var providersAccess = "";
+    if ((providerAccess != "" || schedulingAccess != "" || invoicingAccess != "") && Model.roleName != "Admin")
+    {
+        providersAccess = "d-none";
+    }
 }
+
 
 <style>
     .moon-flex {
@@ -68,10 +82,6 @@
         height: 50px !important;
     }
 
-    /*.records{
-                                border-bottom: 2px solid #00CCFF !important;
-                            }*/
-
     .dropdown-toggle:focus {
         outline: none !important;
     }
@@ -80,10 +90,10 @@
         outline: none !important;
     }
 
-
     .dropdown-item-active {
         background: #E5F9FF;
-        color: #6DC6C7 !important;
+        font-weight: 600;
+        color: #3fa8a9 !important;
     }
 </style>
 
@@ -154,7 +164,7 @@
         </div>
     </div>
 
-
+    
 </nav>
 
 <nav class="shadow collpase d-none d-md-flex navbar-div" id="collapseExample">
@@ -176,7 +186,7 @@
         {
             @if (Model.Tab == 2)
             {
-                <a class="nav-link text-muted ps-3 ms-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
+                <a class="nav-link active text-muted ps-3 ms-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
                    aria-controls="nav-Location" aria-selected="false" asp-action="ProviderLocation">
                     Provider Location
                 </a>
@@ -202,7 +212,19 @@
             }
         }
 
-        @if (roleMenu.Any(r => r == "MyProfile"))
+        @if (roleMenu.Any(r => r == "MyProfile") && Model.roleName == "Provider")
+        {
+            @if (Model.Tab == 20)
+            {
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyProfile">My Profile</a>
+            }
+            else
+            {
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider" asp-action="MyProfile">My Profile</a>
+            }
+        }
+
+        @if (roleMenu.Any(r => r == "MyProfile") && Model.roleName != "Provider")
         {
             @if (Model.Tab == 3)
             {
@@ -214,9 +236,9 @@
             }
         }
 
-        <div class="dropdown d-inline-block w-auto">
-            @if (roleMenu.Any(r => r == "ProviderMenu") || (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Admin") || roleMenu.Any(r => r == "Invoicing"))
-            {
+        @if (roleMenu.Any(r => r == "ProviderMenu") || (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Admin") || roleMenu.Any(r => r == "Invoicing"))
+        {
+            <div class="dropdown d-inline-block w-auto">
                 @if (Model.Tab == 4 || Model.Tab == 5 || Model.Tab == 6 || Model.Tab == 7)
                 {
                     <button class="btn dropdown-toggle nav-link text-muted records active ps-3 ms-3" id="nav-profile-tab2" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
@@ -225,45 +247,48 @@
                 {
                     <button class="btn dropdown-toggle nav-link text-muted records ps-3 ms-4" id="nav-profile-tab2" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
                 }
-            }
-            <ul class="dropdown-menu">
-                @if (roleMenu.Any(r => r == "ProviderMenu"))
-                {
-                    @if (Model.Tab == 5)
-                    {
-                        <li><a asp-action="ProviderMenu" asp-controller="Admin" class="dropdown-item-active text-muted dropdown-item mb-2">Provider</a></li>
-                    }
-                    else
-                    {
-                        <li><a asp-action="ProviderMenu" asp-controller="Admin" class="text-muted dropdown-item mb-2">Provider</a></li>
-                    }
-                }
 
-                @if (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Admin")
-                {
-                    @if (Model.Tab == 6)
+                <ul class="dropdown-menu">
+                    @if (roleMenu.Any(r => r == "ProviderMenu"))
                     {
-                        <li><a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Scheduling" asp-controller="Admin">Scheduling</a></li>
+                        @if (Model.Tab == 5)
+                        {
+                            <li><a asp-action="ProviderMenu" asp-controller="Admin" class="dropdown-item-active text-muted dropdown-item mb-2">Provider</a></li>
+                        }
+                        else
+                        {
+                            <li><a asp-action="ProviderMenu" asp-controller="Admin" class="text-muted dropdown-item mb-2">Provider</a></li>
+                        }
                     }
-                    else
-                    {
-                        <li><a class="text-muted dropdown-item mb-2" asp-action="Scheduling" asp-controller="Admin">Scheduling</a></li>
-                    }
-                }
 
-                @if (roleMenu.Any(r => r == "Invoicing"))
-                {
-                    @if (Model.Tab == 7)
+                    @if (roleMenu.Any(r => r == "Scheduling"))
                     {
-                        <li><a class="dropdown-item-active text-muted dropdown-item mb-2" href="#">Invoicing</a></li>
+                        @if (Model.Tab == 6)
+                        {
+                            <li><a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Scheduling" asp-controller="Admin">Scheduling</a></li>
+                        }
+                        else
+                        {
+                            <li><a class="text-muted dropdown-item mb-2" asp-action="Scheduling" asp-controller="Admin">Scheduling</a></li>
+                        }
                     }
-                    else
+
+                    @if (roleMenu.Any(r => r == "Invoicing"))
                     {
-                        <li><a class="text-muted dropdown-item mb-2" href="#">Invoicing</a></li>
+                        @if (Model.Tab == 7)
+                        {
+                            <li><a class="dropdown-item-active text-muted dropdown-item mb-2" href="#">Invoicing</a></li>
+                        }
+                        else
+                        {
+                            <li><a class="text-muted dropdown-item mb-2" href="#">Invoicing</a></li>
+                        }
                     }
-                }
-            </ul>
-        </div>
+                </ul>
+            </div>
+
+        }
+
         @if (roleMenu.Any(r => r == "Partners"))
         {
             @if (Model.Tab == 8)
@@ -781,36 +806,5 @@
 
 
 <script>
-    function clickOnProfile() {
-        document.getElementsByClassName("dashboard")[0].classList.remove("active");
-        document.getElementsByClassName("my-profile")[0].classList.add("active");
-    }
-
-    function changeTheme() {
-        let theme = localStorage.getItem('theme');
-        if (theme == null || theme == 'light') {
-            localStorage.setItem('theme', 'dark');
-            console.log('theme changed to dark');
-            document.getElementById('main-page').style.backgroundColor = 'black';
-            document.getElementById('navigation').style.backgroundColor = 'black';
-            document.getElementById('heading-one').style.color = 'white';
-            document.getElementById('heading-two').style.color = 'white';
-            document.getElementById('heading-three').style.color = 'white';
-            document.getElementById('heading-four').style.color = 'white';
-            document.getElementsByClassName('change-theme')[0].classList.add('hide-icon');
-            document.getElementsByClassName('change-theme')[1].classList.remove('hide-icon');
-        }
-        else if (theme == 'dark') {
-            localStorage.setItem('theme', 'light');
-            console.log('theme changed to light');
-            document.getElementById('main-page').style.backgroundColor = 'white';
-            document.getElementById('navigation').style.backgroundColor = 'white';
-            document.getElementById('heading-one').style.color = 'black';
-            document.getElementById('heading-two').style.color = 'black';
-            document.getElementById('heading-three').style.color = 'black';
-            document.getElementById('heading-four').style.color = 'black';
-            document.getElementsByClassName('change-theme')[1].classList.add('hide-icon');
-            document.getElementsByClassName('change-theme')[0].classList.remove('hide-icon');
-        }
-    }
+    
 </script>

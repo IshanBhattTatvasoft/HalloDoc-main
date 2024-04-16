@@ -108,7 +108,7 @@
             <div class="rounded d-flex">
                 <button class="five-blue-buttons" data-bs-toggle="modal" data-bs-target="#sendLinkModal">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="white"
-                         class="bi bi-send dashboard-sub-div-icon" id="sub-div-icon-1" viewBox="0 0 16 16" style="margin-top: 10px !important;">
+                         class="bi bi-send dashboard-sub-div-icon" id="sub-div-icon-1" viewBox="0 0 16 16">
                         <path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11ZM6.636 10.07l2.761 4.338L14.13 2.576zm6.787-8.201L1.591 6.602l4.339 2.76z" />
                     </svg>
                     <p class="five-blue-buttons-text me-2" style="padding-left: 14px; margin-top: -20px !important;">Send Link</p>
@@ -808,6 +808,40 @@
         });
 
         window.onload = () => {
+            var role = `@Model.an.roleName`;
+            console.log(role);
+            if(role == "Provider")
+            {
+                var lat = '';
+                var long = '';
+                if(navigator.geolocation){
+                    navigator.geolocation.getCurrentPosition(function(position){
+                        lat = position.coords.latitude;
+                        long = position.coords.longitude;
+                        console.log("Lat: " + lat);
+                        console.log("Long: " + long);
+
+                        $.ajax({
+                            url: '/Admin/UpdateProviderLocation',
+                            type: 'POST',
+                            data: { lat: lat, lon: long },
+                            success: function (response) {
+                                console.log("hello");
+                            },
+                            error: function (error) {
+                                alert("An error occurred");
+                            }
+                        });
+                    });
+
+                    
+                }
+                else{
+                    alert("Location not supported");
+                }
+            }
+
+
             //var className = localStorage.getItem("status").toLowerCase();
             //className = className.charAt(0).toUpperCase();
             //console.log("Class name:" + className);

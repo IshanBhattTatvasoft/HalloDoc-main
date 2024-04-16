@@ -1,0 +1,356 @@
+﻿@model EditProviderAccountViewModel
+
+@{
+
+    ViewData["Title"] = "My Profile";
+    <partial name="_ValidationScriptsPartial" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+}
+
+<style>
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        /*border-color: #3DB6FF !important;*/
+        box-shadow: none !important;
+    }
+
+        textarea:focus::placeholder {
+            color: #3DB6FF !important;
+        }
+
+    .form-floating:focus-within label {
+        color: #3DB6FF !important;
+    }
+
+    textarea {
+        resize: none;
+    }
+</style>
+
+<div class="bg-light" style="overflow: hidden;">
+    <partial name="HeaderFooter" model=@Model.adminNavbarModel />
+
+    <partial name="Toast" />
+
+    <div class="container">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+            @*PatientDashboardAndMedicalHistory*@
+
+            <div class="row">
+                <div class="col mt-2">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        My Profile
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-0">
+            <div class="d-flex justify-content-end align-items-end flex-row mt-3">
+                <div class="h-50 me-4 mt-2">
+                    <button type="button" class="btn btn-outline-info" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="getPhyId('@Model.PhysicianId')">Request To Admin</button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col ms-3 mt-3 h5">Account Information</div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12 mb-3 form-floating">
+                    <input type="text" class="form-control" id="Username" placeholder="User Name" disabled asp-for="UserName" />
+                    <label for="Username" class="ms-2 text-muted">User Name</label>
+                </div>
+                <div class="col-md-6 col-sm-12 mb-3 form-floating">
+                    <input type="password" class="form-control password" id="Password" placeholder="Password" readonly asp-for="Password" />
+                    <label for="Password" class="ms-2 text-muted">Password</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end align-items-end flex-row mt-3">
+                <div class="h-50 me-4 mt-2">
+                    <button type="submit" id="ResetPassword" class="px-4 me-2 btn btn-outline-info">
+                        Reset Password
+                    </button>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col ms-3 mt-3 h5">Physician Information</div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="FirstName" placeholder="First Name" disabled asp-for="FirstName" />
+                    <label for="FirstName" class="ms-2 text-muted">First Name</label>
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="LastName" placeholder="LastName" disabled asp-for="LastName" />
+                    <label for="LastName" class="ms-2 text-muted">LastName</label>
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="email" class="form-control Change1 bg-secondary-subtle" id="Email"
+                           placeholder="Email" disabled asp-for="Email" />
+                    <label for="Email" class="ms-2 text-muted">Email</label>
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="tel" class="form-control Change1 bg-secondary-subtle" id="Phone phone"
+                           placeholder="Phone No" disabled asp-for="Phone" />
+                    <label class="ms-2 text-muted" for="Phone">Phone No</label>
+                    <span asp-validation-for="Phone" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row  mt-3">
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="Phone1 phone1"
+                           placeholder="Medical Licence" disabled asp-for="MedicalLicense" />
+                    <label class="ms-2 text-muted" for="Phone">Medical Licence</label>
+                    <span asp-validation-for="MedicalLicense" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change1 bg-secondary-subtle" id="Phone2 phone2"
+                           placeholder="NPI Number" disabled asp-for="NPI" />
+                    <label class="ms-2 text-muted" for="Phone">NPI Number</label>
+                    <span asp-validation-for="NPI" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12 form-check-group">
+                    <div class="d-flex gap-1 align-items-center flex-wrap">
+                        @for (int i = 0; i < Model.regions.Count; i++)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" disabled class="form-check-input border-2 region-check first-region" value="@Model.regions[i].RegionId"
+                                       id="checkbox@(i)" name="checkbox_group"
+                                @if (Model.selectedregions != null && Model.selectedregions.Any(r => r.RegionId == Model.regions[i].RegionId))
+                                {
+                                    <text>checked</text>
+                                }
+                                />
+                                <span class="form-check-label">@Model.regions[i].Name</span>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col ms-3 mt-3 h5">Mailing and Billing Information</div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="Address1" placeholder="Address 1" readonly asp-for="Address1" />
+                    <label for="Address1" class="ms-2 text-muted">Address 1</label>
+                </div>
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="Address2"
+                           placeholder="Address 2" asp-for="Address2" readonly />
+                    <label for="Address2" class="ms-2 text-muted">Address 2</label>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="City"
+                           placeholder="City" readonly asp-for="City" />
+                    <input type="hidden" id="lat" asp-for="lati" style="display: none;" />
+                    <input type="hidden" id="long" asp-for="longi" style="display: none;" />
+                    <label for="City" class="ms-2 text-muted">City</label>
+                    <span asp-validation-for="City" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <select class="form-select mb-3 Change2 bg-secondary-subtle" id="State" asp-for="regionId" readonly>
+                        @for (int x = 0; x < Model.regions.Count; x++)
+                        {
+                            <option value="@Model.regions[x].RegionId">@Model.regions[x].Name</option>
+                        }
+                    </select>
+                    <label for="State" class="ms-2 text-muted">State</label>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control Change2 bg-secondary-subtle" id="Zip"
+                           placeholder="Zip" readonly asp-for="Zip" />
+                    <label for="Zip" class="ms-2 text-muted">Zip</label>
+                    <span asp-validation-for="Zip" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="tel" class="form-control Change2 bg-secondary-subtle" id="MailingPhoneNo phone"
+                           placeholder="Phone No" asp-for="MailingPhoneNo" readonly />
+                    <label class="ms-2 text-muted" for="MailingPhoneNo">Phone No</label>
+                    <span asp-validation-for="MailingPhoneNo" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col ms-3 mt-3 h5">Provider Profile</div>
+            </div>
+
+            <div class="row mt-3">
+                <input type="hidden" asp-for="PhysicianId" />
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control bg-secondary-subtle change3" id="Businessname" placeholder="Business Name" readonly asp-for="BusinessName" />
+                    <label for="Businessname" class="ms-2 text-muted">Business Name</label>
+                    <span asp-validation-for="BusinessName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <input type="text" class="form-control  bg-secondary-subtle change3" id="BusinessWebsite"
+                           placeholder="Business Website" asp-for="BusinessWebsite" readonly />
+                    <label for="BusinessWebsite" class="ms-2 text-muted">Business Website</label>
+                    <span asp-validation-for="BusinessWebsite" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6 col-sm-12 form-floating">
+                    <div class="d-flex gap-0">
+                        <input type="file" class="form-control bg-secondary-subtle rounded-end-0 change3"
+                               id="Photo" placeholder="Select Photo" asp-for="Photo" readonly />
+
+                        <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                    </div>
+                </div>
+                <div class="col-md-5 col-sm-12 form-floating">
+                    <div class="d-flex gap-0">
+                        <input type="file" class="form-control bg-secondary-subtle rounded-end-0 change3 bg-secondary-subtle" id="Signature" placeholder="Select Signature" asp-for="Signature" readonly />
+                        <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('2')">Upload</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-1 col-sm-12 form-floating">
+                    <button type="button" class="btn btn-info text-white px-3">Create</button>
+                </div>
+                <div class="d-flex justify-content-center align-items-center mb-3 form-floating">
+                    @if (Model.SignatureName != null)
+                    {
+                        <img src="~/Physician/@Model.PhysicianId/Signature.png" alt="Signature" id="SignPhoto" height="200" width="200" />
+                    }
+                    <input type="hidden" id="SignName" value="@Model.SignatureName" />
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row w-75">
+                <div class="d-flex align-items-center mb-2">
+                    <div class="form-check d-flex col-6">
+                        <p class="ms-1">Independent Contract Agreement</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        @if (Model.Contract == true)
+                        {
+                            <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/AgreementDoc.pdf" target="_blank">View</a>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <p>Background Check</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        @if (Model.BackgroundCheck == true)
+                        {
+                            <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/BackgroundDoc.pdf" target="_blank">View</a>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex  align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <p>HIPAA Compliance</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        @if (Model.Compilance == true)
+                        {
+                            <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/Compilance.pdf">View</a>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <p>Non-disclosure Agreement</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        @if (Model.NonDisclosure == true)
+                        {
+                            <a class="btn btn-info text-white ms-2" href="~/Physician/@Model.PhysicianId/NonDisclosure.pdf" target='_blank'>View</a>
+                        }
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-2">
+                    <div class="form-check col-6">
+                        <p>License Document</p>
+                    </div>
+                    <div class="d-flex justify-content-start col-4">
+                        @if (Model.LicensedDoc == true)
+                        {
+                            <button class="btn btn-info text-white ms-2" onclick="showDocument('@Model.PhysicianId/LicenseDoc.docx', '_blank')">View</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @*Request to Admin Modal*@
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h1 class="modal-title fs-5 text-white" id="exampleModalLabel">Request to Admin</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" asp-action="RequestToEditProfile" asp-controller="Provider">
+                    <input type="hidden" id="p-id" asp-for="PhysicianId" name="id"/>
+                    <div class="modal-body">
+                        <textarea class="form-control border border-info" id="exampleFormControlTextarea2" placeholder="Enter details to edit" rows="5" name="requestProfile" asp-for="requestProfile"></textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-info">Submit</button>
+                        <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function getPhyId(id)
+    {
+        document.getElementById("p-id").value = id;
+        console.log(document.getElementById("p-id").value);
+    }
+</script>

@@ -281,7 +281,7 @@ input[type="text"]:focus {
 
 #sub-div-icon-1 {
     margin-right: 90px !important;
-    margin-top: -30px !important;
+    margin-top: 8px !important;
 }
 
 #status-text {
@@ -340,7 +340,7 @@ input[type="text"]:focus {
 @media only screen and (max-width: 1098px) {
     .five-blue-buttons-text {
         font-size: 13px;
-        margin-top: 5px !important;
+        margin-top: 9px !important;
     }
 
     .dashboard-sub-div-2-sub {
@@ -367,7 +367,7 @@ input[type="text"]:focus {
 
 @media only screen and (max-width: 767px) {
     .five-blue-buttons {
-        height: 43px;
+        height: 37px !important;
     }
 }
 
@@ -384,11 +384,15 @@ input[type="text"]:focus {
     }
 
     .five-blue-buttons {
-        height: 43px;
+        height: 37px;
     }
 
     .dashboard-sub-div-icon {
-        width: 10px !important;
+        width: 20px !important;
+    }
+
+    #sub-div-icon-1 {
+        margin-right: 0px !important;
     }
 }
 

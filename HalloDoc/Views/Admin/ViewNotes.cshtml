@@ -18,12 +18,12 @@
 
 
 <div>
-    <partial name="Toast"/>
-    <partial name="HeaderFooter" model="@Model.an"/>
+    <partial name="Toast" />
+    <partial name="HeaderFooter" model="@Model.an" />
 
     <div class="container">
         <div class="row">
-            <div style="top: 42px; position: relative;" class="col me-5">
+            <div style="top: 42px; position: relative;" class="col me-4">
                 <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                          class="bi bi-chevron-left" viewBox="0 0 16 16">
@@ -35,7 +35,7 @@
             </div>
 
             <div class="row">
-                <div class="col mt-2 ms-5">
+                <div class="col mt-2 ms-4">
                     <p class="h5 text-muted fw-bold" id="heading-one">
                         Notes
                     </p>
@@ -45,10 +45,10 @@
 
 
         </div>
-        <div class="card mx-5 border mt-3 border-0">
+        <div class="card ms-2 me-2 border mt-3 border-0">
             <div class="card-body">
                 <form method="post" enctype="multipart/form-data" asp-action="EditViewNotes" asp-controller="Admin">
-                    
+
 
                     <div class="row d-flex">
                         <div class="col-md-6 mb-3">
@@ -85,29 +85,52 @@
                                 </div>
                             </div>
                         </div>
+
+                        @if (Model.cancelledByAdminNotes != "" && Model.cancelledByAdminNotes != null)
+                        {
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex rounded shadow border p-3 gap-2">
+                                    <i class="bi bi-person-fill fw-bold mt-1"></i>
+                                    <div>
+                                        <p class="fs-6 fw-bold m-0 p-1">Cancelled By Admin Notes</p>
+                                        <small class="text-muted mb-1"> @Model.cancelledByAdminNotes </small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (Model.cancelledByPatientNotes != "" && Model.cancelledByPatientNotes != null)
+                        {
+                            <div class="col-md-6 mb-3">
+                                <div class="d-flex rounded shadow border p-3 gap-2">
+                                    <i class="bi bi-person-fill fw-bold mt-1"></i>
+                                    <div>
+                                        <p class="fs-6 fw-bold m-0 p-1">Cancelled By Patient Notes</p>
+                                        <small class="text-muted mb-1"> @Model.cancelledByPatientNotes </small>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
 
-
-                    
-                    
-                        <input type="number" hidden value="@Model.RequestId" asp-for="RequestId"/>
-                        @if(Model.an.roleName == "Admin")
+                    <input type="number" hidden value="@Model.RequestId" asp-for="RequestId" />
+                    @if (Model.an.roleName == "Admin")
                     {
                         <div class="form-group m-3">
-                            <textarea asp-for="AdminNotes" class="form-control border border-muted" id="exampleFormControlTextarea1" rows="5"></textarea>
+                            <textarea asp-for="AdminNotes" class="form-control border border-muted" placeholder="Add Admin Notes" id="exampleFormControlTextarea1" rows="5"></textarea>
                         </div>
                     }
 
                     else
                     {
                         <div class="form-group m-3">
-                            <textarea asp-for="PhysicianNotes" class="form-control border border-muted" id="exampleFormControlTextarea1" rows="5"></textarea>
+                            <textarea asp-for="PhysicianNotes" class="form-control border border-muted" placeholder="Add Physician Notes" id="exampleFormControlTextarea1" rows="5"></textarea>
                         </div>
                     }
                     <div class="d-flex justify-content-end mx-3">
-                            <button class="btn btn-info text-white" type="submit">Save Changes</button>
-                        </div>
-                    </form>
+                        <button class="btn btn-info text-white" type="submit">Save Changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

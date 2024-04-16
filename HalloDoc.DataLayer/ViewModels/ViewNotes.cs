@@ -10,9 +10,9 @@ namespace HalloDocMvc.Entity.ViewModel
     public class ViewNotes
     {
         public string? AdminNotes { get; set; }
-
+        public string? cancelledByAdminNotes { get; set; }
         public string? PhysicianNotes { get; set; }
-
+        public string? cancelledByPatientNotes { get; set; }
         public string? Notes { get; set; }
 
         public DateTime CreatedDate { get; set; }

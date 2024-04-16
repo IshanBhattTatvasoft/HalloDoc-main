@@ -17,5 +17,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<SchedulingViewModel> GetProviderInformation(int phyId);
         public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
         public List<DataLayer.Models.Region> GetProviderRegionFromId(int id);
+        public EditProviderAccountViewModel GetProviderProfile(int id, AdminNavbarModel an);
+        public List<Admin> GetAllAdmins();
     }
 }

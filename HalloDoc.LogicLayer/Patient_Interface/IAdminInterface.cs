@@ -83,6 +83,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void UpdateRequestClient(RequestClient rc);
         public List<HalloDoc.DataLayer.Models.Region> GetAllRegions();
         public Admin GetAdminFromId(int id);
+        public Admin GetAdminFromAdminId(int id);
         public Physician GetPhysicianFromId(int id);
         public AspNetUser GetAdminDataFromId(int id);
         public HalloDoc.DataLayer.Models.Region GetRegFromId(int id);
@@ -149,6 +150,9 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public int SelectCallTypeOfRequest(int id, int callType);
         public bool ActiveToConclude(int id);
         public List<KeyValuePair<int, string>> GetEmailForDtySupport();
+        public bool UpdateProviderLocation(string lat, string lon, int id);
+        public string GetCancelledByAdminNotes(int id);
+        public string GetCancelledByPatientNotes(int id);
 
     }
 }

@@ -272,5 +272,59 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
             return true;
         }
+
+        public EditProviderAccountViewModel GetProviderProfile(int id, AdminNavbarModel an)
+        {
+            var physician = _context.Physicians.FirstOrDefault(r => r.PhysicianId == id);
+            List<PhysicianRegion> PRegions = _context.PhysicianRegions.Where(r => r.PhysicianId == physician.PhysicianId).ToList();
+            List<DataLayer.Models.Region> reg = _context.Regions.ToList();
+            var selectedRegions = from r in reg
+                                  join pr in PRegions
+                                  on r.RegionId equals pr.RegionId
+                                  select r;
+            var data = selectedRegions.ToList();
+            AspNetUser user = _context.AspNetUsers.FirstOrDefault(r => r.Id == physician.AspNetUserId);
+
+            EditProviderAccountViewModel viewmodel = new EditProviderAccountViewModel
+            {
+                UserName = user.UserName,
+                FirstName = physician.FirstName,
+                LastName = physician.LastName,
+                Password = user.PasswordHash,
+                Email = physician.Email,
+                ConfirmEmail = "",
+                Phone = physician.Mobile,
+                regions = _context.Regions.ToList(),
+                selectedregions = data,
+                Address1 = physician.Address1,
+                Address2 = physician.Address2,
+                City = physician.City,
+                State = physician.City,
+                Zip = physician.Zip,
+                MedicalLicense = physician.MedicalLicense,
+                NPI = physician.Npinumber,
+                SyncEmail = physician.SyncEmailAddress,
+                MailingPhoneNo = physician.AltPhone,
+                BusinessName = physician.BusinessName,
+                BusinessWebsite = physician.BusinessWebsite,
+                SignatureName = physician.Signature,
+                PhysicianId = id,
+                Contract = physician.IsAgreementDoc != null ? physician.IsAgreementDoc[0] : null,
+                BackgroundCheck = physician.IsBackgroundDoc != null ? physician.IsBackgroundDoc[0] : null,
+                Compilance = physician.IsTrainingDoc != null ? physician.IsTrainingDoc[0] : null,
+                NonDisclosure = physician.IsNonDisclosureDoc != null ? physician.IsNonDisclosureDoc[0] : null,
+                LicensedDoc = physician.IsLicenseDoc != null ? physician.IsLicenseDoc[0] : null,
+                adminNavbarModel = an,
+                Photo = null,
+                roles = _context.Roles.Where(r => r.AccountType == (short)2).ToList(),
+                regionId = physician.RegionId
+            };
+            return viewmodel;
+        }
+
+        public List<Admin> GetAllAdmins()
+        {
+            return _context.Admins.ToList();
+        }
     }
 }

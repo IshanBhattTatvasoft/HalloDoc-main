@@ -706,6 +706,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (r.Status == 1)
             {
                 r.Status = 2;
+                r.AcceptedDate = DateTime.Now;
                 _context.Requests.Update(r);
                 _context.SaveChanges();
                 isAccepted = true;
@@ -1344,6 +1345,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Admins.Where(a => a.AspNetUserId == id).FirstOrDefault();
         }
 
+        public Admin GetAdminFromAdminId(int id)
+        {
+            return _context.Admins.Where(a => a.AdminId == id).FirstOrDefault();
+        }
+
         public Physician GetPhysicianFromId(int id)
         {
             return _context.Physicians.Where(p => p.AspNetUserId == id).FirstOrDefault();
@@ -1855,7 +1861,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId)
         {
-            Admin ad = GetAdminFromId(userId);
+            Admin ad = GetAdminFromAdminId(userId);
 
             AspNetUser anu = new AspNetUser();
             AspNetUserRole anur = new AspNetUserRole();
@@ -1926,6 +1932,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             pl.CreatedDate = DateTime.Now;
             pl.PhysicianName = model.FirstName + " " + model.LastName;
             pl.Address = model.Address1 + ", " + model.Address2 + ", " + model.City;
+            _context.PhysicianLocations.Add(pl);
 
             if (model.ContractAgreementFile != null)
             {
@@ -2118,7 +2125,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Physician p = _context.Physicians.Where(s => s.PhysicianId == id).FirstOrDefault();
             ShiftDetail shiftDetail = _context.ShiftDetails.Where(s => s.ShiftId == shiftId).FirstOrDefault();
             DataLayer.Models.Region r = _context.Regions.Where(re => re.RegionId == shiftDetail.RegionId).FirstOrDefault();
-            if(r!=null)
+            if (r != null)
                 return p.FirstName + ", " + p.LastName + ", " + r.Abbreviation;
             else
             {
@@ -2375,7 +2382,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<KeyValuePair<int, string>> GetEmailForDtySupport()
         {
-            var idAndEmail = new List<KeyValuePair<int, string>>(); 
+            var idAndEmail = new List<KeyValuePair<int, string>>();
             List<Physician> allPhysician = _context.Physicians.ToList();
             List<Physician> onCall = new List<Physician>();
             List<Physician> offDuty = new List<Physician>();
@@ -2402,7 +2409,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             offDuty = offDuty.GroupBy(p => p.PhysicianId).Select(g => g.First()).ToList();
 
-            foreach(var item in offDuty)
+            foreach (var item in offDuty)
             {
                 idAndEmail.Add(new KeyValuePair<int, string>(item.PhysicianId, item.Email));
             }
@@ -2611,6 +2618,44 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.EmailLogs.Add(emailLog);
             _context.SaveChanges();
 
+        }
+
+        public bool UpdateProviderLocation(string lat, string lon, int id)
+        {
+            PhysicianLocation pl = _context.PhysicianLocations.FirstOrDefault(p => p.PhysicianId == id);
+            if (pl == null)
+            {
+                return false;
+            }
+            decimal la = decimal.Parse(lat);
+            decimal lo = decimal.Parse(lon);
+            pl.Latitude = la;
+            pl.Longitude = lo;
+            _context.PhysicianLocations.Update(pl);
+            _context.SaveChanges();
+            return true;
+        }
+
+        public string GetCancelledByAdminNotes(int id)
+        {
+            string str = "";
+            RequestStatusLog rsl = _context.RequestStatusLogs.Where(r => r.RequestId == id && r.Status == 3).FirstOrDefault();
+            if (rsl != null)
+            {
+                return rsl.Notes;
+            }
+            return str;
+        }
+
+        public string GetCancelledByPatientNotes(int id)
+        {
+            string str = "";
+            RequestStatusLog rsl = _context.RequestStatusLogs.Where(r => r.RequestId == id && r.Status == 7).FirstOrDefault();
+            if (rsl != null)
+            {
+                return rsl.Notes;
+            }
+            return str;
         }
 
     }

@@ -95,5 +95,6 @@ public class EditProviderAccountViewModel
     public int? regionId { get; set; }
     public decimal? lati { get; set; }
     public decimal? longi { get; set; }
+    public string? requestProfile { get; set; }
 }
 

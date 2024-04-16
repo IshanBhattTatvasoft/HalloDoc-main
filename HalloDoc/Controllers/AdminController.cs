@@ -38,6 +38,7 @@ using Microsoft.VisualBasic;
 using Twilio.Http;
 using Request = HalloDoc.DataLayer.Models.Request;
 using Org.BouncyCastle.Asn1.Ocsp;
+using iText.Kernel.Geom;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -267,6 +268,42 @@ namespace HalloDoc.Controllers
             {
                 TempData["error"] = "Unable to view requests of unpaid state";
                 return RedirectToAction("PatientLoginPage", "Login");
+            }
+        }
+
+        [CustomAuthorize("Admin Provider", "AdminDashboard")]
+        public bool UpdateProviderLocation(string lat, string lon)
+        {
+            bool isUpdated = false;
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 1;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                isUpdated = _adminInterface.UpdateProviderLocation(lat, lon, p.PhysicianId);
+                return isUpdated;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view requests of unpaid state";
+                return isUpdated;
             }
         }
 
@@ -744,6 +781,7 @@ namespace HalloDoc.Controllers
                                 DateTime temp = DateTime.Now;
                                 _adminInterface.AddEmailLog(body, subject, item.Value, 1, null, null, null, null, item.Key, temp, false, emailSentCount);
                             }
+                            emailSentCount++;
                         }
                     }
                 }
@@ -986,11 +1024,14 @@ namespace HalloDoc.Controllers
                     Physician py = _adminInterface.FetchPhysician(id);
                     name = py.FirstName;
                 }
-
+                string cancelledByAdmin = _adminInterface.GetCancelledByAdminNotes(requestId);
+                string cancelledByPatient = _adminInterface.GetCancelledByPatientNotes(requestId);
                 var viewModel = new ViewNotes
                 {
                     AdminNotes = adNotes,
                     PhysicianNotes = phNotes,
+                    cancelledByAdminNotes = cancelledByAdmin,
+                    cancelledByPatientNotes = cancelledByPatient,
                     PhyName = name,
                     Notes = tNotes,
                     CreatedDate = rsl == null ? DateTime.Now : rsl.CreatedDate,
@@ -1816,7 +1857,7 @@ namespace HalloDoc.Controllers
 
                 if (model.ImageContent != null && model.ImageContent.Length > 0)
                 {
-                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                    var filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
                     using (var stream = System.IO.File.Create(filePath))
                     {
                         model.ImageContent.CopyTo(stream);
@@ -1987,7 +2028,7 @@ namespace HalloDoc.Controllers
                         var user = _adminInterface.ValidAspNetUser(rc.Email);
                         foreach (var file in files)
                         {
-                            var filePath = Path.Combine("wwwroot/uploads", file);
+                            var filePath = System.IO.Path.Combine("wwwroot/uploads", file);
                             var attachment = new Attachment(filePath);
                             mailMessage.Attachments.Add(attachment);
                         }

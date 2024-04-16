@@ -286,15 +286,11 @@
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
                                    id="Contract" name="checkbox_group"
-                            @if (Model.Contract == true)
-                            {
-                                <text>checked</text>
-                            }
-                            />
+                            
                             <p class="ms-1">Independent Contract Agreement</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="contract" value="Upload" onchange="UploadDoc('1')" asp-for="ContractAgreementFile" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="contract" value="Upload" asp-for="ContractAgreementFile" hidden />
                             <label class="btn btn-info text-white" for="contract">Upload</label>
                             @if (Model.Contract == true)
                             {
@@ -306,15 +302,12 @@
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
                                    id="Background" name="checkbox_group"
-                            @if (Model.BackgroundCheck == true)
-                            {
-                                <text>checked</text>
-                            }
+                            
                             />
                             <p>Background Check</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="BackgroundCheck" value="Upload" onchange="UploadDoc('2')" asp-for="BackgroundCheckFile" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="BackgroundCheck" value="Upload" asp-for="BackgroundCheckFile" hidden />
                             <label class="btn btn-info text-white" for="BackgroundCheck">Upload</label>
                             <div>
                                 @if (Model.BackgroundCheck == true)
@@ -328,15 +321,12 @@
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
                                    id="Compliance" name="checkbox_group"
-                            @if (Model.Compilance == true)
-                            {
-                                <text>checked</text>
-                            }
+                            
                             />
                             <p>HIPAA Compliance</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="Compilance" value="Upload" onchange="UploadDoc('3')" asp-for="HippaFile" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="Compilance" value="Upload" asp-for="HippaFile" hidden />
                             <label class="btn btn-info text-white" for="Compilance">Upload</label>
                             @if (Model.Compilance == true)
                             {
@@ -356,7 +346,7 @@
                             <p>Non-disclosure Agreement</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
-                            <input type="file" class="form-control btn btn-info text-white" id="NonDisclosure" value="Upload" onchange="UploadDoc('4')" asp-for="NonDisclosureAgreement" hidden />
+                            <input type="file" class="form-control btn btn-info text-white" id="NonDisclosure" value="Upload" asp-for="NonDisclosureAgreement" hidden />
                             <label class="btn btn-info text-white" for="NonDisclosure">Upload</label>
                             @if (Model.NonDisclosure == true)
                             {
@@ -401,5 +391,5 @@
         document.getElementById("hiddenRole").value = document.getElementById("getRoles").value;
     }
 
-
+    
 </script>

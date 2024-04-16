@@ -10,5 +10,7 @@ public class LoginViewModel
     [Required(ErrorMessage = "Password is required")]
     public string PasswordHash { get; set; }
     public string? email { get; set; }
+    public double? lat { get; set; }
+    public double? lon { get; set; }
 }
 

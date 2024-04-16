@@ -42,10 +42,10 @@
     display: none;
 }
 
-.nav-item a.active {
+/*.nav-item a.active {
     color: #17a2b8;
     border-bottom: 2px solid #17a2b8;
-}
+}*/
 
 .patient-button {
     background-color: #61B961;
