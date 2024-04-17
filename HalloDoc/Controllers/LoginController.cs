@@ -99,7 +99,7 @@ namespace HalloDoc.Controllers
                         AspNetRole anr = _loginPage.ValidateRole(anur);
                         if (anr.Name == "Patient")
                         {
-                            TempData["success"] = "Logged in successfully";
+                            TempData["success"] = "Welcome " + user2.FirstName;
                             return RedirectToAction("PatientDashboardAndMedicalHistory");
                         }
                         else
@@ -303,16 +303,13 @@ namespace HalloDoc.Controllers
         {
             var userId = HttpContext.Session.GetInt32("id");
             var userName = HttpContext.Session.GetString("Name");
-            var data = _patientDashboard.GetDashboardData((int)userId);
-
-
-
-            var viewModel = new DashboardViewModel
-            {
-                requests = data,
-                Username = _patientDashboard.ValidateUsername((int)userId)
-            };
-
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = _patientDashboard.FullNameFromUserId((int)userId);
+            an.roleName = "Patient";
+            an.Tab = 21;
+            DashboardViewModel viewModel = _patientDashboard.GetDashboardData((int)userId);
+            viewModel.Username = _patientDashboard.ValidateUsername((int)userId);
+            viewModel.an = an;
             return View(viewModel);
         }
 
@@ -436,7 +433,7 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Patient")]
         public IActionResult PatientDashboardViewDocuments(int requestid)
         {
-            var user_id = HttpContext.Session.GetInt32("id");
+            var userId = HttpContext.Session.GetInt32("id");
 
             // include() method creates object of RequestClient table where Request.RequestClientId = RequestClient.RequestClientId and this object is added to the Request table (kind of join operation). only those records are present in the variable 'request' whose requestId matches with the id passed in argument
             var request = _viewDocuments.GetRequestWithClient(requestid);
@@ -444,8 +441,12 @@ namespace HalloDoc.Controllers
             // Similarly, we include the records of Admin and Physician where Admin.AdminId = RequestWiseFiles.AdminId and Physician.PhysicianId = Admin.AdminId and only those records are present in the variable 'documents' whose requestId matches with the id passed in argument
             var documents = _viewDocuments.ValidateFile(requestid);
 
-            var user = _viewDocuments.ValidateUser((int)user_id);
+            var user = _viewDocuments.ValidateUser((int)userId);
 
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = _patientDashboard.FullNameFromUserId((int)userId);
+            an.roleName = "Patient";
+            an.Tab = 21;
 
             ViewDocumentModel viewDocumentModal = new ViewDocumentModel()
             {
@@ -455,7 +456,8 @@ namespace HalloDoc.Controllers
                 confirmation_number = request.ConfirmationNumber,
                 requestWiseFiles = documents,
                 uploader_name = string.Concat(request.FirstName, ' ', request.LastName),
-                Username = _viewDocuments.UserFirstName((int)user_id)
+                Username = _viewDocuments.UserFirstName((int)userId),
+                an = an
             };
             return View(viewDocumentModal);
         }
@@ -482,16 +484,9 @@ namespace HalloDoc.Controllers
 
             if (model.ImageContent != null)
             {
-                RequestWiseFile requestWiseFile = new RequestWiseFile
-                {
-
-                    FileName = model.ImageContent.FileName,
-                    CreatedDate = DateTime.Now,
-                    RequestId = request.RequestId
-                };
                 //_context.RequestWiseFiles.Add(requestWiseFile);
                 //_context.SaveChanges();
-                _viewDocuments.AddFile(requestWiseFile);
+                _viewDocuments.AddFile(model.ImageContent.FileName, request.RequestId);
             }
 
             return RedirectToAction("PatientDashboardViewDocuments", new { requestID = model.requestId });
@@ -500,13 +495,19 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Patient")]
         public IActionResult PatientProfile()
         {
-            var user_id = HttpContext.Session.GetInt32("id");
+            var userId = HttpContext.Session.GetInt32("id");
             //var request = _context.Requests.Include(r => r.RequestClient).FirstOrDefault(u => u.RequestId == requestid);
-            var user = _profile.ValidateUser((int)user_id);
+            var user = _profile.ValidateUser((int)userId);
             int intYear = (int)user.IntYear;
             int intDate = (int)user.IntDate;
             string month = user.StrMonth;
             DateTime date = new DateTime(intYear, int.Parse(month), intDate);
+
+            AdminNavbarModel an = new AdminNavbarModel();
+            an.Admin_Name = _patientDashboard.FullNameFromUserId((int)userId);
+            an.roleName = "Patient";
+            an.Tab = 22;
+
             PatientProfileView ppv = new PatientProfileView()
             {
                 FirstName = user.FirstName,
@@ -518,7 +519,8 @@ namespace HalloDoc.Controllers
                 City = user.City,
                 State = user.State,
                 ZipCode = user.ZipCode,
-                Username = user.FirstName
+                Username = user.FirstName,
+                adminNavbarModel = an,
             };
             return View(ppv);
         }

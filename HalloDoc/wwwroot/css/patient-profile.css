@@ -1,4 +1,4 @@
-.moon-flex {
+/*.moon-flex {
     display: flex;
     justify-content: flex-end;
     position: absolute;
@@ -13,15 +13,6 @@
     border: none;
     background-color: transparent;
 }
-
-.change-theme-mobile-view {
-    position: absolute;
-    right: -20px;
-    top: 13px;
-    border: none;
-    background-color: transparent;
-}
-
 .night-mode-icon {
     height: 40px;
     width: 40px;
@@ -31,6 +22,14 @@
     padding: 10px;
 }
 
+.change-theme-mobile-view {
+    position: absolute;
+    right: -20px;
+    top: 13px;
+    border: none;
+    background-color: transparent;
+}
+
 .night-mode-icon-mobile {
     height: 38px;
     width: 38px;
@@ -38,7 +37,7 @@
     border: 2px solid #00ccff;
     border-radius: 10px;
     padding: 10px;
-}
+}*/
 
 .hide-icon {
     display: none;
@@ -50,14 +49,14 @@
 }
 
 
-.intl-tel-input,
-.iti {
-    width: 100%;
+.iti input {
+    width: 100% !important;
+    height: 58px;
 }
 
-.iti input {
-    width: 100%;
-    height: 58px;
+
+.iti {
+    display: block !important;
 }
 
 input:focus {

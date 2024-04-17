@@ -281,8 +281,16 @@
       "PackagePath": "staticwebassets\\images\\assign-case-image.svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\assign-case.jpg",
+      "PackagePath": "staticwebassets\\images\\assign-case.jpg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\block-patient-image.png",
       "PackagePath": "staticwebassets\\images\\block-patient-image.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\block.png",
+      "PackagePath": "staticwebassets\\images\\block.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\calendar2-date.svg",
@@ -317,6 +325,14 @@
       "PackagePath": "staticwebassets\\images\\caret-down-fill5.svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\checklist.png",
+      "PackagePath": "staticwebassets\\images\\checklist.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\clipboard.png",
+      "PackagePath": "staticwebassets\\images\\clipboard.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\clock (1).svg",
       "PackagePath": "staticwebassets\\images\\clock (1).svg"
     },
@@ -345,6 +361,10 @@
       "PackagePath": "staticwebassets\\images\\doctor.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\document.png",
+      "PackagePath": "staticwebassets\\images\\document.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\download.svg",
       "PackagePath": "staticwebassets\\images\\download.svg"
     },
@@ -353,8 +373,24 @@
       "PackagePath": "staticwebassets\\images\\envelope.svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\file-earmark-image.svg",
+      "PackagePath": "staticwebassets\\images\\file-earmark-image.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\file-earmark-pdf.svg",
+      "PackagePath": "staticwebassets\\images\\file-earmark-pdf.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\file-earmark-spreadsheet-fill.svg",
+      "PackagePath": "staticwebassets\\images\\file-earmark-spreadsheet-fill.svg"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\file-earmark.svg",
       "PackagePath": "staticwebassets\\images\\file-earmark.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\file.png",
+      "PackagePath": "staticwebassets\\images\\file.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\globe-central-south-asia.svg",
@@ -381,6 +417,14 @@
       "PackagePath": "staticwebassets\\images\\new_active.png"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\note.png",
+      "PackagePath": "staticwebassets\\images\\note.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\notes.png",
+      "PackagePath": "staticwebassets\\images\\notes.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\orders-image.png",
       "PackagePath": "staticwebassets\\images\\orders-image.png"
     },
@@ -405,12 +449,20 @@
       "PackagePath": "staticwebassets\\images\\person.svg"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\search-file.png",
+      "PackagePath": "staticwebassets\\images\\search-file.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\send-agreement-image.svg",
       "PackagePath": "staticwebassets\\images\\send-agreement-image.svg"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\success-26.svg",
       "PackagePath": "staticwebassets\\images\\success-26.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\success.png",
+      "PackagePath": "staticwebassets\\images\\success.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\telephone.svg",
@@ -447,6 +499,14 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\view-uploads-image.png",
       "PackagePath": "staticwebassets\\images\\view-uploads-image.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\writing.png",
+      "PackagePath": "staticwebassets\\images\\writing.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\images\\x-mark.png",
+      "PackagePath": "staticwebassets\\images\\x-mark.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\js\\bootstrap.bundle.min.js",
@@ -925,8 +985,16 @@
       "PackagePath": "staticwebassets\\uploads\\halloDoc_data_dictonary.xlsx"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-29.pdf",
+      "PackagePath": "staticwebassets\\uploads\\patient-29.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",
       "PackagePath": "staticwebassets\\uploads\\person-circle.svg"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\schema.ods",
+      "PackagePath": "staticwebassets\\uploads\\schema.ods"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\success-26.svg",

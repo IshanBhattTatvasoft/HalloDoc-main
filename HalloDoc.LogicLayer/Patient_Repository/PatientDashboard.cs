@@ -18,31 +18,39 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             _context = context;
         }
-        public List<TableContent> GetDashboardData(int id)
+        public DashboardViewModel GetDashboardData(int id)
         {
-            Request r = _context.Requests.Where(r => r.UserId == id).FirstOrDefault();
-            int count = _context.RequestWiseFiles.Where(rwf => rwf.RequestId == r.RequestId).Count();
+            User users = _context.Users.FirstOrDefault(us => us.UserId == id);
 
-            var data = (
-        from req in _context.Requests
-        join file in _context.RequestWiseFiles on req.RequestId equals file.RequestId into files
-        from file in files.DefaultIfEmpty()
-        where req.UserId == id
-        group file by new { req.RequestId, req.CreatedDate, req.Status } into fileGroup
-        select new TableContent
-        {
-            RequestId = fileGroup.Key.RequestId,
-            CreatedDate = fileGroup.Key.CreatedDate,
-            Status = fileGroup.Key.Status,
-            Count = count,
-        }).ToList();
+            IEnumerable<Request> req = _context.Requests.Where(r => r.UserId == users.UserId).OrderByDescending(r => r.CreatedDate);
+            IEnumerable<RequestWiseFile> rwf = _context.RequestWiseFiles;
+            List<Physician> ph = _context.Physicians.OrderByDescending(p => p.CreatedDate).ToList();
 
-            
-            return data;
+            var requestsAndFile = _context.Requests
+                .Join(
+                _context.RequestWiseFiles,
+                r => r.RequestId,
+                rf => rf.RequestId,
+                (r, rf) => new RequestFileViewModel { RequestId = r.RequestId, fileName = rf.FileName }).ToList();
+
+            var viewModel = new DashboardViewModel
+            {
+                UserModel = users,
+                Requests = req,
+                RequestsAndFiles = requestsAndFile,
+                phy = ph,
+            };
+
+            return viewModel;
         }
         public string ValidateUsername(int id)
         {
             return _context.Users.FirstOrDefault(t => t.UserId == id).FirstName;
+        }
+
+        public string FullNameFromUserId(int id)
+        {
+            return _context.Users.FirstOrDefault(u => u.UserId == id).FirstName + " " + _context.Users.FirstOrDefault(u => u.UserId == id).LastName;
         }
     }
 }

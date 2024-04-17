@@ -1,4 +1,21 @@
-﻿input:focus {
+﻿.change-theme-mobile-view {
+    position: absolute;
+    right: -20px;
+    top: 13px;
+    border: none;
+    background-color: transparent;
+}
+
+.night-mode-icon-mobile {
+    height: 38px;
+    width: 38px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+input:focus {
     outline: #3DB6FF !important;
     /*border: 2px solid white !important;*/
     box-shadow: none !important;

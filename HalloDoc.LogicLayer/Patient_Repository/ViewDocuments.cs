@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {
@@ -51,9 +52,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
         }
 
-        public void AddFile(RequestWiseFile requestWiseFile)
+        public void AddFile(string file, int id)
         {
-            _context.RequestWiseFiles.Add(requestWiseFile);
+            RequestWiseFile rwf = new RequestWiseFile();
+            rwf.RequestId = id;
+            rwf.FileName = file;
+            rwf.CreatedDate = DateTime.Now;
+            _context.RequestWiseFiles.Add(rwf);
             _context.SaveChanges();
         }
 

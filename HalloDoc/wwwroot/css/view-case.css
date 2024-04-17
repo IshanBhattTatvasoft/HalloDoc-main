@@ -17,6 +17,16 @@
     margin-right: 20px;
 }
 
+
+.night-mode-icon {
+    height: 40px;
+    width: 40px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
+}
+
 .change-theme-mobile-view {
     position: absolute;
     right: -20px;
@@ -25,9 +35,9 @@
     background-color: transparent;
 }
 
-.night-mode-icon {
-    height: 40px;
-    width: 40px;
+.night-mode-icon-mobile {
+    height: 38px;
+    width: 38px;
     color: #00ccff;
     border: 2px solid #00ccff;
     border-radius: 10px;
@@ -394,10 +404,10 @@ input.searchPatientInput:focus {
 
 #phone-design {
     border-radius: 5px;
-    border: 2px solid rgb(32, 193, 204);
-    padding: 8px;
-    min-width: 45px;
-    height: 40px;
+    border: 1px solid #54B4D3;
+    padding: 10px;
+    min-width: 50px;
+    height: 55px;
 }
 
 .tablinks {

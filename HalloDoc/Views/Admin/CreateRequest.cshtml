@@ -76,6 +76,16 @@
     .form-floating:focus-within label {
         color: #3DB6FF !important;
     }
+
+    .iti input {
+        width: 100% !important;
+        height: 58px;
+    }
+
+
+    .iti {
+        display: block !important;
+    }
 </style>
 
 <div class="bg-light">
@@ -129,7 +139,7 @@
                         <span asp-validation-for="Email" class="text-danger"></span>
 
                     </div>
-                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-4 col-12">
+                    <div class="form-floating col-sm-6 mt-3">
                         <input id="phone" class="form-control" type="tel" asp-for="PhoneNumber" required />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>

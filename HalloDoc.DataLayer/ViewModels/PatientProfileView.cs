@@ -14,4 +14,5 @@ public class PatientProfileView
     public decimal Latitude { get; set; }
     public decimal Longitude { get; set; }
     public string Username { get; set; }
+    public AdminNavbarModel? adminNavbarModel { get; set; }
 }

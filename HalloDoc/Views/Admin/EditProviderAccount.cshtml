@@ -48,15 +48,31 @@
     <partial name="Toast" />
     <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
 
-    <div class="container-sm container-fluid">
-        <div class="d-flex justify-content-between align-items-center mt-3">
-            <h3 class="fw-semibold">Edit Physician Account</h3>
-            <a class="btn btn-outline-info" asp-controller="Admin" asp-action="UserAccess" asp-route-id="@Model.PhysicianId"><i class="bi bi-chevron-left btn-outline-info"></i> Back</a>
+    <div class="container">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="UserAccess" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col mt-2">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Edit Physician Account
+                    </p>
+                </div>
+            </div>
         </div>
         <div class="shadow border-top mt-2 p-4">
 
             @* form for Physician Password Setup *@
-            <h4 class="my-3"> Account Information</h4>
+            <h5 class="my-3"> Account Information</h5>
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="SavePasswordOfProvider">
                 <input type="hidden" asp-for="PhysicianId" id="IdOfP" />
                 <div class="col-md-6 mb-3 form-floating">
@@ -96,7 +112,7 @@
             </form>
 
             @* Edit 1 form for Physician Information *@
-            <h4 class="my-3"> Physician Information</h4>
+            <h5 class="my-3"> Physician Information</h5>
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="SaveProviderProfile">
                 <input type="hidden" asp-for="PhysicianId" />
                 <div class="col-md-6 mb-3 form-floating">
@@ -175,7 +191,7 @@
                     </a>
                 </div>
             </form>
-            <h4 class="my-3"> Mailing & Billing Information</h4>
+            <h5 class="my-3"> Mailing & Billing Information</h5>
             
             @* form for Billing information *@
             <form method="post" class="row mb-4" asp-controller="Admin" asp-action="EditProviderBillingInfo">
@@ -290,7 +306,7 @@
                     </a>
                 </div>
             </form>
-            <h4 class="mb-4 fw-2">Onboarding</h4>
+            <h5 class="mb-4 fw-2">Onboarding</h5>
             <div class="w-75 row">
                 <div class="d-flex align-items-center mb-2">
                     <div class="form-check d-flex col-6">

@@ -17,5 +17,6 @@ public class ViewDocumentModel
     public List<Models.RequestWiseFile> requestWiseFiles { get; set; }
     public IFormFile? ImageContent { get; set; }
     public int requestId { get; set; }
+    public AdminNavbarModel? an { get; set; }
 
 }

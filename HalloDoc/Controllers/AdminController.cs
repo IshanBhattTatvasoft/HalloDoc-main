@@ -3377,7 +3377,7 @@ namespace HalloDoc.Controllers
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-                Admin ad = _adminInterface.GetAdminFromId(id);
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 11;
@@ -3417,6 +3417,34 @@ namespace HalloDoc.Controllers
                 return RedirectToAction("AdminDashboard");
             }
         }
+
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult EditProviderAccountFromUserAccess(int id)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                EditProviderAccountViewModel ep = _adminInterface.ProviderEditAccount(id, an);
+                return View(ep);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view provider profile";
+                return RedirectToAction("UserAccess");
+            }
+        }
+
+
 
         [CustomAuthorize("Admin", "PatientRecords")]
         // function to return Patient Records view

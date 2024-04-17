@@ -1,4 +1,5 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.DashboardViewModel
+@using static HalloDoc.DataLayer.Models.Enums;
 @{
     ViewData["Title"] = "PatientDashboardAndMedicalHistory";
     Layout = "_Layout";
@@ -16,69 +17,8 @@
 }
 
 <div style="overflow-x: hidden; overflow-y: auto;">
-    <nav class="d-flex justify-content-between Nav border-bottom border-dark-subtle w-100 sticky-top bg-light">
-        <div class="d-flex gap-1 align-items-center">
-            <button class="navbar-toggler d-block d-sm-none ms-1"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseExample"
-                    aria-expanded="false"
-                    aria-controls="collapseExample">
-                    <span class="navbar-toggler-icon"></span>
-                <i class="bi bi-list" style="color: #27b5d2; border: 1px solid #ccf4fc;"></i>
-            </button>
-
-            <img src="~/images/logo1.png"
-                 class="Image ps-1 pt-1 ms-5"
-                 alt="Patient"
-                 style="height: 80px;"/>
-        </div>
-        <div class="d-flex align-items-center gap-1 flex-wrap">
-            <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block" style="margin-top: 20px !important;">welcome <strong> @Model.Username</strong></p>
-            <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="Logout" style="margin-right:100px;">Logout</a>
-            <a class="btn btn-outline-info d-inline-block d-sm-none flex-shrink-1 flex-sm-shrink-0" style="margin-right: 50px;"
-               asp-controller="Login" asp-action="PatientSite">
-                <i class="bi bi-box-arrow-right"></i>
-            </a>
-            <div class="moon-flex d-none d-sm-flex">
-                <button onclick="changeTheme()" class="change-theme">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
-                    </svg>
-                </button>
-                <button onclick="changeTheme()" class="change-theme hide-icon">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-brightness-high night-mode-icon" viewBox="0 0 16 16">
-                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
-                    </svg>
-                </button>
-            </div>
-            <div class="moon-flex d-sm-none flex-shrink-1 flex-sm-shrink-0">
-                <button onclick="changeTheme()" class="change-theme-mobile-view">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-moon night-mode-icon-mobile" viewBox="0 0 16 16">
-                        <path d="M6 .278a.77.77 0 0 1 .08.858 7.2 7.2 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277q.792-.001 1.533-.16a.79.79 0 0 1 .81.316.73.73 0 0 1-.031.893A8.35 8.35 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.75.75 0 0 1 6 .278M4.858 1.311A7.27 7.27 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.32 7.32 0 0 0 5.205-2.162q-.506.063-1.029.063c-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286" />
-                    </svg>
-                </button>
-                <button onclick="changeTheme()" class="change-theme-mobile-view hide-icon">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                         class="bi bi-brightness-high night-mode-icon-mobile" viewBox="0 0 16 16">
-                        <path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6m0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8M8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0m0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13m8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5M3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8m10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0m-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0m9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707M4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <nav class="shadow collpase" id="collapseExample">
-        <div class="nav nav-underline container-fluid ms-5" id="nav-tab" role="tablist">
-            <div class="nav-link active text-info me-4 ps-3 pe-3" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Dashboard</div>
-            <a class="nav-link text-info" id="nav-profile-tab" asp-controller="Login" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="PatientProfile">Profile</a>
-        </div>
-    </nav>
+    <partial name="Toast"/>
+    <partial name="PatientNavbar" model="@Model.an"/>
 
     <div class="d-flex flex-column bg-light" style="margin: 5px auto; padding: 0px 35px;">
         <div class="bg-light">
@@ -131,58 +71,29 @@
                         </tr>
                     </thead>
                     <tbody class="ms-2">
-                        @foreach (var item in Model.requests)
+                        @if (Model.Requests != null)
                         {
-                            <tr>
-                                <td>@item.CreatedDate.ToString("MMM dd, yyyy")</td>
-                                <td>
-                                    @if (item.Status == 1)
-                                    {
-                                        <span>Unassigned</span>
-                                    }
-                                    else if (item.Status == 2)
-                                    {
-                                        <span>Accepted</span>
-                                    }
-                                    else if (item.Status == 3 || item.Status == 8)
-                                    {
-                                        <span>Cancelled</span>
-                                    }
-                                    else if (item.Status == 4)
-                                    {
-                                        <span>MDenRoute</span>
-                                    }
-                                    else if (item.Status == 5)
-                                    {
-                                        <span>MDONSite</span>
-                                    }
-                                    else if(item.Status == 6)
-                                    {
-                                        <span>Conclude</span>
-                                    }
-                                    else if (item.Status == 7)
-                                    {
-                                        <span>Cancelled By Patient</span>
-                                    }
-                                    else if(item.Status == 8)
-                                    {
-                                        <span>Closed</span>
-                                    }
-                                    else if(item.Status == 9)
-                                    {
-                                        <span>Unpaid</span>
-                                    }
-                                    else if(item.Status == 10)
-                                    {
-                                        <span>Clear</span>
-                                    }
-                                    else
-                                    {
-                                        <span>Block</span>
-                                    }
-                                </td>
-                                <td><a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@item.RequestId">(@item.Count) Documents</a></td>
-                            </tr>
+                            @foreach (var obj in Model.Requests)
+                            {
+                                <tr>
+                                    <td>
+                                        @obj.CreatedDate.ToString("MMM dd, yyyy")
+
+                                    </td>
+                                    <td>
+                                        @Enum.GetName(typeof(Status), obj.Status)
+                                    </td>
+                                    <td>
+                                        @if (obj.RequestId != null)
+                                        {
+                                            var fileCount = Model.RequestsAndFiles.Count(rf => rf.RequestId == obj.RequestId);
+                                            <a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@obj.RequestId">(@fileCount) Documents</a>
+                                        }
+
+                                    </td>
+
+                                </tr>
+                            }
                         }
                     </tbody>
                 </table>
@@ -199,95 +110,56 @@
                     </button>
                 </div>
                 <div class="accordion accordion-flush d-sm-none" id="accordionFlushExample">
-                    @for (var i = 0; i < Model.requests.Count; ++i)
+                    @foreach (var obj in Model.Requests)
                     {
                         <div class="accordion-item">
-                            <h2 class="accordion-header" id="flush-heading@(Model.requests[i].RequestId)">
+                            <h2 class="accordion-header" id="flush-heading@(obj.RequestId)">
                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapse@(Model.requests[i].RequestId)"
-                                        aria-expanded="false" aria-controls="flush-collapse@(Model.requests[i].RequestId)">
+                                        data-bs-target="#flush-collapse(@obj.RequestId)"
+                                        aria-expanded="false" aria-controls="flush-collapse(@obj.RequestId)" style="background-color: #E5EEF5;">
                                     <img src="~/images/clock.svg" alt="" class="accordion-img"> <span class="accordion-heading">
                                         <span class="ms-2">Created
                                             Date:
-                                        </span><span class="accordion-value">@Model.requests[i].CreatedDate.ToString("MMM dd, yyyy")</span>
+                                        </span><span class="accordion-value">@obj.CreatedDate.ToString("MMM dd, yyyy")</span>
                                     </span>
                                 </button>
                             </h2>
-                            <div id="flush-collapse@(Model.requests[i].RequestId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(Model.requests[i].RequestId)"
+                            <div id="flush-collapse(@obj.RequestId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(obj.RequestId)"
                                  data-bs-parent="#accordionFlushExample">
-                                <div class="accordion-body main-flex">
+                                <div class="accordion-body main-flex" style="background-color: #E5EEF5;">
                                     <div style="position: relative;">
                                         <div class="inner-flex mb-2">
                                             <img src="~/images/person-circle.svg" alt="" class="accordion-img-inner">
                                             <span class="accordion-heading-inner">
                                                 Provider :
-                                                <span class="accordion-value-inner">@Model.requests[i].Name</span>
+                                                    @if(obj.RequestId!=null)
+                                                    {
+                                                        var x = Model.phy.FirstOrDefault(p => p.PhysicianId == obj.PhysicianId);
+                                                <span class="accordion-value-inner">Dr. @x.FirstName</span>
+                                                    }
+                                                    
                                             </span>
                                         </div>
                                         <div class="inner-flex mb-2">
                                             <img src="~/images/success-26.svg" alt="" class="accordion-img-inner" style="height: 15px; width: 15px"> <span class="accordion-heading-inner">
                                                 Current
                                                 Status: <span class="accordion-value-inner">
-                                                    @if (Model.requests[i].Status == 1)
-                                                    {
-                                                        <span>Unassigned</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 2)
-                                                    {
-                                                        <span>Accepted</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 3 || Model.requests[i].Status == 8)
-                                                    {
-                                                        <span>Cancelled</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 4)
-                                                    {
-                                                        <span>MDenRoute</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 5)
-                                                    {
-                                                        <span>MDONSite</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 6)
-                                                    {
-                                                        <span>Conclude</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 7)
-                                                    {
-                                                        <span>Cancelled By Patient</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 8)
-                                                    {
-                                                        <span>Closed</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 9)
-                                                    {
-                                                        <span>Unpaid</span>
-                                                    }
-                                                    else if (Model.requests[i].Status == 10)
-                                                    {
-                                                        <span>Clear</span>
-                                                    }
-                                                    else
-                                                    {
-                                                        <span>Block</span>
-                                                    }
+                                                    
                                                 </span>
                                             </span>
                                         </div>
                                         <div style="margin-top: 4px;">
-                                            <a style="border:1px solid #00ccff;padding:3px;margin-top: 3px;  color:#00ccff;border-radius:5px; text-decoration: none; height: 31px; width: 101px; display: inline-block;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@(Model.requests[i].RequestId)" style="text-decoration: none;">
-                                                <span class="logout-text">(@(Model.requests[i].Count ?? 0)) Documents</span>
-                                            </a>
+                                            @if (obj.RequestId != null)
+                                            {
+                                                var fileCount = Model.RequestsAndFiles.Count(rf => rf.RequestId == obj.RequestId);
+                                                <a class="w-100 text-center" style="border:1px solid #00ccff;padding:3px;margin-top: 3px;  color:#00ccff;border-radius:5px; text-decoration: none; height: 31px;display: inline-block;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@obj.RequestId" style="text-decoration: none;">(@fileCount) Documents</a>
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     }
-                    
-                    
-                    
                 </div>
             </div>
         </div>

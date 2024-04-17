@@ -2,19 +2,6 @@
 
 @{
     List<string> roleMenu = ViewBag.Menu;
-
-    var dashboardAccess = roleMenu.Any(r => r == "AdminDashboard") ? "" : "d-none";
-    var providerLocationAccess = roleMenu.Any(r => r == "ProviderLocation") ? "" : "d-none";
-    var adminProfileAccess = roleMenu.Any(r => r == "MyProfile") && Model.roleName == "Admin" ? "" : "d-none";
-
-    var providerAccess = roleMenu.Any(r => r == "ProviderMenu") ? "" : "d-none";
-    var schedulingAccess = roleMenu.Any(r => r == "Scheduling") ? "" : "d-none";
-    var invoicingAccess = roleMenu.Any(r => r == "Invoicing") ? "" : "d-none";
-    var providersAccess = "";
-    if ((providerAccess != "" || schedulingAccess != "" || invoicingAccess != "") && Model.roleName != "Admin")
-    {
-        providersAccess = "d-none";
-    }
 }
 
 
@@ -83,10 +70,10 @@
     }
 
     .dropdown-toggle:focus {
-        outline: none !important;
+        box-shadow: none !important;
+        border-color: transparent !important;
     }
-
-    .dropdown-menu:focus {
+    .btn:focus{
         outline: none !important;
     }
 

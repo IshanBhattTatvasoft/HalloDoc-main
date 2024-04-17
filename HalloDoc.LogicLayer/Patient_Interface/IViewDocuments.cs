@@ -16,8 +16,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public User ValidateUser(int user_id);
         public string UserFirstName(int user_id);
         public Request? GetRequestWithUser(int requestId);
-        public void AddFile(RequestWiseFile requestWiseFile);
-
+        public void AddFile(string file, int id);
 
 
     }

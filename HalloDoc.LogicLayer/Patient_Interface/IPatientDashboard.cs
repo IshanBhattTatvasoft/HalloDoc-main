@@ -10,8 +10,9 @@ namespace HalloDoc.LogicLayer.Patient_Interface
 {
     public interface IPatientDashboard
     {
-        public List<TableContent> GetDashboardData(int id);
+        public DashboardViewModel GetDashboardData(int id);
         public string ValidateUsername(int id);
+        public string FullNameFromUserId(int id);
 
     }
 }

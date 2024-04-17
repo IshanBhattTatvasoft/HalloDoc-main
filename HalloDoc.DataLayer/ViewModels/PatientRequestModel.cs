@@ -56,7 +56,7 @@ public class PatientRequestModel
     public bool isPassword { get; set; } = false;
 
     public IFormFile? ImageContent { get; set; }
-
+    public AdminNavbarModel? an { get; set; }
     public string? AdminNotes { get; set; }
 
 

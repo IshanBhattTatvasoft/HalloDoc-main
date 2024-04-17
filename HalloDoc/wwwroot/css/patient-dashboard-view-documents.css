@@ -18,12 +18,13 @@ body {
     right: 15px;
 }
 
-.change-theme {
-    position: absolute;
-    right: 21px;
-    top: 11px;
-    border: none;
-    background-color: transparent;
+.night-mode-icon {
+    height: 40px;
+    width: 40px;
+    color: #00ccff;
+    border: 2px solid #00ccff;
+    border-radius: 10px;
+    padding: 10px;
 }
 
 .change-theme-mobile-view {
@@ -32,15 +33,6 @@ body {
     top: 13px;
     border: none;
     background-color: transparent;
-}
-
-.night-mode-icon {
-    height: 40px;
-    width: 40px;
-    color: #00ccff;
-    border: 2px solid #00ccff;
-    border-radius: 10px;
-    padding: 10px;
 }
 
 .night-mode-icon-mobile {
@@ -100,4 +92,9 @@ th:last-child, td:last-child{
     .encounter-text {
         font-size: 20px !important;
     }
+}
+
+.accordion-button:not(.collapsed)::after,
+.accordion-button::after {
+    background-image: unset !important;
 }

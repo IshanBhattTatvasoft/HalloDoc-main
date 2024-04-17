@@ -17,38 +17,42 @@
 
     <partial name="HeaderFooter" model="@Model.an" />
 
-    <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
-        <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
-            <span class="h4">
-                My Profile
-            </span>
-        </div>
-        <div class="col-6 d-flex justify-content-end">
-            <a class="text-info" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard"
-               style="text-decoration: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                     class="bi bi-chevron-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-                </svg>
-                Back
-            </a>
+    <div class="container  mt-4 align-content-lg-around bg-muted rounded">
+        <div class="row">
+            <div style="top: 27px; position: relative;" class="col">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        My Profile
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded" id="main-container">
         <form method="post" asp-action="ProfilePasswordReset" asp-controller="Admin" asp-route-aid="@Model.adminId">
             <div class="row">
                 <div class="col ms-3 mt-3 h5">Account Information</div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input type="text" asp-for="adminId" hidden />
                     <input id="username" class="form-control" type="text" placeholder="Date Of Birth" asp-for="Username" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">User Name</label>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="pass" class="form-control" type="password" placeholder="Date" asp-for="Password">
                     <label for="floatingInput" class="ms-2 text-muted">Password</label>
                     <svg onclick="onpress()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3"
@@ -65,8 +69,8 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <select class="form-select" aria-label="Default select example" disabled>
                         <option selected>Active</option>
                         <option value="1">New</option>
@@ -76,7 +80,7 @@
                         <option value="5">Unpaid</option>
                     </select>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     <select class="form-select" aria-label="Default select example" disabled>
                         <option selected>Master Admin</option>
                         <option value="1">Admin</option>
@@ -88,7 +92,7 @@
                 </div>
             </div>
 
-            <div class="row mt-3 d-flex justify-content-end align-items-end">
+            <div class="row d-flex justify-content-end align-items-end">
                 <div class="col-sm-2 mt-4 d-inline-block w-auto" style="margin-bottom: 16px;">
                     <button type="submit" class="btn border-info text-info" id="resetPasswordButton" style="padding: 5px;">Reset Password</button>
                 </div>
@@ -97,40 +101,40 @@
 
         <form method="post" asp-controller="Admin" asp-action="ProfileAdministratorInfo" asp-route-aid="@Model.adminId">
 
-            <div class="row mt-3">
+            <div class="row">
                 <div class="col ms-3 mt-3 h5">Administrator Information</div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="firstname" class="ai form-control" type="text" placeholder="Date Of Birth" asp-for="firstName" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">First Name</label>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="lastName" class="ai form-control" type="text" placeholder="Date" asp-for="lastName" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
                 </div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="email" class="ai form-control" type="text" placeholder="Date Of Birth" asp-for="email" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Email</label>
                     <span asp-validation-for="email" class="text-danger"></span>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="confemail" class="ai form-control" type="text" placeholder="Date" asp-for="confEmail" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Confirm Email</label>
                     <span asp-validation-for="confEmail" class="text-danger"></span>
                 </div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="phone" class="ai form-control" type="tel" asp-for="phone" disabled style="height: 58px;" />
                     <span asp-validation-for="phone" class="text-danger"></span>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     @foreach (var item in Model.allRegions)
                     {
                         <input class="region-check" type="checkbox" @(Model.regionOfAdmin.Any(r => r.Region.Name == item.Name) ? "checked" : "") disabled value="@item.RegionId" />
@@ -142,7 +146,7 @@
                 </div>
             </div>
 
-            <div class="row mt-3 d-flex justify-content-end align-items-end">
+            <div class="row d-flex justify-content-end align-items-end">
                 <div class="col-sm-2 mt-4 d-none w-auto flex-row mx-0" id="save-2-div">
                     <button type="submit" class="btn btn-info mb-3" id="saveButton2" style="padding: 5px;">Save</button>
                 </div>
@@ -157,27 +161,27 @@
 
         <form method="post" asp-controller="Admin" asp-action="ProfileMailingInfo" asp-route-aid="@Model.adminId">
 
-            <div class="row mt-3">
+            <div class="row">
                 <div class="col ms-3 mt-3 h5">Mailing and Billing Information</div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="add1" class="mbi form-control" type="text" placeholder="Date Of Birth" asp-for="address1" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Address 1</label>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="add2" class="mbi form-control" type="text" placeholder="Date" asp-for="address2" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Address 2</label>
                 </div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="city" class="mbi form-control" type="text" placeholder="Date Of Birth" asp-for="city" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">City</label>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     <select class="mbi form-select" aria-label="Default select example" disabled>
                         <option value="-1" class="bg-white" selected>Select Region</option>
                         @foreach (var item in Model.regionOfAdmin)
@@ -188,17 +192,17 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
-                <div class="col-sm-6 form-floating">
+            <div class="row">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="zipcode" class="mbi form-control" type="text" placeholder="Date Of Birth" asp-for="zipcode" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
                 </div>
-                <div class="col-sm-6 form-floating">
+                <div class="mt-3 col-sm-6 form-floating">
                     <input id="phone1" class="mbi form-control" type="tel" asp-for="altPhoneNo" disabled style="height: 58px;" />
                 </div>
             </div>
 
-            <div class="row mt-3 d-flex justify-content-end align-items-end">
+            <div class="row d-flex justify-content-end align-items-end">
                 <div class="col-sm-2 mt-4 d-none w-auto flex-row mx-0" id="save-3-div">
                     <button type="submit" class="btn btn-info mb-3" id="saveButton3" style="padding: 5px;">Save</button>
                 </div>

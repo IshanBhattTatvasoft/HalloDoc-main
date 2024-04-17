@@ -35,7 +35,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             AspNetUserRole anur = _context.AspNetUserRoles.Where(a => a.UserId == user.Id).FirstOrDefault();
             Admin ad = _context.Admins.Where(a => a.AspNetUserId == user.Id).FirstOrDefault();
             Physician p = _context.Physicians.Where(ph => ph.AspNetUserId == user.Id).FirstOrDefault();
-            string role = "";
+            string role = "3";
             if(ad!=null)
             {
                 role = ad.RoleId.ToString();

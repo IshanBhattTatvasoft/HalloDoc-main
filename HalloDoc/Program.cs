@@ -24,7 +24,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromHours(20); // Set session timeout
+    options.IdleTimeout = TimeSpan.FromMinutes(20); // Set session timeout
 });
 
 

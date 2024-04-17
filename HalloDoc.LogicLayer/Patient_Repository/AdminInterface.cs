@@ -2011,7 +2011,16 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<string> GetAllMenus(string roleId)
         {
+            List<string> str = new List<string>();
+            if(roleId=="")
+            {
+                return str;
+            }
             List<RoleMenu> rm = _context.RoleMenus.Where(m => m.RoleId == int.Parse(roleId)).ToList();
+            if(rm==null)
+            {
+                return str;
+            }
             var menus = from r in rm join m in _context.Menus on r.MenuId equals m.MenuId select m.Name;
             return menus.ToList();
         }
