@@ -7,6 +7,17 @@
     <link rel="stylesheet" href="~/css/provider-menu.css" />
 }
 
+<style>
+    .accordion-button:not(.collapsed)::after,
+    .accordion-button::after {
+        background-image: unset !important;
+    }
+
+    .accordion-button::after {
+        background-image: initial;
+    }
+</style>
+
 <div class="bg-light" style="overflow: hidden;">
     <partial name="HeaderFooter" model="@Model.an" />
 
@@ -51,7 +62,7 @@
             </div>
 
             <div>
-                <div class="table-responsive mt-4 ms-3 me-3 myTable" id="ProviderMenuPagePartialView"></div>
+                <div class="mt-4 ms-3 me-3 myTable" id="ProviderMenuPagePartialView"></div>
             </div>
         </div>
     </div>

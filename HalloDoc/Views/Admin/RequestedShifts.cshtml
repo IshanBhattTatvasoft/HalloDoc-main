@@ -101,9 +101,8 @@
     addClassBasedOnWidth();
     window.addEventListener("resize", addClassBasedOnWidth);
 
-    window.onload = () => {
-        var region = document.getElementById("select-region").value;
-
+    function partialViewData()
+    {
         $.ajax({
             url: '/Admin/RequestedShiftsFilteredData',
             type: 'POST',
@@ -116,6 +115,10 @@
                 alert("An error occurred");
             }
         });
+    }
+
+    window.onload = () => {
+        partialViewData();
     }
 
     function filter(region) {

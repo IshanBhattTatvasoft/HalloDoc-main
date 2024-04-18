@@ -143,7 +143,7 @@
                 </div>
             </div>
 
-            <div class="row mt-3">
+            <div class="row mt-3 d-flex justify-content-between">
                 <div class="col-3">
                     <select class="form-select mb-3 update1" id="Role" asp-for="regionId" onchange="filter()">
                         <option value="0" selected>All Regions</option>
@@ -153,8 +153,8 @@
                         }
                     </select>
                 </div>
-                <div class="col">
-                    <div class="flex-grow-1 text-end">
+                <div class="col-sm-12 col-md-9 col-lg-6">
+                    <div class="three-button-div flex-grow-1 text-end">
                         <a type="button" class="btn btn-info text-white me-4 w-auto" asp-action="MDsOnCall" asp-controller="Admin">Providers On Call</a>
                         <a type="button" class="btn btn-info text-white me-4 w-auto" asp-action="RequestedShifts" asp-controller="Admin">Shift For Review</a>
                         <button type="button" class="btn btn-info text-white w-auto" data-bs-toggle="modal" data-bs-target="#exampleModal">Add New Shift</button>

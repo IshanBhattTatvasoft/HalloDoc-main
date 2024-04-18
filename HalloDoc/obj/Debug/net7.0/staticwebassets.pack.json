@@ -69,6 +69,10 @@
       "PackagePath": "staticwebassets\\Physician\\13\\Compilance.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\13\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\13\\Profile.png"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\14\\AgreementDoc.pdf",
       "PackagePath": "staticwebassets\\Physician\\14\\AgreementDoc.pdf"
     },
@@ -79,6 +83,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\14\\Compilance.pdf",
       "PackagePath": "staticwebassets\\Physician\\14\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\14\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\14\\Profile.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\1\\AgreementDoc.pdf",
@@ -147,6 +155,90 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\7\\Profile.png",
       "PackagePath": "staticwebassets\\Physician\\7\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\1\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\1\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\1\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\1\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\1\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\1\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\1\\LicenseDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\1\\LicenseDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\1\\NonDisclosure.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\1\\NonDisclosure.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\1\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\8\\1\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\1\\Signature.png",
+      "PackagePath": "staticwebassets\\Physician\\8\\1\\Signature.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\LicenseDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\LicenseDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\NonDisclosure.pdf",
+      "PackagePath": "staticwebassets\\Physician\\8\\NonDisclosure.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\8\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\8\\Signature.png",
+      "PackagePath": "staticwebassets\\Physician\\8\\Signature.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\9\\AgreementDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\9\\AgreementDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\9\\BackgroundDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\9\\BackgroundDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\9\\Compilance.pdf",
+      "PackagePath": "staticwebassets\\Physician\\9\\Compilance.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\9\\LicenseDoc.pdf",
+      "PackagePath": "staticwebassets\\Physician\\9\\LicenseDoc.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\9\\NonDisclosure.pdf",
+      "PackagePath": "staticwebassets\\Physician\\9\\NonDisclosure.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\9\\Profile.png",
+      "PackagePath": "staticwebassets\\Physician\\9\\Profile.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\9\\Signature.png",
+      "PackagePath": "staticwebassets\\Physician\\9\\Signature.png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Rotativa\\help-wkhtmltoimage.txt",
@@ -987,6 +1079,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-29.pdf",
       "PackagePath": "staticwebassets\\uploads\\patient-29.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-49 (2).pdf",
+      "PackagePath": "staticwebassets\\uploads\\patient-49 (2).pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",

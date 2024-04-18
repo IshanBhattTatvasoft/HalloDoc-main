@@ -644,7 +644,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Admins.Where(p => p.AspNetUserId == anu.Id).FirstOrDefault();
         }
 
-        public void EditViewNotesAction(ViewNotes model)
+        public void EditViewNotesAction(ViewNotes model, int id)
         {
             Request r = _context.Requests.Where(r => r.RequestId == model.RequestId).FirstOrDefault();
             User u = _context.Users.Where(u => u.UserId == r.UserId).FirstOrDefault();
@@ -654,7 +654,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 RequestNote rn1 = new RequestNote();
                 rn1.AdminNotes = model.AdminNotes;
                 rn1.RequestId = model.RequestId;
-                rn1.CreatedBy = (int)u.AspNetUserId;
+                rn1.CreatedBy = id;
                 rn1.CreatedDate = DateTime.Now;
                 _context.RequestNotes.Add(rn1);
             }
@@ -846,7 +846,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.Regions.Any(r => r.Name.ToLower().Trim() == temp);
         }
 
-        public void InsertDataOfRequest(AdminCreateRequestModel model)
+        public void InsertDataOfRequest(AdminCreateRequestModel model, int x)
         {
             AspNetUser aspNetUser = new AspNetUser();
             AspNetUserRole anur = new AspNetUserRole();
@@ -865,7 +865,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 aspNetUser.Email = model.Email;
                 aspNetUser.PhoneNumber = model.PhoneNumber;
                 aspNetUser.CreatedDate = DateTime.Now;
-                aspNetUser.PasswordHash = atIndex >= 0 ? model.Email.Substring(0, atIndex) : model.Email;
+                aspNetUser.PasswordHash = model.Password;
                 _context.AspNetUsers.Add(aspNetUser);
                 _context.SaveChanges();
 
@@ -941,7 +941,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             requestNote.RequestId = request.RequestId;
             requestNote.AdminNotes = model.AdminNotes;
             requestNote.CreatedDate = DateTime.Now;
-            requestNote.CreatedBy = 34;
+            requestNote.CreatedBy = x;
             _context.RequestNotes.Add(requestNote);
             _context.SaveChanges();
         }
@@ -1262,6 +1262,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 ef2.MedicationDispensed = model.MedicationsDispensed;
                 ef2.Procedures = model.Procedures;
                 ef2.FollowUp = model.FollowUp;
+                if (bitCheck == 1)
+                {
+                    ef2.IsFinalized = new BitArray(1, true);
+                }
                 _context.EncounterForms.Add(ef2);
                 isFinalized = false;
             }
@@ -2197,7 +2201,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             {
                 ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == Shift.ShiftDetailId);
 
-                if (_context.ShiftDetails.Any(s => s.ShiftDetailId == Shift.ShiftDetailId && (s.ShiftDate.Equals(Shift.ShiftDateVS) || s.StartTime >= Shift.StartTimeVS || s.EndTime <= Shift.EndTimeVS)))
+                if (_context.ShiftDetails.Any(s => s.ShiftDetailId == Shift.ShiftDetailId && s.ShiftDate.Equals(Shift.ShiftDateVS) && s.StartTime <= Shift.StartTimeVS && s.EndTime >= Shift.EndTimeVS))
                 {
                     return 1;
                 }
@@ -2232,7 +2236,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             catch { return false; }
         }
 
-        public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id)
+        public int CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id)
         {
             // one entry in shift and multiple entries in shiftdetail
 
@@ -2241,6 +2245,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Shift shift = new Shift();
             shift.PhysicianId = (int)model.physicianId;
             shift.StartDate = DateOnly.FromDateTime((DateTime)model.startDate);
+
+            bool isShift = _context.ShiftDetails.Any(s => s.Shift.PhysicianId == model.physicianId && s.ShiftDate == model.startDate && s.StartTime <= model.startTime && s.EndTime >= model.endTime);
+
+            if (isShift)
+            {
+                return 0;
+            }
 
             // check if shift is repeated or not
             if (model.repeat != 0)
@@ -2362,7 +2373,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
 
             _context.SaveChanges();
-            return true;
+            return 1;
         }
 
         public void ApproveSelectedShifts(string shiftDetailIdString)

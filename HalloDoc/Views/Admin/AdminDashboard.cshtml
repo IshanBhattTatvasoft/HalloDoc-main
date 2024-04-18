@@ -27,7 +27,7 @@
     <div id="main-sub-div" class="tabcontent">
         <!-- boxes of 6 states -->
         <div class="row mt-5">
-            
+
             <a class="col-4 col-lg-2 custom-btn cursor-pointer" style="text-decoration: none;">
                 <div class="state newState newState-active ms-1" onclick="changeStatus(this)">
                     <div class="d-flex align-items-center state-sub-div">
@@ -232,14 +232,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="CancelCase" asp-controller="Admin">
+                    <form id="requestForm" method="post" asp-action="CancelCase" asp-controller="Admin" onsubmit="checkCancelCase()">
 
                         <input type="number" hidden asp-for="RequestId" id="r-id" />
 
                         <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold" id="p-name"></span></p>
 
                         <div class="dropdown text-light mb-3 w-100">
-                            <select class="btn btn-outline-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedCaseTagId">
+                            <select class="btn btn-outline-info dropdown-toggle text-secondary w-100" id="reason" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedCaseTagId">
                                 <i class="bi bi-person"></i> Reason For Cancellation
 
                                 @foreach (var item in Model.caseTags)
@@ -247,10 +247,12 @@
                                     <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
                                 }
                             </select>
+                            <span class="text-danger" id="caseTagError" style="display: none;">Select a reason for cancellation</span>
                         </div>
 
                         <div class="form-group">
-                            <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Providers additional Notes" rows="5" name="additionalNotes"></textarea>
+                            <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Providers additional Notes" rows="5" name="additionalNotes" asp-for="cancelCaseNotes"></textarea>
+                            <span asp-validation-for="cancelCaseNotes"></span>
                         </div>
 
                         <div class="text-end mb-3 me-3 mt-3">
@@ -271,7 +273,7 @@
             <div class="modal-content">
                 <div class="modal-header bg-info">
                     <h4 class="modal-title fs-5 text-white" id="exampleModalLabel20">Send mail to patient for submitting the request</h4>
-                    <a type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark fa-xl" style="color: #ffffff;"></i></a>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <div class="modal-body">
@@ -281,6 +283,7 @@
                             <div class="form-floating mb-3">
                                 <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name" value="" required>
                                 <label for="floatingInput">First Name</label>
+                                <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -288,12 +291,14 @@
                             <div class="form-floating mb-3">
                                 <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name" value="" required>
                                 <label for="floatingInput">Last Name</label>
+                                <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="col-sm-12 ">
                             <div class="form-floating mb-3">
                                 <input id="phone" class="form-control" type="tel" value="" asp-for="PhoneNumber" required />
+                                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -301,6 +306,7 @@
                             <div class="form-floating mb-3">
                                 <input asp-for="email" type="email" class="form-control" placeholder="Email" value="" required>
                                 <label for="floatingInput">Email</label>
+                                <span asp-validation-for="email" class="text-danger"></span>
                             </div>
                         </div>
 
@@ -327,22 +333,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="AssignCaseSubmitAction" asp-controller="Admin">
+                    <form id="requestForm" method="post" asp-action="AssignCaseSubmitAction" asp-controller="Admin" onsubmit="validateForm()">
                         <input type="number" hidden asp-for="RequestId" id="r-id-two" />
                         <p class="mb-3 text-muted fs-4">To assign this request, search and select another Physician</p>
                         <div class="dropdown text-light mb-3 w-100">
-                            <select class="btn border border-info dropdown-toggle text-secondary bg-white w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-region" onchange="fetchRegionData()">
+                            <select class="btn border border-info dropdown-toggle text-secondary bg-white w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-region" onchange="fetchRegionData()" required>
                                 <option value="-1" selected disabled><i class="bi bi-person"></i> Narrow Search by Region</option>
                                 @foreach (var item in Model.regions)
                                 {
                                     <option value="@item.RegionId" class="bg-white">@item.Name</option>
                                 }
                             </select>
+                            <span id="regionError" class="text-danger" style="display: none;">Please select a region.</span>
                         </div>
                         <div class="dropdown text-light mb-3 w-100">
-                            <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician">
+                            <select class="btn border border-info dropdown-toggle text-secondary w-100 bg-white" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="selectedPhysicianId" id="select-physician" required>
                                 <i class="bi bi-person"></i> Select Physician
                             </select>
+                            <span id="physicianError" class="text-danger" style="display: none;">Please select a physician.</span>
                         </div>
                         <div class="form-group">
                             <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
@@ -372,22 +380,24 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="TransferCaseSubmitAction" asp-controller="Admin">
+                    <form id="requestForm" method="post" asp-action="TransferCaseSubmitAction" asp-controller="Admin" onsubmit="return validateForm()">
                         <input type="number" hidden asp-for="RequestId" id="r-id-four" />
                         <p class="mb-3 text-muted fs-4">To transfer this request, search and select another physician</p>
                         <div class="dropdown text-light mb-3 w-100">
-                            <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="RegionId" id="select-region-for-transfer" onchange="fetchRegionData2()">
+                            <select class="btn border border-info dropdown-toggle text-secondary w-100 bg-white" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-region-for-transfer" onchange="fetchRegionData2()" required>
                                 <option value="-1" selected disabled><i class="bi bi-person"></i> Narrow Search by Region</option>
                                 @foreach (var item in Model.regions)
                                 {
                                     <option value="@item.RegionId" class="bg-white">@item.Name</option>
                                 }
                             </select>
+                            <span id="regionError" class="text-danger" style="display: none;">Please select a region.</span>
                         </div>
                         <div class="dropdown text-light mb-3 w-100">
-                            <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician2">
+                            <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician2" required>
                                 <i class="bi bi-person"></i> Select Physician
                             </select>
+                            <span id="physicianError" class="text-danger" style="display: none;">Please select a physician.</span>
                         </div>
                         <div class="form-group">
                             <textarea class="form-control description border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
@@ -417,11 +427,12 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="BlockCase" asp-controller="Admin">
+                    <form id="requestForm" method="post" asp-action="BlockCase" asp-controller="Admin" onsubmit="checkBlockCase()">
                         <input type="number" hidden asp-for="RequestId" id="r-id-three" />
                         <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold" id="p-name-two"></span></p>
                         <div class="form-group">
-                            <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Reason for Block Request" rows="5" name="reasonForBlockRequest"></textarea>
+                            <textarea class="form-control border border-info" id="blockReason" placeholder="Reason for Block Request" rows="5" name="reasonForBlockRequest" asp-for="reasonForBlockRequest"></textarea>
+                            <span asp-validation-for="reasonForBlockRequest" class="text-danger" id="blockError" style="display: none;">Enter reason for blocking the case</span>
                         </div>
 
                         <div class="text-end mb-3 me-3 mt-3">
@@ -499,8 +510,9 @@
                         </div>
                         <p class="h5 mb-3 text-muted mt-2">To send agreement, please make sure you are updating the correct contact information below for the responsible party</p>
                         <div class="form-floating text-light mb-3 w-100">
-                            <input type="tel" id="phoneForAgree" class="form-control" />
+                            <input type="tel" id="phoneForAgree" class="form-control" asp-for="phoneNo" />
                             <label for="floatingInput" class="ms-2 text-muted">Phone Number</label>
+                            <span asp-validation-for="phoneNo" class="text-danger"></span>
                         </div>
                         <div class="form-floating text-light mb-3 w-100">
                             <input type="text" id="emailForAgree" class="form-control" asp-for="sendAgreeEmail" />
@@ -528,12 +540,13 @@
                     <h1 class="modal-title fs-5 text-white" id="requestSupportModalLabel">Request Support</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post" asp-action="RequestDtySupport" asp-controller="Admin">
+                <form method="post" asp-action="RequestDtySupport" asp-controller="Admin" onsubmit="checkDTY()">
                     <div class="modal-body">
                         <span>To all unscheduled physicians: We are short on coverage and needs additional support on call to respond to requests.</span>
 
                         <div class="form-group">
-                            <textarea class="form-control border border-muted mt-3 textarea-class" id="requestSupportTextarea" placeholder="Message" rows="5" name="reason"></textarea>
+                            <textarea class="form-control border border-muted mt-3 textarea-class" id="reasonDTY" placeholder="Message" rows="5" name="reason" asp-for="requestDTY"></textarea>
+                            <span class="tex-danger" id="dtyError" style="display: none;"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -554,7 +567,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <form method="post" asp-action="AcceptCase" asp-controller="Admin">
-                    <input type="hidden" id="r-id-six" asp-for="RequestId"/>
+                    <input type="hidden" id="r-id-six" asp-for="RequestId" />
                     <div class="modal-body">
                         Are you sure you want to accept this case?
                     </div>
@@ -575,10 +588,11 @@
                     <h1 class="modal-title fs-5" id="providerTransferModal">Transfer Request</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form method="post" asp-action="ProviderTransferRequest" asp-controller="Admin">
+                <form method="post" asp-action="ProviderTransferRequest" asp-controller="Admin" onsubmit="transferValidation()">
                     <input type="hidden" id="r-id-seven" asp-for="RequestId" />
                     <div class="modal-body">
-                        <textarea class="form-control border border-info" id="exampleFormControlTextarea2" placeholder="Description" rows="5" name="additionalNotes" asp-for="providerTransferDescription"></textarea>
+                        <textarea class="form-control border border-info" id="transferDesc" placeholder="Description" rows="5" name="additionalNotes" asp-for="providerTransferDescription" required onkeyup="transferValidation()"></textarea>
+                        <span id="descError" class="text-danger" style="display: none;">Enter the reason</span>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-info">Submit</button>
@@ -601,7 +615,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post" asp-action="SaveCallType" asp-route-id="@Model.RequestId" asp-controller="Admin">
+                    <form method="post" asp-action="SaveCallType" asp-route-id="@Model.RequestId" asp-controller="Admin" onsubmit="validateAndSubmit()">
                         <input type="hidden" id="r-id-eight" name="requestid" value="" asp-for="RequestId" />
                         <div class="d-flex justify-content-center gap-3">
                             <div>
@@ -611,9 +625,9 @@
                                 <input type="radio" class="btn-check" name="Calltype" id="info-outlined" value="2" autocomplete="off">
                                 <label class="btn btn-outline-info" for="info-outlined">Consult</label>
                             </div>
-
-
                         </div>
+
+                        <div id="typeOfCareError" class="text-danger" style="display: none;">Please select a type of care.</div>
 
                         <div class="text-end mb-3 me-3 mt-3">
                             <button type="submit" class="btn btn-info text-white" id="continueBtn" data-bs-dismiss="modal">Save</button>
@@ -639,11 +653,11 @@
                 </div>
                 <div class="modal-body">
                     @*<form id="requestForm" method="post" asp-action="DownloadEncounterForm" asp-controller="Admin">*@
-                        <input type="hidden" id="r-id-nine" name="requestid" value="" />
-                        <p class="mb-3 text-muted">Encounter Form Finalized Successfully</p>
-                        <div class="d-flex justify-content-center">
+                    <input type="hidden" id="r-id-nine" name="requestid" value="" />
+                    <p class="mb-3 text-muted">Encounter Form Finalized Successfully</p>
+                    <div class="d-flex justify-content-center">
                         <a type="button" class="btn btn-info" id="pdf" href="" download>Download</a>
-                        </div>
+                    </div>
                     @*</form>*@
                 </div>
             </div>
@@ -810,12 +824,11 @@
         window.onload = () => {
             var role = `@Model.an.roleName`;
             console.log(role);
-            if(role == "Provider")
-            {
+            if (role == "Provider") {
                 var lat = '';
                 var long = '';
-                if(navigator.geolocation){
-                    navigator.geolocation.getCurrentPosition(function(position){
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function (position) {
                         lat = position.coords.latitude;
                         long = position.coords.longitude;
                         console.log("Lat: " + lat);
@@ -834,9 +847,9 @@
                         });
                     });
 
-                    
+
                 }
-                else{
+                else {
                     alert("Location not supported");
                 }
             }
@@ -1067,7 +1080,97 @@
             document.getElementById("submit-button-for-excel").click();
         }
 
+        function validateForm() {
+            var regionId = document.getElementById("select-region-for-transfer").value;
+            var physicianId = document.getElementById("select-physician2").value;
+            var description = document.getElementById("exampleFormControlTextarea1").value;
 
+            if (regionId == "-1") {
+                document.getElementById("regionError").style.display = "block";
+                return false;
+            } else {
+                document.getElementById("regionError").style.display = "none";
+            }
 
+            if (physicianId == "") {
+                document.getElementById("physicianError").style.display = "block";
+                return false;
+            } else {
+                document.getElementById("physicianError").style.display = "none";
+            }
+            return true;
+        }
+
+        function transferValidation() {
+            console.log("dsdsd");
+            var desc = document.getElementById("transferDesc").value;
+            if (desc == "") {
+                document.getElementById("descError").style.display = "block";
+                return false;
+            }
+            else {
+                document.getElementById("descError").style.display = "none";
+            }
+            return true;
+        }
+
+        function validateAndSubmit() {
+            console.log("hohoh");
+            var houseCallChecked = document.getElementById("Housecall-outlined").checked;
+            var consultChecked = document.getElementById("info-outlined").checked;
+
+            console.log(houseCallChecked);
+            console.log(consultChecked);
+            if (!houseCallChecked && !consultChecked) {
+                document.getElementById("typeOfCareError").style.display = "block";
+                return false;
+            } else {
+                document.getElementById("typeOfCareError").style.display = "none";
+            }
+            return true;
+        }
+
+        function checkCancelCase()
+        {
+            var reason = document.getElementById("reason").value;
+            if(reason!=null && reason!="")
+            {
+                document.getElementById("caseTagError").style.display = "none";
+            }
+            else{
+                document.getElementById("caseTagError").style.display = "block";
+                return false;
+            }
+            return true;
+        }
+
+        function checkBlockCase()
+        {
+            var reason = document.getElementById("blockReason").value;
+
+            if(reason == null || reason == "")
+            {
+                document.getElementById("blockError").style.display = "block";
+                return false;
+            }
+            else{
+                document.getElementById("blockError").style.display = "none";
+            }
+            return true;
+        }
+
+        function checkDTY() {
+            var x = document.getElementById("reasonDTY").value;
+
+            if(x == null || x == "")
+            {
+                document.getElementById("dtyError").style.display = "block";
+                return false;
+            }
+            else{
+                document.getElementById("dtyError").style.display = "none";
+            }
+            return true;
+        }
     </script>
 </div>

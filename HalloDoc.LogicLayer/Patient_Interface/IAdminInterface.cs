@@ -27,7 +27,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public RequestNote FetchRequestNote(int requestId);
         public RequestStatusLog FetchRequestStatusLogs(int requestId);
         public Physician FetchPhysician(int id);
-        public void EditViewNotesAction(ViewNotes model);
+        public void EditViewNotesAction(ViewNotes model, int id);
         public CaseTag FetchCaseTag(int caseTagId);
         public void AddRequestStatusLogFromCancelCase(RequestStatusLog rs);
         public List<Physician> FetchPhysicianByRegion(int RegionId);
@@ -36,7 +36,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public DataLayer.Models.Region ValidateRegion(AdminCreateRequestModel model);
         public BlockRequest ValidateBlockRequest(AdminCreateRequestModel model);
         public AspNetUser ValidateAspNetUser(AdminCreateRequestModel model);
-        public void InsertDataOfRequest(AdminCreateRequestModel model);
+        public void InsertDataOfRequest(AdminCreateRequestModel model, int x);
         public bool VerifyLocation(string state);
         public AspNetUser ValidateAspNetUser(LoginViewModel model);
         public Admin ValidateUser(string email);
@@ -125,7 +125,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void UnblockRequest(int id);
         public List<ShiftDetail> GetScheduleData(int RegionId);
         public List<SchedulingViewModel> GetProviderInformation(int Region);
-        public bool CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
+        public int CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int id);
         public EditViewShiftModel GetViewShift(int ShiftDetailId, AdminNavbarModel model);
         public bool ReturnViewShift(int ShiftDetailId);
         public int EditViewShift(EditViewShiftModel Shift);

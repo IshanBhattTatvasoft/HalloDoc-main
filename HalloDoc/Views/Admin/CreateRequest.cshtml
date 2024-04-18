@@ -82,6 +82,9 @@
         height: 58px;
     }
 
+    textarea{
+        resize: none;
+    }
 
     .iti {
         display: block !important;
@@ -144,6 +147,22 @@
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
                 </div>
+
+                <div class="row hidden-pass" style="display:none;">
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="password" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Password">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Create Password</label>
+                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                    </div>
+                    <div class="form-floating col-sm-6 mt-3">
+                        <input type="password" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="ConfirmPassword">
+                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Confirm Password</label>
+                        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-sm-6 form-floating mt-3">
                         <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
@@ -197,7 +216,7 @@
                         <a onclick="verifyLocation()" class="btn btn-outline-info">Verify</a>
                     </div>
                     <div class="form-floating col-sm-1 mt-3" id="openBtn">
-                        <button type="button" class="btn btn-outline-info"><i class="bi bi-geo-alt"></i>Map</button>
+                        <button type="button" class="btn btn-outline-info"><i class="bi bi-geo-alt"></i><span class="d-none d-md-inline-block">Map</span></button>
                     </div>
                 </div>
 
@@ -229,21 +248,21 @@
 </div>
 
 <script>
-    $(document).ready(function () {
-        $('#emailInput').on('blur', function () {
+    
+        $('#emailInput').on('focusout', function () {
             var inputValue = $('#emailInput').val();
 
             $.get('/PatientRequest/PatientCheck', { email: inputValue }, function (response) {
                 console.log(response);
-                if (!response.isValid) {
-                    document.getElementsByClassName("hidden-pass")[0].style.display = "block";
+                if (response != true) {
+                    document.getElementsByClassName("hidden-pass")[0].style.display = "flex";
                 }
                 else {
                     document.getElementsByClassName("hidden-pass")[0].style.display = "none";
                 }
             });
         });
-    });
+
 
     window.onload = function checkingTheme() {
         let themeCheck = localStorage.getItem('theme');
@@ -339,6 +358,9 @@
                 else {
                     toastr.error("Enter a valid region value");
                 }
+            },
+            error: function(error){
+                alert("An error occurred");
             }
         })
     }

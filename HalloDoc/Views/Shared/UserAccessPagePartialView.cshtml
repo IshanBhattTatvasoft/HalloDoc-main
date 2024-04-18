@@ -1,133 +1,348 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.UserAccessViewModel
 
-<table class="table mt-0">
-    <thead class="table-secondary">
-        <tr>
-            <th class="text-muted" style="width: 250px !important">Account Type</th>
-            <th class="text-muted" style="width: 250px !important">Account POC</th>
-            <th class="text-muted" style="width: 300px !important">Phone</th>
-            <th class="text-muted" style="width: 250px !important">Status</th>
-            <th class="text-muted">Open Requests</th>
-            <th class="text-muted text-end">Actions</th>
-        </tr>
-    </thead>
 
-    @if(Model.accountType == -1)
-    {
-        @foreach (var item in Model.admins)
-        {
+<div class="table-responsive d-none d-md-block">
+
+    <table class="table mt-0">
+        <thead class="table-secondary">
             <tr>
-                <td>Admin</td>
-                <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
-                <td>@item.Mobile</td>
-                <td>
-                    @if (item.Status == 1)
-                    {
-                        <span>Pending</span>
-                    }
-                    else if (item.Status == 2)
-                    {
-                        <span>Active</span>
-                    }
-                    else
-                    {
-                        <span>Not Active</span>
-                    }
-                </td>
-                <td>123</td>
-                <td>
-                    <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="AdminProfileFromUserAccess" asp-controller="Admin" asp-route-id="@item.AdminId">Edit</a>
-                </td>
+                <th class="text-muted" style="width: 250px !important">Account Type</th>
+                <th class="text-muted" style="width: 250px !important">Account POC</th>
+                <th class="text-muted" style="width: 300px !important">Phone</th>
+                <th class="text-muted" style="width: 250px !important">Status</th>
+                <th class="text-muted">Open Requests</th>
+                <th class="text-muted text-end">Actions</th>
             </tr>
+        </thead>
+
+        @if (Model.accountType == -1)
+        {
+            @foreach (var item in Model.admins)
+            {
+                <tr>
+                    <td>Admin</td>
+                    <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
+                    <td>@item.Mobile</td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span>Pending</span>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Not Active</span>
+                        }
+                    </td>
+                    <td>123</td>
+                    <td>
+                        <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="AdminProfileFromUserAccess" asp-controller="Admin" asp-route-id="@item.AdminId">Edit</a>
+                    </td>
+                </tr>
+            }
+
+            @foreach (var item in Model.physicians)
+            {
+                <tr>
+                    <td>Physician</td>
+                    <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
+                    <td>@item.Mobile</td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span>Pending</span>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Not Active</span>
+                        }
+                    </td>
+                    <td>123</td>
+                    <td>
+                        <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="EditProviderAccountFromUserAccess" asp-route-id="@item.PhysicianId" asp-controller="Admin">Edit</a>
+                    </td>
+                </tr>
+            }
         }
 
-        @foreach (var item in Model.physicians)
+        else if (Model.accountType == 1)
         {
-            <tr>
-                <td>Physician</td>
-                <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
-                <td>@item.Mobile</td>
-                <td>
-                    @if (item.Status == 1)
-                    {
-                        <span>Pending</span>
-                    }
-                    else if (item.Status == 2)
-                    {
-                        <span>Active</span>
-                    }
-                    else
-                    {
-                        <span>Not Active</span>
-                    }
-                </td>
-                <td>123</td>
-                <td>
-                    <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="EditProviderAccountFromUserAccess" asp-route-id="@item.PhysicianId" asp-controller="Admin">Edit</a>
-                </td>
-            </tr>
+            @foreach (var item in Model.admins)
+            {
+                <tr>
+                    <td>Admin</td>
+                    <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
+                    <td>@item.Mobile</td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span>Pending</span>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Not Active</span>
+                        }
+                    </td>
+                    <td>123</td>
+                    <td>
+                        <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="AdminProfileFromUserAccess" asp-controller="Admin">Edit</a>
+                    </td>
+                </tr>
+            }
         }
-    }
 
-    else if(Model.accountType == 1)
-    {
-        @foreach (var item in Model.admins)
+        else
         {
-            <tr>
-                <td>Admin</td>
-                <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
-                <td>@item.Mobile</td>
-                <td>
-                    @if (item.Status == 1)
-                    {
-                        <span>Pending</span>
-                    }
-                    else if (item.Status == 2)
-                    {
-                        <span>Active</span>
-                    }
-                    else
-                    {
-                        <span>Not Active</span>
-                    }
-                </td>
-                <td>123</td>
-                <td>
-                    <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="AdminProfileFromUserAccess" asp-controller="Admin">Edit</a>
-                </td>
-            </tr>
+            @foreach (var item in Model.physicians)
+            {
+                <tr>
+                    <td>Physician</td>
+                    <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
+                    <td>@item.Mobile</td>
+                    <td>
+                        @if (item.Status == 1)
+                        {
+                            <span>Pending</span>
+                        }
+                        else if (item.Status == 2)
+                        {
+                            <span>Active</span>
+                        }
+                        else
+                        {
+                            <span>Not Active</span>
+                        }
+                    </td>
+                    <td>123</td>
+                    <td>
+                        <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="EditProviderAccount" asp-route-id="@item.PhysicianId" asp-controller="Admin">Edit</a>
+                    </td>
+                </tr>
+            }
         }
-    }
+    </table>
+</div>
 
-    else
-    {
-        
-
-        @foreach (var item in Model.physicians)
+<div class="d-md-none">
+    <div class="accordion accordion-flush" id="accordionExample">
+        @if(Model.accountType == -1)
         {
-            <tr>
-                <td>Physician</td>
-                <td>@(string.Concat(item.FirstName, ',', item.LastName))</td>
-                <td>@item.Mobile</td>
-                <td>
-                    @if (item.Status == 1)
-                    {
-                        <span>Pending</span>
-                    }
-                    else if (item.Status == 2)
-                    {
-                        <span>Active</span>
-                    }
-                    else
-                    {
-                        <span>Not Active</span>
-                    }
-                </td>
-                <td>123</td>
-                <td>
-                    <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="EditProviderAccount" asp-route-id="@item.PhysicianId" asp-controller="Admin">Edit</a>
-                </td>
-            </tr>
+            @foreach(var item in Model.admins)
+            {
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-heading@(item.AdminId)">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(@item.AdminId)" aria-expanded="false" aria-controls="collapseThree(@item.AdminId)" style="background-color: #E5EEF5;">
+                            <div class="d-flex flex-column w-100 mb-3">
+                                <div>
+                                    <span>@(string.Concat(item.FirstName, ',', item.LastName))</span>
+                                </div>
+                                <div class="mt-3">
+                                    <span>Admin</span>
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+
+                    <div id="collapseThree(@item.AdminId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.AdminId) data-bs-parent="#accordionExample">
+                        <div class="accordion-body" style="background-color: #E5EEF5;">
+                            <div style="position: relative;">
+                                <div>
+                                    <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone: @item.Mobile</span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span>
+                                        <i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Status:
+                                        @if (item.Status == 1)
+                                        {
+                                            <span>Pending</span>
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Not Active</span>
+                                        }
+                                    </span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span><i class="fa-regular fa-file-lines me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Open Requests: 123</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @foreach (var item in Model.physicians)
+            {
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-heading@(item.PhysicianId)">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(@item.PhysicianId)" aria-expanded="false" aria-controls="collapseThree(@item.PhysicianId)" style="background-color: #E5EEF5;">
+                            <div class="d-flex flex-column w-100 mb-3">
+                                <div>
+                                    <span>@(string.Concat(item.FirstName, ',', item.LastName))</span>
+                                </div>
+                                <div class="mt-3">
+                                    <span>Physician</span>
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+
+                    <div id="collapseThree(@item.PhysicianId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.PhysicianId) data-bs-parent="#accordionExample">
+                        <div class="accordion-body" style="background-color: #E5EEF5;">
+                            <div style="position: relative;">
+                                <div>
+                                    <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone: @item.Mobile</span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span>
+                                        <i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Status:
+                                        @if (item.Status == 1)
+                                        {
+                                            <span>Pending</span>
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Not Active</span>
+                                        }
+                                    </span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span><i class="fa-regular fa-file-lines me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Open Requests: 123</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
         }
-    }
-</table>
+
+        else if(Model.accountType == 1)
+        {
+            @foreach (var item in Model.admins)
+            {
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-heading@(item.AdminId)">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(@item.AdminId)" aria-expanded="false" aria-controls="collapseThree(@item.AdminId)" style="background-color: #E5EEF5;">
+                            <div class="d-flex flex-column w-100 mb-3">
+                                <div>
+                                    <span>@(string.Concat(item.FirstName, ',', item.LastName))</span>
+                                </div>
+                                <div class="mt-3">
+                                    <span>Admin</span>
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+
+                    <div id="collapseThree(@item.AdminId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.AdminId) data-bs-parent="#accordionExample">
+                        <div class="accordion-body" style="background-color: #E5EEF5;">
+                            <div style="position: relative;">
+                                <div>
+                                    <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone: @item.Mobile</span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span>
+                                        <i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Status:
+                                        @if (item.Status == 1)
+                                        {
+                                            <span>Pending</span>
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Not Active</span>
+                                        }
+                                    </span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span><i class="fa-regular fa-file-lines me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Open Requests: 123</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+        else
+        {
+            @foreach (var item in Model.physicians)
+            {
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="flush-heading@(item.PhysicianId)">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree(@item.PhysicianId)" aria-expanded="false" aria-controls="collapseThree(@item.PhysicianId)" style="background-color: #E5EEF5;">
+                            <div class="d-flex flex-column w-100 mb-3">
+                                <div>
+                                    <span>@(string.Concat(item.FirstName, ',', item.LastName))</span>
+                                </div>
+                                <div class="mt-3">
+                                    <span>Physician</span>
+                                </div>
+                            </div>
+                        </button>
+                    </h2>
+
+                    <div id="collapseThree(@item.PhysicianId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.PhysicianId) data-bs-parent="#accordionExample">
+                        <div class="accordion-body" style="background-color: #E5EEF5;">
+                            <div style="position: relative;">
+                                <div>
+                                    <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone: @item.Mobile</span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span>
+                                        <i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Status:
+                                        @if (item.Status == 1)
+                                        {
+                                            <span>Pending</span>
+                                        }
+                                        else if (item.Status == 2)
+                                        {
+                                            <span>Active</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Not Active</span>
+                                        }
+                                    </span>
+                                </div>
+
+                                <div class="mt-3">
+                                    <span><i class="fa-regular fa-file-lines me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Open Requests: 123</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

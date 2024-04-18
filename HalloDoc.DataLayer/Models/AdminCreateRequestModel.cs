@@ -26,8 +26,12 @@ public class AdminCreateRequestModel
     public string? Zipcode { get; set; }
     public string? AdminRequestZipCode { get; set; }
     public string? Room { get; set; }
-
+    [Required(ErrorMessage = "Enter Password")]
+    [Compare("Password", ErrorMessage = "Password is Mismatch")]
     public string? Password { get; set; }
+    [Required(ErrorMessage = "Enter Password")]
+    [Compare("Password", ErrorMessage = "Password is Mismatch")]
+    public string? ConfirmPassword { get; set; }
     public string? File { get; set; }
     public bool isPassword { get; set; } = false;
 

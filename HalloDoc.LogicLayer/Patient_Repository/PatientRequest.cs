@@ -147,7 +147,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public AspNetUser GetEmailFromAspNet(string email)
         {
-            return _context.AspNetUsers.SingleOrDefault(u => u.UserName == email);
+            return _context.AspNetUsers.SingleOrDefault(u => u.Email == email);
         }
 
         public void InsertIntoAspNetUser(CreatePatientAccountViewModel model)

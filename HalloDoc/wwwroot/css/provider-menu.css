@@ -77,3 +77,12 @@ textarea:focus {
 .form-floating:focus-within label {
     color: #3DB6FF !important;
 }
+
+.accordion-button:not(.collapsed)::after,
+.accordion-button::after {
+    background-image: unset !important;
+}
+
+.accordion-button::after {
+    background-image: initial;
+}

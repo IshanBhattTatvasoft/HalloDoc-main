@@ -6,6 +6,17 @@
     <link href="~/css/create-role.css" />
 }
 
+<style>
+    .accordion-button:not(.collapsed)::after,
+    .accordion-button::after {
+        background-image: unset !important;
+    }
+
+    .accordion-button::after {
+        background-image: initial;
+    }
+</style>
+
 <body class="bg-light">
     <div class="bg-light" style="overflow: hidden;">
         <partial name="Toast" />
@@ -49,7 +60,7 @@
                 </div>
 
                 <div>
-                    <div class="table-responsive mt-4 ms-3 me-3 myTable" id="UserAccessPartialView"></div>
+                    <div class="mt-4 ms-3 me-3 myTable" id="UserAccessPartialView"></div>
                 </div>
 
             </div>

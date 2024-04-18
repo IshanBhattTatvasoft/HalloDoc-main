@@ -48,3 +48,7 @@ textarea:focus::placeholder {
 .accordion-button::after {
     background-image: unset !important;
 }
+
+.accordion-button::after {
+    background-image: initial;
+}

@@ -6,105 +6,108 @@
     <link href="~/css/create-role.css" />
 }
 
-<div class="bg-light h-100" style="overflow: hidden;">
-    <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
-    <partial name="Toast" />
-    <div class="container">
-        <div class="row">
-            <div style="top: 42px; position: relative;" class="col">
-                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AccountAccess" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                         class="bi bi-chevron-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd"
-                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-                    </svg>
-                    Back
-                </a>
-            </div>
+<body class="bg-light">
 
+    <div class="bg-light" style="overflow: hidden;">
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+        <partial name="Toast" />
+        <div class="container">
             <div class="row">
-                <div class="col mt-2">
-                    <p class="h5 text-muted fw-bold" id="heading-one">
-                        Edit Role
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-white mt-3">
-            <div class="row">
-                <p class="h5 ms-5 mt-3">Edit the role for: @Model.NameOfRole</p>
-            </div>
-
-            <form method="post">
-                <div class="row mt-3">
-                    <div class="col-sm-5 form-floating ms-5">
-                        <input id="role-name" class="ai form-control" type="text" placeholder="Date Of Birth" asp-for="NameOfRole" readonly>
-                        <label for="floatingInput" class="ms-2 text-muted">Role Name</label>
-                        <span asp-validation-for="roleName"></span>
-                    </div>
-                    <div class="col-sm-5 form-floating">
-                        <select class="btn btn-outline-light dropdown-toggle text-secondary bg-white w-100 h-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-roles" disabled asp-for="accountType">
-                            <label for="floatingInput" class="ms-2">Account Type</label>
-                            @if (Model.accountType == 1)
-                            {
-                                <option value="Admin" selected>Admin</option>
-                            }
-                            else if (Model.accountType == 2)
-                            {
-                                <option value="Physician" selected>Physician</option>    
-                            }
-                        </select>
-                    </div>
-                    <div class="col-sm-1"></div>
-                </div>
-
-                <div class="row mt-5">
-                    <div class="col-10 mx-5" id="admin-roles">
-                        @if (Model.accountType == 1)
-                        {
-                            @foreach (var item in Model.allRoles)
-                            {
-                                if (item.AccountType == 1)
-                                {
-                                    <div class="d-inline-block mb-1">
-                                        <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
-                                        <input class="checkboxes" type="checkbox" @(Model.roleMenus.Any(r => r.MenuId == item.MenuId) ? "checked" : "") style="height: 15px;width: 15px;" />
-                                        <span class="me-2">@item.Name</span>
-                                    </div>
-                                }
-                            }
-                        }
-                    </div>
-
-                    <div class="col-10 mx-5" id="physician-roles">
-                        @if (Model.accountType == 2)
-                        {
-                            @foreach (var item in Model.allRoles)
-                            {
-                                if (item.AccountType == 2)
-                                {
-                                    <div class="d-inline-block mb-1">
-                                        <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
-                                        <input class="checkboxes" type="checkbox" @(Model.roleMenus.Any(r => r.MenuId == item.MenuId) ? "checked" : "") style="height: 15px;width: 15px;" />
-                                        <span class="me-2">@item.Name</span>
-                                    </div>
-                                }
-                            }
-                        }
-                    </div>
+                <div style="top: 42px; position: relative;" class="col">
+                    <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AccountAccess" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        Back
+                    </a>
                 </div>
 
                 <div class="row">
-                    <div class="form-floating col mt-4 mb-4 lastbutton float-end" id="submitDivv">
-                        <button type="reset" class="btn btn-outline-info me-3 float-end" >Cancel</button>
-                        <button type="button" class="btn btn-info text-white float-end me-3" onclick="saveRoles(@Model.roleId)">Save</button>
+                    <div class="col mt-2">
+                        <p class="h5 text-muted fw-bold" id="heading-one">
+                            Edit Role
+                        </p>
                     </div>
                 </div>
-            </form>
+            </div>
+
+            <div class="bg-white mt-3">
+                <div class="row">
+                    <p class="h5 ms-5 mt-3">Edit the role for: @Model.NameOfRole</p>
+                </div>
+
+                <form method="post">
+                    <div class="row mt-3">
+                        <div class="col-sm-5 form-floating ms-5">
+                            <input id="role-name" class="ai form-control" type="text" placeholder="Date Of Birth" asp-for="NameOfRole" readonly>
+                            <label for="floatingInput" class="ms-2 text-muted">Role Name</label>
+                            <span asp-validation-for="roleName"></span>
+                        </div>
+                        <div class="col-sm-5 form-floating">
+                            <select class="btn btn-outline-light dropdown-toggle text-secondary bg-white w-100 h-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="RegionId" id="select-roles" disabled asp-for="accountType">
+                                <label for="floatingInput" class="ms-2">Account Type</label>
+                                @if (Model.accountType == 1)
+                                {
+                                    <option value="Admin" selected>Admin</option>
+                                }
+                                else if (Model.accountType == 2)
+                                {
+                                    <option value="Physician" selected>Physician</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-sm-1"></div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-10 mx-5" id="admin-roles">
+                            @if (Model.accountType == 1)
+                            {
+                                @foreach (var item in Model.allRoles)
+                                {
+                                    if (item.AccountType == 1)
+                                    {
+                                        <div class="d-inline-block mb-1">
+                                            <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
+                                            <input class="checkboxes" type="checkbox" @(Model.roleMenus.Any(r => r.MenuId == item.MenuId) ? "checked" : "") style="height: 15px;width: 15px;" />
+                                            <span class="me-2">@item.Name</span>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+
+                        <div class="col-10 mx-5" id="physician-roles">
+                            @if (Model.accountType == 2)
+                            {
+                                @foreach (var item in Model.allRoles)
+                                {
+                                    if (item.AccountType == 2)
+                                    {
+                                        <div class="d-inline-block mb-1">
+                                            <input type="text" asp-for="@item.MenuId" class="menu-id-input" hidden>
+                                            <input class="checkboxes" type="checkbox" @(Model.roleMenus.Any(r => r.MenuId == item.MenuId) ? "checked" : "") style="height: 15px;width: 15px;" />
+                                            <span class="me-2">@item.Name</span>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-floating col mt-4 mb-4 lastbutton float-end" id="submitDivv">
+                            <button type="reset" class="btn btn-outline-info me-3 float-end">Cancel</button>
+                            <button type="button" class="btn btn-info text-white float-end me-3" onclick="saveRoles(@Model.roleId)">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+</body>
 
 <script>
     //function cancelRoles() {

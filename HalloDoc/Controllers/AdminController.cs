@@ -39,6 +39,7 @@ using Twilio.Http;
 using Request = HalloDoc.DataLayer.Models.Request;
 using Org.BouncyCastle.Asn1.Ocsp;
 using iText.Kernel.Geom;
+using Microsoft.IdentityModel.Tokens;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -740,7 +741,7 @@ namespace HalloDoc.Controllers
                 {
                     emailSentCount = 1;
                     isEmailSent = false;
-                    while(emailSentCount <= 3 && !isEmailSent)
+                    while (emailSentCount <= 3 && !isEmailSent)
                     {
                         string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
                         string senderPassword = "Ishan@1503";
@@ -774,9 +775,9 @@ namespace HalloDoc.Controllers
                             _adminInterface.AddEmailLog(body, subject, item.Value, 1, null, null, null, null, item.Key, temp, isEmailSent, emailSentCount);
                         }
 
-                        catch(Exception ex)
+                        catch (Exception ex)
                         {
-                            if(emailSentCount>=3)
+                            if (emailSentCount >= 3)
                             {
                                 DateTime temp = DateTime.Now;
                                 _adminInterface.AddEmailLog(body, subject, item.Value, 1, null, null, null, null, item.Key, temp, false, emailSentCount);
@@ -791,7 +792,7 @@ namespace HalloDoc.Controllers
 
             catch (Exception ex)
             {
-                
+
                 TempData["error"] = "Unable to edit the case information";
                 return RedirectToAction("AdminDashboard");
             }
@@ -1078,7 +1079,7 @@ namespace HalloDoc.Controllers
 
                 RequestNote rn = _adminInterface.FetchRequestNote(model.RequestId);
 
-                _adminInterface.EditViewNotesAction(model);
+                _adminInterface.EditViewNotesAction(model, (int)userId);
                 TempData["success"] = "Notes edited successfully";
                 return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
             }
@@ -1561,16 +1562,19 @@ namespace HalloDoc.Controllers
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                int x = 0;
                 AdminNavbarModel an = new AdminNavbarModel();
                 if (ad != null)
                 {
                     an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                     an.roleName = "Admin";
+                    x = ad.AspNetUserId;
                 }
                 else
                 {
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
+                    x = (int)p.AspNetUserId;
                 }
                 an.Tab = 1;
                 model.adminNavbarModel = an;
@@ -1621,14 +1625,28 @@ namespace HalloDoc.Controllers
 
                                 isEmailSent = true;
                                 DateTime temp = DateTime.Now;
-                                _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, isEmailSent, emailSentCount);
+                                if (ad != null)
+                                {
+                                    _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, x, null, temp, isEmailSent, emailSentCount);
+                                }
+                                else
+                                {
+                                    _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, x, temp, isEmailSent, emailSentCount);
+                                }
                             }
                             catch (Exception ex)
                             {
                                 if (emailSentCount >= 3)
                                 {
                                     DateTime temp = DateTime.Now;
-                                    _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, null, temp, false, emailSentCount);
+                                    if (ad != null)
+                                    {
+                                        _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, x, null, temp, false, emailSentCount);
+                                    }
+                                    else
+                                    {
+                                        _adminInterface.AddEmailLog(body, subject, model.Email, 3, null, null, null, null, x, temp, false, emailSentCount);
+                                    }
                                 }
                                 emailSentCount++;
                                 ModelState.AddModelError("Email", "Invalid Email");
@@ -1651,7 +1669,7 @@ namespace HalloDoc.Controllers
                     }
 
                     var existingUser = _adminInterface.ValidateAspNetUser(model);
-                    _adminInterface.InsertDataOfRequest(model);
+                    _adminInterface.InsertDataOfRequest(model, x);
                 }
                 TempData["success"] = "Request created successfully";
                 return View("CreateRequest");
@@ -1971,15 +1989,18 @@ namespace HalloDoc.Controllers
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
             Physician p = _adminInterface.GetPhysicianFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
+            int x = 0;
             if (ad != null)
             {
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.roleName = "Admin";
+                x = ad.AspNetUserId;
             }
             else
             {
                 an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                 an.roleName = "Provider";
+                x = (int)p.AspNetUserId;
             }
             an.Tab = 1;
             string token = Request.Cookies["token"];
@@ -2038,7 +2059,14 @@ namespace HalloDoc.Controllers
                             client.SendMailAsync(mailMessage);
                             isEmailSent = true;
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, null, null, temp, isEmailSent, emailSentCount);
+                            if (ad != null)
+                            {
+                                _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, x, null, temp, isEmailSent, emailSentCount);
+                            }
+                            else
+                            {
+                                _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, null, x, temp, isEmailSent, emailSentCount);
+                            }
                             TempData["success"] = "Mail sent successfully";
                             return RedirectToAction("ViewUploads", new { requestID = requestid });
                         }
@@ -2055,7 +2083,14 @@ namespace HalloDoc.Controllers
                         if (emailSentCount >= 3)
                         {
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, null, null, temp, false, emailSentCount);
+                            if (ad != null)
+                            {
+                                _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, x, null, temp, false, emailSentCount);
+                            }
+                            else
+                            {
+                                _adminInterface.AddEmailLog(body, subject, rc.Email, 3, fileName, req.ConfirmationNumber, requestid, null, x, temp, false, emailSentCount);
+                            }
                         }
                         emailSentCount++;
                         return RedirectToAction("ForgotPassword");
@@ -2076,13 +2111,27 @@ namespace HalloDoc.Controllers
         {
             var userId = HttpContext.Session.GetInt32("id");
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            Physician p = _adminInterface.GetPhysicianFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            int x = 0;
+            if (ad != null)
+            {
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.roleName = "Admin";
+                x = ad.AspNetUserId;
+            }
+            else
+            {
+                an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                an.roleName = "Provider";
+                x = (int)p.AspNetUserId;
+            }
             an.Tab = 1;
             string token = Request.Cookies["token"];
             string roleIdVal = _jwtToken.GetRoleId(token);
             List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
             ViewBag.Menu = menus;
+
             int emailCount = 1;
             int smsCount = 1;
             bool isEmailSent = false;
@@ -2160,7 +2209,14 @@ namespace HalloDoc.Controllers
                             await client.SendMailAsync(mailMessage);
                             isEmailSent = true;
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddEmailLog(body, subject, model.email, 3, null, null, null, null, null, temp, isEmailSent, emailCount);
+                            if (ad != null)
+                            {
+                                _adminInterface.AddEmailLog(body, subject, model.email, 3, null, null, null, x, null, temp, isEmailSent, emailCount);
+                            }
+                            else
+                            {
+                                _adminInterface.AddEmailLog(body, subject, model.email, 3, null, null, null, null, x, temp, isEmailSent, emailCount);
+                            }
                             TempData["success"] = "Message Sent Successfully";
                             return RedirectToAction("AdminDashboard");
                         }
@@ -2176,7 +2232,14 @@ namespace HalloDoc.Controllers
                         if (emailCount >= 3)
                         {
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddEmailLog(body, subject, model.email, 3, null, null, null, null, null, temp, false, emailCount);
+                            if (ad != null)
+                            {
+                                _adminInterface.AddEmailLog(body, subject, model.email, 3, null, null, null, x, null, temp, false, emailCount);
+                            }
+                            else
+                            {
+                                _adminInterface.AddEmailLog(body, subject, model.email, 3, null, null, null, null, x, temp, false, emailCount);
+                            }
                         }
                         emailCount++;
                         TempData["error"] = "Unable to send the email";
@@ -2348,15 +2411,18 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
+                int x = 0;
                 if (ad != null)
                 {
                     an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                     an.roleName = "Admin";
+                    x = ad.AspNetUserId;
                 }
                 else
                 {
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
+                    x = (int)p.AspNetUserId;
                 }
                 an.Tab = 1;
                 string token = Request.Cookies["token"];
@@ -2397,7 +2463,14 @@ namespace HalloDoc.Controllers
 
                         isSent = true;
                         DateTime temp = DateTime.Now;
-                        _adminInterface.AddEmailLog(body, subject, model.email, null, null, null, null, null, null, temp, isSent, retryCount);
+                        if (ad != null)
+                        {
+                            _adminInterface.AddEmailLog(body, subject, model.email, null, null, null, null, x, null, temp, isSent, retryCount);
+                        }
+                        else
+                        {
+                            _adminInterface.AddEmailLog(body, subject, model.email, null, null, null, null, null, x, temp, isSent, retryCount);
+                        }
                         break;
                     }
 
@@ -2406,7 +2479,14 @@ namespace HalloDoc.Controllers
                         if (retryCount >= 3)
                         {
                             DateTime temp = DateTime.Now;
-                            _adminInterface.AddEmailLog(body, subject, model.email, null, null, null, null, null, null, temp, false, retryCount);
+                            if (ad != null)
+                            {
+                                _adminInterface.AddEmailLog(body, subject, model.email, null, null, null, null, x, null, temp, false, retryCount);
+                            }
+                            else
+                            {
+                                _adminInterface.AddEmailLog(body, subject, model.email, null, null, null, null, null, x, temp, false, retryCount);
+                            }
                         }
                         retryCount++;
                     }
@@ -2541,8 +2621,21 @@ namespace HalloDoc.Controllers
         {
             var userId = HttpContext.Session.GetInt32("id");
             Admin ad = _adminInterface.GetAdminFromId((int)userId);
+            Physician p = _adminInterface.GetPhysicianFromId((int)userId);
             AdminNavbarModel an = new AdminNavbarModel();
-            an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+            int x = 0;
+            if (ad != null)
+            {
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.roleName = "Admin";
+                x = ad.AspNetUserId;
+            }
+            else
+            {
+                an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                an.roleName = "Provider";
+                x = (int)p.AspNetUserId;
+            }
             an.Tab = 1;
             string token = Request.Cookies["token"];
             string roleIdVal = _jwtToken.GetRoleId(token);
@@ -2590,7 +2683,14 @@ namespace HalloDoc.Controllers
                     await client.SendMailAsync(mailMessage);
                     isEmailSent = true;
                     DateTime temp = DateTime.Now;
-                    _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, ad.AdminId, null, temp, isEmailSent, emailSentCount);
+                    if (ad != null)
+                    {
+                        _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, x, null, temp, isEmailSent, emailSentCount);
+                    }
+                    else
+                    {
+                        _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, null, x, temp, isEmailSent, emailSentCount);
+                    }
                     TempData["success"] = "Mail sent successfully. Please check it";
 
 
@@ -2601,7 +2701,14 @@ namespace HalloDoc.Controllers
                     if (emailSentCount >= 3)
                     {
                         DateTime temp = DateTime.Now;
-                        _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, ad.AdminId, null, temp, false, emailSentCount);
+                        if (ad != null)
+                        {
+                            _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, x, null, temp, false, emailSentCount);
+                        }
+                        else
+                        {
+                            _adminInterface.AddEmailLog(body, subject, model.sendAgreeEmail, 3, null, r.ConfirmationNumber, model.RequestId, null, x, temp, false, emailSentCount);
+                        }
                     }
                     emailSentCount++;
                     TempData["error"] = "Failed to send the agreement to the provided mail";
@@ -3248,7 +3355,7 @@ namespace HalloDoc.Controllers
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
-                if(ad!=null)
+                if (ad != null)
                 {
                     an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                     an.Tab = 3;
@@ -3740,6 +3847,11 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+                if (regionNames.IsNullOrEmpty())
+                {
+                    TempData["error"] = "Select regions from checkbox!";
+                    return RedirectToAction("CreateAdminAccount");
+                }
                 _adminInterface.CreateNewProviderAccount(model, regionNames, ad.AdminId);
                 TempData["success"] = "Provider account created successfully";
                 return RedirectToAction("CreateProviderAccount");
@@ -4184,7 +4296,14 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                _adminInterface.CreateNewAdminAccount(model, regionNames, ad.AdminId);
+
+                if(regionNames.IsNullOrEmpty())
+                {
+                    TempData["error"] = "Select regions from checkbox!";
+                    return RedirectToAction("CreateAdminAccount");
+                }
+
+                _adminInterface.CreateNewAdminAccount(model, regionNames, (int)userId);
                 TempData["success"] = "Admin account created successfully";
                 return RedirectToAction("AdminDashboard");
             }
@@ -4570,22 +4689,22 @@ namespace HalloDoc.Controllers
                 if (x == 0)
                 {
                     TempData["success"] = "Shift edited successfully";
-                    return View("Scheduling");
+                    return RedirectToAction("Scheduling");
                 }
                 else if (x == 1)
                 {
                     TempData["error"] = "Shift already exists at that time";
-                    return View("Scheduling");
+                    return RedirectToAction("Scheduling");
                 }
                 else
                 {
                     TempData["error"] = "Unable to edit shift information";
-                    return View("Scheduling");
+                    return RedirectToAction("Scheduling");
                 }
             }
             catch
             {
-                return View("Scheduling");
+                return RedirectToAction("Scheduling");
             }
         }
 
@@ -4613,9 +4732,15 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                if (_adminInterface.CreateNewShift(model, RepeatedDays, ad.AdminId))
+                int x = _adminInterface.CreateNewShift(model, RepeatedDays, ad.AdminId);
+                if (x == 1)
                 {
                     TempData["success"] = "Shift created successfully";
+                    return RedirectToAction("Scheduling");
+                }
+                else if (x == 0)
+                {
+                    TempData["error"] = "Shift already exists in the given time";
                     return RedirectToAction("Scheduling");
                 }
                 else

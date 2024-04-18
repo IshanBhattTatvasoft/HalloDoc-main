@@ -66,6 +66,13 @@ namespace HalloDoc.Controllers
 
                 //var user = _loginPage.ValidateAspNetUser(model);
                 AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
+
+                if(user==null)
+                {
+                    TempData["error"] = "Invalid username or password";
+                    return View(model);
+                }
+
                 if (user != null)
                 {
                     var token = _jwtToken.GenerateJwtToken(user);
@@ -110,13 +117,14 @@ namespace HalloDoc.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("PasswordHash", "Incorrect Password");
+                        TempData["error"] = "Incorrect password";
+                        return View(model);
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("UserName", "Invalid credentials");
-                    ModelState.AddModelError("PasswordHash", "Invalid credentials");
+                    TempData["error"] = "Invalid credentials";
+                    return View(model);
                 }
             }
 

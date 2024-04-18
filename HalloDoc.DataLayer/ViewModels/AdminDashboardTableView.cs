@@ -28,6 +28,7 @@ public class AdminDashboardTableView
     public List<CaseTag> caseTags { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
+    [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter valid phone number")]
     public string PhoneNumber { get; set; }
     [Required(ErrorMessage = "Email is required")]
     public required string email { get; set; }
@@ -43,4 +44,8 @@ public class AdminDashboardTableView
     public DateOnly? waitTime { get; set; }
     public string? sendAgreementEmail { get; set; }
     public string? providerTransferDescription { get; set; }
+    public string cancelCaseNotes { get; set; }
+    public string reasonForBlockRequest { get; set; }
+    public string phoneNo { get; set; }
+    public string requestDTY { get; set; }
 }
