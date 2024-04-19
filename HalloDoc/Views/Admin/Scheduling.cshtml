@@ -523,9 +523,11 @@
         $('.check').click(function () {
             var isChecked = $(this).prop('checked');
             if (isChecked) {
+                console.log("checked");
                 $('#days').show();
                 $('#RepeatTime').show();
             } else {
+                console.log("not checked");
                 $('.ischeck').prop('checked', false);
                 $('#RepeatTime').val('0');
                 $('#days').hide();

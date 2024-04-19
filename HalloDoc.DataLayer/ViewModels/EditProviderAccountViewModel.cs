@@ -20,8 +20,10 @@ public class EditProviderAccountViewModel
     public int selectedRole { get; set; }
 
     [Required(ErrorMessage = "Please enter the First Name")]
+    [RegularExpression(@"[a-zA-Z]{1,}$", ErrorMessage = "First Name should must contain letters only")]
     public string FirstName { get; set; }
     [Required(ErrorMessage = "Please enter the Last Name")]
+    [RegularExpression(@"[a-zA-Z]{1,}$", ErrorMessage = "Last Name should must contain letters only")]
     public string LastName { get; set; }
 
     [Required(ErrorMessage = "Please enter the Email")]
@@ -45,6 +47,7 @@ public class EditProviderAccountViewModel
     [Required(ErrorMessage = "Second address is required")]
     public string? Address2 { get; set; }
     [Required(ErrorMessage = "Please enter the City ")]
+    [RegularExpression(@"[a-zA-Z]{1,}$", ErrorMessage = "City Name should must contain letters only")]
     public string? City { get; set; }
     [Required(ErrorMessage = "Please enter the State ")]
     public string? State { get; set; }

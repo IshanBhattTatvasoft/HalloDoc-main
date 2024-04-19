@@ -819,6 +819,18 @@ namespace HalloDoc.Controllers
                 {
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
+                    Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
+                    Request re = _adminInterface.GetReqFromReqId(requestId);
+                    if(re == null)
+                    {
+                        TempData["error"] = "Request does not exist";
+                        return RedirectToAction("AdminDashboard");
+                    }
+                    if(re.PhysicianId != ph.PhysicianId)
+                    {
+                        TempData["error"] = "Details of unassigned case cannot be accessed";
+                        return RedirectToAction("AdminDashboard");
+                    }
                 }
                 an.Tab = 1;
                 string token = Request.Cookies["token"];
@@ -988,6 +1000,18 @@ namespace HalloDoc.Controllers
                 {
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
+                    Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
+                    Request re = _adminInterface.GetReqFromReqId(requestId);
+                    if (re == null)
+                    {
+                        TempData["error"] = "Request does not exist";
+                        return RedirectToAction("AdminDashboard");
+                    }
+                    if (re.PhysicianId != ph.PhysicianId)
+                    {
+                        TempData["error"] = "Notes of unassigned case cannot be accessed";
+                        return RedirectToAction("AdminDashboard");
+                    }
                 }
                 an.Tab = 1;
                 string token = Request.Cookies["token"];
@@ -1808,6 +1832,18 @@ namespace HalloDoc.Controllers
                 {
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
+                    Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
+                    Request re = _adminInterface.GetReqFromReqId(requestid);
+                    if (re == null)
+                    {
+                        TempData["error"] = "Request does not exist";
+                        return RedirectToAction("AdminDashboard");
+                    }
+                    if (re.PhysicianId != ph.PhysicianId)
+                    {
+                        TempData["error"] = "Documents of unassigned case cannot be accessed";
+                        return RedirectToAction("AdminDashboard");
+                    }
                 }
                 an.Tab = 1;
                 string token = Request.Cookies["token"];
@@ -2615,7 +2651,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin", "AdminDashboard")]
+        [CustomAuthorize("Admin Provider", "AdminDashboard")]
         // function to send mail of agreement to particular AspNetUser based on RequestClient's Email
         public async Task<IActionResult> SendMailOfAgreement(AdminDashboardTableView model)
         {
@@ -2645,7 +2681,8 @@ namespace HalloDoc.Controllers
             Request r = _adminInterface.GetRequestWithUser(model.RequestId);
             string email = _adminInterface.GetMailToSentAgreement(model.RequestId);
             RequestClient rc = _adminInterface.GetPatientData(model.RequestId);
-            string url = $"{Request.Scheme}://{Request.Host}/Admin/ReviewAgreement?id={rc.RequestClientId}";
+            string resetToken = Guid.NewGuid().ToString();
+            string url = $"{Request.Scheme}://{Request.Host}/Admin/ReviewAgreement?id={r.RequestId}";
             int emailSentCount = 1;
             bool isEmailSent = false;
             string senderEmail = "tatva.dotnet.ishanbhatt@outlook.com";
@@ -2769,16 +2806,20 @@ namespace HalloDoc.Controllers
         }
 
         // function to return Review Agreement view
+        [CustomAuthorize("Admin Provider", "AdminDashboard")]
         public IActionResult ReviewAgreement(int id)
         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
-                AdminNavbarModel an = new AdminNavbarModel();
-                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
-                an.Tab = 1;
-                RequestClient rc = _adminInterface.GetRequestClientFromId(id);
+                Request r = _adminInterface.GetReqFromReqId(id);
+                if(r.Status!=2)
+                {
+                    TempData["error"] = "unable to review the agreement";
+                    return RedirectToAction("PatientLoginPage", "Login");
+                }
+                RequestClient rc = _adminInterface.GetPatientData(id);
                 return View(rc);
             }
 
@@ -2887,6 +2928,18 @@ namespace HalloDoc.Controllers
                 {
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
+                    Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
+                    Request re = _adminInterface.GetReqFromReqId(reqId);
+                    if (re == null)
+                    {
+                        TempData["error"] = "Request does not exist";
+                        return RedirectToAction("AdminDashboard");
+                    }
+                    if (re.PhysicianId != ph.PhysicianId)
+                    {
+                        TempData["error"] = "Encounter form of unassigned case cannot be accessed";
+                        return RedirectToAction("AdminDashboard");
+                    }
                     ViewBag.x = 2;
                 }
                 an.Tab = 1;
@@ -3441,7 +3494,7 @@ namespace HalloDoc.Controllers
                 TempData["success"] = "Administrator info updated successfully";
                 if (model.an == null)
                 {
-                    return RedirectToAction("UserAccess");
+                    return RedirectToAction("MyProfile");
                 }
                 else
                 {
@@ -4125,7 +4178,7 @@ namespace HalloDoc.Controllers
                 }
                 _adminInterface.CreateNewRole2(roleName, acType, an.Admin_Name, menuIds);
                 TempData["success"] = "New role created";
-                return RedirectToAction("CreateRole");
+                return RedirectToAction("AccountAccess");
             }
 
             catch (Exception ex)
@@ -4680,12 +4733,12 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin Provider", "Scheduling")]
-        public IActionResult EditViewShift(EditViewShiftModel ShiftDetail)
+        public IActionResult EditViewShift(EditViewShiftModel ShiftDetail, int pId)
         {
             try
             {
                 int x = 0;
-                x = _adminInterface.EditViewShift(ShiftDetail);
+                x = _adminInterface.EditViewShift(ShiftDetail,pId);
                 if (x == 0)
                 {
                     TempData["success"] = "Shift edited successfully";
@@ -4882,8 +4935,38 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                MdsOnCallViewModel moc = _adminInterface.GetMdsData(an);
+                MdsOnCallViewModel moc = new MdsOnCallViewModel
+                {
+                    adminNavbarModel = an,
+                    allRegions = _adminInterface.GetAllRegion(),
+                };
                 return View(moc);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to approve deleted shifts";
+                return RedirectToAction("RequestedShifts");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Scheduling")]
+        public IActionResult MdsOnCallFilteredData(int? region=-1)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 6;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+                MdsOnCallViewModel moc = _adminInterface.GetMdsData(region);
+                moc.adminNavbarModel = an;
+                return PartialView("MDsOnCallPagePartialView", moc);
             }
 
             catch (Exception ex)
@@ -5212,7 +5295,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "EmailLogs")]
-        public IActionResult EmailLogsFilteredData(DateTime createdDate, DateTime sentDate, int page = 1, int pageSize = 5, int? role = 0, string? recipientName = "", string? emailId = "")
+        public IActionResult EmailLogsFilteredData(DateTime createdDate, DateTime sentDate, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? emailId = "")
         {
             try
             {

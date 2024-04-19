@@ -255,82 +255,82 @@
                                 <div class="dropdown-content">
                                     @if (Model.status == "New" && Model.an.roleName == "Provider")
                                     {
-                                        <button type="button" class="dropdown-item hover-dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#acceptCaseModal" onclick="acceptCaseData('@item.RequestId')">
-                                            <div class="action-item ms-3">
-                                                <img src="~/images/assign-case-image.svg" alt="" class="action-img px-1"><span>Accept</span>
+                                        <a type="button" class="dropdown-item hover-dropdown-item mb-1 text-dark px-1" data-bs-toggle="modal" data-bs-target="#acceptCaseModal" href="#" onclick="acceptCaseData('@item.RequestId')">
+                                            <div class="action-item">
+                                                <img src="~/images/assign-case-image.svg" alt="" class="action-img me-1"><span>Accept</span>
                                             </div>
-                                        </button>
+                                        </a>
 
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#providerTransferModal" class="dropdown-item text-dark hover-dropdown-item" href="#" onclick="transferData('@item.RequestId')">
-                                            <div class="action-item ms-2">
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#providerTransferModal" class="dropdown-item text-dark mb-1 hover-dropdown-item px-1" href="#" onclick="transferData('@item.RequestId')">
+                                            <div class="action-item">
                                                 <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Transfer</span>
                                             </div>
-                                        </button>
+                                        </a>
                                     }
 
                                     @if (Model.status == "New" && Model.an.roleName == "Admin")
                                     {
-                                        <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')">
-                                            <div class="action-item ms-3">
+                                        <a type="button" href="#" class="dropdown-item hover-dropdown-item text-dark mb-1 px-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')">
+                                            <div class="action-item">
                                                 <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Assign Case</span>
                                             </div>
-                                        </button>
-                                        <button type="button" class="dropdown-item hover-dropdown-item text-dark mb-1" @*onclick="openModal()"*@ data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
-                                            <div class="action-item ms-3">
+                                        </a>
+                                        <a type="button" href="#" class="dropdown-item hover-dropdown-item text-dark mb-1 px-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                            <div class="action-item">
                                                 <img src="~/images/x-mark.png" alt="" class="action-img me-1" style="height: 20px; width: 20px;"><span class="text-dark">Cancel Case</span>
                                             </div>
-                                        </button>
+                                        </a>
 
                                     }
 
                                     @if (Model.status == "Pending" && Model.an.roleName == "Provider")
                                     {
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')">
+                                        <a type="button" href="#" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item text-dark px-1" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')">
                                             <div class="action-item">
-                                                <img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span>
+                                                <img src="~/images/send-agreement-image.svg" alt="" class="action-img me-1" style="height: 20px; width: 20px;"><span>Send Agreement</span>
                                             </div>
-                                        </button>
+                                        </a>
                                     }
 
                                     @if (Model.an.roleName == "Provider" && Model.status == "Conclude")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ConcludeCare" asp-controller="Provider" asp-route-requestId="@item.RequestId">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ConcludeCare" asp-controller="Provider" asp-route-requestId="@item.RequestId">
                                             <div class="action-item">
-                                                <img src="~/images/view-case-image.png" alt="" class="action-img px-1" style="height: 20px; width: 25px;"><span>Conclude Care</span>
+                                                <img src="~/images/view-case-image.png" alt="" class="action-img me-1" style="height: 20px; width: 22px;"><span>Conclude Care</span>
                                             </div>
                                         </a>
                                     }
 
                                     @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId">
                                             <div class="action-item">
-                                                <img src="~/images/search-file.png" alt="" class="action-img pe-2" style="height: 25px; width: 30px;"><span>View Case</span>
+                                                <img src="~/images/search-file.png" alt="" class="action-img me-2" style="height: 22px; width: 28px;"><span>View Case</span>
                                             </div>
                                         </a>
                                     }
 
                                     @if ((Model.status == "Pending" && Model.an.roleName == "Provider") || Model.status == "ToClose")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
-                                            <div class="action-item ms-1">
-                                                <img src="~/images/document.png" alt="" class="action-img pe-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                            <div class="action-item">
+                                                <img src="~/images/document.png" alt="" class="action-img me-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
                                             </div>
                                         </a>
                                     }
 
                                     @if ((Model.status == "Active" || Model.status == "Conclude") && Model.an.roleName == "Provider")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
-                                            <div class="action-item ms-1">
-                                                <img src="~/images/document.png" alt="" class="action-img pe-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                            <div class="action-item">
+                                                <img src="~/images/document.png" alt="" class="action-img me-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
                                             </div>
                                         </a>
                                     }
 
                                     @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">
                                             <div class="action-item">
                                                 <img src="~/images/note.png" alt="" class="action-img me-1" style="height: 23px; width: 23px;"><span>View Notes</span>
                                             </div>
@@ -339,60 +339,60 @@
 
                                     @if (Model.status == "New" && Model.an.roleName == "Admin")
                                     {
-                                        <button type="button" class="dropdown-item text-dark hover-dropdown-item" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
-                                            <div class="action-item ms-3">
+                                        <a type="button" href="#" class="dropdown-item mb-1 text-dark hover-dropdown-item px-1" data-bs-toggle="modal" data-bs-target="#example3Modal" onclick="cancelCaseDataTwo('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                            <div class="action-item">
                                                 <img src="~/images/block.png" alt="" class="action-img me-1" style="height: 17px; width: 17px; margin-left: 2px;"><span>Block Patient</span>
                                             </div>
-                                        </button>
+                                        </a>
                                     }
 
                                     @if (Model.status == "Pending" && Model.an.roleName == "Admin" || (Model.status == "Active" && Model.an.roleName == "Admin") || (Model.status == "Conclude" && Model.an.roleName == "Admin") || Model.status == "Unpaid")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
-                                            <div class="action-item ms-1">
-                                                <img src="~/images/document.png" alt="" class="action-img pe-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                            <div class="action-item">
+                                                <img src="~/images/document.png" alt="" class="action-img me-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
                                             </div>
                                         </a>
                                     }
 
                                     @if (Model.status == "Pending" && Model.an.roleName == "Admin")
                                     {
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferRequestData('@item.RequestId')">
-                                            <div class="action-item ms-3">
+                                        <a type="button" href="#" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item px-1" onclick="transferRequestData('@item.RequestId')">
+                                            <div class="action-item">
                                                 <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Transfer</span>
                                             </div>
-                                        </button>
+                                        </a>
                                     }
 
                                     @if (Model.status == "Pending" && Model.an.roleName == "Provider")
                                     {
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#providerTransferModal" class="dropdown-item text-dark mb-1 hover-dropdown-item" href="#" onclick="transferData('@item.RequestId')">
-                                            <div class="action-item ms-2">
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#providerTransferModal" class="dropdown-item text-dark mb-1 hover-dropdown-item px-1" href="#" onclick="transferData('@item.RequestId')">
+                                            <div class="action-item">
                                                 <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Transfer</span>
                                             </div>
-                                        </button>
+                                        </a>
                                     }
 
                                     @if (Model.status == "Pending" && Model.an.roleName == "Admin")
                                     {
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')">
-                                            <div class="action-item ms-3">
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark px-1" href="#" onclick="clearCaseData('@item.RequestId')">
+                                            <div class="action-item">
                                                 <img src="~/images/x-mark.png" alt="" class="action-img me-1" style="height: 20px; width: 20px;"><span>Clear Case</span>
                                             </div>
-                                        </button>
+                                        </a>
                                     }
                                     @if (Model.status == "Pending" && Model.an.roleName == "Admin")
                                     {
-                                        <button type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')">
-                                            <div class="action-item ms-3">
-                                                <img src="~/images/send-agreement-image.svg" alt="" class="action-img pe-1" style="height: 20px; width: 20px;"><span>Send Agreement</span>
+                                        <a type="button" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" class="dropdown-item mb-1 hover-dropdown-item text-dark px-1" href="#" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')">
+                                            <div class="action-item">
+                                                <img src="~/images/send-agreement-image.svg" alt="" class="action-img me-1" style="height: 20px; width: 20px;"><span>Send Agreement</span>
                                             </div>
-                                        </button>
+                                        </a>
                                     }
 
                                     @if ((Model.status == "Conclude" && Model.an.roleName == "Admin") || Model.status == "ToClose" || Model.status == "Active")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId">
                                             <div class="action-item">
                                                 <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Orders</span>
                                             </div>
@@ -400,33 +400,33 @@
 
                                         @if (Model.status == "ToClose")
                                         {
-                                            <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="CloseCase" asp-controller="Admin" asp-route-id="@item.RequestId">
+                                            <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="CloseCase" asp-controller="Admin" asp-route-id="@item.RequestId">
                                                 <div class="action-item">
                                                     <img src="~/images/x-mark.png" alt="" class="action-img me-1" style="height: 20px; width: 20px;"><span>Close Case</span>
                                                 </div>
                                             </a>
                                         }
 
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" href="#">
-                                            <div class="action-item ms-1">
-                                                <img src="~/images/writing.png" alt="" class="action-img pe-1" style="height: 18px; width: 20px;"><span>Doctor Note</span>
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" href="#">
+                                            <div class="action-item">
+                                                <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Doctor Note</span>
                                             </div>
                                         </a>
 
                                         @if (Model.status == "ToClose")
                                         {
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')">
-                                                <div class="action-item ms-3">
+                                            <a type="button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark px-1" href="#" onclick="clearCaseData('@item.RequestId')">
+                                                <div class="action-item">
                                                     <img src="~/images/x-mark.png" alt="" class="action-img me-1" style="height: 20px; width: 20px;"><span>Clear Case</span>
                                                 </div>
-                                            </button>
+                                            </a>
                                         }
 
                                         @if (Model.an.roleName == "Admin")
                                         {
-                                            <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
-                                                <div class="action-item ms-1">
-                                                    <img src="~/images/writing.png" alt="" class="action-img pe-1" style="height: 18px; width: 20px;"><span>Encounter</span>
+                                            <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
+                                                <div class="action-item">
+                                                    <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                                 </div>
                                             </a>
                                         }
@@ -445,27 +445,27 @@
 
                                             @if (item.CallType == null || item.CallType == 0)
                                             {
-                                                <button class="dropdown-item mb-1 hover-dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#typeOfCareModal" onclick="typeOfCallData('@item.RequestId')">
-                                                    <div class="action-item ms-4">
-                                                        <img src="~/images/writing.png" alt="" class="action-img pe-1" style="height: 18px; width: 20px;"><span>Encounter</span>
+                                                <a type="button" href="#" class="dropdown-item mb-1 hover-dropdown-item text-dark px-1" data-bs-toggle="modal" data-bs-target="#typeOfCareModal" onclick="typeOfCallData('@item.RequestId')">
+                                                    <div class="action-item">
+                                                        <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                                     </div>
-                                                </button>
+                                                </a>
                                             }
 
                                             else if (flag)
                                             {
-                                                <button class="dropdown-item mb-1 hover-dropdown-item text-dark" data-bs-toggle="modal" data-bs-target="#DownloadEncounterModal" onclick="downloadEncounterForm('@item.RequestId')">
-                                                    <div class="action-item ms-4">
-                                                        <img src="~/images/writing.png" alt="" class="action-img pe-1" style="height: 18px; width: 20px;"><span>Encounter</span>
+                                                <a type="button" href="#" class="dropdown-item mb-1 hover-dropdown-item text-dark px-1" data-bs-toggle="modal" data-bs-target="#DownloadEncounterModal" onclick="downloadEncounterForm('@item.RequestId')">
+                                                    <div class="action-item">
+                                                        <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                                     </div>
-                                                </button>
+                                                </a>
                                             }
 
                                             else
                                             {
-                                                <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
-                                                    <div class="action-item ms-4">
-                                                        <img src="~/images/writing.png" alt="" class="action-img pe-1" style="height: 18px; width: 20px;"><span>Encounter</span>
+                                                <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
+                                                    <div class="action-item">
+                                                        <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                                     </div>
                                                 </a>
                                             }
@@ -475,9 +475,9 @@
 
                                     @if (Model.status == "Conclude" && Model.an.roleName == "Provider")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
                                             <div class="action-item">
-                                                <img src="~/images/writing.png" alt="" class="action-img pe-1" style="height: 18px; width: 20px;"><span>Encounter</span>
+                                                <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                             </div>
                                         </a>
                                     }

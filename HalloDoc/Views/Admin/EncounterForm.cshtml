@@ -124,6 +124,7 @@
                         <textarea class="form-control" rows="2"
                                   asp-for="Allergies" disabled></textarea>
                         <label for="floatingInput" class="ms-2 text-muted">Allergies</label>
+                        <span asp-validation-for="Allergies" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -223,6 +224,7 @@
                         <textarea class="form-control" rows="1"
                                   asp-for="TreatmentPlan" disabled></textarea>
                         <label for="floatingInput" class="ms-2 text-muted">Treatment Plan</label>
+                        <span asp-validation-for="TreatmentPlan" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -236,6 +238,7 @@
                         <textarea class="form-control" rows="1"
                                   asp-for="Procedures" disabled></textarea>
                         <label for="floatingInput" class="ms-2 text-muted">Procedures</label>
+                        <span asp-validation-for="Procedures" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -244,6 +247,7 @@
                         <textarea class="form-control" rows="1"
                                   asp-for="FollowUp" disabled></textarea>
                         <label for="floatingInput" class="ms-2 text-muted">Followup</label>
+                        <span asp-validation-for="FollowUp" class="text-danger"></span>
                         <input type="hidden" name="roleName" id="roleName" asp-for="an.roleName" />
                     </div>
                 </div>

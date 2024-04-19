@@ -109,10 +109,12 @@
                 <div class="mt-3 col-sm-6 form-floating">
                     <input id="firstname" class="ai form-control" type="text" placeholder="Date Of Birth" asp-for="firstName" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">First Name</label>
+                    <span asp-validation-for="firstName" class="text-danger"></span>
                 </div>
                 <div class="mt-3 col-sm-6 form-floating">
                     <input id="lastName" class="ai form-control" type="text" placeholder="Date" asp-for="lastName" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Last Name</label>
+                    <span asp-validation-for="firstName" class="text-danger"></span>
                 </div>
             </div>
 
@@ -198,7 +200,8 @@
                     <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
                 </div>
                 <div class="mt-3 col-sm-6 form-floating">
-                    <input id="phone1" class="mbi form-control" type="tel" asp-for="altPhoneNo" disabled style="height: 58px;" />
+                    <input id="phone1" class="ai form-control" type="tel" asp-for="mailingPhoneNo" disabled style="height: 58px;" />
+                    <span asp-validation-for="mailingPhoneNo" class="text-danger"></span>
                 </div>
             </div>
 
@@ -265,6 +268,7 @@
         for (var i = 0; i < rc.length; i++) {
             rc[i].setAttribute('disabled', true);
         }
+        location.reload();
     });
 
     var third_part = document.getElementsByClassName("mbi");
@@ -288,6 +292,7 @@
         for (var i = 0; i < third_part.length; i++) {
             third_part[i].setAttribute("disabled", true);
         }
+        location.reload();
     });
 
     let eye = false;

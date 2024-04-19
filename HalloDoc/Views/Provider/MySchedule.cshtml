@@ -144,7 +144,7 @@
             </div>
 
             <div class="row mt-3">
-                
+
                 <div class="col">
                     <div class="flex-grow-1 text-end">
                         <button type="button" class="btn btn-success text-white w-auto" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="setPhyId('@Model.physicianId')">Add New Shift</button>
@@ -179,7 +179,7 @@
                         <input type="date" class="cursor-pointer" id="hidden_datepicker" />
                         <button class="btn btn-info rounded-5" onclick="calendarNext()"><i class="bi bi-chevron-right"></i></button>
                     </div>
-                    
+
                 </div>
             </div>
 
@@ -204,7 +204,7 @@
 
                     <form method="post" asp-action="CreateNewShift" asp-controller="Provider">
 
-                        <input type="hidden" asp-for="physicianId" id="physician" name="physician"/>
+                        <input type="hidden" asp-for="physicianId" id="physician" name="physician" />
 
                         <div class="form-floating mb-3">
                             <select class="form-select" id="select-region" asp-for="regionId" onchange="fetchRegionData()">
@@ -241,7 +241,7 @@
                             </div>
                             <div class="form-check form-switch mb-2 ms-2">
                                 <label class="form-check-label me-1" for="flexSwitchCheckChecked">Repeat</label>
-                                <input class="form-check-input  check" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                <input class="form-check-input check" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
                             </div>
                         </div>
                         <div id="days" class="mt-2 mb-2">
@@ -322,8 +322,6 @@
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar-scheduler@6.1.11/index.global.min.js"></script>
 
 <script>
-    
-
 
     window.addEventListener('beforeunload', function () {
         // Delete the specific local storage item
@@ -390,14 +388,7 @@
     //}
 
     // filtering based on region
-    let calendarNext = () => calendar.next();
-    let calendarPrev = () => calendar.prev();
-    let calendarToday = () => calendar.today();
-    //var x = document.getElementById("month-val").value;
-    let changeView = (type, date = null) => {
-        calendar.changeView(type, date);
-    };
-    changeView('dayGridMonth');
+    
 
     function loadResources() {
         $.ajax({
@@ -496,20 +487,24 @@
     }
 
     // show checkbox and no.of times if we click on repeat
-    $(document).ready(function () {
-        $('.check').click(function () {
-            var isChecked = $(this).prop('checked');
-            if (isChecked) {
-                $('#days').show();
-                $('#RepeatTime').show();
-            } else {
-                $('.ischeck').prop('checked', false);
-                $('#RepeatTime').val('0');
-                $('#days').hide();
-                $('#RepeatTime').hide();
-            }
-        });
+
+    document.querySelector('.check').addEventListener('click', function () {
+        const isChecked = this.checked;
+        if (isChecked) {
+            console.log("checked");
+            document.getElementById('days').style.display = 'block';
+            document.getElementById('RepeatTime').style.display = 'block';
+        } else {
+            document.querySelectorAll('.ischeck').forEach(function (element) {
+                element.checked = false;
+            });
+            console.log("not checked");
+            document.getElementById('RepeatTime').value = '0';
+            document.getElementById('days').style.display = 'none';
+            document.getElementById('RepeatTime').style.display = 'none';
+        }
     });
+
 
     // do not allow to fetch past dates
     const dobInput = document.getElementById("uname");
@@ -598,10 +593,18 @@
         }
     });
 
-    function setPhyId(id)
-    {
+    function setPhyId(id) {
         console.log(id);
         document.getElementById("physician").value = id;
         console.log(document.getElementById("physician").value);
     }
+
+    let calendarNext = () => calendar.next();
+    let calendarPrev = () => calendar.prev();
+    let calendarToday = () => calendar.today();
+    //var x = document.getElementById("month-val").value;
+    let changeView = (type, date = null) => {
+        calendar.changeView(type, date);
+    };
+    changeView('dayGridMonth');
 </script>

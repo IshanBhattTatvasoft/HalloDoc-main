@@ -13,6 +13,7 @@ public class UserAccessViewModel
 {
     public List<Admin>? admins {  get; set; }
     public int? accountType { get; set; }
+    public List<Request>? requests { get; set; }
     public List<Physician>? physicians { get; set; }
     public AdminNavbarModel? adminNavbarModel { get; set; }
 }

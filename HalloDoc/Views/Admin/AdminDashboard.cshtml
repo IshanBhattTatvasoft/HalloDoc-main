@@ -931,11 +931,21 @@
             document.getElementById("p-name-two").textContent = fname + " " + lname;
             document.getElementById("r-id").value = id;
             document.getElementById("r-id-three").value = id;
+            $("#exampleModal").modal('show');
+        }
+
+        function cancelCaseDataTwo(id, fname, lname) {
+            document.getElementById("p-name").textContent = fname + " " + lname;
+            document.getElementById("p-name-two").textContent = fname + " " + lname;
+            document.getElementById("r-id").value = id;
+            document.getElementById("r-id-three").value = id;
+            $("#example3Modal").modal('show');
         }
 
         // code to fetch RequestId in Assign Case Modal
         function assignCaseData(id) {
             document.getElementById("r-id-two").value = id;
+            $("#example2Modal").modal('show');
         }
 
         //when we change the value of dropdown of region, this function will be called
@@ -998,11 +1008,13 @@
         // code to fetch RequestId in Transfer Case Modal
         function transferRequestData(id) {
             document.getElementById("r-id-four").value = id;
+            $("#example9Modal").modal('show');
         }
 
         // code to fetch RequestId in Clear Case Modal
         function clearCaseData(id) {
             document.getElementById("r-id-five").value = id;
+            $("#example10Modal").modal('show');
         }
 
         // code to fetch RequestId in Accept Case Modal
@@ -1010,18 +1022,21 @@
             console.log(id);
             document.getElementById("r-id-six").value = id;
             console.log(document.getElementById("r-id-six").value);
+            $("#acceptCaseModal").modal('show');
         }
 
         // code to fetch RequestId in Transfer Modal
         function transferData(id) {
             console.log(id);
             document.getElementById("r-id-seven").value = id;
+            $("#providerTransferModal").modal('show');
         }
 
         // code to fetch RequestId in Type of Call Modal
         function typeOfCallData(id) {
             console.log(id);
             document.getElementById("r-id-eight").value = id;
+            $("#typeOfCareModal").modal('show');
         }
 
         // code to fetch requestId in download encoutner form modal
@@ -1030,6 +1045,7 @@
             document.getElementById("r-id-nine").value = id;
             var name = document.getElementById("pdf");
             name.href = `/EncounterForms/patient-${id}.pdf`;
+            $("#DownloadEncounterModal").modal('show');
         }
 
         // code to fetch PhoneNumber, Receiver Email, RequestTypeId and RequestId in Send Agreement Modal
@@ -1066,6 +1082,8 @@
                 document.getElementById("concierge-data").style.display = "none";
                 document.getElementById("business-data").style.display = "flex";
             }
+
+            $("#SendAgreementModal").modal('show'); 
         }
 
         // code to show dropdown in phone number field of

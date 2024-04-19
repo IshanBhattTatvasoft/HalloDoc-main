@@ -4,7 +4,6 @@
 }
 
 @section Styles{
-    <link href="~/css/patient-dashboard-view-documents.css" />
     <link href="~/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 }
 @section Scripts {
@@ -90,19 +89,23 @@
                             </div>
                         </div>
 
-                        <div class="d-flex justify-content-between mt-3">
-                            <p class="encounter-text h5 text-muted fw-bold ms-3" id="heading-one">Encounter Forms</p>
-                            <form class="input-group mb-3 me-3" method="post" enctype="multipart/form-data" asp-action="SetImageContent" asp-controller="Provider" asp-route-requestId=@Model.requestId>
-                                <input asp-for="requestId" value="@Model.requestId" hidden id="requestId" />
-                                <label class="form-control">
-                                    <input type="file" style="display: none;" onchange="displayFileName(this)"
-                                           asp-for="ImageContent" id="document" class="w-50">
-                                    <span id="file-label">Select File</span>
-                                </label>
-                                <button class="btn btn-info text-white rounded-end-2" type="submit" id="button-addon2">
-                                    <span><i class="bi bi-cloud-upload pe-2"></i></span>Upload
-                                </button>
-                            </form>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <p class="h5 text-muted fw-bold ms-3" id="heading-one">Encounter Forms</p>
+                            </div>
+                            <div class="container py-3 col ms-3">
+                                <form class="input-group mb-3" method="post" enctype="multipart/form-data" asp-action="SetImageContent" asp-controller="Provider" asp-route-requestId=@Model.requestId>
+                                    <input asp-for="requestId" value="@Model.requestId" hidden id="requestId" />
+                                    <label class="form-control" style="cursor: pointer;">
+                                        <input type="file" style="display: none;" onchange="displayFileName(this)"
+                                               asp-for="ImageContent" id="document">
+                                        <span id="file-label">Select File</span>
+                                        <button class="btn btn-info text-white rounded-end-2" type="submit" id="button-addon2">
+                                            <span><i class="bi bi-cloud-upload pe-2"></i></span>Upload
+                                        </button>
+                                    </label>
+                                </form>
+                            </div>
                         </div>
 
                         <div class="table-responsive mt-3">
@@ -166,7 +169,7 @@
                         </div>
 
                         <div class="d-flex justify-content-around">
-                            <textarea class="form-control" rows="3" asp-for="providerNotes"></textarea>
+                            <textarea class="form-control mb-2" rows="3" asp-for="providerNotes"></textarea>
                         </div>
 
                         <div class="form-floating col mt-4 lastbutton float-end bg-white" id="submitDivv">

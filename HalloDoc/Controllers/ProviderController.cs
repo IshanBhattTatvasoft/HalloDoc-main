@@ -66,7 +66,7 @@ namespace HalloDoc.Controllers
             _providerInterface = providerInterface;
         }
 
-        [CustomAuthorize("Admin Provider", "AdminDashboard")]
+        [CustomAuthorize("Provider", "AdminDashboard")]
         public IActionResult ConcludeCare(int requestid)
         {
             try
@@ -117,7 +117,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin Provider", "AdminDashboard")]
+        [CustomAuthorize("Provider", "AdminDashboard")]
         // function to store the newly uploaded file from View Uploads view
         public IActionResult SetImageContent(ViewUploadsModel model, int requestId)
         {
@@ -182,7 +182,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin Provider", "AdminDashboard")]
+        [CustomAuthorize("Provider", "AdminDashboard")]
         // function to delete individual file from View Uploads view
         public IActionResult DeleteIndividual(int id)
         {
@@ -221,7 +221,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin Provider", "AdminDashboard")]
+        [CustomAuthorize("Provider", "AdminDashboard")]
         public IActionResult ConcludeCaseSubmitAction(ViewUploadsModel model, int id)
         {
             try
@@ -392,7 +392,7 @@ namespace HalloDoc.Controllers
 
         }
 
-        [CustomAuthorize("Admin Provider", "Scheduling")]
+        [CustomAuthorize("Provider", "Scheduling")]
         public IActionResult CreateNewShift(SchedulingViewModel model, List<int> RepeatedDays, int physician)
         {
             try
@@ -435,7 +435,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin Provider", "MyProfile")]
+        [CustomAuthorize("Provider", "MyProfile")]
         public IActionResult MyProfile()
         {
             try
@@ -471,7 +471,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin Provider", "MyProfile")]
+        [CustomAuthorize("Provider", "MyProfile")]
         public async Task<IActionResult> RequestToEditProfile(int id, string requestProfile)
         {
             try

@@ -258,6 +258,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 ua.physicians = _context.Physicians.ToList();
             }
             ua.adminNavbarModel = an;
+            ua.requests = _context.Requests.ToList();
             return ua;
         }
 
@@ -459,7 +460,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         }
 
-        EmailLogsViewModel IAdminInterface.EmailLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 5, int? role = 0, string? recipientName = "", string? emailId = "", DateTime? createdDate = null, DateTime? sentDate = null)
+        EmailLogsViewModel IAdminInterface.EmailLogsFilteredData(AdminNavbarModel an, int page = 1, int pageSize = 10, int? role = 0, string? recipientName = "", string? emailId = "", DateTime? createdDate = null, DateTime? sentDate = null)
         {
             DateTime temp = new DateTime(1, 1, 1, 0, 0, 0);
 
@@ -484,8 +485,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 }
                 else
                 {
-                    name = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.FirstName + " " + _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).RequestClient.LastName;
-                    conf = _context.Requests.FirstOrDefault(r => r.RequestId == q.RequestId).ConfirmationNumber;
+                    Request r = _context.Requests.FirstOrDefault(re => re.RequestId == q.RequestId);
+                    RequestClient rc = _context.RequestClients.FirstOrDefault(rcc => rcc.RequestClientId == r.RequestClientId);
+                    name = rc.FirstName + " " + rc.LastName;
+                    conf = r.ConfirmationNumber;
                 }
 
                 EmailLogsTableData eltd = new EmailLogsTableData
@@ -2016,12 +2019,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public List<string> GetAllMenus(string roleId)
         {
             List<string> str = new List<string>();
-            if(roleId=="")
+            if (roleId == "")
             {
                 return str;
             }
             List<RoleMenu> rm = _context.RoleMenus.Where(m => m.RoleId == int.Parse(roleId)).ToList();
-            if(rm==null)
+            if (rm == null)
             {
                 return str;
             }
@@ -2195,16 +2198,17 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             catch { return false; }
         }
 
-        public int EditViewShift(EditViewShiftModel Shift)
+        public int EditViewShift(EditViewShiftModel Shift, int pId)
         {
             try
             {
-                ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == Shift.ShiftDetailId);
 
-                if (_context.ShiftDetails.Any(s => s.ShiftDetailId == Shift.ShiftDetailId && s.ShiftDate.Equals(Shift.ShiftDateVS) && s.StartTime <= Shift.StartTimeVS && s.EndTime >= Shift.EndTimeVS))
+                if (_context.ShiftDetails.Any(s => pId == s.Shift.PhysicianId && s.ShiftDate.Equals(Shift.ShiftDateVS) && ((s.StartTime <= Shift.StartTimeVS && Shift.StartTimeVS <= s.EndTime) || (s.EndTime >= Shift.EndTimeVS && Shift.EndTimeVS >= s.StartTime))))
                 {
                     return 1;
                 }
+
+                ShiftDetail shiftDetail = _context.ShiftDetails.FirstOrDefault(m => m.ShiftDetailId == Shift.ShiftDetailId);
 
                 if (shiftDetail != null)
                 {
@@ -2437,13 +2441,20 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return idAndEmail;
         }
 
-        public MdsOnCallViewModel GetMdsData(AdminNavbarModel an)
+        public MdsOnCallViewModel GetMdsData(int? region = -1)
         {
             List<Physician> allPhysician = _context.Physicians.ToList();
+            List<PhysicianRegion> phyRegions = _context.PhysicianRegions.ToList();
             List<Physician> onCall = new List<Physician>();
             List<Physician> offDuty = new List<Physician>();
 
             List<ShiftDetail> shifts = _context.ShiftDetails.Where(s => s.ShiftDate.Date == DateTime.Now.Date && TimeOnly.FromDateTime(DateTime.Now) >= s.StartTime && TimeOnly.FromDateTime(DateTime.Now) <= s.EndTime && s.Status == 1 && s.IsDeleted == new BitArray(1, false)).Include(sh => sh.Shift).Include(shi => shi.Shift.Physician).ToList();
+
+            if(region!=null && region!=-1)
+            {
+                allPhysician = phyRegions.Where(p => p.RegionId == region).Select(ph => ph.Physician).ToList();
+                shifts = shifts.Where(s => s.RegionId == region).ToList();
+            }
 
             foreach (var item in shifts)
             {
@@ -2463,12 +2474,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 }
             }
 
+
+
             MdsOnCallViewModel moc = new MdsOnCallViewModel
             {
                 providersOnCall = onCall,
                 providersOffDuty = offDuty,
                 allRegions = GetAllRegion(),
-                adminNavbarModel = an,
             };
 
             return moc;

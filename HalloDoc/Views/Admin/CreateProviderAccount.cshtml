@@ -270,8 +270,8 @@
                         <div class="d-flex gap-0">
                             <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" asp-for="Photo" />
                             <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
-                            <span asp-validation-for="Photo" class="text-danger"></span>
                         </div>
+                            <span asp-validation-for="Photo" class="text-danger"></span>
                     </div>
                 </div>
 
@@ -296,7 +296,11 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="Contract" name="checkbox_group" />
+                                   id="Contract" name="checkbox_group" 
+                            @if(Model.Contract == true)
+                            {
+                                <text>checked</text>   
+                            } />
                             <p class="ms-1">Independent Contract Agreement</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">

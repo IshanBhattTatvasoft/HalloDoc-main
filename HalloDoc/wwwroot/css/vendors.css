@@ -40,3 +40,15 @@ textarea:focus {
     border-radius: 10px;
     padding: 10px;
 }
+
+.iti {
+    display: inline-block !important;
+    /* height:58px; */
+    /*width: 100%;*/
+    width: 465px !important;
+}
+
+#phone {
+    height: 55px;
+    /*width: 110px;*/
+}

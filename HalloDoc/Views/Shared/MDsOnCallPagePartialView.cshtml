@@ -1,0 +1,60 @@
+﻿    <div class="row justify-content-between flex-wrap">
+        <h5 class="mb-3">MD's On Call</h5>
+        @if (Model.providersOnCall == null)
+        {
+            <h4>No Data Is Available</h4>
+        }
+        @foreach (var ele in Model.providersOnCall)
+        {
+            <div class="col-md-4 col-sm-6 mb-3 text-md-center">
+                @if (ele.Photo == null)
+                {
+                    <img src="~/images/doctor-person.jpg" class="img-fluid" alt="@ele.Photo" style="height:2rem">
+                }
+                else
+                {
+                    <img src="~/Physician/@ele.PhysicianId/Profile.png" class="img-fluid" alt="@ele.Photo" style="height:2rem" />
+                }
+                @if (ele.FirstName.Length + ele.LastName.Length >= 12)
+                {
+                    var name = ele.FirstName + ' ' + ele.LastName;
+                    <p class="d-inline d-sm-block text-wrap">Dr. @name.Substring(0,12)..</p>
+                }
+                else
+                {
+                    <p class="d-inline d-sm-block text-wrap">@ele.FirstName @ele.LastName</p>
+                }
+            </div>
+        }
+    </div>
+
+    <div class="row justify-content-between flex-wrap">
+        <h5 class="mb-3">Physicians Off Duty</h5>
+        @if (Model.providersOffDuty == null)
+        {
+            <h4>No Data Is Available</h4>
+        }
+        @foreach (var ele in Model.providersOffDuty)
+        {
+            <div class="col-md-4 col-sm-6 mb-3 text-md-center">
+                @if (ele.Photo == null)
+                {
+                    <img src="~/images/doctor-person.jpg" class="img-fluid" alt="@ele.Photo" style="height:2rem">
+                }
+                else
+                {
+                    <img src="~/Physician/@ele.PhysicianId/Profile.png" class="img-fluid" alt="@ele.Photo" style="height:2rem" />
+                }
+                @if (ele.FirstName.Length + ele.LastName.Length >= 12)
+                {
+                    var name = ele.FirstName + ' ' + ele.LastName;
+                    <p class="d-inline d-sm-block text-wrap">Dr. @name.Substring(0,12)..</p>
+                }
+                else
+                {
+                    <p class="d-inline d-sm-block text-wrap">@ele.FirstName @ele.LastName</p>
+                }
+            </div>
+        }
+    </div>
+

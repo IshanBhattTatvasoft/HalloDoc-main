@@ -15,8 +15,10 @@ namespace HalloDoc.DataLayer.ViewModels
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Please enter the First Name")]
+        [RegularExpression(@"[a-zA-Z]{1,}$", ErrorMessage = "First Name should must contain letters only")]
         public string firstName { get; set; }
         [Required(ErrorMessage = "Please enter the Last Name")]
+        [RegularExpression(@"[a-zA-Z]{1,}$", ErrorMessage = "Last Name should must contain letters only")]
         public string lastName { get; set; }
         [Required(ErrorMessage = "Please enter the Email")]
         [RegularExpression(@"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", ErrorMessage = "Please enter valid Email")]
@@ -33,6 +35,7 @@ namespace HalloDoc.DataLayer.ViewModels
         [Required(ErrorMessage = "Please enter the second address")]
         public string address2 { get; set; }
         [Required(ErrorMessage = "Please enter the City")]
+        [RegularExpression(@"[a-zA-Z]{2,}$", ErrorMessage = "City Name must contain letters only")]
         public string city { get; set; }
         [Required(ErrorMessage = "Please enter the State")]
         public string state { get; set; }

@@ -15,7 +15,7 @@
                         <input type="hidden" id="roleName" asp-for="an.roleName" name="roleName"/>
                         <div class="mb-3">
                             <div class="form-floating">
-                                <select class="form-select" aria-label="Default select example" asp-for="PhysicianRegionVS" disabled>
+                                <select class="form-select" aria-label="Default select example" asp-for="PhysicianRegionVS" readonly>
                                     <option value="@Model.PhysicianRegionVS" selected>@Model.PhysicianRegionName</option>
                                 </select>
                                 <label asp-for="PhysicianRegionVS">Region</label>
@@ -23,8 +23,9 @@
                         </div>
                         <div class="mb-3">
                             <div class="form-floating">
-                                <select class="form-select" aria-label="Floating label select example" asp-for="PhysicianIdVS" disabled>
-                                    <option value="@Model.PhysicianName" selected>@Model.PhysicianName</option>
+                                <input type="hidden" id="phyId" name="pId" />
+                                <select class="form-select" aria-label="Floating label select example" id="physicianId" asp-for="PhysicianIdVS" readonly>
+                                    <option value="@Model.PhysicianIdVS" selected>@Model.PhysicianName</option>
                                 </select>
                                 <label asp-for="PhysicianIdVS">Physician</label>
                             </div>
@@ -52,7 +53,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-info text-white" id="ReturnViewShift">Return</button>
                     <button type="button" class="btn btn-info text-white" id="EditViewShift">Edit</button>
-                    <button type="submit" class="btn btn-info text-white d-none" id="SaveViewShift">Save</button>
+                    <button type="submit" class="btn btn-info text-white d-none" id="SaveViewShift" onclick="getId()">Save</button>
                     <button type="button" class="btn btn-danger text-white" id="DeleteViewShift">Delete</button>
                     <button type="button" class="btn btn-outline-info" data-bs-dismiss="modal">Cancel</button>
                 </div>
@@ -214,6 +215,12 @@
             });
         }
     })
+
+    function getId()
+    {
+        document.getElementById("phyId").value = document.getElementById("physicianId").value;
+        console.log(document.getElementById("phyId").value);
+    }
 </script>
 
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>

@@ -53,12 +53,12 @@
 
                 <input type="hidden" name="id" asp-for="vendorId" />
                 <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
+                    <div class="form-floating col-xl-6 col-lg-6 col-sm-12 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="businessName">
                         <label for="floatingInput" class="ms-2 text-muted">Business Name</label>
                         <span asp-validation-for="businessName" class="text-danger"></span>
                     </div>
-                    <div class="form-floating col-sm-6 mt-3">
+                    <div class="form-floating col-xl-6 col-lg-6 col-sm-12 mt-3">
                         <select class="form-select" id="select-professional" asp-for="professionId" onchange="filter()">
                             <option selected value="-1">Search Vendor</option>
                             @for (int y = 0; y < Model.professionType.Count; y++)
@@ -70,25 +70,25 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
+                    <div class="form-floating col-xl-6 col-lg-6 col-sm-12 mt-3">
                         <input type="text" class="form-control" id="emailInput" placeholder="Your First Name" aria-label="First name" asp-for="faxNumber">
                         <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
                         <span asp-validation-for="faxNumber" class="text-danger"></span>
 
                     </div>
-                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-4 col-12">
-                        <input id="phone" class="form-control" type="tel" asp-for="phoneNumber" required />
+                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-3 col-12">
+                        <input id="phone" class="form-control" type="tel" asp-for="phoneNumber" required style="height: 55px;" />
                         <span asp-validation-for="phoneNumber" class="text-danger"></span>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
+                    <div class="form-floating col-xl-6 col-lg-6 col-sm-12 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="street">
                         <label for="floatingInput" class="ms-2 text-muted">Street</label>
                         <span asp-validation-for="street" class="text-danger"></span>
                     </div>
-                    <div class="form-floating col-sm-6 mt-3">
+                    <div class="form-floating col-xl-6 col-lg-6 col-sm-12 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="city">
                         <label for="floatingInput" class="ms-2 text-muted">City</label>
                         <span asp-validation-for="city" class="text-danger"></span>
@@ -96,7 +96,7 @@
                 </div>
 
                 <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
+                    <div class="form-floating col-xl-6 col-lg-6 col-sm-12 mt-3">
                         <select class="form-select" id="select-professional" asp-for="regionId" onchange="filter()">
                             <option selected value="-1">Select State</option>
                             @for (int y = 0; y < Model.allRegions.Count; y++)
@@ -106,7 +106,7 @@
                         </select>
                         <span asp-validation-for="regionId" class="text-danger"></span>
                     </div>
-                    <div class="form-floating col-sm-6 mt-3">
+                    <div class="form-floating col-xl-6 col-lg-6 col-sm-12 mt-3">
                         <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="zipCode">
                         <label for="floatingInput" class="ms-2 text-muted">Zip/postal</label>
                         <span asp-validation-for="zipCode" class="text-danger"></span>
