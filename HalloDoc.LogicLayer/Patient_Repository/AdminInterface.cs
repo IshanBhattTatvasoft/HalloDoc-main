@@ -473,11 +473,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             {
                 if (q.PhysicianId != null)
                 {
-                    name = _context.Physicians.FirstOrDefault(p => p.PhysicianId == q.PhysicianId).FirstName + " " + _context.Physicians.FirstOrDefault(p => p.PhysicianId == q.PhysicianId).LastName;
+                    name = _context.Physicians.FirstOrDefault(p => p.AspNetUserId == q.PhysicianId).FirstName + " " + _context.Physicians.FirstOrDefault(p => p.AspNetUserId == q.PhysicianId).LastName;
                 }
                 else if (q.AdminId != null)
                 {
-                    name = _context.Admins.FirstOrDefault(a => a.AdminId == q.AdminId).FirstName + " " + _context.Admins.FirstOrDefault(a => a.AdminId == q.AdminId).LastName;
+                    name = _context.Admins.FirstOrDefault(a => a.AspNetUserId == q.AdminId).FirstName + " " + _context.Admins.FirstOrDefault(a => a.AspNetUserId == q.AdminId).LastName;
                 }
                 else if (q.RequestId == null)
                 {

@@ -42,6 +42,28 @@
         textarea{
             resize: none;
         }
+
+        input:focus {
+            outline: #3DB6FF !important;
+            /*border: 2px solid white !important;*/
+            box-shadow: none !important;
+            border-color: #3DB6FF !important;
+            /*color: red !important;*/
+        }
+
+        textarea:focus {
+            outline: none !important;
+            border-color: #3DB6FF !important;
+            box-shadow: none !important;
+        }
+
+            textarea:focus::placeholder {
+                color: #3DB6FF !important;
+            }
+
+        .form-floating:focus-within label {
+            color: #3DB6FF !important;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +73,7 @@
     <div class="container">
         <div class="row">
             <div style="top: 42px; position: relative;" class="col">
-                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="UserAccess" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="ProviderMenu" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                          class="bi bi-chevron-left" viewBox="0 0 16 16">
                         <path fill-rule="evenodd"
@@ -80,7 +102,7 @@
                     <label for="Username" class="ms-2 text-muted">User Name</label>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
-                    <input type="password" class="form-control password" id="Password" placeholder="Password" asp-for="Password" />
+                    <input type="text" class="form-control password" id="Password" placeholder="Password" asp-for="Password" />
                     <label for="Password" class="ms-2 text-muted">Password</label>
                     <span asp-validation-for="Password" class="text-danger"></span>
                 </div>
@@ -584,97 +606,10 @@
                     console.error(error);
                 }
             });
-            //fetch('/Admin/SetAllDocOfPhysician', {
-            //    method: 'POST',
-            //    body: formData
-            //})
-            //    .then(data => {
-            //        // Handle success
-            //        console.log("Done");
-            //        location.reload();
-            //    })
-            //    .catch(error => {
-            //        // Handle error
-            //        console.error(error);
-            //    });
         }
     }
 
-    //function UploadDoc(num) {
-    //    var doc;
-    //    var PhysicianId = document.getElementById('IdOfP').value;
-    //    console.log(num);
-    //    if (num == 1) doc = document.getElementById("contract");
-    //    else if (num == 2) doc = document.getElementById("BackgroundCheck");
-    //    else if (num == 3) doc = document.getElementById("Compilance");
-    //    else if (num == 4) doc = document.getElementById("NonDisclosure");
-    //    else doc = document.getElementById("LicensedDoc");
-    //    var files = doc.files[0];
-    //    var formData = new FormData();
-    //    console.log(files);
-
-    //    if (validateFileType(doc))
-    //        {
-    //            formData.append("file", files);
-    //            formData.append("PhysicianId", PhysicianId);
-    //            formData.append("num", num);
-    //            console.log(formData);
-    //            $.ajax({
-    //                type: "POST",
-    //                url: "/Admin/SetAllDocOfPhysician",
-    //                data: formData,
-    //                success: function (result) {
-    //                    // Handle success
-    //                    console.log("Done");
-    //                    location.reload();
-    //                },
-    //                error: function (error) {
-    //                    // Handle error
-    //                    console.error(error);
-    //                }
-    //            });
-
-
-    //        window.location.href = "/Admin/SetAllDocOfPhysician?file=" + files + "&PhysicianId="+PhysicianId+"&num="+num;
-    //        }
-    //}
-
-    //function UploadDoc(num) {
-    //    var doc;
-    //    var PhysicianId = document.getElementById('IdOfP').value;
-    //    console.log(num);
-    //    if (num == 1) doc = document.getElementById("contract");
-    //    else if (num == 2) doc = document.getElementById("BackgroundCheck");
-    //    else if (num == 3) doc = document.getElementById("Compilance");
-    //    else if (num == 4) doc = document.getElementById("NonDisclosure");
-    //    else doc = document.getElementById("LicensedDoc");
-    //    var files = doc.files[0];
-    //    var formData = new FormData();
-    //    // Append the selected file to the FormData object
-    //    if(validateFileType(doc))
-    //    {
-    //        formData.append("file", files);
-    //        formData.append("PhysicianId", PhysicianId);
-    //        formData.append("num", num);
-    //        $.ajax({
-    //            type: "POST",
-    //            url: "@Url.Action("SetAllDocOfPhysician", "Admin")",
-    //            data: formData,
-    //            processData: false,
-    //            contentType: false,
-    //            success: function (result) {
-    //                // Handle success
-    //                console.log("Done");
-    //                location.reload();
-    //            },
-    //            error: function (error) {
-    //                // Handle error
-    //                console.error(error);
-    //            }
-    //        });
-    //    }
-    //}
-
+    
     function validateFileType(input) {
         console.log(input.value);
         const allowedExtensions = /(\.pdf)$/i;

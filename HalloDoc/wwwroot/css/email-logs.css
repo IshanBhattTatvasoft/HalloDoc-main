@@ -1,0 +1,84 @@
+﻿input:focus {
+    outline: #3DB6FF !important;
+    /*border: 2px solid white !important;*/
+    box-shadow: none !important;
+    border-color: #3DB6FF !important;
+    /*color: red !important;*/
+}
+
+select:focus {
+    outline: #3DB6FF !important;
+    /*border: 2px solid white !important;*/
+    box-shadow: none !important;
+    border-color: #3DB6FF !important;
+    /*color: red !important;*/
+}
+
+textarea:focus {
+    outline: none !important;
+    border-color: #3DB6FF !important;
+    /*box-shadow: none !important;*/
+}
+
+    textarea:focus::placeholder {
+        color: #3DB6FF !important;
+    }
+
+.form-floating:focus-within label {
+    color: #3DB6FF !important;
+}
+
+.accordion-button:not(.collapsed)::after,
+.accordion-button::after {
+    background-image: unset !important;
+}
+
+.accordion-button:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+
+.loader2 span:nth-child(1) {
+    animation-delay: 1s;
+}
+
+.loader2 span:nth-child(2) {
+    animation-delay: 1s;
+}
+
+.loader2 span:nth-child(3) {
+    animation-delay: 1s;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: scale(0);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+}
+
+.loader2 {
+    display: none;
+    height: 40px;
+    margin: 95px auto;
+    margin-bottom: 180px !important;
+    align-self: center;
+    color: #00ccff !important;
+    z-index: 9999;
+    justify-content: center;
+    align-items: center;
+}
+
+    .loader2 span {
+        display: block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background-color: #00ccff;
+        animation: bounce 1.2s ease-in-out infinite;
+        margin-right: 5px;
+    }

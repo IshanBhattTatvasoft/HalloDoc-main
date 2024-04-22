@@ -109,7 +109,7 @@
             </div>
         </div>
 
-        <form method="post" asp-action="CreateNewAdminAccountFromUserAccess" asp-controller="Admin">
+        <form method="post" asp-action="CreateNewAdminAccountFromUserAccess" asp-controller="Admin" onsubmit="checkRegions()">
 
             <div class="container mt-2 shadow-lg p-3 mb-5 bg-muted rounded" id="main-container">
                 <div class="row">
@@ -187,9 +187,10 @@
                     <div class="form-floating col-sm-6 mt-3">
                         @foreach (var item in Model.allRegions)
                         {
-                            <input class="region-check px-1" type="checkbox" name="regionNames" value="@item.RegionId" />
+                            <input class="region-check px-1" type="checkbox" name="regionNames" value="@item.RegionId" onchange="isChecked()" />
                             <span class="me-2">@item.Name</span>
                         }
+                        <span class="text-danger" style="display: none;" id="regionCheckError">Please select atleast one region</span>
                     </div>
                 </div>
 
@@ -276,5 +277,36 @@
         document.getElementById("hiddenRole").value = document.getElementById("roleVal").value
     }
 
+    function checkRegions() {
+        let flag = 0
+        const documents = document.getElementsByClassName("region-check")
+        for (let i = 0; i < documents.length; ++i) {
+            if (documents[i].checked == true) {
+                flag = 1
+                break
+            }
+        }
+        if (flag == 0) {
+            document.getElementById("regionCheckError").innerHTML = "Please select alteast one region!";
+            document.getElementById("regionCheckError").style.display = "block";
+            event.preventDefault();
+            return false;
+        }
+    }
 
+    function isChecked() {
+
+        let flag = 0
+        const documents = document.getElementsByClassName("region-check")
+        for (let i = 0; i < documents.length; ++i) {
+            if (documents[i].checked == true) {
+                flag = 1
+                break
+            }
+        }
+        if (flag == 1) {
+            document.getElementById("regionCheckError").style.display = "none";
+        }
+
+    }
 </script>

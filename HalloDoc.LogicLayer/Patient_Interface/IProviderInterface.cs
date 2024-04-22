@@ -19,5 +19,6 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<DataLayer.Models.Region> GetProviderRegionFromId(int id);
         public EditProviderAccountViewModel GetProviderProfile(int id, AdminNavbarModel an);
         public List<Admin> GetAllAdmins();
+        public bool isEncounterFinalized(int id);
     }
 }

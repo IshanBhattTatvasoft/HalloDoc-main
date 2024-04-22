@@ -294,7 +294,7 @@
 
                                     @if (Model.an.roleName == "Provider" && Model.status == "Conclude")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ConcludeCare" asp-controller="Provider" asp-route-requestId="@item.RequestId">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ConcludeCare" asp-controller="Provider" asp-route-id="@item.RequestId">
                                             <div class="action-item">
                                                 <img src="~/images/view-case-image.png" alt="" class="action-img me-1" style="height: 20px; width: 22px;"><span>Conclude Care</span>
                                             </div>
@@ -303,7 +303,7 @@
 
                                     @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.RequestId">
                                             <div class="action-item">
                                                 <img src="~/images/search-file.png" alt="" class="action-img me-2" style="height: 22px; width: 28px;"><span>View Case</span>
                                             </div>
@@ -312,7 +312,7 @@
 
                                     @if ((Model.status == "Pending" && Model.an.roleName == "Provider") || Model.status == "ToClose")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
                                             <div class="action-item">
                                                 <img src="~/images/document.png" alt="" class="action-img me-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
                                             </div>
@@ -321,7 +321,7 @@
 
                                     @if ((Model.status == "Active" || Model.status == "Conclude") && Model.an.roleName == "Provider")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
                                             <div class="action-item">
                                                 <img src="~/images/document.png" alt="" class="action-img me-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
                                             </div>
@@ -330,7 +330,7 @@
 
                                     @if (Model.status == "New" || Model.status == "Pending" || Model.status == "Active" || Model.status == "Conclude" || Model.status == "ToClose" || Model.status == "Unpaid")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">
                                             <div class="action-item">
                                                 <img src="~/images/note.png" alt="" class="action-img me-1" style="height: 23px; width: 23px;"><span>View Notes</span>
                                             </div>
@@ -348,7 +348,7 @@
 
                                     @if (Model.status == "Pending" && Model.an.roleName == "Admin" || (Model.status == "Active" && Model.an.roleName == "Admin") || (Model.status == "Conclude" && Model.an.roleName == "Admin") || Model.status == "Unpaid")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
                                             <div class="action-item">
                                                 <img src="~/images/document.png" alt="" class="action-img me-1" style="height: 21px; width: 22px;"><span>View Uploads</span>
                                             </div>
@@ -390,7 +390,7 @@
                                         </a>
                                     }
 
-                                    @if ((Model.status == "Conclude" && Model.an.roleName == "Admin") || Model.status == "ToClose" || Model.status == "Active")
+                                    @if ((Model.status == "Conclude") || Model.status == "ToClose" || Model.status == "Active")
                                     {
                                         <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId">
                                             <div class="action-item">
@@ -424,7 +424,7 @@
 
                                         @if (Model.an.roleName == "Admin")
                                         {
-                                            <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
+                                            <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
                                                 <div class="action-item">
                                                     <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                                 </div>
@@ -439,11 +439,10 @@
                                                 if (x.IsFinalized[0] == true)
                                                 {
                                                     flag = true;
-
+                                                    
                                                 }
                                             }
-
-                                            @if (item.CallType == null || item.CallType == 0)
+                                            @if (item.Status != 6 && (item.CallType == null || item.CallType == 0))
                                             {
                                                 <a type="button" href="#" class="dropdown-item mb-1 hover-dropdown-item text-dark px-1" data-bs-toggle="modal" data-bs-target="#typeOfCareModal" onclick="typeOfCallData('@item.RequestId')">
                                                     <div class="action-item">
@@ -463,7 +462,7 @@
 
                                             else
                                             {
-                                                <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
+                                                <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
                                                     <div class="action-item">
                                                         <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                                     </div>
@@ -473,14 +472,14 @@
                                         }
                                     }
 
-                                    @if (Model.status == "Conclude" && Model.an.roleName == "Provider")
+                                    @*@if (Model.status == "Conclude" && Model.an.roleName == "Provider")
                                     {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
+                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
                                             <div class="action-item">
                                                 <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
                                             </div>
                                         </a>
-                                    }
+                                    }*@
                                 </div>
                             </div>
                         </td>
@@ -588,7 +587,7 @@
                 <div id="collapseThree(@item.RequestClientId)" class="accordion-collapse collapse" aria-labelledby="flush-heading@(item.RequestClientId) data-bs-parent="#accordionExample">
                     <div class="accordion-body" style="background-color: #E5EEF5;">
                         <div style="position: relative;">
-                            <a asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId" type="button" class="btn btn-light view-case-button">View Case</a>
+                            <a asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.RequestId" type="button" class="btn btn-light view-case-button">View Case</a>
                             @if (Model.status != "Unpaid")
                             {
                                 <div><img src="~/images/calendar2-date.svg"><span class="ms-2">Date of birth:  @(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@DateTime.Now.Year - @item.RequestClient.IntYear)</span></div>
@@ -651,14 +650,14 @@
                                     @if (Model.an.roleName == "Admin")
                                     {
                                         <div class="col-6 mt-2">
-                                            <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
+                                            <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">View Notes</a>
                                         </div>
                                     }
 
                                     @if (Model.an.roleName == "Provider")
                                     {
                                         <div class="col-6">
-                                            <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
+                                            <a type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">View Notes</a>
                                         </div>
                                     }
 
@@ -681,7 +680,7 @@
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button text-dark" data-bs-toggle="modal" data-bs-target="#SendAgreementModal" onclick="sendAgreementData('@item.RequestId', '@item.RequestTypeId', '@item.RequestClient.Email', '@item.RequestClient.PhoneNumber')">Send Agreement</button>
                                     </div>
                                     <div class="col-6">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">View Notes</a>
                                     </div>
                                     @if (Model.an.roleName == "Admin")
                                     {
@@ -690,7 +689,7 @@
                                         </div>
                                     }
                                     <div class="col-6 mt-2">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     @if (Model.an.roleName == "Admin")
                                     {
@@ -706,16 +705,16 @@
                                 @if (Model.status == "Active")
                                 {
                                     <div class="col-6">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <a type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId">Orders</a>
@@ -723,7 +722,7 @@
                                     @if (Model.an.roleName == "Provider")
                                     {
                                         <div class="col-6 mt-2">
-                                            <a type="button" class="btn rounded-pill all-accordion-button w-100 blue-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">House Call</a>
+                                            <a type="button" class="btn rounded-pill all-accordion-button w-100 blue-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">House Call</a>
                                         </div>
                                     }
                                     <div class="col-6 mt-2">
@@ -736,20 +735,20 @@
                                     @if (Model.an.roleName == "Provider")
                                     {
                                         <div class="col-6">
-                                            <a type="button" class="btn btn-danger rounded-pill all-accordion-button w-100" asp-action="ConcludeCare" asp-controller="Provider" asp-route-requestId="@item.RequestId">Conclude Care</a>
+                                            <a type="button" class="btn btn-danger rounded-pill all-accordion-button w-100" asp-action="ConcludeCare" asp-controller="Provider" asp-route-id="@item.RequestId">Conclude Care</a>
                                         </div>
                                     }
                                     <div class="col-6">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <a type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button" asp-action="Orders" asp-controller="Admin" asp-route-id="@item.RequestId">Orders</a>
@@ -765,16 +764,16 @@
                                         <a type="button" class="btn btn-danger rounded-pill all-accordion-button w-100" asp-action="CloseCase" asp-controller="Admin" asp-route-id="@item.RequestId">Close Case</a>
                                     </div>
                                     <div class="col-6">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button ggreen-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button ggreen-button" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 dark-green-button">Doctors Notes</button>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
-                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-reqId="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
+                                        <a type="button" class="btn rounded-pill all-accordion-button w-100 green-button" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">Encounter</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn rounded-pill all-accordion-button w-100 yellow-button" data-bs-toggle="modal" data-bs-target="#example10Modal" class="dropdown-item mb-1 hover-dropdown-item text-dark" href="#" onclick="clearCaseData('@item.RequestId')">Clear Case</button>
@@ -787,10 +786,10 @@
                                 @if (Model.status == "Unpaid")
                                 {
                                     <div class="col-6">
-                                        <a type="button" class="btn green-button rounded-pill all-accordion-button w-100" asp-action="ViewNotes" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Notes</a>
+                                        <a type="button" class="btn green-button rounded-pill all-accordion-button w-100" asp-action="ViewNotes" asp-controller="Admin" asp-route-id="@item.RequestId">View Notes</a>
                                     </div>
                                     <div class="col-6">
-                                        <a type="button" class="btn green-button rounded-pill all-accordion-button w-100" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
+                                        <a type="button" class="btn green-button rounded-pill all-accordion-button w-100" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId" onclick="viewUploadsData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">View Uploads</a>
                                     </div>
                                     <div class="col-6 mt-2">
                                         <button type="button" class="btn green-button rounded-pill all-accordion-button w-100">Email</button>

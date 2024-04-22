@@ -800,12 +800,16 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Admin Provider", "AdminDashboard")]
         // function to display data in View Case view
-        public IActionResult ViewCase(int requestId)
+        public IActionResult ViewCase(int id)
         {
-
-
             try
             {
+                Request r = _adminInterface.GetReqFromReqId(id);
+                if (r == null)
+                {
+                    TempData["error"] = "No such request exists";
+                    return RedirectToAction("PageNotFoundError");
+                }
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
@@ -820,13 +824,13 @@ namespace HalloDoc.Controllers
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
                     Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
-                    Request re = _adminInterface.GetReqFromReqId(requestId);
-                    if(re == null)
+                    Request re = _adminInterface.GetReqFromReqId(id);
+                    if (re == null)
                     {
                         TempData["error"] = "Request does not exist";
                         return RedirectToAction("AdminDashboard");
                     }
-                    if(re.PhysicianId != ph.PhysicianId)
+                    if (re.PhysicianId != ph.PhysicianId)
                     {
                         TempData["error"] = "Details of unassigned case cannot be accessed";
                         return RedirectToAction("AdminDashboard");
@@ -838,7 +842,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                Request request = _adminInterface.ValidateRequest(requestId);
+                Request request = _adminInterface.ValidateRequest(id);
 
                 RequestClient user = _adminInterface.ValidateRequestClient(request.RequestClientId);
 
@@ -915,7 +919,7 @@ namespace HalloDoc.Controllers
 
                 ViewCaseModel viewCase = new ViewCaseModel
                 {
-                    RequestId = requestId,
+                    RequestId = id,
                     PatientNotes = user.Notes,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -928,6 +932,8 @@ namespace HalloDoc.Controllers
                     Status = request.Status,
                     caseTags = _adminInterface.GetAllCaseTags(),
                     an = an,
+                    regionName = user.State,
+                    Address = user.Street + " " + user.City + " " + user.State + " " + user.ZipCode,
                 };
 
                 return View(viewCase);
@@ -970,23 +976,30 @@ namespace HalloDoc.Controllers
                     }
                 }
                 TempData["success"] = "Case data updated successfully";
-                return RedirectToAction("ViewCase", new { requestId = requestId });
+                return RedirectToAction("ViewCase", new { id = requestId });
             }
 
             catch (Exception ex)
             {
                 int requestId = (int)userProfile.RequestId;
                 TempData["error"] = "Unable to edit the case information";
-                return RedirectToAction("ViewCase", new { requestId = requestId });
+                return RedirectToAction("ViewCase", new { id = requestId });
             }
         }
 
         [CustomAuthorize("Admin Provider", "AdminDashboard")]
         // action to show data in View Notes view
-        public IActionResult ViewNotes(int requestId)
+        public IActionResult ViewNotes(int id)
         {
             try
             {
+                Request requ = _adminInterface.GetReqFromReqId(id);
+                if (requ == null)
+                {
+                    TempData["error"] = "No such request exists";
+                    return RedirectToAction("PageNotFoundError");
+                }
+
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
@@ -1001,7 +1014,7 @@ namespace HalloDoc.Controllers
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
                     Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
-                    Request re = _adminInterface.GetReqFromReqId(requestId);
+                    Request re = _adminInterface.GetReqFromReqId(id);
                     if (re == null)
                     {
                         TempData["error"] = "Request does not exist";
@@ -1019,12 +1032,12 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                Request r = _adminInterface.ValidateRequest(requestId);
+                Request r = _adminInterface.ValidateRequest(id);
 
-                RequestNote rn = _adminInterface.FetchRequestNote(requestId);
+                RequestNote rn = _adminInterface.FetchRequestNote(id);
 
 
-                List<RequestStatusLog> rs = _adminInterface.GetAllRslData(requestId);
+                List<RequestStatusLog> rs = _adminInterface.GetAllRslData(id);
                 string adNotes = " ";
                 string phNotes = " ";
                 string tNotes = " ";
@@ -1041,16 +1054,16 @@ namespace HalloDoc.Controllers
                     }
                 }
 
-                RequestStatusLog rsl = _adminInterface.FetchRequestStatusLogs(requestId);
+                RequestStatusLog rsl = _adminInterface.FetchRequestStatusLogs(id);
                 string name = "";
                 if (rsl != null && rsl.PhysicianId != null)
                 {
-                    int id = (int)rsl.PhysicianId;
-                    Physician py = _adminInterface.FetchPhysician(id);
+                    int pid = (int)rsl.PhysicianId;
+                    Physician py = _adminInterface.FetchPhysician(pid);
                     name = py.FirstName;
                 }
-                string cancelledByAdmin = _adminInterface.GetCancelledByAdminNotes(requestId);
-                string cancelledByPatient = _adminInterface.GetCancelledByPatientNotes(requestId);
+                string cancelledByAdmin = _adminInterface.GetCancelledByAdminNotes(id);
+                string cancelledByPatient = _adminInterface.GetCancelledByPatientNotes(id);
                 var viewModel = new ViewNotes
                 {
                     AdminNotes = adNotes,
@@ -1060,7 +1073,7 @@ namespace HalloDoc.Controllers
                     PhyName = name,
                     Notes = tNotes,
                     CreatedDate = rsl == null ? DateTime.Now : rsl.CreatedDate,
-                    RequestId = requestId,
+                    RequestId = id,
                     an = an,
                 };
                 return View(viewModel);
@@ -1105,13 +1118,13 @@ namespace HalloDoc.Controllers
 
                 _adminInterface.EditViewNotesAction(model, (int)userId);
                 TempData["success"] = "Notes edited successfully";
-                return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
+                return RedirectToAction("ViewNotes", new { id = model.RequestId });
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to edit the notes";
-                return RedirectToAction("ViewNotes", new { requestId = model.RequestId });
+                return RedirectToAction("ViewNotes", new { id = model.RequestId });
             }
 
         }
@@ -1815,10 +1828,17 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Admin Provider", "AdminDashboard")]
         // function to return View of View Uploads page
-        public IActionResult ViewUploads(int requestid)
+        public IActionResult ViewUploads(int id)
         {
             try
             {
+                Request r = _adminInterface.GetReqFromReqId(id);
+                if (r == null)
+                {
+                    TempData["error"] = "No such request exists";
+                    return RedirectToAction("PageNotFoundError");
+                }
+
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
@@ -1833,7 +1853,7 @@ namespace HalloDoc.Controllers
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
                     Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
-                    Request re = _adminInterface.GetReqFromReqId(requestid);
+                    Request re = _adminInterface.GetReqFromReqId(id);
                     if (re == null)
                     {
                         TempData["error"] = "Request does not exist";
@@ -1851,16 +1871,16 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                Request request = _adminInterface.ValidateRequest(requestid);
+                Request request = _adminInterface.ValidateRequest(id);
                 RequestClient rc = _adminInterface.GetRequestClientFromId(request.RequestClientId);
                 string fname = rc.FirstName + " " + rc.LastName + " ";
                 User user = _adminInterface.ValidateUserByRequestId(request);
-                List<RequestWiseFile> rwf = _adminInterface.GetFileData(requestid);
+                List<RequestWiseFile> rwf = _adminInterface.GetFileData(id);
 
                 ViewUploadsModel vum = new ViewUploadsModel()
                 {
                     confirmation_number = request.ConfirmationNumber,
-                    requestId = requestid,
+                    requestId = id,
                     user = user,
                     requestWiseFiles = rwf,
                     an = an,
@@ -1932,13 +1952,13 @@ namespace HalloDoc.Controllers
                     _adminInterface.AddFile(requestWiseFile);
                 }
 
-                return RedirectToAction("ViewUploads", new { requestID = model.requestId });
+                return RedirectToAction("ViewUploads", new { id = model.requestId });
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to upload the file";
-                return RedirectToAction("ViewUploads", new { requestID = model.requestId });
+                return RedirectToAction("ViewUploads", new { id = model.requestId });
             }
         }
 
@@ -1969,14 +1989,14 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
 
                 int reqId = _adminInterface.SingleDelete(id);
-                return RedirectToAction("ViewUploads", new { requestID = reqId });
+                return RedirectToAction("ViewUploads", new { id = reqId });
             }
 
             catch (Exception ex)
             {
                 int reqId = _adminInterface.SingleDelete(id);
                 TempData["error"] = "Unable to delete this file";
-                return RedirectToAction("ViewUploads", new { requestID = reqId });
+                return RedirectToAction("ViewUploads", new { id = reqId });
             }
         }
 
@@ -2007,13 +2027,13 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
                 _adminInterface.MultipleDelete(requestid, fileId);
                 TempData["success"] = "File(s) deleted successfully";
-                return RedirectToAction("ViewUploads", new { requestID = requestid });
+                return RedirectToAction("ViewUploads", new { id = requestid });
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to delete these files";
-                return RedirectToAction("ViewUploads", new { requestID = requestid });
+                return RedirectToAction("ViewUploads", new { id = requestid });
             }
         }
 
@@ -2129,15 +2149,15 @@ namespace HalloDoc.Controllers
                             }
                         }
                         emailSentCount++;
-                        return RedirectToAction("ForgotPassword");
+                        return RedirectToAction("AdminDashboard");
                     }
                 }
                 TempData["success"] = "Mail sent successfully";
-                return RedirectToAction("ViewUploads", new { requestID = requestid });
+                return RedirectToAction("ViewUploads", new { id = requestid });
             }
             catch (Exception ex)
             {
-                return RedirectToAction("ForgotPassword");
+                return RedirectToAction("AdminDashboard");
             }
         }
 
@@ -2296,6 +2316,13 @@ namespace HalloDoc.Controllers
         {
             try
             {
+                Request r = _adminInterface.GetReqFromReqId(id);
+                if (r == null)
+                {
+                    TempData["error"] = "No such request exists";
+                    return RedirectToAction("AdminDashboard");
+                }
+
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
@@ -2811,10 +2838,13 @@ namespace HalloDoc.Controllers
         {
             try
             {
+
+
+
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Request r = _adminInterface.GetReqFromReqId(id);
-                if(r.Status!=2)
+                if (r.Status != 2)
                 {
                     TempData["error"] = "unable to review the agreement";
                     return RedirectToAction("PatientLoginPage", "Login");
@@ -2910,10 +2940,17 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Admin Provider", "EncounterForm")]
         // function to return Encounter Form view
-        public IActionResult EncounterForm(int reqId)
+        public IActionResult EncounterForm(int id)
         {
             try
             {
+                Request requ = _adminInterface.GetReqFromReqId(id);
+                if (requ == null)
+                {
+                    TempData["error"] = "No such request exists";
+                    return RedirectToAction("PageNotFoundError");
+                }
+
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
@@ -2929,7 +2966,7 @@ namespace HalloDoc.Controllers
                     an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
                     an.roleName = "Provider";
                     Physician ph = _adminInterface.GetPhysicianFromId((int)userId);
-                    Request re = _adminInterface.GetReqFromReqId(reqId);
+                    Request re = _adminInterface.GetReqFromReqId(id);
                     if (re == null)
                     {
                         TempData["error"] = "Request does not exist";
@@ -2948,14 +2985,14 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                EncounterForm ef = _adminInterface.GetEncounterFormData(reqId);
-                Request r = _adminInterface.ValidateRequest(reqId);
+                EncounterForm ef = _adminInterface.GetEncounterFormData(id);
+                Request r = _adminInterface.ValidateRequest(id);
                 RequestClient rc = _adminInterface.ValidateRequestClient(r.RequestClientId);
 
                 if (ef != null)
                 {
                     EncounterFormModel efm = new EncounterFormModel();
-                    efm.reqId = reqId;
+                    efm.reqId = id;
                     efm.FirstName = rc.FirstName;
                     efm.LastName = rc.LastName;
                     efm.Email = rc.Email;
@@ -2994,7 +3031,7 @@ namespace HalloDoc.Controllers
                 {
                     EncounterFormModel efm1 = new EncounterFormModel
                     {
-                        reqId = reqId,
+                        reqId = id,
                         FirstName = rc.FirstName,
                         LastName = rc.LastName,
                         Email = rc.Email,
@@ -4296,13 +4333,13 @@ namespace HalloDoc.Controllers
                 }
                 _adminInterface.EditRoleSubmitAction(roleid, menuIds);
                 TempData["success"] = "Role edited successfully";
-                return RedirectToAction("AccountAccess");
+                return RedirectToAction("EditRole", new { roleid = roleid });
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to edit the role";
-                return RedirectToAction("AccountAccess");
+                return RedirectToAction("EditRole", new { roleid = roleid });
             }
         }
 
@@ -4350,7 +4387,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                if(regionNames.IsNullOrEmpty())
+                if (regionNames.IsNullOrEmpty())
                 {
                     TempData["error"] = "Select regions from checkbox!";
                     return RedirectToAction("CreateAdminAccount");
@@ -4738,7 +4775,7 @@ namespace HalloDoc.Controllers
             try
             {
                 int x = 0;
-                x = _adminInterface.EditViewShift(ShiftDetail,pId);
+                x = _adminInterface.EditViewShift(ShiftDetail, pId);
                 if (x == 0)
                 {
                     TempData["success"] = "Shift edited successfully";
@@ -4951,7 +4988,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Admin", "Scheduling")]
-        public IActionResult MdsOnCallFilteredData(int? region=-1)
+        public IActionResult MdsOnCallFilteredData(int? region = -1)
         {
             try
             {

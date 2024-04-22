@@ -6,7 +6,7 @@
 }
 
 @section Styles{
-    
+    <link href="~/css/search-records.css" rel="stylesheet" type="text/css"/>
 }
 
 @section Scripts{
@@ -14,42 +14,6 @@
 }
 
 <partial name="Toast" />
-
-<style>
-    input:focus {
-        outline: #3DB6FF !important;
-        /*border: 2px solid white !important;*/
-        box-shadow: none !important;
-        border-color: #3DB6FF !important;
-        /*color: red !important;*/
-    }
-
-    select:focus {
-        outline: #3DB6FF !important;
-        /*border: 2px solid white !important;*/
-        box-shadow: none !important;
-        border-color: #3DB6FF !important;
-        /*color: red !important;*/
-    }
-
-    textarea:focus {
-        outline: none !important;
-        border-color: #3DB6FF !important;
-        /*box-shadow: none !important;*/
-    }
-
-        textarea:focus::placeholder {
-            color: #3DB6FF !important;
-        }
-
-    .form-floating:focus-within label {
-        color: #3DB6FF !important;
-    }
-
-    select:invalid {
-        color: gray;
-    }
-</style>
 
 <body class="bg-light">
     <div class="bg-light" style="overflow: hidden;">
@@ -145,6 +109,12 @@
 
 
                 <div>
+                    <div id="loader2" class="loader2">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                     <div class="mt-4 ms-3 me-3 myTable" id="SearchRecordsPartialView"></div>
                 </div>
             </div>
@@ -161,10 +131,13 @@
         var today2 = new Date().toISOString().split('T')[0];
         document.getElementById("toDate").setAttribute('min', today2);
 
+        document.getElementById("loader2").style.display = "flex";
+
         $.ajax({
             url: '/Admin/SearchRecordsFilteredData',
             type: 'GET',
             success: function (response) {
+                document.getElementById("loader2").style.display = "none";
                 $("#SearchRecordsPartialView").html(response);
             },
             error: function (error) {
@@ -183,11 +156,14 @@
         var Email = document.getElementById("email").value;
         var PhoneNumber = document.getElementById("phoneNumber").value;
 
+        document.getElementById("loader2").style.display = "flex";
+
         $.ajax({
             url: '/Admin/SearchRecordsFilteredData',
             type: 'POST',
             data: { requestStatus: Status, patientName: PatientName, requestType: TypeOfRequest, fromDate: FromDate, toDate: ToDate, providerName: ProviderName, email: Email, phoneNumber: PhoneNumber, page: page, pageSize: pageSize },
             success: function (response) {
+                document.getElementById("loader2").style.display = "none";
                 $("#SearchRecordsPartialView").html(response);
             },
             error: function (error) {

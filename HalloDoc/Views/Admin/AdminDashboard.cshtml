@@ -747,8 +747,11 @@
                     $("#AdminDashboardPartialView").html(response);
 
                 },
-                error: function () {
-                    alert('An error occurred.');
+                error: function (xhr, status, error) {
+                    if (xhr.status === 401) {
+                        location.reload();
+                    }
+                    console.log(error);
                 }
             });
 
@@ -806,8 +809,11 @@
 
                         },
 
-                        error: function () {
-                            alert("An error occurred");
+                        error: function (xhr, status, error) {
+                            if (xhr.status === 401) {
+                                location.reload();
+                            }
+                            console.log(error);
                         }
                     });
                 }
@@ -841,8 +847,11 @@
                             success: function (response) {
                                 console.log("hello");
                             },
-                            error: function (error) {
-                                alert("An error occurred");
+                            error: function (xhr, status, error) {
+                                if (xhr.status === 401) {
+                                    location.reload();
+                                }
+                                console.log(error);
                             }
                         });
                     });
@@ -872,9 +881,11 @@
                         $("#AdminDashboardPartialView").html(response);
 
                     },
-                    error: function () {
-                        console.log("an error occurred");
-                        // alert('An error occurred.');
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 401) {
+                            location.reload();
+                        }
+                        console.log(error);
                     }
                 });
             }
@@ -897,9 +908,11 @@
                         //console.log(response);
                         $("#AdminDashboardPartialView").html(response)
                     },
-                    error: function () {
-                        console.log("an error occurred");
-                        // alert('An error occurred.');
+                    error: function (xhr, status, error) {
+                        if (xhr.status === 401) {
+                            location.reload();
+                        }
+                        console.log(error);
                     }
                 });
             }

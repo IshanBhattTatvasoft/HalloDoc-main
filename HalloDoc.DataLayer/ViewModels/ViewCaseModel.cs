@@ -25,5 +25,8 @@ public class ViewCaseModel
     public List<Region> regions { get; set; } = new List<Region>();
     public List<CaseTag> caseTags { get; set; }
     public AdminNavbarModel? an { get; set; }
+    public string? regionName { get; set; }
+    public string? Address { get; set; }
+    public string? RoomNo { get; set; }
 
 }

@@ -67,7 +67,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Provider", "AdminDashboard")]
-        public IActionResult ConcludeCare(int requestid)
+        public IActionResult ConcludeCare(int id)
         {
             try
             {
@@ -91,16 +91,16 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                Request request = _adminInterface.ValidateRequest(requestid);
+                Request request = _adminInterface.ValidateRequest(id);
                 RequestClient rc = _adminInterface.GetRequestClientFromId(request.RequestClientId);
                 string fname = rc.FirstName + " " + rc.LastName + " ";
                 User user = _adminInterface.ValidateUserByRequestId(request);
-                List<RequestWiseFile> rwf = _adminInterface.GetFileData(requestid);
+                List<RequestWiseFile> rwf = _adminInterface.GetFileData(id);
 
                 ViewUploadsModel vum = new ViewUploadsModel()
                 {
                     confirmation_number = request.ConfirmationNumber,
-                    requestId = requestid,
+                    requestId = id,
                     user = user,
                     requestWiseFiles = rwf,
                     an = an,
@@ -245,6 +245,12 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+
+                if(!_providerInterface.isEncounterFinalized(id))
+                {
+                    TempData["error"] = "Encounter form is not finalized for this case";
+                    return RedirectToAction("ConcludeCare", new { id = id });
+                }
 
                 bool isConcluded = _providerInterface.ConcludeCaseSubmitAction(model, id, p);
                 return RedirectToAction("AdminDashboard", "Admin");

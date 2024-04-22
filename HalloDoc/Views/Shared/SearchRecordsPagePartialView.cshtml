@@ -111,54 +111,59 @@
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Date Of Service: @item.dateOfService</span>
+                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Date Of Service: <span class="fw-semibold">@item.dateOfService</span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Case Close Date: @item.closeCaseDate</span>
+                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Case Close Date: <span class="fw-semibold">@item.closeCaseDate</span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Email: @item.email</span>
+                                <span><i class="fa-regular fa-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Email: <span class="fw-semibold">@item.email</span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone: @item.phoneNumber</span>
+                                <span><i class="fa-solid fa-phone me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Phone: <span class="fw-semibold">@item.phoneNumber</span>
                             </div>
                             <div class="mt-2">
-                                <span><i class="fa-solid fa-location-dot me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Address: @item.address</span>
-                            </div>
-
-                            <div class="mt-2">
-                                <span><i class="fa-solid fa-location-dot me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Zipcode: @item.zipcode</span>
+                                <span><i class="fa-solid fa-location-dot me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Address: <span class="fw-semibold">@item.address</span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Request Status: @Enum.GetName(typeof(Status), item.requestStatus)</span>
+                                <span><i class="fa-solid fa-location-dot me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Zipcode: <span class="fw-semibold">@item.zipcode</span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-solid fa-user-doctor me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Provider: @item.physician</span>
+                                <span><i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Request Status: <span class="fw-semibold">@Enum.GetName(typeof(Status), item.requestStatus)</span></span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Provider Note: @item.physicianNote</span>
+                                <span><i class="fa-solid fa-user-doctor me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Provider: <span class="fw-semibold">@item.physician</span></span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Cancelled By Provider Note: @item.cancelledByProviderNote</span>
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Provider Note: <span class="fw-semibold">@item.physicianNote</span></span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Admin Note: @item.adminNote</span>
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Cancelled By Provider Note: <span class="fw-semibold">@item.cancelledByProviderNote</span></span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Cancellation Reason: @item.cancelledByProviderNote</span>
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Admin Note: <span class="fw-semibold">@item.adminNote</span></span>
                             </div>
 
                             <div class="mt-2">
-                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Patient Note: @item.patientNote</span>
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Cancellation Reason: <span class="fw-semibold">@item.cancelledByProviderNote</span></span>
+                            </div>
+
+                            <div class="mt-2">
+                                <span><i class="fa-regular fa-newspaper me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Patient Note: <span class="fw-semibold">@item.patientNote</span></span>
+                            </div>
+
+                            <div class="mt-2 d-flex align-items-end justify-content-end">
+                                <a type="button" asp-action="DeleteFromSearchRecord" asp-controller="Admin" asp-route-id="@item.requestId" class="btn btn-outline-info me-2 ps-auto pe-auto">Delete Permanently</a>
+                                <a type="button" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.requestId" class="btn btn-outline-info ps-auto pe-auto">View Case</a>
                             </div>
 
                         </div>

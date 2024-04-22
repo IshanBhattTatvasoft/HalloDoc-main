@@ -64,20 +64,20 @@
                                     Action Name: 
                                     @if (item.action == 1)
                                     {
-                                        <span>Message to patient to create a request</span>
+                                        <span class="fw-semibold">Message to patient to create a request</span>
                                     }
                                     else if (item.action == 2)
                                     {
-                                        <span>Message to send order to business</span>
+                                        <span class="fw-semibold">Message to send order to business</span>
                                     }
                                     else
                                     {
-                                        <span>Message to contact provider: Dr. @item.recipient</span>
+                                        <span class="fw-semibold">Message to contact provider: Dr. @item.recipient</span>
                                     }
                                 </span>
                             </div>
                             <div class="mt-1">
-                                <span>Mobile Number: @item.phoneNumber</span>
+                                <span>Mobile Number: <span class="fw-semibold">@item.phoneNumber</span></span>
                             </div>
                         </div>
                     </button>
@@ -87,27 +87,27 @@
                     <div class="accordion-body" style="background-color: #E5EEF5;">
                         <div style="position: relative;">
                             <div>
-                                <span><i class="fa-regular fa-user me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Role Name: @item.roleName</span>
+                                <span><i class="fa-regular fa-user me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Role Name: <span class="fw-semibold">@item.roleName</span></span>
                             </div>
 
                             <div class="mt-3">
-                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Created Date: @item.createdDate</span>
+                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 5px 4px 5px 4px; border-radius: 50%;"></i>Created Date: <span class="fw-semibold">@item.createdDate</span></span>
                             </div>
 
                             <div class="mt-3">
-                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Sent Date: @item.sentDate.Date.ToString("MMM dd, yyyy")</span>
+                                <span><i class="fa-regular fa-calendar-days me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Sent Date: <span class="fw-semibold">@item.sentDate.Date.ToString("MMM dd, yyyy")</span></span>
                             </div>
 
                             <div class="mt-3">
-                                <span><i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Sent: @item.sent</span>
+                                <span><i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Sent: <span class="fw-semibold">@item.sent</span></span>
                             </div>
 
                             <div class="mt-3">
-                                <span><i class="fa-regular fa-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Sent Tries: @item.sentTries</span>
+                                <span><i class="fa-regular fa-envelope me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Sent Tries: <span class="fw-semibold">@item.sentTries</span></span>
                             </div>
 
                             <div class="mt-3">
-                                <span><i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Confirmation Number: @item.confirmationNo</span>
+                                <span><i class="fa-solid fa-check me-2" style="color: #39CBEC; border: 1px solid #39CBEC; padding: 3px 4px 3px 4px; border-radius: 50%;"></i>Confirmation Number: <span class="fw-semibold">@item.confirmationNo</span></span>
                             </div>
                         </div>
                     </div>

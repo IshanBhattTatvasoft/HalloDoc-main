@@ -81,6 +81,8 @@ namespace HalloDoc.Controllers
                         Admin ad = _adminInterface.ValidateUser(user.Email);
                         Physician p = _adminInterface.ValidatePhysician(user.Email);
                         User user2 = _loginPage.ValidateUsers(model);
+                        AspNetUserRole anur = _loginPage.ValidateANUR(user);
+                        AspNetRole anr = _loginPage.ValidateRole(anur);
                         if (ad == null && p == null)
                         {
                             HttpContext.Session.SetInt32("id", user2.UserId);
@@ -102,8 +104,6 @@ namespace HalloDoc.Controllers
                             Response.Cookies.Append("token", token.ToString());
                             HttpContext.Session.SetString("IsLoggedIn", "true");
                         }
-                        AspNetUserRole anur = _loginPage.ValidateANUR(user);
-                        AspNetRole anr = _loginPage.ValidateRole(anur);
                         if (anr.Name == "Patient")
                         {
                             TempData["success"] = "Welcome " + user2.FirstName;
@@ -439,15 +439,15 @@ namespace HalloDoc.Controllers
         { return View(); }
 
         [CustomAuthorize("Patient")]
-        public IActionResult PatientDashboardViewDocuments(int requestid)
+        public IActionResult PatientDashboardViewDocuments(int id)
         {
             var userId = HttpContext.Session.GetInt32("id");
 
             // include() method creates object of RequestClient table where Request.RequestClientId = RequestClient.RequestClientId and this object is added to the Request table (kind of join operation). only those records are present in the variable 'request' whose requestId matches with the id passed in argument
-            var request = _viewDocuments.GetRequestWithClient(requestid);
+            var request = _viewDocuments.GetRequestWithClient(id);
 
             // Similarly, we include the records of Admin and Physician where Admin.AdminId = RequestWiseFiles.AdminId and Physician.PhysicianId = Admin.AdminId and only those records are present in the variable 'documents' whose requestId matches with the id passed in argument
-            var documents = _viewDocuments.ValidateFile(requestid);
+            var documents = _viewDocuments.ValidateFile(id);
 
             var user = _viewDocuments.ValidateUser((int)userId);
 
@@ -458,7 +458,7 @@ namespace HalloDoc.Controllers
 
             ViewDocumentModel viewDocumentModal = new ViewDocumentModel()
             {
-                requestId = requestid,
+                requestId = id,
                 patient_name = string.Concat(request.RequestClient.FirstName, ' ', request.RequestClient.LastName),
                 name = string.Concat(user.FirstName, ' ', user.LastName),
                 confirmation_number = request.ConfirmationNumber,

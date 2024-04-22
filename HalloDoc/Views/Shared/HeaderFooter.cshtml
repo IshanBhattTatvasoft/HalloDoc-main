@@ -273,7 +273,7 @@
                     <button class="btn dropdown-toggle nav-link text-muted records ps-3 ms-4" id="nav-profile-tab2" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
                 }
 
-                <ul class="dropdown-menu">
+                <ul class="dropdown-menu ms-2">
                     @if (roleMenu.Any(r => r == "ProviderMenu"))
                     {
                         @if (Model.Tab == 5)
@@ -372,7 +372,7 @@
                     </button>
                 }
             }
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu ms-2">
                 @if (roleMenu.Any(r => r == "AccountAccess"))
                 {
                     @if (Model.Tab == 10)
@@ -454,7 +454,7 @@
                     </button>
                 }
             }
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu ms-2">
                 @if (roleMenu.Any(r => r == "SearchRecords"))
                 {
                     @if (Model.Tab == 14)
@@ -854,7 +854,7 @@
                 }
             }
 
-            <ul class="dropdown-menu">
+            <ul class="dropdown-menu ms-2">
                 @if (roleMenu.Any(r => r == "SearchRecords"))
                 {
 

@@ -5,41 +5,14 @@
     ViewData["Title"] = "Email Logs";
 }
 
+@section Styles{
+    <link href="~/css/email-logs.css" rel="stylesheet" type="text/css"/>
+}
+
 @section Scripts{
     <partial name="_ValidationScriptsPartial" />
 }
 
-<style>
-    input:focus {
-        outline: #3DB6FF !important;
-        /*border: 2px solid white !important;*/
-        box-shadow: none !important;
-        border-color: #3DB6FF !important;
-        /*color: red !important;*/
-    }
-
-    select:focus {
-        outline: #3DB6FF !important;
-        /*border: 2px solid white !important;*/
-        box-shadow: none !important;
-        border-color: #3DB6FF !important;
-        /*color: red !important;*/
-    }
-
-    textarea:focus {
-        outline: none !important;
-        border-color: #3DB6FF !important;
-        /*box-shadow: none !important;*/
-    }
-
-        textarea:focus::placeholder {
-            color: #3DB6FF !important;
-        }
-
-    .form-floating:focus-within label {
-        color: #3DB6FF !important;
-    }
-</style>
 
 <partial name="Toast" />
 
@@ -99,8 +72,8 @@
                                placeholder="Date">
                         <label for="floatingInput" class="ms-2 text-muted">Sent Date</label>
                     </div>
-                    <div class="form-floating d-flex col-xl col-md-6 col-sm-12 mt-3 search-cols">
-                        <div class="w-100">
+                    <div class="form-floating d-flex col-xl col-md-12 mt-3 search-cols">
+                        <div class="w-100 mx-auto">
                             <button type="button" class="btn btn-outline-info float-end me-3" id="cancelButton" onclick="removeFilter()">Clear</button>
                             <button type="button" class="btn btn-info text-white float-end me-3" id="searchButton" onclick="filter()">Search</button>
                         </div>
@@ -108,6 +81,12 @@
                 </div>
 
                 <div>
+                    <div id="loader2" class="loader2">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                     <div class="mt-4 ms-3 me-3 myTable" id="EmailLogsPartialView"></div>
                 </div>
             </div>
@@ -117,10 +96,13 @@
 
 <script>
     window.onload = () => {
+        document.getElementById("loader2").style.display = "flex";
+
         $.ajax({
             url: '/Admin/EmailLogsFilteredData',
             type: 'GET',
             success: function (response) {
+                document.getElementById("loader2").style.display = "none";
                 $("#EmailLogsPartialView").html(response);
             },
             error: function (error) {
@@ -136,11 +118,14 @@
         var start = document.getElementById("createdDate").value;
         var end = document.getElementById("sentDate").value;
 
+        document.getElementById("loader2").style.display = "flex";
+
         $.ajax({
             url: '/Admin/EmailLogsFilteredData',
             type: 'POST',
             data: { createdDate: start, sentDate: end, page: page, pageSize: pageSize, role: role, recipientName: name, emailId: email },
             success: function (response) {
+                document.getElementById("loader2").style.display = "none";
                 $("#EmailLogsPartialView").html(response);
             },
             error: function (error) {
@@ -158,12 +143,14 @@
         document.getElementById("createdDate").value = "";
         document.getElementById("sentDate").value = "";
 
+        document.getElementById("loader2").style.display = "flex";
 
         $.ajax({
             url: '/Admin/EmailLogsFilteredData',
             type: 'POST',
             data: { createdDate: "", sentDate: "", role: "", recipientName: "", emailId: "" },
             success: function (response) {
+                document.getElementById("loader2").style.display = "none";
                 $("#EmailLogsPartialView").html(response);
             },
             error: function (error) {

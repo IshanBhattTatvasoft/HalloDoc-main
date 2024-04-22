@@ -1,6 +1,6 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.SendOrder
 @{
-    ViewData["Title"] = "View Case";
+    ViewData["Title"] = "Send Orders";
 }
 
 @section Styles {
@@ -14,109 +14,113 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
             crossorigin="anonymous"></script>
+    <partial name="_ValidationScriptsPartial" />
 }
 
 <div>
-    <partial name="HeaderFooter" model="@Model.an"/>
+    <partial name="HeaderFooter" model="@Model.an" />
 
-    <div class="container w-50 d-flex justify-content-between align-items-center mt-4">
-        <div class="col-6 ms-0 fw-bold" style="margin-left: -10px !important;">
-            <span>
-                Send Order
-            </span>
-        </div>
-        <div class="col-6 d-flex justify-content-end">
-            <a class="text-info" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard"
-               style="text-decoration: none;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                     class="bi bi-chevron-left" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd"
-                          d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-                </svg>
-                Back
-            </a>
+    <div class="container mt-4 shadowalign-content-lg-around bg-muted rounded">
+        <div class="row">
+            <div style="top: 27px; position: relative;" class="col">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Send Order
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded w-50" id="main-container">
+    <div class="container mt-4 shadow-lg p-3 mb-5 bg-white rounded" id="main-container">
 
-        <div class="w-100">
-            <form method="post" asp-action="SendOrder" asp-controller="Admin"
-                  enctype="multipart/form-data">
-                <input type="number" hidden asp-for="requestId" id="r-id" />
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <select class="form-select" aria-label="Default select example" onchange="selectBusiness()" id="select-profession">
-                            <option value="0" selected disabled>Select Profession</option>
-                            @foreach (var item in Model.hpType)
-                            {
-                                <option value="@item.HealthProfessionalId" class="bg-white">@item.ProfessionName</option>
-                            }
-                        </select>
-                    </div>
-                    <div class="form-floating col-sm-6 mt-3">
-                        <select class="form-select" aria-label="Default select example" id="select-business" onchange="fetchOtherData()" name="vendorId">
-                           
-                        </select>
-                    </div>
+        <form method="post" asp-action="SendOrder" asp-controller="Admin"enctype="multipart/form-data">
+            <input type="number" hidden asp-for="requestId" id="r-id" />
+            <div class="row">
+                <div class="form-floating col-sm-6 mt-3">
+                    <select class="form-select" aria-label="Default select example" onchange="selectBusiness()" id="select-profession" asp-for="healthProfessionalType">
+                        <option value="0" selected disabled>Select Profession</option>
+                        @foreach (var item in Model.hpType)
+                        {
+                            <option value="@item.HealthProfessionalId" class="bg-white">@item.ProfessionName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="healthProfessionalType" class="text-danger"></span>
                 </div>
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="businessContact" id="contact">
-                        <label for="floatingInput" class="ms-2 text-muted">Business Contact</label>
-                    </div>
-                    <div class="form-floating email-field col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="email" id="email">
-                        <label for="floatingInput" class="ms-2 text-muted">Email</label>
-                    </div>
+                <div class="form-floating col-sm-6 mt-3">
+                    <select class="form-select" aria-label="Default select example" id="select-business" onchange="fetchOtherData()" name="vendorId">
+                    </select>
                 </div>
+            </div>
+            <div class="row">
+                <div class="form-floating col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="businessContact" id="contact">
+                    <label for="floatingInput" class="ms-2 text-muted">Business Contact</label>
+                    <span asp-validation-for="businessContact" class="text-danger"></span>
+                </div>
+                <div class="form-floating email-field col-sm-6 mt-3">
+                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="email" id="email">
+                    <label for="floatingInput" class="ms-2 text-muted">Email</label>
+                    <span asp-validation-for="email" class="text-danger"></span>
+                </div>
+            </div>
 
-                <div class="row">
-                    <div class="col-sm-6 form-floating mt-3">
-                        <input id="fax-num" class="form-control" type="text" placeholder="Date Of Birth" asp-for="faxNumber">
-                        <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
-                        <span class="text-danger"></span>
-                    </div>
+            <div class="row">
+                <div class="col-sm-6 form-floating mt-3">
+                    <input id="fax-num" class="form-control" type="text" placeholder="Date Of Birth" asp-for="faxNumber">
+                    <label for="floatingInput" class="ms-2 text-muted">Fax Number</label>
+                    <span class="text-danger"></span>
                 </div>
-                <div class="row">
-                    <div class="form-floating col-sm-10 mt-3"></div>
-                    <textarea class="form-control" placeholder="Prescription or Order Details" id="floatingTextarea" rows="4" asp-for="prescription"></textarea>
-                </div>
+            </div>
+            <div class="row">
+                <div class="form-floating col-sm-10 mt-3"></div>
+                <textarea class="form-control" placeholder="Prescription or Order Details" id="floatingTextarea" rows="4" asp-for="prescription"></textarea>
+            </div>
 
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <select class="form-select" aria-label="Default select example" name="noOfRefill">
-                            <option selected>Number of Refill</option>
-                            <option value="0">Zero</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
+            <div class="row">
+                <div class="form-floating col-sm-6 mt-3">
+                    <select class="form-select" asp-for="numOfRefill" aria-label="Default select example" name="noOfRefill">
+                        <option selected disabled>Number of Refill</option>
+                        <option value="0">Zero</option>
+                        <option value="1">One</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+                    <span asp-validation-for="numOfRefill" class="text-danger"></span>
                 </div>
+            </div>
 
-                <div class="row">
-                    <div class="colabels mt-3">
-                        <a type="button" asp-controller="Admin" asp-action="AdminDashboard" class="btn btn-outline-info float-end mb-3">Cancel</a>
-                        <button type="submit" class="btn btn-info float-end me-3 mb-3">Submit</button>
-                    </div>
+            <div class="row">
+                <div class="colabels mt-3">
+                    <a type="button" asp-controller="Admin" asp-action="AdminDashboard" class="btn btn-outline-info float-end mb-3">Cancel</a>
+                    <button type="submit" class="btn btn-info float-end me-3 mb-3">Submit</button>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 
 <script>
-    function selectBusiness()
-    {
+    function selectBusiness() {
         const selectProfession = document.getElementById("select-profession").value;
 
         $.ajax({
             url: '/Admin/GetBusinessData',
             type: 'GET',
-            data: {professionId: selectProfession},
+            data: { professionId: selectProfession },
 
-            success: function(data){
+            success: function (data) {
                 console.log(data);
                 $("#select-business").empty();
                 $("#select-business").append('<option value="" class="business-dropdown" disabled selected>Business</option>');
@@ -134,16 +138,15 @@
         });
     }
 
-    function fetchOtherData()
-    {
+    function fetchOtherData() {
         const selectBusiness = document.getElementById("select-business").value;
 
         $.ajax({
             url: '/Admin/GetOtherData',
             type: 'GET',
-            data: {businessId: selectBusiness},
+            data: { businessId: selectBusiness },
 
-            success: function(data){
+            success: function (data) {
                 console.log(data);
                 $("#contact").val(data.businessContact);
                 $("#email").val(data.email);

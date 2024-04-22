@@ -6,7 +6,7 @@
 }
 @section Scripts {
     @{
-         <partial name="_ValidationScriptsPartial" />
+        <partial name="_ValidationScriptsPartial" />
     }
 }
 
@@ -61,7 +61,7 @@
         color: #3DB6FF !important;
     }
 
-    select:focus{
+    select:focus {
         outline: #3DB6FF !important;
         /*border: 2px solid white !important;*/
         box-shadow: none !important;
@@ -276,29 +276,37 @@
         document.getElementById("hiddenRole").value = document.getElementById("roleVal").value
     }
 
-    function checkRegions()
-    {
-        debugger;
-        var regions = document.getElementById("checkedRegions").value;
-        console.log("Regions: " + regions)
-        if(regions!=null && regions!="")
-        {
+    function checkRegions() {
+        let flag = 0
+        const documents = document.getElementsByClassName("region-check")
+        for (let i = 0; i < documents.length; ++i) {
+            if (documents[i].checked == true) {
+                flag = 1
+                break
+            }
+        }
+        if (flag == 0) {
+            document.getElementById("regionCheckError").innerHTML = "Please select alteast one region!";
             document.getElementById("regionCheckError").style.display = "block";
+            event.preventDefault();
             return false;
         }
-        return true;
     }
 
-    function isChecked()
-    {
-        var regions = document.getElementById("checkedRegions").value;
-        console.log("Regions: " + regions)
-        if (regions != null && regions != "") {
-            document.getElementById("regionCheckError").style.display = "block";
+    function isChecked() {
+
+        let flag = 0
+        const documents = document.getElementsByClassName("region-check")
+        for (let i = 0; i < documents.length; ++i) {
+            if (documents[i].checked == true) {
+                flag = 1
+                break
+            }
         }
-        else{
+        if (flag == 1) {
             document.getElementById("regionCheckError").style.display = "none";
         }
+
     }
 
 </script>

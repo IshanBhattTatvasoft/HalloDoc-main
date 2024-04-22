@@ -9,42 +9,9 @@
     <partial name="_ValidationScriptsPartial" />
 }
 
-<style>
-    input:focus {
-        outline: #3DB6FF !important;
-        /*border: 2px solid white !important;*/
-        box-shadow: none !important;
-        border-color: #3DB6FF !important;
-        /*color: red !important;*/
-    }
-
-    select:focus {
-        outline: #3DB6FF !important;
-        /*border: 2px solid white !important;*/
-        box-shadow: none !important;
-        border-color: #3DB6FF !important;
-        /*color: red !important;*/
-    }
-
-    textarea:focus {
-        outline: none !important;
-        border-color: #3DB6FF !important;
-        /*box-shadow: none !important;*/
-    }
-
-        textarea:focus::placeholder {
-            color: #3DB6FF !important;
-        }
-
-    .form-floating:focus-within label {
-        color: #3DB6FF !important;
-    }
-
-    .accordion-button:not(.collapsed)::after,
-    .accordion-button::after {
-        background-image: unset !important;
-    }
-</style>
+@section Styles{
+    <link href="~/css/email-logs.css" rel="stylesheet" type="text/css"/>
+}
 
 <partial name="Toast" />
 
@@ -113,6 +80,12 @@
                 </div>
 
                 <div>
+                    <div id="loader2" class="loader2">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
                     <div class="mt-4 ms-3 me-3 myTable" id="SmsLogsPartialView"></div>
                 </div>
             </div>
@@ -122,10 +95,13 @@
 
 <script>
     window.onload = () => {
+        document.getElementById("loader2").style.display = "flex";
+
         $.ajax({
             url: '/Admin/SmsLogsFilteredData',
             type: 'GET',
             success: function(response){
+                document.getElementById("loader2").style.display = "none";
                 $("#SmsLogsPartialView").html(response);
             },
             error: function(error){
@@ -141,12 +117,15 @@
         var mobileNo = document.getElementById("mobileNumber").value;
         var start = document.getElementById("createdDate").value;
         var end = document.getElementById("sentDate").value;
+        
+        document.getElementById("loader2").style.display = "flex";
 
         $.ajax({
             url: '/Admin/SmsLogsFilteredData',
             type: 'POST',
             data: { createdDate: start, sentDate: end, page: page, pageSize: pageSize, role: role, recipientName: name, phoneNumber: mobileNo },
             success: function(response){
+                document.getElementById("loader2").style.display = "none";
                 $("#SmsLogsPartialView").html(response);
             },
             error: function(error){
@@ -164,11 +143,14 @@
         document.getElementById("createdDate").value = "";
         document.getElementById("sentDate").value = "";
 
+        document.getElementById("loader2").style.display = "flex";
+
         $.ajax({
             url: '/Admin/SmsLogsFilteredData',
             type: 'POST',
             data: { createdDate: "", sentDate: "", role: "", recipientName: "", phoneNumber: "" },
             success: function (response) {
+                document.getElementById("loader2").style.display = "none";
                 $("#SmsLogsPartialView").html(response);
             },
             error: function (error) {

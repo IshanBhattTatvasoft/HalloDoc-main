@@ -326,5 +326,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             return _context.Admins.ToList();
         }
+
+        public bool isEncounterFinalized(int id)
+        {
+            EncounterForm ef = _context.EncounterForms.FirstOrDefault(e => e.RequestId == id);
+            return ef.IsFinalized[0];
+        }
     }
 }

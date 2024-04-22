@@ -87,7 +87,7 @@
                                         @if (obj.RequestId != null)
                                         {
                                             var fileCount = Model.RequestsAndFiles.Count(rf => rf.RequestId == obj.RequestId);
-                                            <a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@obj.RequestId">(@fileCount) Documents</a>
+                                            <a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@obj.RequestId">(@fileCount) Documents</a>
                                         }
 
                                     </td>
@@ -152,7 +152,7 @@
                                             @if (obj.RequestId != null)
                                             {
                                                 var fileCount = Model.RequestsAndFiles.Count(rf => rf.RequestId == obj.RequestId);
-                                                <a class="w-100 text-center" style="border:1px solid #00ccff;padding:3px;margin-top: 3px;  color:#00ccff;border-radius:5px; text-decoration: none; height: 31px;display: inline-block;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-requestid="@obj.RequestId" style="text-decoration: none;">(@fileCount) Documents</a>
+                                                <a class="w-100 text-center" style="border:1px solid #00ccff;padding:3px;margin-top: 3px;  color:#00ccff;border-radius:5px; text-decoration: none; height: 31px;display: inline-block;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@obj.RequestId" style="text-decoration: none;">(@fileCount) Documents</a>
                                             }
                                         </div>
                                     </div>

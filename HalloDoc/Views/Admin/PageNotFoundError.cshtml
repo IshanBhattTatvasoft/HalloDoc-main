@@ -6,99 +6,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-aHTjcVzhekB/UA956DzTvT8fyG5sa/WUU/R54xr0lUZ7quoGv6bmJp/A/gVKfB2" crossorigin="anonymous">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f2f2f2;
+        .page_404 {
+            padding: 40px 0;
+            background: #fff;
+            font-family: 'Arvo', serif;
         }
 
-        .container {
-            margin-top: 50px;
-            display: grid;
-            justify-content: center;
-            align-items: center;
+        .page_404 img {
+            width: 100%;
         }
 
-        .card {
-            border: none;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+        .four_zero_four_bg {
+            background-image: url(https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif);
+            height: 400px;
+            background-position: center;
+        }
+        
+        .four_zero_four_bg h1 {
+            font-size: 80px;
+        }
+        
+        .four_zero_four_bg h3 {
+            font-size: 80px; 
         }
 
-        .card-header {
-            margin-bottom: 20px;
-            text-align: center;
-            font-weight: 600;
-            font-size: 2rem;
-        }
-
-        .card-body {
-            text-align: center;
-        }
-
-        .link {
-            margin-top: 30px;
-            font-weight: 600;
-        }
-
-            .link a {
-                color: #212121;
-                text-decoration: none;
-                transition: all .2s ease;
-            }
-
-                .link a:hover {
-                    color: #333;
-                }
-
-        .go-back {
-            display: inline-block;
-            color: #fff;
-            background-color: #212121;
+        .link_404 {
+            color: #fff !important;
             padding: 10px 20px;
-            border-radius: 4px;
-            margin-top: 30px;
-            text-transform: uppercase;
-            font-weight: 600;
-            font-size: .8rem;
-            transition: all .2s ease;
+            background: #39ac31;
+            margin: 20px 0;
+            display: inline-block;
         }
 
-            .go-back:hover {
-                background-color: #333;
-            }
-
-        media screen and (max-width: 600px) {
-            .link
-
-        {
-            margin-top: 20px;
-        }
-
-        .go-back {
-            margin-top: 20px;
-        }
-
+        .contant_box_404 {
+            margin-top: -50px;
         }
     </style>
     <title>Page Not Found</title>
 </head>
 <body>
+    <partial name="Toast"/>
+    <div class="container mx-auto">
+        <section class="page_404">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div class="text-center">
+                            <div class="four_zero_four_bg">
+                                <h1 class="text-center ">404</h1>
+                            </div>
 
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
-                <h1>Oops! Page Not Found</h1>
-            </div>
-            <div class="card-body">
-                <p>The page you are looking for does not exist or has been moved.</p>
-                <div class="link">
-                    <a asp-controller="Admin" asp-action="AdminDashboard">Return to the Homepage</a>
+                            <div class="contant_box_404">
+                                <h3 class="h2">
+                                    Look like you're lost
+                                </h3>
+
+                                <p>The page you are looking for is not available!!</p>
+
+                                <a asp-action="AdminDashboard" asp-controller="Admin" class="link_404 text-decoration-none">Go Back</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <a asp-controller="Admin" asp-action="AdminDashboard" class="go-back btn btn-danger">Go Back</a>
-        </div>
+        </section>
+
     </div>
+
 </body>
 </html>

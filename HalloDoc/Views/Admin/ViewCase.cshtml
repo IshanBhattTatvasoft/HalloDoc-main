@@ -35,8 +35,8 @@
 
             <div class="row">
                 <div class="col mt-2 ms-5">
-                    <p class="h5 text-muted fw-bold" id="heading-one">
-                        <span>
+                    <p class="text-muted fw-bold" id="heading-one">
+                        <span class="h5">
                             View
                             @if (Model.Status == 1)
                             {
@@ -50,25 +50,25 @@
                             {
                                 <button type="button" class="patient-button rounded-pill ms-2"
                                         style="height: 30px; width: 80px; padding: 2px;">
-                                    Patient
+                                    <span class="my-auto" style="font-size: 16px;">Patient</span>
                                 </button>
                             }
                             else if (Model.reqTypeId == 2)
                             {
-                                <button type="button" class="family-button rounded-pill ms-2">
-                                    Family
+                                <button type="button" class="family-button rounded-pill ms-2" style="height: 30px; width: 80px; padding: 2px;">
+                                    <span class="my-auto" style="font-size: 16px;">Family</span>
                                 </button>
                             }
                             else if (Model.reqTypeId == 3)
                             {
-                                <button type="button" class="concierge-button rounded-pill ms-2">
-                                    Concierge
+                                <button type="button" class="concierge-button rounded-pill ms-2" style="height: 30px; width: 80px; padding: 2px;">
+                                    <span class="my-auto" style="font-size: 16px;">Concierge</span>
                                 </button>
                             }
                             else
                             {
-                                <button type="button" class="business-button rounded-pill ms-2">
-                                    Business
+                                <button type="button" class="business-button rounded-pill ms-2" style="height: 30px; width: 80px; padding: 2px;">
+                                    <span class="my-auto" style="font-size: 16px;">Business</span>
                                 </button>
                             }
                         </span>
@@ -181,15 +181,15 @@
                     <div class="row">
                         <div class="form-floating col-sm-6 mt-3">
                             <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
-                            @*asp-for="Street"*@ disabled>
+                            asp-for="regionName" disabled>
                             <label for="floatingInput" class="ms-2 text-muted">Region</label>
 
                         </div>
                         <div class="form-floating col-sm-4 mt-3">
                             <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
-                            @*asp-for="City"*@ disabled>
+                            asp-for="Address" disabled>
                             <label for="floatingInput" class="ms-2 text-muted">Business Name/Address</label>
-                            <span @*asp-validation-for="City"*@ class="text-danger"></span>
+                            <span class="text-danger"></span>
                         </div>
                         <div class="form-floating col-sm-2 mt-3">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" id="phone-design" fill="currentColor"
@@ -202,14 +202,14 @@
                     <div class="row">
                         <div class="form-floating col-sm-6 mt-3">
                             <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name"
-                            @*asp-for="Room"*@ disabled>
+                            asp-for="RoomNo" disabled>
                             <label for="floatingInput" class="ms-2 text-muted">Room # </label>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col">
-                            <a asp-action="ViewNotes" asp-route-requestId="@Model.RequestId" asp-controller="Admin" type="button" class="btn btn-info float-end me-3 mb-3">View Notes</a>
+                            <a asp-action="ViewNotes" asp-route-id="@Model.RequestId" asp-controller="Admin" type="button" class="btn btn-info float-end me-3 mb-3">View Notes</a>
                             <button data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData(@Model.RequestId, @Model.FirstName, @Model.LastName)" type="button" class="btn btn-danger float-end mb-3 me-3">Cancel</button>
                             @if (Model.Status == 1 && Model.an.roleName == "Admin")
                             {

@@ -54,8 +54,8 @@
                             Actions
                         </button>
                         <ul class="dropdown-menu mt-1" style="right: 70px !important;">
-                            <li><a class="dropdown-item text-decoration-none text-info" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Case</a></li>
-                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId">(@count) Documents</a></li>
+                            <li><a class="dropdown-item text-decoration-none text-info" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.RequestId">View Case</a></li>
+                            <li><a class="dropdown-item" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId">(@count) Documents</a></li>
                         </ul>
                     </div>
                 </td>
@@ -106,10 +106,10 @@
 
                             <div class="w-100">
                                 <div class="w-100 d-flex align-items-center justify-content-center mt-2">
-                                    <a class="btn btn-outline-info text-decoration-none text-info w-100 ms-4 me-4" asp-action="ViewCase" asp-controller="Admin" asp-route-requestId="@item.RequestId">View Case</a>
+                                    <a class="btn btn-outline-info text-decoration-none text-info w-100 ms-4 me-4" asp-action="ViewCase" asp-controller="Admin" asp-route-id="@item.RequestId">View Case</a>
                                 </div>
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <a class="btn btn-outline-info w-100 ms-4 me-4" asp-controller="Admin" asp-action="ViewUploads" asp-route-requestid="@item.RequestId">(@count) Documents</a>
+                                    <a class="btn btn-outline-info w-100 ms-4 me-4" asp-controller="Admin" asp-action="ViewUploads" asp-route-id="@item.RequestId">(@count) Documents</a>
                                 </div>
                             </div>
                         </div>

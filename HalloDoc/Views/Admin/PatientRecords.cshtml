@@ -42,6 +42,12 @@
         </div>
 
         <div>
+            <div id="loader2" class="loader2">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
             <div class="mt-4 ms-3 me-3 myTable" id="PatientRecordsPartialView"></div>
         </div>
 
@@ -52,10 +58,14 @@
 <script>
 
     window.onload = function(){
-        filter(1,10);
+        document.getElementById("loader2").style.display = "flex";
+        
+        filter(1, 10);
     };
 
     const filter = (p, ps) => {
+        document.getElementById("loader2").style.display = "flex";
+
         $.ajax({
             url: '/Admin/PatientRecordsFilteredData',
             type: 'POST',
@@ -63,6 +73,7 @@
             data: { userid: document.getElementById("userId").value, page: p, pageSize: ps},
             success: function(response)
             {
+                document.getElementById("loader2").style.display = "none";
                 $("#PatientRecordsPartialView").html(response);
             },
             error: function(){
