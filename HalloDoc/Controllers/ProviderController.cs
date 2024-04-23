@@ -220,6 +220,12 @@ namespace HalloDoc.Controllers
             }
         }
 
+        /// <summary>
+        /// Action called when we conclude the case
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         [CustomAuthorize("Provider", "AdminDashboard")]
         public IActionResult ConcludeCaseSubmitAction(ViewUploadsModel model, int id)

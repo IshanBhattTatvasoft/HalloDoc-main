@@ -45,7 +45,6 @@ public class AdminDashboardTableView
     public string? sendAgreementEmail { get; set; }
     public string? providerTransferDescription { get; set; }
     public string cancelCaseNotes { get; set; }
-    public string reasonForBlockRequest { get; set; }
     public string phoneNo { get; set; }
     public string requestDTY { get; set; }
 }

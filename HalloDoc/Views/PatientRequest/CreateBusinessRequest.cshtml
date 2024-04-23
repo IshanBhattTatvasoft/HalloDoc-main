@@ -12,6 +12,7 @@
 }
 
 <div class="bg-light">
+    <partial name="Toast" />
     <div id="main-page">
         <div style="height: 100px;background-color: white;" id="navigation">
 
@@ -35,154 +36,156 @@
 
         <div class="container mt-4 shadow-lg p-3 mb-4 bg-white rounded">
             <div>
-                <a class="float-end text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen" style="text-decoration: none;">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                <a class="float-end text-info mx-auto mt-1" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 2px 2px 2px 1px;width: 49px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
                     </svg>
                     Back
                 </a>
             </div>
             <form method="post" asp-action="CreateBusinessRequest" asp-controller="PatientRequest" enctype="multipart/form-data" id="myForm">
-            <div class="row">
-                <div class="col mt-4 ps-0">
-                    <p class="h5 text-muted fw-bold" id="heading-one">
-                        Business Information
-                    </p>
+                <div class="row">
+                    <div class="col mt-4 ps-0">
+                        <p class="h5 text-muted fw-bold" id="heading-one">
+                            Business Information
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessFirstName">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Your First Name</label>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessFirstName">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Your First Name</label>
                         <span asp-validation-for="BusinessFirstName" class="text-danger"></span>
                     </div>
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessLastName">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Your Last Name</label>
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessLastName">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Your Last Name</label>
                         <span asp-validation-for="BusinessLastName" class="text-danger"></span>
                     </div>
-            </div>
-            <div class="row">
-                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-4 col-12">
-                    <input id="phone" class="form-control" type="tel" asp-for="BusinessPhoneNumber"/>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input id="phone" class="form-control" type="tel" asp-for="BusinessPhoneNumber" />
                         <span asp-validation-for="BusinessPhoneNumber" class="text-danger"></span>
                     </div>
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessEmail">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Your Email</label>
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessEmail">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Your Email</label>
                         <span asp-validation-for="BusinessEmail" class="text-danger"></span>
                     </div>
-            </div>
+                </div>
 
-            <div class="row">
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessPropertyName">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Business Property Name</label>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessPropertyName">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Business Property Name</label>
                         <span asp-validation-for="BusinessPropertyName" class="text-danger"></span>
                     </div>
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessCaseNumber">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Case Number (Optional)</label>
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="BusinessCaseNumber">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Case Number (Optional)</label>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col mt-4">
-                    <p class="h5 text-muted fw-bold" id="heading-two">
-                        Patient Information
-                    </p>
+                <div class="row">
+                    <div class="col mt-4">
+                        <p class="h5 text-muted fw-bold" id="heading-two">
+                            Patient Information
+                        </p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col mb-3">
-                    <textarea class="form-control" id="firstTextArea"
-                              placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4" asp-for="Symptoms"></textarea>
+                <div class="row">
+                    <div class="col mb-3">
+                        <textarea class="form-control" id="firstTextArea"
+                                  placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4" asp-for="Symptoms" style="resize: none;"></textarea>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Your First Name</label>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="FirstName">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Your First Name</label>
                         <span asp-validation-for="FirstName" class="text-danger"></span>
                     </div>
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Your Last Name</label>
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="LastName">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Your Last Name</label>
                         <span asp-validation-for="LastName" class="text-danger"></span>
                     </div>
-            </div>
-            <div class="row">
-                <div class="col-sm-6 form-floating mt-3">
-                    <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Date Of Birth</label>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input id="startDate" class="form-control" type="date" placeholder="Date Of Birth" asp-for="DOB">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Date Of Birth</label>
                         <span asp-validation-for="DOB" class="text-danger"></span>
                     </div>
-            </div>
-
-            <div class="row">
-                <div class="col mt-4">
-                    <p class="h5 text-muted fw-bold" id="heading-three">
-                        Patient Contact Information
-                    </p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Email</label>
+
+                <div class="row">
+                    <div class="col mt-4">
+                        <p class="h5 text-muted fw-bold" id="heading-three">
+                            Patient Contact Information
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Email</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
-                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-4 col-12">
-                    <input id="phone1" class="form-control" type="tel" asp-for="PhoneNumber"/>
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input id="phone1" class="form-control" type="tel" asp-for="PhoneNumber" />
                         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                     </div>
-            </div>
-
-            <div class="row">
-                <div class="col mt-4">
-                    <p class="h5 text-muted fw-bold" id="heading-four">
-                        Patient Location
-                    </p>
                 </div>
-            </div>
-            <div class="row">
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Street">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Street</label>
+
+                <div class="row">
+                    <div class="col mt-4">
+                        <p class="h5 text-muted fw-bold" id="heading-four">
+                            Patient Location
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Street">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Street</label>
                         <span asp-validation-for="Street" class="text-danger"></span>
                     </div>
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
-                    <label for="floatingInput" class="ms-2 text-muted  ">City</label>
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="City">
+                        <label for="floatingInput" class="ms-2 text-muted  ">City</label>
                         <span asp-validation-for="City" class="text-danger"></span>
                     </div>
-            </div>
-            <div class="row">
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="State">
-                    <label for="floatingInput" class="ms-2 text-muted  ">State</label>
+                </div>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="State">
+                        <label for="floatingInput" class="ms-2 text-muted  ">State</label>
                         <span asp-validation-for="State" class="text-danger"></span>
                     </div>
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zipcode">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Zipcode</label>
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Zipcode">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Zipcode</label>
                         <span asp-validation-for="Zipcode" class="text-danger"></span>
                     </div>
-            </div>
-            <div class="row">
-                <div class="form-floating col-sm-6 mt-3">
-                    <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Room">
-                    <label for="floatingInput" class="ms-2 text-muted  ">Room # / Suite (Optional)</label>
                 </div>
-            </div>
+                <div class="row">
+                    <div class="form-floating col-xl-6 col-lg-6 col-md-6 col-sm-12 mt-3">
+                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Room">
+                        <label for="floatingInput" class="ms-2 text-muted  ">Room # / Suite (Optional)</label>
+                    </div>
+                </div>
 
 
-            <div class="row mt-3">
-                <div class="col">
-                    <button type="button" class="btn btn-outline-info float-end mb-3 cancelbutton">Cancel</button>
-                    <button type="submit" class="btn btn-info float-end me-3 mb-3">Submit</button>
+                <div class="row mt-3">
+                    <div class="col">
+                        <button type="button" class="btn btn-outline-info float-end mb-3 cancelbutton">Cancel</button>
+                        <button type="submit" class="btn btn-info float-end me-3 mb-3">Submit</button>
+                    </div>
                 </div>
-            </div>
             </form>
         </div>
     </div>

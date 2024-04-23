@@ -851,6 +851,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public void InsertDataOfRequest(AdminCreateRequestModel model, int x)
         {
+            bool isPhysician = _context.Physicians.Any(p => p.AspNetUserId == x);
             AspNetUser aspNetUser = new AspNetUser();
             AspNetUserRole anur = new AspNetUserRole();
             User user = new User();
@@ -915,7 +916,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
 
             int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
-            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString().Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString("yyyyMMdd").Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+
 
             request.RequestTypeId = 1;
             if (!userExists)
@@ -931,6 +933,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             request.CreatedDate = DateTime.Now;
             request.RequestClientId = requestClient.RequestClientId;
             request.IsDeleted = new BitArray(1, false);
+            if(isPhysician)
+            {
+                request.PhysicianId = _context.Physicians.FirstOrDefault(p => p.AspNetUserId == x).PhysicianId;
+            }
             _context.Requests.Add(request);
             _context.SaveChanges();
 
@@ -1203,7 +1209,6 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             bool isFinalized = false;
             EncounterForm ef = _context.EncounterForms.Where(r => r.RequestId == id).FirstOrDefault();
-            EncounterForm ef2 = new EncounterForm();
             if (ef != null)
             {
                 ef.HistoryIllness = model.HistoryOfIllness;
@@ -1233,13 +1238,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 if (bitCheck == 1)
                 {
                     ef.IsFinalized = new BitArray(1, true);
+                    isFinalized = true;
                 }
                 _context.EncounterForms.Update(ef);
-                isFinalized = true;
             }
 
             else
             {
+                EncounterForm ef2 = new EncounterForm(); 
                 ef2.RequestId = (int)model.reqId;
                 ef2.HistoryIllness = model.HistoryOfIllness;
                 ef2.MedicalHistory = model.MedicalHistory;
@@ -1268,14 +1274,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 if (bitCheck == 1)
                 {
                     ef2.IsFinalized = new BitArray(1, true);
+                    isFinalized = false;
                 }
                 _context.EncounterForms.Add(ef2);
-                isFinalized = false;
+                ef = ef2;
             }
 
-            EncounterForm ef3 = new EncounterForm();
-            if (ef == null) ef3 = ef2;
-            else if (ef2 == null) ef3 = ef;
 
             if (bitCheck == 1)
             {
@@ -1303,31 +1307,30 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                             document.Add(new Paragraph("Date of birth: " + new DateTime((int)rc.IntYear, int.Parse(rc.StrMonth), (int)rc.IntDate)));
                             document.Add(new Paragraph("PhoneNumber: " + rc.PhoneNumber));
                             document.Add(new Paragraph("Patient Email: " + rc.Email));
-                            document.Add(new Paragraph("History Of present illness Or injury: " + ef3.HistoryIllness));
-                            document.Add(new Paragraph("Medical History: " + ef3.MedicalHistory));
-                            document.Add(new Paragraph("Medications: " + ef3.Medications));
-                            document.Add(new Paragraph("Allergies: " + ef3.Allergies));
-                            document.Add(new Paragraph("Temp: " + ef3.Temp));
-                            document.Add(new Paragraph("HR: " + ef3.Hr));
-                            document.Add(new Paragraph("RR: " + ef3.Rr));
-                            document.Add(new Paragraph("Blood Pressure(S): " + ef3.BpS));
-                            document.Add(new Paragraph("Blood Pressure(D): " + ef3.BpD));
-                            document.Add(new Paragraph("O2: " + ef3.O2));
-                            document.Add(new Paragraph("Pain: " + ef3.Pain));
-                            document.Add(new Paragraph("HEENT: " + ef3.Heent));
-                            document.Add(new Paragraph("CV: " + ef3.Cv));
-                            document.Add(new Paragraph("Chest: " + ef3.Chest));
-                            document.Add(new Paragraph("ABD: " + ef3.Abd));
-                            document.Add(new Paragraph("Extremities: " + ef3.Extr));
-                            document.Add(new Paragraph("Skin: " + ef3.Skin));
-                            document.Add(new Paragraph("Neuro: " + ef3.Neuro));
-                            document.Add(new Paragraph("Other: " + ef3.Other));
-                            document.Add(new Paragraph("Diagnosis: " + ef3.Diagnosis));
-                            document.Add(new Paragraph("Treatment Plan: " + ef3.TreatmentPlan));
-                            document.Add(new Paragraph("Medication Dispensed: " + ef3.MedicationDispensed));
-                            document.Add(new Paragraph("Procedures: " + ef3.Procedures));
-                            document.Add(new Paragraph("Follow Up: " + ef3.FollowUp));
-
+                            document.Add(new Paragraph("History Of present illness Or injury: " + ef.HistoryIllness));
+                            document.Add(new Paragraph("Medical History: " + ef.MedicalHistory));
+                            document.Add(new Paragraph("Medications: " + ef.Medications));
+                            document.Add(new Paragraph("Allergies: " + ef.Allergies));
+                            document.Add(new Paragraph("Temp: " + ef.Temp));
+                            document.Add(new Paragraph("HR: " + ef.Hr));
+                            document.Add(new Paragraph("RR: " + ef.Rr));
+                            document.Add(new Paragraph("Blood Pressure(S): " + ef.BpS));
+                            document.Add(new Paragraph("Blood Pressure(D): " + ef.BpD));
+                            document.Add(new Paragraph("O2: " + ef.O2));
+                            document.Add(new Paragraph("Pain: " + ef.Pain));
+                            document.Add(new Paragraph("HEENT: " + ef.Heent));
+                            document.Add(new Paragraph("CV: " + ef.Cv));
+                            document.Add(new Paragraph("Chest: " + ef.Chest));
+                            document.Add(new Paragraph("ABD: " + ef.Abd));
+                            document.Add(new Paragraph("Extremities: " + ef.Extr));
+                            document.Add(new Paragraph("Skin: " + ef.Skin));
+                            document.Add(new Paragraph("Neuro: " + ef.Neuro));
+                            document.Add(new Paragraph("Other: " + ef.Other));
+                            document.Add(new Paragraph("Diagnosis: " + ef.Diagnosis));
+                            document.Add(new Paragraph("Treatment Plan: " + ef.TreatmentPlan));
+                            document.Add(new Paragraph("Medication Dispensed: " + ef.MedicationDispensed));
+                            document.Add(new Paragraph("Procedures: " + ef.Procedures));
+                            document.Add(new Paragraph("Follow Up: " + ef.FollowUp));
 
                             document.Close();
 
@@ -1629,7 +1632,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 adminNavbarModel = an,
                 Photo = null,
                 roles = _context.Roles.Where(r => r.AccountType == (short)2).ToList(),
-                regionId = physician.RegionId
+                regionId = physician.RegionId,
+                statusVal = physician.Status,
+                roleId = (int)physician.RoleId,
+                roleName = _context.Roles.FirstOrDefault(r => r.RoleId == (int)physician.RoleId).Name,
             };
             return viewmodel;
         }
@@ -2450,7 +2456,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             List<ShiftDetail> shifts = _context.ShiftDetails.Where(s => s.ShiftDate.Date == DateTime.Now.Date && TimeOnly.FromDateTime(DateTime.Now) >= s.StartTime && TimeOnly.FromDateTime(DateTime.Now) <= s.EndTime && s.Status == 1 && s.IsDeleted == new BitArray(1, false)).Include(sh => sh.Shift).Include(shi => shi.Shift.Physician).ToList();
 
-            if(region!=null && region!=-1)
+            if (region != null && region != -1)
             {
                 allPhysician = phyRegions.Where(p => p.RegionId == region).Select(ph => ph.Physician).ToList();
                 shifts = shifts.Where(s => s.RegionId == region).ToList();
@@ -2690,5 +2696,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return str;
         }
 
+        public List<Role> GetAdminRoles()
+        {
+            return _context.Roles.Where(r => r.AccountType == 1).ToList();
+        }
+
+        public string RoleNameFromId(int id)
+        {
+            return _context.Roles.FirstOrDefault(r => r.RoleId == id).Name;
+        }
     }
 }

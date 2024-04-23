@@ -158,7 +158,7 @@
 
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
+                        <input type="text" id="email" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email" onblur="verifyEmail()">
                         <label for="floatingInput" class="ms-2 text-muted class-for-label">Email</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
@@ -278,7 +278,7 @@
 
                 <div class="row">
                     <div class="form-floating col mt-3">
-                        <textarea asp-for="AdminNotes" rows="4" style="min-height: calc(4em + 1.5rem);height: calc(4em + 1.5rem);resize: none;" placeholder="Admin Notes" class="form-control border border-info" id="exampleTextarea" rows="4"></textarea>
+                        <textarea asp-for="AdminNotes" rows="4" style="min-height: calc(4em + 1.5rem);height: calc(4em + 1.5rem);resize: none;" placeholder="Admin Notes" class="form-control border" id="exampleTextarea" rows="4"></textarea>
                         <label for="floatingInput" class="ms-2 text-muted class-for-label">Admin Notes</label>
                     </div>
                 </div>
@@ -351,7 +351,7 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="NonDisclosure" name="checkbox_group" />
+                                   id="NonDsiclosure" name="checkbox_group" />
                             <p>Non-disclosure Agreement</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
@@ -490,5 +490,29 @@
             document.getElementById("regionCheckError").style.display = "none";
         }
 
+    }
+
+    function verifyEmail()
+    {
+        var email = document.getElementById("email").value;
+
+        $.ajax({
+            url: `/Admin/PatientCheck`,
+            type: 'GET',
+            data: {email: email},
+            success: function(data){
+                console.log(data);
+                if(data == true)
+                {
+                    alert("Account with same email already exists. Enter other email");
+                }
+                else{
+                    console.log(data);
+                }
+            },
+            error: function(error){
+                alert("An error occurred");
+            }
+        });
     }
 </script>

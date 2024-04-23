@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using DocumentFormat.OpenXml.InkML;
 using HalloDoc.LogicLayer.Patient_Repository;
 using Microsoft.CodeAnalysis.Elfie.Serialization;
+using System.Collections;
 
 namespace HalloDoc.Controllers
 {
@@ -67,7 +68,7 @@ namespace HalloDoc.Controllers
                 //var user = _loginPage.ValidateAspNetUser(model);
                 AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
 
-                if(user==null)
+                if (user == null)
                 {
                     TempData["error"] = "Invalid username or password";
                     return View(model);
@@ -97,7 +98,7 @@ namespace HalloDoc.Controllers
                             Response.Cookies.Append("token", token.ToString());
                             HttpContext.Session.SetString("IsLoggedIn", "true");
                         }
-                        if(p != null)
+                        if (p != null)
                         {
                             HttpContext.Session.SetInt32("id", user.Id);
                             HttpContext.Session.SetString("name", p.FirstName);
@@ -387,7 +388,7 @@ namespace HalloDoc.Controllers
             }
 
             _createRequestForMe.RequestForMe(model, (int)user, region);
-
+            TempData["success"] = "Request created successfully";
             return RedirectToAction("PatientDashboardAndMedicalHistory");
         }
 
@@ -407,7 +408,7 @@ namespace HalloDoc.Controllers
             int day = (int)users.IntDate;
             string month = users.StrMonth;
             int year = (int)users.IntYear;
-            int monthNumber = DateTime.ParseExact(month, "MMMM", null).Month;
+            //int monthNumber = DateTime.ParseExact(month, "MMMM", null).Month;
             if (region == null)
             {
                 ModelState.AddModelError("State", "Currently we are not serving in this region");
@@ -431,6 +432,7 @@ namespace HalloDoc.Controllers
             }
 
             _createRequestForSomeoneElse.RequestForSomeoneElse(model, (int)user_id, users, region);
+            TempData["success"] = "Request created successfully";
             return RedirectToAction("PatientDashboardAndMedicalHistory");
         }
 
@@ -480,9 +482,10 @@ namespace HalloDoc.Controllers
             {
                 ImageContent = model.ImageContent,
             };
+
             if (model.ImageContent != null && model.ImageContent.Length > 0)
             {
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                var filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
                 using (var stream = System.IO.File.Create(filePath))
                 {
                     model.ImageContent.CopyTo(stream);
@@ -492,12 +495,18 @@ namespace HalloDoc.Controllers
 
             if (model.ImageContent != null)
             {
-                //_context.RequestWiseFiles.Add(requestWiseFile);
-                //_context.SaveChanges();
-                _viewDocuments.AddFile(model.ImageContent.FileName, request.RequestId);
-            }
+                RequestWiseFile requestWiseFile = new RequestWiseFile
+                {
 
-            return RedirectToAction("PatientDashboardViewDocuments", new { requestID = model.requestId });
+                    FileName = model.ImageContent.FileName,
+                    CreatedDate = DateTime.Now,
+                    RequestId = model.requestId,
+                    IsDeleted = new BitArray(1, false)
+                };
+                _adminInterface.AddFile(requestWiseFile);
+            }
+            return RedirectToAction("PatientDashboardAndMedicalHistory");
+
         }
 
         [CustomAuthorize("Patient")]

@@ -119,7 +119,7 @@ namespace HalloDoc.Controllers
                 if(id!=null)
                 {
                     User u = _context.Users.FirstOrDefault(us => us.UserId == Convert.ToInt32(patientUserId));
-                    Request r = _context.Requests.FirstOrDefault(re => re.RequestId == Convert.ToInt32(id));
+                    Request r = _context.Requests.FirstOrDefault(re => re.RequestId == Convert.ToInt32(id) && re.UserId == Convert.ToInt32(patientUserId));
                     if(r!=null && r.UserId!=u.UserId)
                     {
                         context.Result = new RedirectToRouteResult(new RouteValueDictionary(new { controller = "Admin", action = "PageNotFoundError", }));

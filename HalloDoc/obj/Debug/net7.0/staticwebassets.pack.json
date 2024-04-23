@@ -21,6 +21,10 @@
       "PackagePath": "staticwebassets\\EncounterForms\\patient-69.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\EncounterForms\\patient-97.pdf",
+      "PackagePath": "staticwebassets\\EncounterForms\\patient-97.pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\100\\AgreementDoc.csv",
       "PackagePath": "staticwebassets\\Physician\\100\\AgreementDoc.csv"
     },
@@ -953,6 +957,10 @@
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-14Feb24.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-17April24-GoodToHave (2).pdf",
+      "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-17April24-GoodToHave (2).pdf"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\SRS-23-24-Trainees-17April24-GoodToHave.pdf",
       "PackagePath": "staticwebassets\\uploads\\SRS-23-24-Trainees-17April24-GoodToHave.pdf"
     },
@@ -995,6 +1003,10 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-03-27 124534.png",
       "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-03-27 124534.png"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-04-15 140042 (1).png",
+      "PackagePath": "staticwebassets\\uploads\\Screenshot 2024-04-15 140042 (1).png"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\Screenshot 2024-04-15 140042.png",
@@ -1103,6 +1115,22 @@
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-49 (2).pdf",
       "PackagePath": "staticwebassets\\uploads\\patient-49 (2).pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-69.pdf",
+      "PackagePath": "staticwebassets\\uploads\\patient-69.pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-97 (1).pdf",
+      "PackagePath": "staticwebassets\\uploads\\patient-97 (1).pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-97 (2).pdf",
+      "PackagePath": "staticwebassets\\uploads\\patient-97 (2).pdf"
+    },
+    {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\patient-97.pdf",
+      "PackagePath": "staticwebassets\\uploads\\patient-97.pdf"
     },
     {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\HalloDoc\\wwwroot\\uploads\\person-circle.svg",

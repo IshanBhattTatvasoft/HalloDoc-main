@@ -26,10 +26,8 @@ public class AdminCreateRequestModel
     public string? Zipcode { get; set; }
     public string? AdminRequestZipCode { get; set; }
     public string? Room { get; set; }
-    [Required(ErrorMessage = "Enter Password")]
     [Compare("Password", ErrorMessage = "Password is Mismatch")]
     public string? Password { get; set; }
-    [Required(ErrorMessage = "Enter Password")]
     [Compare("Password", ErrorMessage = "Password is Mismatch")]
     public string? ConfirmPassword { get; set; }
     public string? File { get; set; }
@@ -39,6 +37,6 @@ public class AdminCreateRequestModel
 
     public string? AdminNotes { get; set; }
 
-    public AdminNavbarModel adminNavbarModel {  get; set; }
+    public AdminNavbarModel? adminNavbarModel {  get; set; }
     //public string ConciergeFirstName { get; set; }
 }

@@ -86,11 +86,13 @@ namespace HalloDoc.Controllers
                 bool userExists = true;
 
                 _patientRequest.InsertDataPatientRequest(model);
+                TempData["success"] = "Request created successfully";
                 return RedirectToAction("PatientSite", "Login");
             }
 
             else
             {
+                TempData["error"] = "Unable to create the request";
                 return View("CreatePatientRequest");
             }
 
@@ -189,12 +191,14 @@ namespace HalloDoc.Controllers
                 bool userExists = true;
 
                 _familyRequest.InsertDataFamilyRequest(model);
+                TempData["success"] = "Request created successfully";
                 return RedirectToAction("PatientSite", "Login");
 
             }
 
             else
             {
+                TempData["error"] = "Unable to create the request";
                 return View("CreateFamilyFriendRequest");
             }
 
@@ -282,13 +286,14 @@ namespace HalloDoc.Controllers
                 bool userExists = true;
 
                 _conciergeRequest.InsertDataConciergeRequest(model);
-
+                TempData["success"] = "Request created successfully";
                 return RedirectToAction("PatientSite", "Login");
 
             }
 
             else
             {
+                TempData["error"] = "Unable to create the request";
                 return View("CreateConciergeRequest");
             }
 
@@ -378,12 +383,14 @@ namespace HalloDoc.Controllers
                 bool userExists = true;
 
                 _businessRequest.InsertDataBusinessRequest(model);
+                TempData["success"] = "Request created successfully";
                 return RedirectToAction("PatientSite", "Login");
 
             }
 
             else
             {
+                TempData["error"] = "Unable to create the request";
                 return View("CreateBusinessRequest");
             }
         }

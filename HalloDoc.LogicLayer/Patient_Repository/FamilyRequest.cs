@@ -99,7 +99,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
 
             int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
-            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString().Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString("yyyyMMdd").Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
 
             request.RequestTypeId = 2;
             if (!userExists)

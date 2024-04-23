@@ -853,51 +853,51 @@ namespace HalloDoc.Controllers
                 if (month.Length > 1)
                 {
 
-                    if (month == "January")
+                    if (month == "January" || month == "1")
                     {
                         mon = 1;
                     }
-                    else if (month == "February")
+                    else if (month == "February" || month == "2")
                     {
                         mon = 2;
                     }
-                    else if (month == "March")
+                    else if (month == "March" || month == "3")
                     {
                         mon = 3;
                     }
-                    else if (month == "April")
+                    else if (month == "April" || month == "4")
                     {
                         mon = 4;
                     }
-                    else if (month == "May")
+                    else if (month == "May" || month == "5")
                     {
                         mon = 5;
                     }
-                    else if (month == "June")
+                    else if (month == "June" || month == "6")
                     {
                         mon = 6;
                     }
-                    else if (month == "July")
+                    else if (month == "July" || month == "7")
                     {
                         mon = 7;
                     }
-                    else if (month == "August")
+                    else if (month == "August" || month == "8")
                     {
                         mon = 8;
                     }
-                    else if (month == "September")
+                    else if (month == "September" || month == "9")
                     {
                         mon = 9;
                     }
-                    else if (month == "October")
+                    else if (month == "October" || month == "10")
                     {
                         mon = 10;
                     }
-                    else if (month == "November")
+                    else if (month == "November" || month == "11")
                     {
                         mon = 11;
                     }
-                    else if (month == "December")
+                    else if (month == "December" || month == "12")
                     {
                         mon = 12;
                     }
@@ -1590,7 +1590,7 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Admin Provider", "CreateRequest")]
+        [CustomAuthorize("Admin Provider", "AdminDashboard")]
         // function called when admin creates the request for a patient
         public async Task<IActionResult> CreateRequest(AdminCreateRequestModel model)
         {
@@ -1707,9 +1707,15 @@ namespace HalloDoc.Controllers
 
                     var existingUser = _adminInterface.ValidateAspNetUser(model);
                     _adminInterface.InsertDataOfRequest(model, x);
+                    TempData["success"] = "Request created successfully";
+                    return RedirectToAction("AdminDashboard");
                 }
-                TempData["success"] = "Request created successfully";
-                return View("CreateRequest");
+
+                else
+                {
+                    TempData["error"] = "Unable to create the request";
+                    return RedirectToAction("AdminDashboard");
+                }
             }
 
             catch (Exception ex)
@@ -1719,7 +1725,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        [CustomAuthorize("Admin Provider", "CreateRequest")]
+        [CustomAuthorize("Admin Provider", "AdminDashboard")]
         // function to check whether the entered state name belongs to the areas the service is available
         public IActionResult VerifyLocation(string state)
         {
@@ -3092,7 +3098,7 @@ namespace HalloDoc.Controllers
 
                 if (!isFinalized)
                 {
-                    TempData["success"] = "Welcome again!";
+                    TempData["success"] = "Form saved successfully";
                 }
                 else
                 {
@@ -3574,17 +3580,19 @@ namespace HalloDoc.Controllers
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Admin ad1 = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
-                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Admin_Name = string.Concat(ad1.FirstName, " ", ad1.LastName);
                 an.Tab = 11;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                AspNetUser anur = _adminInterface.GetAdminDataFromId(ad.AspNetUserId);
-                HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad.RegionId);
+                AspNetUser anur = _adminInterface.GetAdminDataFromId(ad1.AspNetUserId);
+                HalloDoc.DataLayer.Models.Region r = _adminInterface.GetRegFromId((int)ad1.RegionId);
+
+                Admin ad = _adminInterface.GetAdminFromAdminId(id);
 
                 AdminProfile ap = new AdminProfile
                 {
@@ -3602,6 +3610,9 @@ namespace HalloDoc.Controllers
                     zipcode = ad.Zip,
                     allRegions = _adminInterface.GetAllRegion(),
                     an = an,
+                    roleId = (int)ad.RoleId,
+                    status = (int)ad.Status,
+                    roleName = _adminInterface.RoleNameFromId((int)ad.RoleId),
                 };
                 ap.regions = _adminInterface.GetAdminRegionFromId(ad.AdminId);
                 ap.regionOfAdmin = _adminInterface.GetAvailableRegionOfAdmin(ad.AdminId);

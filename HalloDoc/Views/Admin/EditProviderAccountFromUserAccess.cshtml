@@ -86,19 +86,24 @@
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
                     <select class="form-select mb-3 " id="Status" name="AdminStatus" disabled>
-                        @for (int x = 0; x < 4; x++)
+                        @if (Model.statusVal == 1)
                         {
-                            <option value="@x">Active</option>
+                            <option value="@Model.statusVal" selected>Active</option>
+                        }
+                        else if(Model.statusVal == 2)
+                        {
+                            <option value="@Model.statusVal" selected>Pending</option>
+                        }
+                        else
+                        {
+                            <option value="@Model.statusVal" selected>Inactive</option>
                         }
                     </select>
                     <label for="SearchByRegion" class="ms-2 text-muted">Status</label>
                 </div>
                 <div class="col-md-6 mb-3 form-floating">
                     <select class="form-select mb-3" id="Role" name="Role" disabled>
-                        @foreach (var item in Model.roles)
-                        {
-                            <option value="@item.RoleId">@item.Name</option>
-                        }
+                        <option value="@Model.roleId">@Model.roleName</option>
                     </select>
                     <label for="Role" class="ms-2 text-muted">Role</label>
                 </div>

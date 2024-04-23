@@ -241,13 +241,13 @@
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn btn-outline-info dropdown-toggle text-secondary w-100" id="reason" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedCaseTagId">
                                 <i class="bi bi-person"></i> Reason For Cancellation
-
+                                <option value="-1" class="bg-white">Select reason for cancellation</option>
                                 @foreach (var item in Model.caseTags)
                                 {
                                     <option value="@item.CaseTagId" class="bg-white">@item.Name</option>
                                 }
                             </select>
-                            <span class="text-danger" id="caseTagError" style="display: none;">Select a reason for cancellation</span>
+                            <span class="text-danger" id="caseTagError" style="display: none;"></span>
                         </div>
 
                         <div class="form-group">
@@ -344,13 +344,13 @@
                                     <option value="@item.RegionId" class="bg-white">@item.Name</option>
                                 }
                             </select>
-                            <span id="regionError" class="text-danger" style="display: none;">Please select a region.</span>
+                            <span id="regionError" class="text-danger" style="display: none;"></span>
                         </div>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100 bg-white" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="selectedPhysicianId" id="select-physician" required>
                                 <i class="bi bi-person"></i> Select Physician
                             </select>
-                            <span id="physicianError" class="text-danger" style="display: none;">Please select a physician.</span>
+                            <span id="physicianError" class="text-danger" style="display: none;"></span>
                         </div>
                         <div class="form-group">
                             <textarea class="form-control border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
@@ -380,7 +380,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="requestForm" method="post" asp-action="TransferCaseSubmitAction" asp-controller="Admin" onsubmit="return validateForm()">
+                    <form id="requestForm" method="post" asp-action="TransferCaseSubmitAction" asp-controller="Admin" onsubmit="checkTransfer()">
                         <input type="number" hidden asp-for="RequestId" id="r-id-four" />
                         <p class="mb-3 text-muted fs-4">To transfer this request, search and select another physician</p>
                         <div class="dropdown text-light mb-3 w-100">
@@ -391,13 +391,13 @@
                                     <option value="@item.RegionId" class="bg-white">@item.Name</option>
                                 }
                             </select>
-                            <span id="regionError" class="text-danger" style="display: none;">Please select a region.</span>
+                            <span id="regionError2" class="text-danger" style="display: none;"></span>
                         </div>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedPhysicianId" id="select-physician2" required>
-                                <i class="bi bi-person"></i> Select Physician
+                                <option value="-1" selected disabled><i class="bi bi-person"></i> Select Physician</option>
                             </select>
-                            <span id="physicianError" class="text-danger" style="display: none;">Please select a physician.</span>
+                            <span id="physicianError2" class="text-danger" style="display: none;"></span>
                         </div>
                         <div class="form-group">
                             <textarea class="form-control description border border-info" id="exampleFormControlTextarea1" placeholder="Description" rows="5" name="assignCaseDescription"></textarea>
@@ -431,8 +431,8 @@
                         <input type="number" hidden asp-for="RequestId" id="r-id-three" />
                         <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold" id="p-name-two"></span></p>
                         <div class="form-group">
-                            <textarea class="form-control border border-info" id="blockReason" placeholder="Reason for Block Request" rows="5" name="reasonForBlockRequest" asp-for="reasonForBlockRequest"></textarea>
-                            <span asp-validation-for="reasonForBlockRequest" class="text-danger" id="blockError" style="display: none;">Enter reason for blocking the case</span>
+                            <textarea class="form-control border border-info" id="blockReason" placeholder="Reason for Block Request" rows="5" name="reasonForBlockRequest" ></textarea>
+                            <span class="text-danger" id="blockError" style="display: none;"></span>
                         </div>
 
                         <div class="text-end mb-3 me-3 mt-3">
@@ -546,7 +546,7 @@
 
                         <div class="form-group">
                             <textarea class="form-control border border-muted mt-3 textarea-class" id="reasonDTY" placeholder="Message" rows="5" name="reason" asp-for="requestDTY"></textarea>
-                            <span class="tex-danger" id="dtyError" style="display: none;"></span>
+                            <span class="text-danger" id="dtyError" style="display: none;"></span>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -656,7 +656,7 @@
                     <input type="hidden" id="r-id-nine" name="requestid" value="" />
                     <p class="mb-3 text-muted">Encounter Form Finalized Successfully</p>
                     <div class="d-flex justify-content-center">
-                        <a type="button" class="btn btn-info" id="pdf" href="" download>Download</a>
+                        <a type="button" class="btn btn-info text-white" id="pdf" href="" download>Download</a>
                     </div>
                     @*</form>*@
                 </div>
@@ -1112,24 +1112,61 @@
         }
 
         function validateForm() {
-            var regionId = document.getElementById("select-region-for-transfer").value;
-            var physicianId = document.getElementById("select-physician2").value;
-            var description = document.getElementById("exampleFormControlTextarea1").value;
-
-            if (regionId == "-1") {
+            const region = document.getElementById("select-region").value;
+            const phys = document.getElementById("select-physician").value;
+            console.log(region);
+            let flag = 0
+            
+            if(region==-1)
+            {
+                console.log(region);
+                document.getElementById("regionError").innerHTML = "Please select alteast one region!";
                 document.getElementById("regionError").style.display = "block";
+                event.preventDefault();
                 return false;
-            } else {
+            }
+            
+            if (phys<0) 
+            {
+                document.getElementById("physicianError").innerHTML = "Please select a physician";
+                document.getElementById("physicianError").style.display = "block";
+                event.preventDefault();
+                return false;
+            }
+
+            if(region!=-1)
+            {
+                document.getElementById("regionError").innerHTML = "";
                 document.getElementById("regionError").style.display = "none";
             }
+        }
 
-            if (physicianId == "") {
-                document.getElementById("physicianError").style.display = "block";
+        function checkTransfer()
+        {
+            const region = document.getElementById("select-region-for-transfer").value;
+            const phys = document.getElementById("select-physician2").value;
+            console.log(region);
+            let flag = 0
+            console.log("Phy: "+phys);
+            if (region == -1) {
+                console.log(region);
+                document.getElementById("regionError2").innerHTML = "Please select alteast one region!";
+                document.getElementById("regionError2").style.display = "block";
+                event.preventDefault();
                 return false;
-            } else {
-                document.getElementById("physicianError").style.display = "none";
             }
-            return true;
+
+            if (phys == null) {
+                document.getElementById("physicianError2").innerHTML = "Please select a physician";
+                document.getElementById("physicianError2").style.display = "block";
+                event.preventDefault();
+                return false;
+            }
+
+            if (region != -1) {
+                document.getElementById("regionError2").innerHTML = "";
+                document.getElementById("regionError2").style.display = "none";
+            }
         }
 
         function transferValidation() {
@@ -1164,13 +1201,20 @@
         function checkCancelCase()
         {
             var reason = document.getElementById("reason").value;
-            if(reason!=null && reason!="")
+            console.log(reason);
+            if(reason == -1)
             {
-                document.getElementById("caseTagError").style.display = "none";
-            }
-            else{
+                console.log("if");
+                document.getElementById("caseTagError").innerHTML = "Please select a reason for cancelling the case";
                 document.getElementById("caseTagError").style.display = "block";
+                event.preventDefault();
                 return false;
+            }
+            else
+            {
+                console.log("else");
+                document.getElementById("caseTagError").innerHTML = "";
+                document.getElementById("caseTagError").style.display = "none";
             }
             return true;
         }
@@ -1181,10 +1225,16 @@
 
             if(reason == null || reason == "")
             {
+                console.log("if");
+                document.getElementById("blockError").innerHTML = "Please enter reason to block the case";
                 document.getElementById("blockError").style.display = "block";
+                event.preventDefault();
                 return false;
             }
-            else{
+            else
+            {
+                console.log("else");
+                document.getElementById("blockError").innerHTML = "";
                 document.getElementById("blockError").style.display = "none";
             }
             return true;
@@ -1195,10 +1245,16 @@
 
             if(x == null || x == "")
             {
+                console.log("if");
+                document.getElementById("dtyError").innerHTML = "Please enter reason for which support is needed";
                 document.getElementById("dtyError").style.display = "block";
+                event.preventDefault();
                 return false;
             }
-            else{
+            else
+            {
+                console.log("else");
+                document.getElementById("dtyError").innerHTML = "";
                 document.getElementById("dtyError").style.display = "none";
             }
             return true;

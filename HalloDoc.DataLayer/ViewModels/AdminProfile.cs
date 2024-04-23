@@ -54,5 +54,7 @@ namespace HalloDoc.DataLayer.ViewModels
         public int roleId { get; set; }
         [Required(ErrorMessage = "Please select a region")]
         public int regionId { get; set; }
+        public int status { get; set; }
+        public string roleName { get; set; }
     }
 }

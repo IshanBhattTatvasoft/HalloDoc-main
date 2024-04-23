@@ -20,7 +20,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public Region ValidateRegion(PatientRequestSomeoneElse model)
         {
-            return _context.Regions.FirstOrDefault(u => u.Name == model.State.Trim().ToLower().Replace(" ", ""));
+            string state = model.State.Trim();
+            return _context.Regions.FirstOrDefault(r => r.Name == state);
         }
 
         public User ValidateUser(PatientRequestSomeoneElse model, int user_id)
@@ -60,11 +61,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             requestClient.State = model.State;
             requestClient.ZipCode = model.ZipCode;
             _context.RequestClients.Add(requestClient);
-            _context.SaveChangesAsync();
+            _context.SaveChanges();
 
-            int requests = _context.Requests.Where(u => u.CreatedDate == DateTime.Now.Date).Count();
-            string ConfirmationNumber = string.Concat(region1.Abbreviation, users.FirstName.Substring(0, 2).ToUpper(), users.LastName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
-            request.RequestTypeId = 2;
+            int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
+            Region r = _context.Regions.Where(re => re.Name.ToLower() == model.State).FirstOrDefault();
+            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString("yyyyMMdd").Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+            request.RequestTypeId = 1;
 
             request.CreatedUserId = users.UserId;
             request.FirstName = users.FirstName;

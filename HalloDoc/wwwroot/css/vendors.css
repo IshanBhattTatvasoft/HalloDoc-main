@@ -41,11 +41,17 @@ textarea:focus {
     padding: 10px;
 }
 
+.iti input {
+    width: 100% !important;
+    height: 58px;
+}
+
+textarea {
+    resize: none;
+}
+
 .iti {
-    display: inline-block !important;
-    /* height:58px; */
-    /*width: 100%;*/
-    width: 465px !important;
+    display: block !important;
 }
 
 #phone {

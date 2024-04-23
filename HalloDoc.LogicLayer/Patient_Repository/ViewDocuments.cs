@@ -23,7 +23,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public Request? GetRequestWithClient(int requestId)
         {
 
-            return  _context.Requests.Include(r => r.RequestClient).FirstOrDefault(u => u.RequestId == requestId);
+            return _context.Requests.Include(r => r.RequestClient).FirstOrDefault(u => u.RequestId == requestId);
 
         }
 
@@ -52,13 +52,30 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
         }
 
-        public void AddFile(string file, int id)
+        public void AddFile(ViewDocumentModel model, int requestId)
         {
-            RequestWiseFile rwf = new RequestWiseFile();
-            rwf.RequestId = id;
-            rwf.FileName = file;
-            rwf.CreatedDate = DateTime.Now;
-            _context.RequestWiseFiles.Add(rwf);
+            var viewModel = new ViewDocumentModel
+            {
+                ImageContent = model.ImageContent,
+            };
+            if (model.ImageContent != null && model.ImageContent.Length > 0)
+            {
+                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\uploads", model.ImageContent.FileName);
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    model.ImageContent.CopyToAsync(stream);
+                }
+            }
+            if (model.ImageContent != null)
+            {
+                RequestWiseFile requestWiseFile = new RequestWiseFile
+                {
+                    FileName = model.ImageContent.FileName,
+                    CreatedDate = DateTime.Now,
+                    RequestId = (int)model.requestId
+                };
+                _context.RequestWiseFiles.Add(requestWiseFile);
+            }
             _context.SaveChanges();
         }
 

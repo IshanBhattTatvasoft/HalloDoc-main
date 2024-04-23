@@ -135,7 +135,16 @@
                                                     @if(obj.RequestId!=null)
                                                     {
                                                         var x = Model.phy.FirstOrDefault(p => p.PhysicianId == obj.PhysicianId);
-                                                <span class="accordion-value-inner">Dr. @x.FirstName</span>
+                                                <span class="accordion-value-inner">
+                                                    @if(x!=null)
+                                                        {
+                                                            <span>Dr. @x.FirstName</span>
+                                                        }
+                                                        else
+                                                        {
+                                                            <span>-</span>
+                                                        }
+                                                    </span>
                                                     }
                                                     
                                             </span>

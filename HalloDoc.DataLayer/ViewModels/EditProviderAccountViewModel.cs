@@ -99,5 +99,7 @@ public class EditProviderAccountViewModel
     public decimal? lati { get; set; }
     public decimal? longi { get; set; }
     public string? requestProfile { get; set; }
+    public int? statusVal { get; set; }
+    public string roleName { get; set; }
 }
 

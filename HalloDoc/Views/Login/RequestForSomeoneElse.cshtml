@@ -66,9 +66,11 @@
 
         <div class="container bg-white mt-4 mb-4" id="main-container">
             <div>
-                <a class="float-end text-info" id="backdesign" asp-controller="Login" asp-action="SubmitRequestScreen">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-chevron-left" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                <a class="float-end text-info mx-auto mt-2" id="backdesign" asp-controller="Login" asp-action="PatientDashboardAndMedicalHistory" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
                     </svg>
                     Back
                 </a>
@@ -82,9 +84,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col mb-3">
+                <div class="col">
                     <textarea class="form-control" id="firstTextArea"
-                              placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4" asp-for="Symptoms"></textarea>
+                                  placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4" asp-for="Symptoms" style="resize: none;"></textarea>
                 </div>
             </div>
             <div class="row">
@@ -191,8 +193,8 @@
                 <div class="container py-3 col">
 
                     <div class="input-group custom-file-button">
-                        <input type="file" class="form-control" id="inputGroupFile">
-                        <label class="input-group-text" style="background-color: cyan;" for="inputGroupFile">
+                            <input type="file" class="form-control" id="inputGroupFile" asp-for="File">
+                            <label class="input-group-text" style="background-color: cyan;" for="inputGroupFile">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                  class="bi bi-cloud-arrow-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd"

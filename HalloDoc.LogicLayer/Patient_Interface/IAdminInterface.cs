@@ -153,6 +153,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public bool UpdateProviderLocation(string lat, string lon, int id);
         public string GetCancelledByAdminNotes(int id);
         public string GetCancelledByPatientNotes(int id);
+        public List<Role> GetAdminRoles();
+        public string RoleNameFromId(int id);
 
     }
 }

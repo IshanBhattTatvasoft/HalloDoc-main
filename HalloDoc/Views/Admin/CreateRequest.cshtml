@@ -66,7 +66,7 @@
     textarea:focus {
         outline: none !important;
         border-color: #3DB6FF !important;
-        /*box-shadow: none !important;*/
+        box-shadow: none !important;
     }
 
         textarea:focus::placeholder {
@@ -343,10 +343,10 @@
     });
 
     function verifyLocation() {
-
+        console.log(document.getElementById("state").value);
         $.ajax({
-            url: '/Admin/VerifyLocation',
-            type: 'GET',
+            url: `/Admin/VerifyLocation`,
+            type: 'POST',
             data: { state: document.getElementById("state").value },
             success: function (data) {
                 if (data.isVerified == 1) {
@@ -362,7 +362,7 @@
             error: function(error){
                 alert("An error occurred");
             }
-        })
+        });
     }
 
     window.onload = function () {

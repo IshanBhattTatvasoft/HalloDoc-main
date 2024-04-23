@@ -118,4 +118,6 @@ textarea:focus::placeholder {
     color: #3DB6FF !important;
 }
 
-
+textarea{
+    resize: none;
+}
