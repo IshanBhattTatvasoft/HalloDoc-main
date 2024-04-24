@@ -3501,10 +3501,20 @@ namespace HalloDoc.Controllers
         {
             try
             {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.Tab = 11;
+                    an.roleName = "Admin";
+                }
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+
                 AspNetUser anur = _adminInterface.GetAspNetFromAdminId(aid);
                 _adminInterface.AdminResetPassword(anur, model.Password);
                 TempData["success"] = "Password Updated Successfully";
@@ -3525,30 +3535,46 @@ namespace HalloDoc.Controllers
         {
             try
             {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.Tab = 11;
+                    an.roleName = "Admin";
+                }
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+
                 string[] regionArr = selectedRegion.Split(',');
                 char[] rId = selectedRegion.ToCharArray();
+
+                if(!_adminInterface.CheckEmailFromAdminId(aid, model.email))
+                {
+                    TempData["error"] = "Email already exists in other account";
+                    return RedirectToAction("AdminProfileFromUserAccess", new { id = aid});
+                }
 
                 _adminInterface.UpdateAdminDataFromId(model, aid, selectedRegion);
 
                 TempData["success"] = "Administrator info updated successfully";
                 if (model.an == null)
                 {
-                    return RedirectToAction("MyProfile");
+                    return RedirectToAction("AdminProfileFromUserAccess", new {id = aid});
                 }
                 else
                 {
-                    return RedirectToAction("MyProfile");
+                    return RedirectToAction("AdminProfileFromUserAccess", new {id = aid});
                 }
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to edit the administrator information";
-                return RedirectToAction("MyProfile");
+                return RedirectToAction("AdminProfileFromUserAccess", new { id = aid });
             }
         }
 
@@ -3558,10 +3584,20 @@ namespace HalloDoc.Controllers
         {
             try
             {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.Tab = 11;
+                    an.roleName = "Admin";
+                }
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+
                 _adminInterface.UpdateMailingInfo(model, aid);
                 TempData["success"] = "Mailing info updated successfully";
                 return RedirectToAction("MyProfile");
@@ -3582,8 +3618,12 @@ namespace HalloDoc.Controllers
                 var userId = HttpContext.Session.GetInt32("id");
                 Admin ad1 = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
-                an.Admin_Name = string.Concat(ad1.FirstName, " ", ad1.LastName);
-                an.Tab = 11;
+                if (ad1 != null)
+                {
+                    an.Admin_Name = string.Concat(ad1.FirstName, " ", ad1.LastName);
+                    an.Tab = 11;
+                    an.roleName = "Admin";
+                }
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
@@ -3948,11 +3988,19 @@ namespace HalloDoc.Controllers
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 5;
+
                 if (regionNames.IsNullOrEmpty())
                 {
                     TempData["error"] = "Select regions from checkbox!";
                     return RedirectToAction("CreateAdminAccount");
                 }
+
+                if(PatientCheck(model.Email))
+                {
+                    TempData["error"] = "Email already exists in the other account";
+                    return RedirectToAction("ProviderMenu");
+                }
+
                 _adminInterface.CreateNewProviderAccount(model, regionNames, ad.AdminId);
                 TempData["success"] = "Provider account created successfully";
                 return RedirectToAction("CreateProviderAccount");
@@ -4008,6 +4056,19 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
+
+                if (regionNames.IsNullOrEmpty())
+                {
+                    TempData["error"] = "Select regions from checkbox!";
+                    return RedirectToAction("CreateAdminAccount");
+                }
+
+                if (PatientCheck(model.Email))
+                {
+                    TempData["error"] = "Email already exists in the other account";
+                    return RedirectToAction("ProviderMenu");
+                }
+
                 _adminInterface.CreateNewProviderAccount(model, regionNames, ad.AdminId);
                 TempData["success"] = "Provider account created successfully";
                 return RedirectToAction("UserAccess");
@@ -4384,7 +4445,7 @@ namespace HalloDoc.Controllers
 
         [HttpPost]
         [CustomAuthorize("Admin", "CreateAdminAccount")]
-        public IActionResult CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames)
+        public IActionResult CreateNewAdminAccount(AdminProfile model, List<int> regionNames)
         {
             try
             {
@@ -4401,6 +4462,12 @@ namespace HalloDoc.Controllers
                 if (regionNames.IsNullOrEmpty())
                 {
                     TempData["error"] = "Select regions from checkbox!";
+                    return RedirectToAction("CreateAdminAccount");
+                }
+
+                if(PatientCheck(model.email))
+                {
+                    TempData["error"] = "Email already exists in other account";
                     return RedirectToAction("CreateAdminAccount");
                 }
 
@@ -4446,7 +4513,7 @@ namespace HalloDoc.Controllers
 
         [HttpPost]
         [CustomAuthorize("Admin", "UserAccess")]
-        public IActionResult CreateNewAdminAccountFromUserAccess(EditProviderAccountViewModel model, List<int> regionNames)
+        public IActionResult CreateNewAdminAccountFromUserAccess(AdminProfile model, List<int> regionNames)
         {
             try
             {
@@ -4459,7 +4526,20 @@ namespace HalloDoc.Controllers
                 string roleIdVal = _jwtToken.GetRoleId(token);
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
-                _adminInterface.CreateNewAdminAccount(model, regionNames, ad.AdminId);
+
+                if (regionNames.IsNullOrEmpty())
+                {
+                    TempData["error"] = "Select regions from checkbox!";
+                    return RedirectToAction("CreateAdminAccount");
+                }
+
+                if (PatientCheck(model.email))
+                {
+                    TempData["error"] = "Email already exists in other account";
+                    return RedirectToAction("CreateAdminAccount");
+                }
+
+                _adminInterface.CreateNewAdminAccount(model, regionNames, (int)userId);
                 TempData["success"] = "Admin account created successfully";
                 return RedirectToAction("UserAccess");
             }

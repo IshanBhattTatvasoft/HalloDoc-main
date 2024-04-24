@@ -1,0 +1,100 @@
+﻿@model Assignment.Models.ViewModels.IndexViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+@section Styles{
+    <link href="~/css/index.css" rel="stylesheet" type="text/css" />
+}
+
+<partial name="_Toast" />
+
+<div class="bg-white ms-2 me-2 mt-2">
+    <div class="text-center" style="background: #7CA28D;">
+        <p class="h5 text-white pt-2 pb-2">Task Management System</p>
+    </div>
+
+    <div class="container-fluid mt-5">
+        <div class="d-flex justify-content-between">
+            <div>
+                <button class="btn text-dark fw-bold px-3" type="button" style="background: #7CA28D;" onclick="addTaskModal()">ADD TASK</button>
+            </div>
+
+            <div>
+                <input type="text" id="taskName" class="form-control search-input" placeholder="Search" onkeyup="filter()">
+            </div>
+        </div>
+
+        <div class="mt-4 ms-3 me-3 myTable" id="TasksPartialView">
+
+        </div>
+
+        <div id="addTask"></div>
+        <div id="editTask"></div>
+    </div>
+</div>
+
+<script>
+    window.onload = () => {
+        $.ajax({
+            url: '/Home/IndexPartialView',
+            type: 'GET',
+            success: function(response)
+            {
+                $("#TasksPartialView").html(response);
+            },
+            error: function(response)
+            {
+                alert("An error occurred");
+            }
+        });
+    };
+
+    function filter(page, pageSize)
+    {
+        var taskName = document.getElementById("taskName").value;
+
+        $.ajax({
+            url: '/Home/IndexPartialView',
+            type: 'POST',
+            data: {page: page, pageSize: pageSize, taskName: taskName},
+            success: function (response) {
+                $("#TasksPartialView").html(response);
+            },
+            error: function (response) {
+                alert("An error occurred");
+            }
+        });
+    }
+
+    function addTaskModal() {
+        $.ajax({
+            url: "/Home/AddTask",
+            type: "GET",
+            success: function (response) {
+                $("#addTask").html(response);
+                $("#addTaskModal").modal("show");
+            },
+            error: function (response) {
+                alert("An error occurred");
+            }
+        });
+    }
+
+    function editTaskModal(taskId) {
+
+        $.ajax({
+            url: "/Home/EditTask",
+            type: "POST",
+            data: {id: taskId},
+            success: function (response) {
+                $("#editTask").html(response);
+                $("#addTaskModal").modal("show");
+            },
+            error: function (response) {
+                alert("An error occurred");
+            }
+        });
+    }
+</script>

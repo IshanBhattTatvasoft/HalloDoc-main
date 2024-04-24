@@ -1,0 +1,172 @@
+﻿@model Assignment.Models.ViewModels.AddTaskViewModel
+
+<div class="modal fade" id="addTaskModal" tabindex="-1" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header text-white" style="background: #7CA28D;">
+                <h1 class="modal-title fs-5" id="addTaskModalLabel">Task Form</h1>
+            </div>
+            <form id="AddTaskForm" asp-action="AddTaskSubmitAction" asp-controller="Home" method="post" onsubmit="checkValidation()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="hidden" id="gotId" asp-for="taskId" />
+                            <input type="hidden" id="setId" asp-for="id" />
+                            <input type="text" id="nameOfTask" class="form-control" placeholder="Task Name" aria-label="first name" asp-for="taskName"/>
+                            <span id="taskError" class="text-danger" style="display: none;"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <input type="text" id="asigneeName" class="form-control" placeholder="Asignee" aria-label="First name" asp-for="asigneeName">
+                            <span asp-validation-for="asigneeName" id="asigneeError" class="text-danger" style="display: none;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <input type="text" id="description" class="form-control" placeholder="Description" aria-label="First name" asp-for="description">
+                            <span asp-validation-for="description" class="text-danger" id="descriptionError" style="display: none;"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <input type="date" id="dueDate" class="form-control" placeholder="Due Date" aria-label="First name" asp-for="dueDate">
+                            <span class="text-muted">MM/DD/YYYY</span>
+                            <span asp-validation-for="dueDate" class="text-danger" id="dueDateError" style="display: none;"></span>
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-6">
+                            <select class="form-select dropdown-toggle text-secondary w-100" id="selectCity" style="text-align: start;" asp-for="city">
+                                <option value="-1" disabled hidden selected class="text-muted">Select City</option>
+                                <option value="1" class="text-muted">Indore</option>
+                                <option value="2" class="text-muted">Ahmedabad</option>
+                                <option value="3" class="text-muted">Banglore</option>
+                                <option value="4" class="text-muted">Pune</option>
+                                <option value="5" class="text-muted">Jabalpur</option>
+                                <option value="6" class="text-muted">Hyderabad</option>
+                                <option value="7" class="text-muted">Mumbai</option>
+                            </select>
+                            <span asp-validation-for="city" id="cityError" class="text-danger" style="display: none;"></span>
+                        </div>
+
+                        <div class="col-6">
+                            <input type="text" id="categoryName" class="form-control" placeholder="Category" aria-label="First name" asp-for="category">
+                            <span asp-validation-for="category" id="categoryError" class="text-danger" style="display: none;"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn text-white" id="SaveViewShift" style="background: #3F51B5;">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    var today2 = new Date().toISOString().split('T')[0];
+    document.getElementById("dueDate").setAttribute('min', today2);
+    console.log("Task Id: " + document.getElementById("gotId").value);
+    document.getElementById("setId").value = document.getElementById("gotId").value;
+
+    function checkValidation()
+    {
+        var taskName = document.getElementById("nameOfTask").value;
+        var asigneeName = document.getElementById("asigneeName").value;
+        var description = document.getElementById("description").value;
+        var dueDate = document.getElementById("dueDate").value;
+        var selectCity = document.getElementById("selectCity").value;
+        var categoryName = document.getElementById("categoryName").value;
+
+        let flag1 = 0;
+        let flag2 = 0;
+        let flag3 = 0;
+        let flag4 = 0;
+        let flag5 = 0;
+        let flag6 = 0;
+
+        console.log("Flag1 : " + flag1);
+        console.log(taskName);
+        
+        console.log("Due Date: "+dueDate);
+
+        if(taskName == "" || taskName == null)
+        {
+            document.getElementById("taskError").innerHTML = "Please write task name";
+            document.getElementById("taskError").style.display = "block";
+            flag1 = 1;
+            console.log("opop");
+        }
+
+        if (flag1 == 0 && (taskName != "" || taskName != null)) {
+            console.log("notnull");
+            document.getElementById("taskError").style.display = "none";
+        }
+
+        if (asigneeName == "" || asigneeName == null)
+        {
+            document.getElementById("asigneeError").innerHTML = "Please mention asignee name";
+            document.getElementById("asigneeError").style.display = "block";
+            flag2 = 1;
+        }
+
+        if (flag2 == 0 && (asigneeName != "" || asigneeName != null)) {
+            document.getElementById("asigneeError").style.display = "none";
+        }
+
+        if (description == "" || description == null)
+        {
+            document.getElementById("descriptionError").innerHTML = "Please mention about desription";
+            document.getElementById("descriptionError").style.display = "block";
+            flag3 = 1;
+        }
+
+        if (flag3 == 0 && (description != "" || description != null))
+        {
+            document.getElementById("descriptionError").style.display = "none";
+        }
+
+        if (dueDate.trim() === "" || isNaN(new Date(dueDate).getTime())) {
+            document.getElementById("dueDateError").innerHTML = "Please enter the due date";
+            document.getElementById("dueDateError").style.display = "block";
+            console.log("Date display: " + document.getElementById("dueDateError").style.display);
+            flag4 = 1;
+        }
+
+        if (flag4 == 0 && (dueDate != "" || dueDate != null)) {
+            document.getElementById("dueDateError").style.display = "none";
+        }
+
+        if (selectCity == -1 || selectCity == null) {
+            document.getElementById("cityError").innerHTML = "Please select a city";
+            document.getElementById("cityError").style.display = "block";
+            flag5 = 1;
+        }
+
+        if (flag5 == 0 && (selectCity != -1 || selectCity != null)) {
+            document.getElementById("cityError").style.display = "none";
+        }
+
+        if (categoryName == "" || categoryName == null) {
+            document.getElementById("categoryError").innerHTML = "Please enter a category";
+            document.getElementById("categoryError").style.display = "block";
+            flag6 = 1;
+        }
+
+        if (flag6 == 0 && (categoryName != "" || categoryName != null)) {
+            document.getElementById("categoryError").style.display = "none";
+        }
+
+        if(flag1 == 1 || flag2 == 1 || flag3 == 1 || flag4 == 1 || flag5 == 1 || flag6 == 1)
+        {
+            console.log("yoyo");
+            event.preventDefault();
+            return false;
+        }
+
+        return true;
+    }
+</script>

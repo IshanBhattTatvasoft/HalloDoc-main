@@ -6,41 +6,34 @@ using HalloDoc.DataLayer.Models;
 using HalloDoc.LogicLayer.Patient_Interface;
 using HalloDoc.LogicLayer.Patient_Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-//This line imports the entire Microsoft.EntityFrameworkCore namespace into your code.Entity Framework Core(EF Core) is an object-relational mapper(ORM) framework from Microsoft that simplifies working with relational databases in .NET applications.It enables you to interact with database tables by creating corresponding C# classes (models) that map to those tables' columns.
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Rotativa.AspNetCore;
 using System.Text;
 
-//Following function marks the starting point for building an ASP.NET Core web application by providing a flexible and efficient configuration API.
-//It initializes a WebApplicationBuilder object and the parameter 'args' accepts an array of strings representing command-line arguments passed to your application when it starts.
+// creates WebApplicationBuilder instance to configure the web application
 var builder = WebApplication.CreateBuilder(args);
+// retrieves IConfiguration instance and provides access to configuration settings for the application
 ConfigurationManager configuration = builder.Configuration;
 
-// Add services to the container.
+// adds services necessary for MVC (Model-View-Controller) pattern support. It registers services required for controllers and views.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddHttpContextAccessor();
+// registers the HttpContextAccessor, which allows access to the HTTP context within the application.
+builder.Services.AddHttpContextAccessor();  
+
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(20); // Set session timeout
 });
 
-
-//builder.Services is used to add services to the dependency injection container.
-//i) a dependency is when one object relies on another object to perform its function. For example, a Car object might depend on a Engine object to run.
-//ii)  Injection refers to the passing of a dependency (usually as a parameter) to a dependent object. Instead of the dependent object creating its own dependencies, they are "injected" into it from an external source.
-//iii) Dependency Injection Container is a mechanism used to manage the dependencies and perform the injections.
-
-//IMP: AddDbContext is a method provided by the .NET Core dependency injection framework. It registers the HalloDocDbContext as a service in the application's service container, allowing other parts of the application to request instances of HalloDocDbContext as needed.
-
-//(options => ...): This is a lambda expression that configures the DbContext options. Inside the lambda expression, options refers to an instance of DbContextOptionsBuilder, which is used to configure the DbContext.
-//options.UseNpgsql(...): This configures the DbContext to use a PostgreSQL database. UseNpgsql is a method provided by Entity Framework Core's PostgreSQL provider (Npgsql.EntityFrameworkCore.PostgreSQL). It takes a connection string as an argument.
-//builder.Configuration.GetConnectionString("HalloDocDbContext"): This retrieves the connection string named "HalloDocDbContext" from the application's configuration. The connection string typically contains information such as the server, database name, credentials, etc., needed to connect to the PostgreSQL database.
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-options.UseNpgsql(builder.Configuration.GetConnectionString("HalloDocDbContext")));
-//builder.Services.AddTransient<ApplicationDbContext>();
+options.UseNpgsql(builder.Configuration.GetConnectionString("HalloDocDbContext"), providerOptions =>
+{
+    providerOptions.CommandTimeout(180);
+}));
 
 builder.Services.AddEndpointsApiExplorer();
 

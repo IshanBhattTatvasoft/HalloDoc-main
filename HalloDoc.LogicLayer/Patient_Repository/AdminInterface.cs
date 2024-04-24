@@ -1399,46 +1399,30 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             List<int> selectedRegionIds = null;
             int x = 1;
             AdminRegion arr = _context.AdminRegions.OrderByDescending(r => r.AdminRegionId).FirstOrDefault();
+            List<AdminRegion> adminRegions = _context.AdminRegions.Where(a => a.AdminId == id).ToList();
             if (!string.IsNullOrEmpty(selectedRegion))
             {
                 selectedRegionIds = selectedRegion.Split(',').Select(int.Parse).ToList();
             }
-            // for newly selected region
-            foreach (var item in selectedRegionIds)
+            
+            foreach (var region in adminRegions)
             {
-                //check if selected region exists in AdminRegion
-                bool isPresent = _context.AdminRegions.Any(r => r.RegionId == item && r.AdminId == model.adminId);
-
-                //if exists, no need to do any change
-                if (isPresent)
-                {
-                    continue;
-                }
-                // if does not exist, add record for that adminId and regionId
-                else
-                {
-                    AdminRegion ar = new AdminRegion();
-                    ar.AdminRegionId = arr.AdminRegionId + x;
-                    ar.AdminId = id;
-                    ar.RegionId = item;
-                    _context.AdminRegions.Add(ar);
-                    _context.SaveChanges();
-                    x++;
-                }
+                _context.AdminRegions.Remove(region);
             }
 
-            // when an already selected region needs to be removed
-
-            // fetch all regionId from AdminRegion
-            List<int> idInDb = _context.AdminRegions.Select(r => r.RegionId).ToList();
-
-            foreach (var item in idInDb)
+            if (selectedRegion != null)
             {
-                // if regionId from AdminRegion table does not exist in rId, remove it from AdminRegion table 
-                if (!selectedRegionIds.Contains(item))
+                for (int ele = 0; ele < selectedRegionIds.Count; ele++)
                 {
-                    AdminRegion ar = _context.AdminRegions.Where(a => a.RegionId == item).FirstOrDefault();
-                    _context.AdminRegions.Remove(ar);
+
+                    AdminRegion ar = new AdminRegion
+                    {
+                        AdminRegionId = arr.AdminRegionId + x,
+                        AdminId = id,
+                        RegionId = selectedRegionIds[ele]
+                    };
+                    _context.AdminRegions.Add(ar);
+                    x++;
                 }
             }
 
@@ -1967,7 +1951,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
         }
 
-        public void CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId)
+        public void CreateNewAdminAccount(AdminProfile model, List<int> regionNames, int userId)
         {
             Admin ad = GetAdminFromId(userId);
             AdminRegion arr = _context.AdminRegions.OrderByDescending(r => r.AdminRegionId).FirstOrDefault();
@@ -1976,10 +1960,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             Admin a = new Admin();
             int id = arr.AdminRegionId + 1;
 
-            anu.UserName = model.LastName + model.FirstName[0];
+            anu.UserName = model.lastName + model.firstName[0];
             anu.PasswordHash = model.Password;
-            anu.Email = model.Email;
-            anu.PhoneNumber = model.Phone;
+            anu.Email = model.email;
+            anu.PhoneNumber = model.phone;
             anu.CreatedDate = DateTime.Now;
             _context.AspNetUsers.Add(anu);
             _context.SaveChanges();
@@ -1989,16 +1973,16 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.AspNetUserRoles.Add(anur);
 
             a.AspNetUserId = anu.Id;
-            a.FirstName = model.FirstName;
-            a.LastName = model.LastName;
-            a.Email = model.Email;
-            a.Mobile = model.Phone;
-            a.Address1 = model.Address1;
-            a.Address2 = model.Address2;
-            a.City = model.City;
+            a.FirstName = model.firstName;
+            a.LastName = model.lastName;
+            a.Email = model.email;
+            a.Mobile = model.phone;
+            a.Address1 = model.address1;
+            a.Address2 = model.address2;
+            a.City = model.city;
             a.RegionId = model.regionId;
-            a.Zip = model.Zip;
-            a.AltPhone = model.MailingPhoneNo;
+            a.Zip = model.zipcode;
+            a.AltPhone = model.mailingPhoneNo;
             a.CreatedBy = ad.AspNetUserId;
             a.CreatedDate = DateTime.Now;
             a.Status = 1;
@@ -2704,6 +2688,25 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public string RoleNameFromId(int id)
         {
             return _context.Roles.FirstOrDefault(r => r.RoleId == id).Name;
+        }
+
+        public bool CheckEmailFromAdminId(int id, string email)
+        {
+            Admin ad = _context.Admins.FirstOrDefault(a => a.AdminId == id);
+            AspNetUser anu = _context.AspNetUsers.FirstOrDefault(asp => asp.Id == ad.AspNetUserId && asp.Email == email);
+            if(anu == null)
+            {
+                return false;
+            }
+
+            else if((anu.Id == ad.AspNetUserId) && anu!=null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

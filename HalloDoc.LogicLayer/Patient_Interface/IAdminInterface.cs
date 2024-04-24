@@ -118,7 +118,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<RequestStatusLog> GetAllRslData(int requestId);
         public List<Role> GetSpecifiedAdminRoles();
         public List<Role> GetSpecifiedProviderRoles();
-        public void CreateNewAdminAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId);
+        public void CreateNewAdminAccount(AdminProfile model, List<int> regionNames, int userId);
         public UserAccessViewModel UserAccessFilteredData(AdminNavbarModel an, int accountType);
         public List<string> GetAllMenus(string roleId);
         public List<BlockedHistoryData> GetBlockedHistoryData();
@@ -155,6 +155,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public string GetCancelledByPatientNotes(int id);
         public List<Role> GetAdminRoles();
         public string RoleNameFromId(int id);
+        public bool CheckEmailFromAdminId(int id, string email);
 
     }
 }

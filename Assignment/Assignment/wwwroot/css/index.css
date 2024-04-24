@@ -1,0 +1,32 @@
+﻿input:focus {
+    outline: #7CA28D !important;
+    /*border: 2px solid white !important;*/
+    box-shadow: none !important;
+    border-color: #7CA28D !important;
+    /*color: red !important;*/
+}
+
+textarea:focus {
+    outline: none !important;
+    border-color: #7CA28D !important;
+    box-shadow: none !important;
+}
+
+    textarea:focus::placeholder {
+        color: #7CA28D !important;
+    }
+
+.form-floating:focus-within label {
+    color: #7CA28D !important;
+}
+
+textarea {
+    resize: none;
+}
+select:focus {
+    outline: #7CA28D !important;
+    /*border: 2px solid white !important;*/
+    box-shadow: none !important;
+    border-color: #7CA28D !important;
+    /*color: red !important;*/
+}

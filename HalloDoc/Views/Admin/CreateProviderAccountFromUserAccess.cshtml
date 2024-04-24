@@ -163,7 +163,7 @@
 
                 <div class="row">
                     <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" id="email" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email" onblur="verifyEmail()">
+                        <input type="text" id="email" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Email">
                         <label for="floatingInput" class="ms-2 text-muted class-for-label">Email</label>
                         <span asp-validation-for="Email" class="text-danger"></span>
                     </div>
@@ -300,9 +300,8 @@
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <div class="form-check d-flex justify-content-between col-6">
                             <input type="checkbox" class="form-check-input border-2 region-check" value="@Model.Contract"
-                                   id="Contract" name="checkbox_group"
-
-                            <p class="ms-1">Independent Contract Agreement</p>
+                                   id="Background" name="checkbox_group" />
+                            <p>Independent Contract Agreement</p>
                         </div>
                         <div class="d-flex justify-content-between col-4">
                             <input type="file" class="form-control btn btn-info text-white" id="contract" value="Upload" asp-for="ContractAgreementFile" hidden />
@@ -434,25 +433,5 @@
         }
     }
 
-    function verifyEmail() {
-        var email = document.getElementById("email").value;
-
-        $.ajax({
-            url: `/Admin/PatientCheck`,
-            type: 'GET',
-            data: { email: email },
-            success: function (data) {
-                console.log(data);
-                if (data == true) {
-                    alert("Account with same email already exists. Enter other email");
-                }
-                else {
-                    console.log(data);
-                }
-            },
-            error: function (error) {
-                alert("An error occurred");
-            }
-        });
-    }
+    
 </script>
