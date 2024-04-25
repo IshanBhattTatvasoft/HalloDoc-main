@@ -47,6 +47,8 @@ namespace HalloDoc.DataLayer.ViewModels
         public List<AdminRegion> regions { get; set; } = new List<AdminRegion>();
         public List<Region> allRegions { get; set; } = new List<Region>();
         public List<AdminRegion> regionOfAdmin { get; set; } = new List<AdminRegion>();
+        [Required(ErrorMessage = "Please enter the Alternate Phone Number")]
+        [RegularExpression(@"^[1-9]\d{9}$", ErrorMessage = "Please enter valid phone number")] 
         public string altPhoneNo { get; set; }
         public AdminNavbarModel? an { get; set; }
         public int adminId { get; set; }
@@ -56,5 +58,6 @@ namespace HalloDoc.DataLayer.ViewModels
         public int regionId { get; set; }
         public int status { get; set; }
         public string roleName { get; set; }
+        public bool isAdminRegion { get; set; }
     }
 }

@@ -183,22 +183,22 @@
 
                         <div class="d-flex align-items-center justify-content-center mt-3 gap-2">
                             <a class="req-filter Patient btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
-                                <div class="categories-div-sub-sub m-auto"
+                                <div class="categories-div-sub-sub"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#61B961;"></div>
                                 <div>Patient</div>
                             </a>
                             <a class="req-filter Family btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
-                                <div class="categories-div-sub-sub m-auto"
+                                <div class="categories-div-sub-sub"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#E69127;"></div>
                                 <div>Family/Friend</div>
                             </a>
                             <a class="req-filter Business btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
-                                <div class="categories-div-sub-sub m-auto"
+                                <div class="categories-div-sub-sub"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#D9677C;"></div>
                                 <div>Business</div>
                             </a>
                             <a class="req-filter Concierge btn border border-white categories-div-sub d-sm-flex align-items-center gap-1 text-decoration-none" onclick="changeFilter(this)">
-                                <div class="categories-div-sub-sub m-auto"
+                                <div class="categories-div-sub-sub"
                                      style="height:1rem; width:1rem;border-radius:50%;background:#0A7CB8;"></div>
                                 <div>Concierge</div>
                             </a>
@@ -239,7 +239,7 @@
                         <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold" id="p-name"></span></p>
 
                         <div class="dropdown text-light mb-3 w-100">
-                            <select class="btn btn-outline-info dropdown-toggle text-secondary w-100" id="reason" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedCaseTagId">
+                            <select class="btn border border-info dropdown-toggle text-secondary w-100" id="reason" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" class="bg-white" name="selectedCaseTagId">
                                 <i class="bi bi-person"></i> Reason For Cancellation
                                 <option value="-1" class="bg-white">Select reason for cancellation</option>
                                 @foreach (var item in Model.caseTags)
@@ -281,7 +281,7 @@
 
                         <div class="col-sm-12 ">
                             <div class="form-floating mb-3">
-                                <input asp-for="FirstName" type="text" class="form-control" placeholder="First Name" value="" required>
+                                <input asp-for="FirstName" id="slfn" type="text" class="form-control" placeholder="First Name" value="" required>
                                 <label for="floatingInput">First Name</label>
                                 <span asp-validation-for="FirstName" class="text-danger"></span>
                             </div>
@@ -289,7 +289,7 @@
 
                         <div class="col-sm-12 ">
                             <div class="form-floating mb-3">
-                                <input asp-for="LastName" type="text" class="form-control" placeholder="Last Name" value="" required>
+                                <input asp-for="LastName" id="slln" type="text" class="form-control" placeholder="Last Name" value="" required>
                                 <label for="floatingInput">Last Name</label>
                                 <span asp-validation-for="LastName" class="text-danger"></span>
                             </div>
@@ -297,14 +297,14 @@
 
                         <div class="col-sm-12 ">
                             <div class="form-floating mb-3">
-                                <input id="phone" class="form-control" type="tel" value="" asp-for="PhoneNumber" required />
+                                <input id="slphone" class="form-control" type="tel" value="" asp-for="PhoneNumber" required />
                                 <span asp-validation-for="PhoneNumber" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="col-sm-12">
                             <div class="form-floating mb-3">
-                                <input asp-for="email" type="email" class="form-control" placeholder="Email" value="" required>
+                                <input asp-for="email" id="slemail" type="email" class="form-control" placeholder="Email" value="" required>
                                 <label for="floatingInput">Email</label>
                                 <span asp-validation-for="email" class="text-danger"></span>
                             </div>
@@ -323,7 +323,7 @@
 
 
     @* Assign Request Modal *@
-    <div class="modal fade" id="example2Modal" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true">
+    <div class="modal fade" id="example2Modal" tabindex="-1" aria-labelledby="exampleModal2Label" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
@@ -348,7 +348,7 @@
                         </div>
                         <div class="dropdown text-light mb-3 w-100">
                             <select class="btn border border-info dropdown-toggle text-secondary w-100 bg-white" style="text-align:start" data-bs-toggle="dropdown" aria-expanded="false" name="selectedPhysicianId" id="select-physician" required>
-                                <i class="bi bi-person"></i> Select Physician
+                                <option value="-1" selected disabled><i class="bi bi-person"></i> Select Physician</option>
                             </select>
                             <span id="physicianError" class="text-danger" style="display: none;"></span>
                         </div>
@@ -370,7 +370,7 @@
 
 
     @* Transfer Request Modal *@
-    <div class="modal fade" id="example9Modal" tabindex="-1" aria-labelledby="exampleModal9Label" aria-hidden="true">
+    <div class="modal fade" id="example9Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModal9Label" aria-hidden="true" data-keyboard="false" data-backdrop="static">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-info">
@@ -762,13 +762,9 @@
         const changeFilter = (element) => {
             const states = document.getElementsByClassName("req-filter");
             const curr_state = element.classList[1];
-            //console.log("Current filter : " + curr_state);
 
             const statesName = document.getElementsByClassName("state");
             const current_state = element.classList[1];
-            //let name = current_state.split("-").length == 1 ? current_state.split("-")[0] : current_state.split("-")[1];
-            //let finalName = name.split("State")[0];
-            //console.log(finalName);
 
             for (let i = 0; i < states.length; i++) {
                 if (states[i].classList.length == 11 && states[i].classList[1] == curr_state) {
@@ -791,11 +787,11 @@
 
         // code to show filtered data
         const filter = (page, pageSize) => {
-            localStorage.setItem("status", document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1))
-            //console.log(localStorage.setItem("status", document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1)));
+            localStorage.setItem("status", document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
+
             var statusName = localStorage.getItem("status").charAt(0).toUpperCase();
             const states = document.getElementsByClassName("req-filter");
-            //console.log("Status: " + document.getElementById("status-text").innerHTML.substring(1, document.getElementById("status-text").innerHTML.length - 1));
+
             for (let i = 0; i < states.length; i++) {
                 if (states[i].classList.length == 11) {
                     $.ajax({
@@ -919,25 +915,6 @@
         }
 
 
-
-        // styling of boxes of 6 states in tablet and mobile view
-        //function changeStyle() {
-        //    if ($(window).width() < 992) {
-        //        const classes = document.getElementsByClassName("lower-three-button");
-        //        for (let i = 0; i < classes.length; i++) {
-        //            console.log("hey");
-        //            classes[i].style.marginTop = "20px";
-        //        }
-        //    } else {
-        //        const classes = document.getElementsByClassName("lower-three-button");
-        //        for (let i = 0; i < classes.length; i++) {
-        //            console.log("hey");
-        //            classes[i].style.marginTop = "0px";
-        //        }
-        //    }
-        //}
-
-
         // code to fetch Patient Name and RequestId in Cancel Case Modal
         function cancelCaseData(id, fname, lname) {
             document.getElementById("p-name").textContent = fname + " " + lname;
@@ -1021,7 +998,7 @@
         // code to fetch RequestId in Transfer Case Modal
         function transferRequestData(id) {
             document.getElementById("r-id-four").value = id;
-            $("#example9Modal").modal('show');
+            $('#example9Modal').modal({ backdrop: 'static', keyboard: false }, 'show');
         }
 
         // code to fetch RequestId in Clear Case Modal
@@ -1100,8 +1077,15 @@
         }
 
         // code to show dropdown in phone number field of
-        const phoneInputField = document.querySelector("#phone");
-        const phoneInput = window.intlTelInput(phoneInputField, {
+        //const phoneInputField = document.querySelector("#phone");
+        //const phoneInput = window.intlTelInput(phoneInputField, {
+        //    innerHeight: 1,
+        //    utilsScript:
+        //        "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        //});
+
+        const sendLinkPhone = document.querySelector("#slphone");
+        const phone1 = window.intlTelInput(sendLinkPhone, {
             innerHeight: 1,
             utilsScript:
                 "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
@@ -1111,35 +1095,35 @@
             document.getElementById("submit-button-for-excel").click();
         }
 
-        function validateForm() {
-            const region = document.getElementById("select-region").value;
-            const phys = document.getElementById("select-physician").value;
-            console.log(region);
-            let flag = 0
+        //function validateForm() {
+        //    const region = document.getElementById("select-region").value;
+        //    const phys = document.getElementById("select-physician").value;
+        //    console.log(region);
+        //    let flag = 0
             
-            if(region==-1)
-            {
-                console.log(region);
-                document.getElementById("regionError").innerHTML = "Please select alteast one region!";
-                document.getElementById("regionError").style.display = "block";
-                event.preventDefault();
-                return false;
-            }
+        //    if(region==-1)
+        //    {
+        //        console.log(region);
+        //        document.getElementById("regionError").innerHTML = "Please select alteast one region!";
+        //        document.getElementById("regionError").style.display = "block";
+        //        event.preventDefault();
+        //        return false;
+        //    }
             
-            if (phys<0) 
-            {
-                document.getElementById("physicianError").innerHTML = "Please select a physician";
-                document.getElementById("physicianError").style.display = "block";
-                event.preventDefault();
-                return false;
-            }
+        //    if (phys<0) 
+        //    {
+        //        document.getElementById("physicianError").innerHTML = "Please select a physician";
+        //        document.getElementById("physicianError").style.display = "block";
+        //        event.preventDefault();
+        //        return false;
+        //    }
 
-            if(region!=-1)
-            {
-                document.getElementById("regionError").innerHTML = "";
-                document.getElementById("regionError").style.display = "none";
-            }
-        }
+        //    if(region!=-1)
+        //    {
+        //        document.getElementById("regionError").innerHTML = "";
+        //        document.getElementById("regionError").style.display = "none";
+        //    }
+        //}
 
         function checkTransfer()
         {
@@ -1259,5 +1243,68 @@
             }
             return true;
         }
+
+        function resetFormInputs() {
+            // make values empty of fields in Cancel Case Modal
+            document.getElementById("reason").value = "-1";
+            document.getElementById("exampleFormControlTextarea1").value = "";
+            
+            // make values empty of fields in Assign Case Modal
+            console.log("assign case");
+            document.getElementById("select-region").value = -1;
+            document.getElementById("select-physician").value = -1;
+            console.log(document.getElementById("select-region").value);
+            console.log(document.getElementById("select-physician").value);
+
+
+            // make values empty of fields of Transfer Case Modal
+            document.getElementById("select-region-for-transfer").value = -1;
+            document.getElementById("select-physician2").value = -1;
+            document.getElementById("exampleFormControlTextarea1").value = "";
+
+            // make values empty of fields of Block Case Modal
+            document.getElementById("blockReason").value = "";
+
+            // make values empty of fields of Send Agreement Modal
+            document.getElementById("phoneForAgree").value = "";
+            document.getElementById("emailForAgree").value = "";
+            
+            // make values empty of fields of Request DTY Modal
+            document.getElementById("reasonDTY").value = "";
+
+            // make values empty of fields of Provider Transfer Request Modal
+            document.getElementById("transferDesc").value = "";
+        }
+
+        // this method gets triggered when modal is about to be hidden
+        $('#exampleModal').on('hide.bs.modal', function (e) {
+            // call to the function which resets the inputs
+            console.log("hide bs modal call");
+            resetFormInputs(); 
+        });
+
+        $('#example2Modal').on('hide.bs.modal', function(e){
+            resetFormInputs();
+        });
+
+        $('#example9Modal').on('hide.bs.modal', function (e) {
+            resetFormInputs();
+        });
+
+        $('#example3Modal').on('hide.bs.modal', function (e) {
+            resetFormInputs();
+        });
+
+        $("#SendAgreementModal").on('hide.bs.modal', function (e) {
+            resetFormInputs();
+        });
+
+        $("#requestSupportModal").on('hide.bs.modal', function (e) {
+            resetFormInputs();
+        });
+        
+        $("#providerTransferModal").on('hide.bs.modal', function (e) {
+            resetFormInputs();
+        });
     </script>
 </div>

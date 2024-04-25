@@ -466,7 +466,7 @@
             data: { ShiftDetailId },
             success: function (data) {
                 $("#ViewShift").html(data);
-                $("#ViewShiftModal").modal("show");
+                $("#ViewShiftModal").modal("show"); 
             },
             error: function (data) {
                 toastr.error("Cannot Fetch Shift Details");

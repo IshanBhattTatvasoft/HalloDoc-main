@@ -119,5 +119,5 @@ textarea:focus::placeholder {
 }
 
 textarea{
-    resize: none;
+    resize: none !important;
 }

@@ -1074,11 +1074,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment\\Assignment.csproj",
+      "projectUniqueName": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment\\Assignment.csproj",
       "projectName": "Assignment",
-      "projectPath": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment\\Assignment.csproj",
+      "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment\\Assignment.csproj",
       "packagesPath": "C:\\Users\\pca141\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment\\obj\\",
+      "outputPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pca141\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1096,11 +1096,11 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Models\\Assignment.Models.csproj": {
-              "projectPath": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Models\\Assignment.Models.csproj"
+            "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Models\\Assignment.Models.csproj": {
+              "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Models\\Assignment.Models.csproj"
             },
-            "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Repo\\Assignment.Repo.csproj": {
-              "projectPath": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Repo\\Assignment.Repo.csproj"
+            "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Repo\\Assignment.Repo.csproj": {
+              "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Repo\\Assignment.Repo.csproj"
             }
           }
         }

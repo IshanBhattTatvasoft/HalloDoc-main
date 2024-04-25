@@ -72,7 +72,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 {
                     FileName = model.ImageContent.FileName,
                     CreatedDate = DateTime.Now,
-                    RequestId = (int)model.requestId
+                    RequestId = (int)model.requestId,
+                    IsDeleted = new System.Collections.BitArray(1, false)
                 };
                 _context.RequestWiseFiles.Add(requestWiseFile);
             }

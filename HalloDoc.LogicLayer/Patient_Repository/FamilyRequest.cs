@@ -138,6 +138,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 requestWiseFile.RequestId = request.RequestId;
                 requestWiseFile.FileName = filePath;
                 requestWiseFile.CreatedDate = request.CreatedDate;
+                requestWiseFile.IsDeleted = new System.Collections.BitArray(1, false);
                 _context.RequestWiseFiles.Add(requestWiseFile);
            
             }

@@ -251,7 +251,7 @@
 
                         <td class="@statusClass my-auto">
                             <div class="dropdown" style="height:100%;display:flex;">
-                                <button class="dropbtn @statusClass" onclick="toggleDropdown()">Action</button>
+                                <button class="dropbtn @statusClass">Action</button>
                                 <div class="dropdown-content">
                                     @if (Model.status == "New" && Model.an.roleName == "Provider")
                                     {
@@ -270,11 +270,14 @@
 
                                     @if (Model.status == "New" && Model.an.roleName == "Admin")
                                     {
-                                        <a type="button" href="#" class="dropdown-item hover-dropdown-item text-dark mb-1 px-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')">
-                                            <div class="action-item">
-                                                <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Assign Case</span>
-                                            </div>
-                                        </a>
+                                        @if (item.PhysicianId == null)
+                                        {
+                                            <a type="button" href="#" class="dropdown-item hover-dropdown-item text-dark mb-1 px-1" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')">
+                                                <div class="action-item">
+                                                    <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Assign Case</span>
+                                                </div>
+                                            </a>
+                                        }
                                         <a type="button" href="#" class="dropdown-item hover-dropdown-item text-dark mb-1 px-1" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">
                                             <div class="action-item">
                                                 <img src="~/images/x-mark.png" alt="" class="action-img me-1" style="height: 20px; width: 20px;"><span class="text-dark">Cancel Case</span>
@@ -357,7 +360,7 @@
 
                                     @if (Model.status == "Pending" && Model.an.roleName == "Admin")
                                     {
-                                        <a type="button" href="#" data-bs-toggle="modal" data-bs-target="#example9Modal" class="dropdown-item text-dark mb-1 hover-dropdown-item px-1" onclick="transferRequestData('@item.RequestId')">
+                                        <a type="button" href="#" data-bs-toggle="modal" data-bs-target="#example9Modal" data-backdrop='static' data-keyboard='false' class="dropdown-item text-dark mb-1 hover-dropdown-item px-1" onclick="transferRequestData('@item.RequestId')">
                                             <div class="action-item">
                                                 <img src="~/images/clipboard.png" alt="" class="action-img me-1" style="height: 18px; width: 18px;"><span>Transfer</span>
                                             </div>
@@ -439,7 +442,7 @@
                                                 if (x.IsFinalized[0] == true)
                                                 {
                                                     flag = true;
-                                                    
+
                                                 }
                                             }
                                             @if (item.Status != 6 && (item.CallType == null || item.CallType == 0))
@@ -473,13 +476,13 @@
                                     }
 
                                     @*@if (Model.status == "Conclude" && Model.an.roleName == "Provider")
-                                    {
-                                        <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
-                                            <div class="action-item">
-                                                <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
-                                            </div>
-                                        </a>
-                                    }*@
+                            {
+                            <a class="dropdown-item mb-1 hover-dropdown-item px-1" asp-action="EncounterForm" asp-controller="Admin" asp-route-id="@item.RequestId" onclick="ecnounterFormReqId('@item.RequestId')">
+                            <div class="action-item">
+                            <img src="~/images/writing.png" alt="" class="action-img me-1" style="height: 18px; width: 20px;"><span>Encounter</span>
+                            </div>
+                            </a>
+                            }*@
                                 </div>
                             </div>
                         </td>
@@ -639,9 +642,12 @@
 
                                     @if (Model.an.roleName == "Admin")
                                     {
-                                        <div class="col-6">
-                                            <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')">Assign Case</button>
-                                        </div>
+                                        @if(item.PhysicianId == null)
+                                        {
+                                            <div class="col-6">
+                                                <button type="button" class="btn rounded-pill btn-sm all-accordion-button w-100 assign-case-button" data-bs-toggle="modal" data-bs-target="#example2Modal" onclick="assignCaseData('@item.RequestId')">Assign Case</button>
+                                            </div>
+                                        }
                                         <div class="col-6">
                                             <button type="button" class="btn btn-danger rounded-pill btn-sm all-accordion-button w-100" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="cancelCaseData('@item.RequestId', '@item.RequestClient.FirstName', '@item.RequestClient.LastName')">Cancel Case</button>
                                         </div>

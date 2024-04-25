@@ -78,7 +78,7 @@
                     <span asp-validation-for="FamilyPhoneNumber" class="text-danger"></span>
 
                     </div>*@
-                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-4 col-12">
+                    <div class="form-floating mb-3 col-xl-6 col-lg-6 col-sm-12 col mt-3 col-12">
                         <input asp-for="FamilyPhoneNumber" id="phone" type="tel" class="form-control" />
                         <span asp-validation-for="FamilyPhoneNumber" class="text-danger"></span>
                     </div>
@@ -101,7 +101,7 @@
                 </div>
                 <div class="row">
                     <div class="col mb-3">
-                        <textarea class="form-control" id="firstTextArea"
+                        <textarea class="form-control" style="resize: none;" id="firstTextArea"
                                   placeholder="Enter Brief Details Of Symptoms (Optional)" rows="4" asp-for="Symptoms"></textarea>
                     </div>
                 </div>

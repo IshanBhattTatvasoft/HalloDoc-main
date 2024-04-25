@@ -3580,7 +3580,7 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Admin", "MyProfile")]
         // function called to submit the changes made in Mailing Info of Admin Profile
-        public IActionResult ProfileMailingInfo(AdminProfile model, int aid)
+        public IActionResult ProfileMailingInfo(AdminProfile model, int regId, int aid)
         {
             try
             {
@@ -3598,7 +3598,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                _adminInterface.UpdateMailingInfo(model, aid);
+                _adminInterface.UpdateMailingInfo(model, regId, aid);
                 TempData["success"] = "Mailing info updated successfully";
                 return RedirectToAction("MyProfile");
             }
@@ -3653,6 +3653,7 @@ namespace HalloDoc.Controllers
                     roleId = (int)ad.RoleId,
                     status = (int)ad.Status,
                     roleName = _adminInterface.RoleNameFromId((int)ad.RoleId),
+                    altPhoneNo = ad.AltPhone,
                 };
                 ap.regions = _adminInterface.GetAdminRegionFromId(ad.AdminId);
                 ap.regionOfAdmin = _adminInterface.GetAvailableRegionOfAdmin(ad.AdminId);
@@ -3669,6 +3670,9 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin", "UserAccess")]
         public IActionResult EditProviderAccountFromUserAccess(int id)
         {
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
@@ -4085,6 +4089,9 @@ namespace HalloDoc.Controllers
         [CustomAuthorize("Admin", "ProviderMenu")]
         public IActionResult EditProviderAccount(int id)
         {
+            Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+            Response.Headers.Add("Pragma", "no-cache");
+            Response.Headers.Add("Expires", "0");
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
@@ -4185,13 +4192,16 @@ namespace HalloDoc.Controllers
             try
             {
                 _adminInterface.SetAllDocOfPhysician(file, PhysicianId, num);
-                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+                Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
+                Response.Headers.Add("Pragma", "no-cache");
+                Response.Headers.Add("Expires", "0");
+                return RedirectToAction("EditProviderAccountFromUserAccess", new { id = PhysicianId });
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to upload files of provider";
-                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
+                return RedirectToAction("EditProviderAccountFromUserAccess", new { id = PhysicianId });
             }
         }
 

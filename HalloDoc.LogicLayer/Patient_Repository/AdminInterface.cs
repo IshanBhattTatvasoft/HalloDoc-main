@@ -916,7 +916,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             _context.SaveChanges();
 
             int requests = _context.Requests.Where(u => u.CreatedDate.Date == DateTime.Now.Date).Count();
-            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString("yyyyMMdd").Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
+            string ConfirmationNumber = string.Concat(r.Abbreviation, DateTime.Now.Date.ToString("yyyyMMdd").Replace("-","").Substring(0, 4), model.LastName.Substring(0, 2).ToUpper(), model.FirstName.Substring(0, 2).ToUpper(), requests.ToString("D" + 4));
 
 
             request.RequestTypeId = 1;
@@ -1445,13 +1445,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return _context.AdminRegions.Include(ad => ad.Region).Where(a => a.AdminId == id).ToList();
         }
 
-        public void UpdateMailingInfo(AdminProfile model, int aid)
+        public void UpdateMailingInfo(AdminProfile model, int regId, int aid)
         {
             Admin ad = _context.Admins.Where(ad => ad.AdminId == aid).FirstOrDefault();
             ad.Address1 = model.address1;
             ad.Address2 = model.address2;
             ad.City = model.city;
             ad.Zip = model.zipcode;
+            ad.RegionId = regId;
             ad.AltPhone = model.altPhoneNo;
             _context.Admins.Update(ad);
             _context.SaveChanges();

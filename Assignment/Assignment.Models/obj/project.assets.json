@@ -1033,11 +1033,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Models\\Assignment.Models.csproj",
+      "projectUniqueName": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Models\\Assignment.Models.csproj",
       "projectName": "Assignment.Models",
-      "projectPath": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Models\\Assignment.Models.csproj",
+      "projectPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Models\\Assignment.Models.csproj",
       "packagesPath": "C:\\Users\\pca141\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Models\\obj\\",
+      "outputPath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Models\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\pca141\\AppData\\Roaming\\NuGet\\NuGet.Config",

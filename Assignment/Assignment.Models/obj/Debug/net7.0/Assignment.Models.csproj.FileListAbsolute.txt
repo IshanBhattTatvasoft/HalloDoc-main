@@ -12,3 +12,17 @@ C:\Users\pca141\Desktop\Assignment\Assignment\Assignment.Models\obj\Debug\net7.0
 C:\Users\pca141\Desktop\Assignment\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.pdb
 C:\Users\pca141\Desktop\Assignment\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.genruntimeconfig.cache
 C:\Users\pca141\Desktop\Assignment\Assignment\Assignment.Models\obj\Debug\net7.0\ref\Assignment.Models.dll
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\bin\Debug\net7.0\Assignment.Models.deps.json
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\bin\Debug\net7.0\Assignment.Models.runtimeconfig.json
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\bin\Debug\net7.0\Assignment.Models.dll
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\bin\Debug\net7.0\Assignment.Models.pdb
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.csproj.AssemblyReference.cache
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.AssemblyInfoInputs.cache
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.AssemblyInfo.cs
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.csproj.CoreCompileInputs.cache
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.dll
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\refint\Assignment.Models.dll
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.pdb
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\Assignment.Models.genruntimeconfig.cache
+C:\Users\pca141\Desktop\HalloDoc-main\Assignment\Assignment.Models\obj\Debug\net7.0\ref\Assignment.Models.dll

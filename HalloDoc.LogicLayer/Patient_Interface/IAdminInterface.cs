@@ -92,7 +92,7 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public void UpdateAdminDataFromId(AdminProfile model, int id, string selectedRegion);
         public List<AdminRegion> GetAdminRegionFromId(int id);
         public List<AdminRegion> GetAvailableRegionOfAdmin(int id);
-        public void UpdateMailingInfo(AdminProfile model, int aid);
+        public void UpdateMailingInfo(AdminProfile model, int regId, int aid);
         public List<Request> GetPatientRecordsData(int userId);
         public List<Physician> GetAllPhysicians();
         public List<RequestWiseFile> GetAllFiles();

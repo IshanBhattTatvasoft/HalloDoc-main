@@ -7,8 +7,10 @@ public class ConceirgeRequestModel
 {
     public string? Symptoms { get; set; }
     [Required(ErrorMessage = "First name is required")]
+    [RegularExpression(@"[a-zA-Z]{2,}$", ErrorMessage = "First Name should must contain letters only and should have atleast two letters")]
     public required string FirstName { get; set; }
     [Required(ErrorMessage = "Last name is required")]
+    [RegularExpression(@"[a-zA-Z]{2,}$", ErrorMessage = "Last Name should must contain letters only and should have atleast two letters")]
     public string? LastName { get; set; }
 
     [Required(ErrorMessage = "Date of birth is required")]
@@ -42,8 +44,10 @@ public class ConceirgeRequestModel
     [Required(ErrorMessage = "Concierge Street is required")]
     public string? ConciergeStreet { get; set; }
     [Required(ErrorMessage = "Concierge City is required")]
+    [RegularExpression(@"[a-zA-Z]{1,}$", ErrorMessage = "Concierge City Name should must contain letters only")]
     public string? ConciergeCity { get; set; }
     [Required(ErrorMessage = "Concierge State is required")]
+    [RegularExpression(@"[a-zA-Z]{1,}$", ErrorMessage = "Concierge State Name should must contain letters only")]
     public string? ConciergeState { get; set; }
     [Required(ErrorMessage = "Concierge Zipcode is required")]
     public string? ConciergeZipcode { get; set; }

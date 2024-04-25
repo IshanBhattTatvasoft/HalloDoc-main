@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "zmWhDzD8LqFzauy5Pfvl/E+TUoUyQm2H6f5kLTj6WaGcBLXtU42gzHdd1OsYt84eIIkSgeTteuJePz5JFugniQ==",
+  "dgSpecHash": "1T0g1Bc0lMXNJ+9YwkhU8lExbbX8yzx1LfZcDypipckJw8Uk9ZWMxT00itJZyAvieXEQ48BY7pn/usOSuBt/eQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\pca141\\Desktop\\Assignment\\Assignment\\Assignment.Models\\Assignment.Models.csproj",
+  "projectFilePath": "C:\\Users\\pca141\\Desktop\\HalloDoc-main\\Assignment\\Assignment.Models\\Assignment.Models.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pca141\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\pca141\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.15\\microsoft.entityframeworkcore.7.0.15.nupkg.sha512",
