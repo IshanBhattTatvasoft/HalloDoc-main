@@ -26,7 +26,16 @@
                 <td>@($"{item.FirstName} {item.LastName}")</td>
                 <td>@item.CreatedDate</td>
                 <td>@item.ConfirmationNumber</td>
-                <td>Dr. @physician.FirstName</td>
+                <td>
+                    @if(physician != null)
+                    {
+                        <span>Dr. @physician.FirstName</span>
+                    }
+                    else
+                    {
+                        <span>-</span>
+                    }
+                </td>
                 <td>
                     @if (item.ModifiedDate == null)
                     {
@@ -41,11 +50,11 @@
                 <td>
                     @if (Enum.GetName(typeof(Status), item.Status) == "Unpaid")
                     {
-                        <a type="button" asp-action="PatientRecords" asp-controller="Admin" asp-route-userid="@item.UserId" class="btn btn-outline-info ps-auto pe-auto">View</a>
+                        <a class="btn btn-outline-info" href="~/EncounterForms/patient-@item.RequestId&#46pdf" target="_blank">View</a>
                     }
                     else
                     {
-                        <span>-</span>
+                        <a class="btn btn-outline-info" href="~/EncounterForms/patient-@item.RequestId&#46pdf" target="_blank">View</a>
                     }
                 </td>
                 <td>

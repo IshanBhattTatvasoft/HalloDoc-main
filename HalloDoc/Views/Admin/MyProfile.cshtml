@@ -53,7 +53,7 @@
                     <label for="floatingInput" class="ms-2 text-muted">User Name</label>
                 </div>
                 <div class="mt-3 col-sm-6 form-floating">
-                    <input id="pass" class="form-control" type="password" placeholder="Date" asp-for="Password">
+                    <input id="pass" class="form-control" type="text" placeholder="Date" asp-for="Password">
                     <label for="floatingInput" class="ms-2 text-muted">Password</label>
                     <svg onclick="onpress()" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#54B4D3"
                          class="bi bi-eye person-icon hide-eye" viewBox="0 0 16 16">
@@ -171,10 +171,12 @@
                 <div class="mt-3 col-sm-6 form-floating">
                     <input id="add1" class="mbi form-control" type="text" placeholder="Date Of Birth" asp-for="address1" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Address 1</label>
+                    <span asp-validation-for="address1" class="text-danger"></span>
                 </div>
                 <div class="mt-3 col-sm-6 form-floating">
                     <input id="add2" class="mbi form-control" type="text" placeholder="Date" asp-for="address2" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Address 2</label>
+                    <span asp-validation-for="address2" class="text-danger"></span>
                 </div>
             </div>
 
@@ -182,13 +184,14 @@
                 <div class="mt-3 col-sm-6 form-floating">
                     <input id="city" class="mbi form-control" type="text" placeholder="Date Of Birth" asp-for="city" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">City</label>
+                    <span asp-validation-for="city" class="text-danger"></span>
                 </div>
                 <div class="mt-3 col-sm-6 form-floating">
                     <select class="mbi form-select" aria-label="Default select example" disabled>
                         <option value="-1" class="bg-white" selected>Select Region</option>
-                        @foreach (var item in Model.regionOfAdmin)
+                        @foreach (var item in Model.allRegions)
                         {
-                            <option value="@item.RegionId" class="bg-white">@item.Region.Name</option>
+                            <option value="@item.RegionId" class="bg-white" selected="@Model.state == @item.Name">@item.Name</option>
                         }
                     </select>
                 </div>
@@ -198,9 +201,10 @@
                 <div class="mt-3 col-sm-6 form-floating">
                     <input id="zipcode" class="mbi form-control" type="text" placeholder="Date Of Birth" asp-for="zipcode" disabled>
                     <label for="floatingInput" class="ms-2 text-muted">Zipcode</label>
+                    <span asp-validation-for="zipcode" class="text-danger"></span>
                 </div>
                 <div class="mt-3 col-sm-6 form-floating">
-                    <input id="phone1" class="ai form-control" type="tel" asp-for="mailingPhoneNo" disabled style="height: 58px;" />
+                    <input id="phone1" class="mbi form-control" type="tel" asp-for="mailingPhoneNo" disabled style="height: 58px;" />
                     <span asp-validation-for="mailingPhoneNo" class="text-danger"></span>
                 </div>
             </div>

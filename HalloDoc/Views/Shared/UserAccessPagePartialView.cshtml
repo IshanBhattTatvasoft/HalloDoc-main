@@ -96,7 +96,7 @@
                     </td>
                     <td>@Model.requests.Count()</td>
                     <td>
-                        <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="AdminProfileFromUserAccess" asp-controller="Admin">Edit</a>
+                        <a type="button" class="btn btn-outline-info ps-auto pe-auto" asp-action="AdminProfileFromUserAccess" asp-controller="Admin" asp-route-id="@item.AdminId">Edit</a>
                     </td>
                 </tr>
             }

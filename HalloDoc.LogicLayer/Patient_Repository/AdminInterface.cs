@@ -1768,7 +1768,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             if (file != null && file.Length > 0)
             {
                 var physicianFolderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Physician", id.ToString());
-                var ext = Path.GetExtension(file.FileName); ;
+                var ext = Path.GetExtension(file.FileName);
                 if (!Directory.Exists(physicianFolderPath))
                 {
                     Directory.CreateDirectory(physicianFolderPath);

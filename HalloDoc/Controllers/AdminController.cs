@@ -1995,6 +1995,7 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
 
                 int reqId = _adminInterface.SingleDelete(id);
+                TempData["success"] = "File deleted successfully";
                 return RedirectToAction("ViewUploads", new { id = reqId });
             }
 
@@ -3481,6 +3482,7 @@ namespace HalloDoc.Controllers
                     zipcode = ad.Zip,
                     allRegions = _adminInterface.GetAllRegion(),
                     an = an,
+                    mailingPhoneNo = ad.AltPhone
                 };
                 ap.regions = _adminInterface.GetAdminRegionFromId(ad.AdminId);
                 ap.regionOfAdmin = _adminInterface.GetAvailableRegionOfAdmin(ad.AdminId);
@@ -4139,6 +4141,7 @@ namespace HalloDoc.Controllers
             try
             {
                 _adminInterface.EditProviderBillingInfo(ep);
+                TempData["success"] = "Provider billing info edited successfully";
                 return RedirectToAction("EditProviderAccount", new { id = ep.PhysicianId });
             }
 
@@ -4175,6 +4178,14 @@ namespace HalloDoc.Controllers
             try
             {
                 _adminInterface.SetContentOfPhysician(file, PhysicianId, IsSignature);
+                if(!IsSignature)
+                {
+                    TempData["success"] = "Profile photo uploaded successfully";
+                }
+                else
+                {
+                    TempData["success"] = "Signature uploaded successfully";
+                }
                 return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
             }
 
@@ -4195,13 +4206,14 @@ namespace HalloDoc.Controllers
                 Response.Headers.Add("Cache-Control", "no-cache, no-store, must-revalidate");
                 Response.Headers.Add("Pragma", "no-cache");
                 Response.Headers.Add("Expires", "0");
-                return RedirectToAction("EditProviderAccountFromUserAccess", new { id = PhysicianId });
+                TempData["success"] = "File(s) uploaded successfully";
+                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
             }
 
             catch (Exception ex)
             {
-                TempData["error"] = "Unable to upload files of provider";
-                return RedirectToAction("EditProviderAccountFromUserAccess", new { id = PhysicianId });
+                TempData["error"] = ex.Message;
+                return RedirectToAction("EditProviderAccount", new { id = PhysicianId });
             }
         }
 
