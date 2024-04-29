@@ -207,9 +207,12 @@
                 <input type="hidden" id="selectedRegionsList" name="selectedRegionsList">
                 <div class="d-flex justify-content-end align-items-center">
 
-                    <button type="button" id="Edit2" class="editbutton  px-4 me-2 btn btn-outline-info">
+                    <button type="button" id="Edit2" class="editbutton px-4 me-2 btn btn-outline-info">
                         Edit
                     </button>
+                    <a type="button" asp-action="Payrate" asp-controller="Admin" asp-route-pid="@Model.PhysicianId" id="Edit2" class="editbutton px-4 me-2 btn btn-outline-info">
+                        Enter Payrate
+                    </a>
                     <button type="submit" id="Save2" class="savebutton px-4 me-2 btn btn-outline-info" onclick="AddSelectedRegion()">
                         Save
                     </button>

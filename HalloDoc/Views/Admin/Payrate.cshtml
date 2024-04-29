@@ -1,0 +1,225 @@
+﻿@model PayrateViewModel
+@{
+    ViewData["Title"] = "Payrate";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/provider-menu.css" />
+}
+
+<style>
+    textarea {
+        resize: none;
+    }
+
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        border-color: #3DB6FF !important;
+        box-shadow: none !important;
+    }
+
+        textarea:focus::placeholder {
+            color: #3DB6FF !important;
+        }
+
+    .form-floating:focus-within label {
+        color: #3DB6FF !important;
+    }
+</style>
+
+<div class="bg-light" style="overflow: hidden;">
+    <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+    <partial name="Toast" />
+
+    <div class="container">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col">
+                <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="EditProviderAccountFromUserAccess" asp-route-id="@Model.physicianId" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col mt-2">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Payrate
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white p-0">
+            <div class="table-responsive">
+                <table class="table mt-3">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th class="text-center">Category</th>
+                            <th>Payrate</th>
+                            <th class="w-25 text-end">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td class="text-center">NightShift_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="nightShiftWeekend" class="form-control" name="num" id="nsw" value="@Model.nightShiftWeekend" />
+                            </td>
+                            <td class="w-25 text-end">
+                                <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="submit" id="Save3" class="savebutton me-2 btn btn-outline-info">
+                                    Save
+                                </button>
+                                <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">Shift_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="shift" class="form-control" name="num" id="sw" value="@Model.shift" />
+                            </td>
+                            <td class="w-25 text-end">
+                                <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="submit" id="Save3" class="savebutton me-2 btn btn-outline-info">
+                                    Save
+                                </button>
+                                <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">HouseCalls_Nights_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="houseCallNightsWeekend" class="form-control" name="num" id="hcnw" value="@Model.houseCallNightsWeekend" />
+                            </td>
+                            <td class="w-25 text-end">
+                                <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="submit" id="Save3" class="savebutton me-2 btn btn-outline-info">
+                                    Save
+                                </button>
+                                <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">PhoneConsults</td>
+                            <td>
+                                <input type="text" asp-for="phoneConsults" class="form-control" name="num" id="pc" value="@Model.phoneConsults" />
+                            </td>
+                            <td class="w-25 text-end">
+                                <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="submit" id="Save3" class="savebutton me-2 btn btn-outline-info">
+                                    Save
+                                </button>
+                                <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">PhoneConsults_Nights_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="phoneConsultsNightWeekend" class="form-control" name="num" id="pcnw" value="@Model.phoneConsultsNightWeekend" />
+                            </td>
+                            <td class="w-25 text-end">
+                                <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="submit" id="Save3" class="savebutton me-2 btn btn-outline-info">
+                                    Save
+                                </button>
+                                <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td class="text-center">BatchTesting</td>
+                            <td>
+                                <input type="text" asp-for="batchTesting" class="form-control" name="num" id="bt" value="@Model.batchTesting" />
+                            </td>
+                            <td class="w-25 text-end">
+                                <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="submit" id="Save3" class="savebutton me-2 btn btn-outline-info">
+                                    Save
+                                </button>
+                                <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">HouseCalls</td>
+                            <td>
+                                <input type="text" asp-for="houseCalls" class="form-control" name="num" id="hc" value="@Model.houseCalls" />
+                            </td>
+                            <td class="w-25 text-end">
+                                <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info">
+                                    Edit
+                                </button>
+                                <button type="submit" id="Save3" class="savebutton me-2 btn btn-outline-info">
+                                    Save
+                                </button>
+                                <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info">
+                                    Cancel
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".savebutton").hide();
+    $(".cancelbutton").hide();
+    $(".editbutton").click(function () {
+        $(".savebutton").show();
+        $(".cancelbutton").show();
+        $(".editbutton").hide();
+    });
+
+    $(".cancelbutton").click(function () {
+        $(".savebutton").hide();
+        $(".cancelbutton").hide();
+        $(".editbutton").show();
+    });
+</script>

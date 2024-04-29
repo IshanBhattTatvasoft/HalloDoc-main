@@ -86,3 +86,17 @@ C:\Users\pca141\Desktop\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\refint
 C:\Users\pca141\Desktop\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.pdb
 C:\Users\pca141\Desktop\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.genruntimeconfig.cache
 C:\Users\pca141\Desktop\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\ref\HalloDoc.DataLayer.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\bin\Debug\net7.0\HalloDoc.DataLayer.deps.json
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\bin\Debug\net7.0\HalloDoc.DataLayer.runtimeconfig.json
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\bin\Debug\net7.0\HalloDoc.DataLayer.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\bin\Debug\net7.0\HalloDoc.DataLayer.pdb
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.csproj.AssemblyReference.cache
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.AssemblyInfoInputs.cache
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.AssemblyInfo.cs
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.csproj.CoreCompileInputs.cache
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\refint\HalloDoc.DataLayer.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.pdb
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\HalloDoc.DataLayer.genruntimeconfig.cache
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc.DataLayer\obj\Debug\net7.0\ref\HalloDoc.DataLayer.dll

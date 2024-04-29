@@ -3,7 +3,7 @@ using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
-using HalloDoc.DataLayer.Data;
+//using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
@@ -21,6 +21,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Path = System.IO.Path;
 using System.Xml.Linq;using iText.Kernel.Pdf;using iText.Layout;using iText.Layout.Element;using System.IO;using Paragraph = iText.Layout.Element.Paragraph;using Document = iText.Layout.Document;using iText.Layout.Properties;using iText.Kernel.Font;using TextAlignment = iText.Layout.Properties.TextAlignment;using iText.Kernel.Font;using DocumentFormat.OpenXml.Spreadsheet;using static System.Runtime.InteropServices.JavaScript.JSType;using iText.IO.Font.Constants;using Style = iText.Layout.Style;
+using HalloDoc.DataLayer.Data;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {
@@ -2708,6 +2709,45 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             {
                 return false;
             }
+        }
+
+        public PayrateViewModel GetPayrateData(AdminNavbarModel an, int pid)
+        {
+            Payrate p = _context.Payrates.FirstOrDefault(pa => pa.PhysicianId == pid);
+            PayrateViewModel pr = new PayrateViewModel();
+            if(p!=null)
+            {
+                PayrateViewModel prvm = new PayrateViewModel
+                {
+                    adminNavbarModel = an,
+                    physicianId = pid,
+                    nightShiftWeekend = p.NightShiftWeekend != null ? (int?)p.NightShiftWeekend : 0,
+                    shift = p.Shift != null ? (int)p.Shift : 0,
+                    houseCallNightsWeekend = p.HousecallNightWeekend != null ? (int)p.HousecallNightWeekend : 0,
+                    phoneConsults = p.Phoneconsult != null ? (int)p.Phoneconsult : 0,
+                    phoneConsultsNightWeekend = p.PhoneconsultNightWeekend != null ? (int)p.PhoneconsultNightWeekend : 0,
+                    batchTesting = p.BatchTesting != null ? (int)p.BatchTesting : 0,
+                    houseCalls = p.Housecall != null ? (int)p.Housecall : 0
+                };
+                pr = prvm;
+            }
+            else
+            {
+                PayrateViewModel prvm = new PayrateViewModel
+                {
+                    adminNavbarModel = an,
+                    physicianId = pid,
+                    nightShiftWeekend = 0,
+                    shift = 0,
+                    houseCallNightsWeekend = 0,
+                    phoneConsults = 0,
+                    phoneConsultsNightWeekend = 0,
+                    batchTesting = 0,
+                    houseCalls = 0
+                };
+                pr = prvm;
+            }
+            return pr;
         }
     }
 }

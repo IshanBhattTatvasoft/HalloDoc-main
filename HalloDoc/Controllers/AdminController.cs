@@ -5664,6 +5664,32 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult Payrate(int pid)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 11;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                PayrateViewModel pvm = _adminInterface.GetPayrateData(an, pid);
+                return View(pvm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view provider payrate information";
+                return RedirectToAction("UserAccess");
+            }
+        }
+
         public IActionResult PageNotFoundError()
         {
             return View();
