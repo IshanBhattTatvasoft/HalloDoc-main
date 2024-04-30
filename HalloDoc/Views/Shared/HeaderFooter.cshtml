@@ -213,6 +213,23 @@
             }
         }
 
+        @if (roleMenu.Any(r => r == "ProviderInvoicing"))
+        {
+            @if (Model.Tab == 21)
+            {
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                    Invoicing
+                    <span class="active-border"></span>
+                </a>
+            }
+            else
+            {
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                    Invoicing
+                </a>
+            }
+        }
+
         @if (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Provider")
         {
             @if (Model.Tab == 19)
@@ -319,7 +336,7 @@
                         @if (Model.Tab == 7)
                         {
                             <li>
-                                <a class="dropdown-item-active text-muted dropdown-item mb-2" href="#">
+                                <a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Invoicing" asp-controller="Admin">
                                     Invoicing
                                 </a>
                             </li>
@@ -327,7 +344,7 @@
                         else
                         {
                             <li>
-                                <a class="text-muted dropdown-item mb-2" href="#">
+                                <a class="text-muted dropdown-item mb-2" asp-action="Invoicing" asp-controller="Admin">
                                     Invoicing
                                 </a>
                             </li>
@@ -613,6 +630,22 @@
             {
                 <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MySchedule">
                     <span class="h5">My Schedule</span>
+                </a>
+            }
+        }
+
+        @if (roleMenu.Any(r => r == "ProviderInvoicing"))
+        {
+            @if (Model.Tab == 21)
+            {
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                    <span class="h5">Invoicing</span>
+                </a>
+            }
+            else
+            {
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                    <span class="h5">Invoicing</span>
                 </a>
             }
         }

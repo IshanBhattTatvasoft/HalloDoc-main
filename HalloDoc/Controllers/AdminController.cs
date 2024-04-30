@@ -1202,6 +1202,8 @@ namespace HalloDoc.Controllers
             }
         }
 
+        
+
         [CustomAuthorize("Admin", "AdminDashboard")]
         public int sendAgreement2(int reqId)
         {
@@ -5673,6 +5675,32 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
                 an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 5;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                PayrateViewModel pvm = _adminInterface.GetPayrateData(an, pid);
+                return View(pvm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view provider payrate information";
+                return RedirectToAction("UserAccess");
+            }
+        }
+
+        [CustomAuthorize("Admin", "UserAccess")]
+        public IActionResult PayrateFromUserAccess(int pid)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
                 an.Tab = 11;
                 string token = Request.Cookies["token"];
                 string roleIdVal = _jwtToken.GetRoleId(token);
@@ -5687,6 +5715,67 @@ namespace HalloDoc.Controllers
             {
                 TempData["error"] = "Unable to view provider payrate information";
                 return RedirectToAction("UserAccess");
+            }
+        }
+
+        [CustomAuthorize("Admin", "UserAccess")]
+        public bool SubmitPayrateData(int pId, string? nsw = "0", string? sw = "0", string? hcnw = "0", string? pc = "0", string? pcnw = "0", string? bt = "0", string? hc = "0")
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                
+                return _adminInterface.SubmitPayrateData(pId, nsw, sw, hcnw, pc, pcnw, bt, hc);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to submit provider payrate information";
+                return false;
+            }
+        }
+
+        [CustomAuthorize("Admin", "Invoicing")]
+        public IActionResult Invoicing()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 7;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                InvoicingViewModel ivm = new InvoicingViewModel
+                {
+                    adminNavbarModel = an,
+                };
+                return View(ivm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view invoicing information";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        public List<Physician> GetAllPhysicians()
+        {
+            List<Physician> ph = new List<Physician>();
+            try
+            {
+                ph = _adminInterface.GetAllPhysicians();
+                return ph;
+            }
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to fetch physicians";
+                return ph;
             }
         }
 

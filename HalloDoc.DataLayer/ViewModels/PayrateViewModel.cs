@@ -17,5 +17,6 @@ public class PayrateViewModel
     public int? phoneConsultsNightWeekend { get; set; }
     public int? batchTesting { get; set; }
     public int? houseCalls { get; set; }
+    public bool? isHavingEntry { get; set; }
 }
 

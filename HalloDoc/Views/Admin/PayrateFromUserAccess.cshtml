@@ -1,0 +1,343 @@
+﻿@model PayrateViewModel
+@{
+    ViewData["Title"] = "Payrate";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/css/provider-menu.css" />
+}
+
+<style>
+    textarea {
+        resize: none;
+    }
+
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        border-color: #3DB6FF !important;
+        box-shadow: none !important;
+    }
+
+        textarea:focus::placeholder {
+            color: #3DB6FF !important;
+        }
+
+    .form-floating:focus-within label {
+        color: #3DB6FF !important;
+    }
+</style>
+
+<div class="bg-light" style="overflow: hidden;">
+    <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+    <partial name="Toast" />
+
+    <div class="container">
+        <div class="row">
+            <div style="top: 42px; position: relative;" class="col">
+                <a class="float-end text-info mx-auto mb-1" id="backdesign" asp-controller="Admin" asp-action="EditProviderAccountFromUserAccess" asp-route-id="@Model.physicianId" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                         class="bi bi-chevron-left" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                    </svg>
+                    Back
+                </a>
+            </div>
+
+            <div class="row">
+                <div class="col mt-2">
+                    <p class="h5 text-muted fw-bold" id="heading-one">
+                        Payrate
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-white mt-2 p-0">
+            <div class="table-responsive">
+                <table class="table mt-3">
+                    <thead class="table-secondary">
+                        <tr>
+                            <input type="hidden" id="phyId" asp-for="@Model.physicianId"/>
+                            <th class="text-center">Category</th>
+                            <th>Payrate</th>
+                            <th class="w-25 text-end">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td class="text-center">NightShift_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="nightShiftWeekend" class="form-control" name="num" id="1" value="@Model.nightShiftWeekend" readonly="@Model.isHavingEntry"/>
+                            </td>
+                            <td class="w-25 text-end">
+                                @if((bool)Model.isHavingEntry)
+                                {
+                                    <button type="button" id="Edit1" class="editbutton me-2 btn btn-outline-info" data-row-id="1">
+                                        Edit
+                                    </button>
+                                    <button type="button" id="Save1" class="savebutton me-2 btn btn-outline-info" style="display: none;" onclick="saveData()">
+                                        Save
+                                    </button>
+                                    <button type="button" id="Cancel1" class="cancelbutton me-2 btn btn-outline-info" style="display: none;" data-row-id="1">
+                                        Cancel
+                                    </button>
+                                }
+                                else
+                                {
+                                    <button type="button" id="Submit1" class="savebutton me-2 btn btn-outline-info" onclick="saveData()">
+                                        Submit
+                                    </button>
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">Shift_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="shift" class="form-control" name="num" id="2" value="@Model.shift" readonly="@Model.isHavingEntry" />
+                            </td>
+                            <td class="w-25 text-end">
+                                @if((bool)Model.isHavingEntry)
+                                {
+                                    <button type="button" id="Edit2" class="editbutton me-2 btn btn-outline-info" data-row-id="2">
+                                        Edit
+                                    </button>
+                                    <button type="button" id="Save2" class="savebutton me-2 btn btn-outline-info" style="display: none;" onclick="saveData()">
+                                        Save
+                                    </button>
+                                    <button type="button" id="Cancel2" class="cancelbutton me-2 btn btn-outline-info" style="display: none;" data-row-id="2">
+                                        Cancel
+                                    </button>
+                                }
+                                else
+                                {
+                                <button type="button" id="Submit1" class="savebutton me-2 btn btn-outline-info" onclick="saveData()">
+                                    Submit
+                                </button>
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">HouseCalls_Nights_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="houseCallNightsWeekend" class="form-control" name="num" id="3" value="@Model.houseCallNightsWeekend" readonly="@Model.isHavingEntry" />
+                            </td>
+                            <td class="w-25 text-end">
+                                @if ((bool)Model.isHavingEntry)
+                                {
+                                    <button type="button" id="Edit3" class="editbutton me-2 btn btn-outline-info" data-row-id="3">
+                                        Edit
+                                    </button>
+                                    <button type="button" id="Save3" class="savebutton me-2 btn btn-outline-info" style="display: none;" onclick="saveData()">
+                                        Save
+                                    </button>
+                                    <button type="button" id="Cancel3" class="cancelbutton me-2 btn btn-outline-info" style="display: none;" data-row-id="3">
+                                        Cancel
+                                    </button>
+                                }
+                                else
+                                {
+                                <button type="button" id="Submit1" class="savebutton me-2 btn btn-outline-info" onclick="saveData()">
+                                    Submit
+                                </button>
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">PhoneConsults</td>
+                            <td>
+                                <input type="text" asp-for="phoneConsults" class="form-control" name="num" id="4" value="@Model.phoneConsults" readonly="@Model.isHavingEntry" />
+                            </td>
+                            <td class="w-25 text-end">
+                                @if ((bool)Model.isHavingEntry)
+                                {
+                                    <button type="button" id="Edit4" class="editbutton me-2 btn btn-outline-info" data-row-id="4">
+                                        Edit
+                                    </button>
+                                    <button type="button" id="Save4" class="savebutton me-2 btn btn-outline-info" style="display: none;" onclick="saveData()">
+                                        Save
+                                    </button>
+                                    <button type="button" id="Cancel4" class="cancelbutton me-2 btn btn-outline-info" style="display: none;" data-row-id="4">
+                                        Cancel
+                                    </button>
+                                }
+                                else
+                                {
+                                <button type="button" id="Submit1" class="savebutton me-2 btn btn-outline-info" onclick="saveData()">
+                                    Submit
+                                </button>
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">PhoneConsults_Nights_Weekend</td>
+                            <td>
+                                <input type="text" asp-for="phoneConsultsNightWeekend" class="form-control" name="num" id="5" value="@Model.phoneConsultsNightWeekend" readonly="@Model.isHavingEntry" />
+                            </td>
+                            <td class="w-25 text-end">
+                                @if ((bool)Model.isHavingEntry)
+                                {
+                                    <button type="button" id="Edit5" class="editbutton me-2 btn btn-outline-info" data-row-id="5">
+                                        Edit
+                                    </button>
+                                    <button type="button" id="Save5" class="savebutton me-2 btn btn-outline-info" style="display: none;" onclick="saveData()">
+                                        Save
+                                    </button>
+                                    <button type="button" id="Cancel5" class="cancelbutton me-2 btn btn-outline-info" style="display: none;" data-row-id="5">
+                                        Cancel
+                                    </button>
+                                }
+                                else
+                                {
+                                <button type="button" id="Submit1" class="savebutton me-2 btn btn-outline-info" onclick="saveData()">
+                                    Submit
+                                </button>
+                                }
+                            </td>
+                        </tr>
+
+
+
+
+                        <tr>
+                            <td class="text-center">BatchTesting</td>
+                            <td>
+                                <input type="text" asp-for="batchTesting" class="form-control" name="num" id="6" value="@Model.batchTesting" readonly="@Model.isHavingEntry" />
+                            </td>
+                            <td class="w-25 text-end">
+                                @if ((bool)Model.isHavingEntry)
+                                {
+                                    <button type="button" id="Edit6" class="editbutton me-2 btn btn-outline-info" data-row-id="6">
+                                        Edit
+                                    </button>
+                                    <button type="button" id="Save6" class="savebutton me-2 btn btn-outline-info" style="display: none;" onclick="saveData()">
+                                        Save
+                                    </button>
+                                    <button type="button" id="Cancel6" class="cancelbutton me-2 btn btn-outline-info" style="display: none;" data-row-id="6">
+                                        Cancel
+                                    </button>
+                                }
+                                else
+                                {
+                                <button type="button" id="Submit1" class="savebutton me-2 btn btn-outline-info" onclick="saveData()">
+                                    Submit
+                                </button>
+                                }
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td class="text-center">HouseCalls</td>
+                            <td>
+                                <input type="text" asp-for="houseCalls" class="form-control" name="num" id="7" value="@Model.houseCalls" readonly="@Model.isHavingEntry" />
+                            </td>
+                            <td class="w-25 text-end">
+                                @if ((bool)Model.isHavingEntry)
+                                {
+                                    <button type="button" id="Edit7" class="editbutton me-2 btn btn-outline-info" data-row-id="7">
+                                        Edit
+                                    </button>
+                                    <button type="button" id="Save7" class="savebutton me-2 btn btn-outline-info" style="display: none;" onclick="saveData()">
+                                        Save
+                                    </button>
+                                    <button type="button" id="Cancel7" class="cancelbutton me-2 btn btn-outline-info" style="display: none;" data-row-id="7">
+                                        Cancel
+                                    </button>
+                                }
+                                else
+                                {
+                                <button type="button" id="Submit1" class="savebutton me-2 btn btn-outline-info" onclick="saveData()">
+                                    Submit
+                                </button>
+                                }
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get all the edit buttons
+        var editButtons = document.querySelectorAll(".editbutton");
+
+        // Loop through each edit button
+        editButtons.forEach(function (button) {
+            // Add click event listener to each edit button
+            button.addEventListener("click", function (event) {
+                // Get the ID of the row to be edited
+                var rowId = event.target.getAttribute("data-row-id");
+
+                // Show the save and cancel buttons in the specified row
+                document.getElementById("Save" + rowId).style.display = "inline-block";
+                document.getElementById("Cancel" + rowId).style.display = "inline-block";
+                document.getElementById(`${rowId}`).removeAttribute("readonly");
+                // Hide the edit button in the specified row
+                event.target.style.display = "none";
+            });
+        });
+
+        var cancelButtons = document.querySelectorAll(".cancelbutton");
+
+        // Loop through each edit button
+        cancelButtons.forEach(function (button) {
+            // Add click event listener to each edit button
+            button.addEventListener("click", function (event) {
+                // Get the ID of the row to be edited
+                var rowId = event.target.getAttribute("data-row-id");
+
+                // Show the save and cancel buttons in the specified row
+                document.getElementById("Edit" + rowId).style.display = "inline-block";
+                document.getElementById("Save" + rowId).style.display = "none";
+                document.getElementById(`${rowId}`).setAttribute("readonly",true);
+                // Hide the edit button in the specified row
+                event.target.style.display = "none";
+            });
+        });
+    });
+
+    function saveData()
+    {
+        var phyId = document.getElementById("phyId").value;
+        var nsw = document.getElementById("1").value;
+        var sw = document.getElementById("2").value;
+        var hcnw = document.getElementById("3").value;
+        var pc = document.getElementById("4").value;
+        var pcnw = document.getElementById("5").value;
+        var bt = document.getElementById("6").value;
+        var hc = document.getElementById("7").value;
+    
+        $.ajax({
+            url: '/Admin/SubmitPayrateData',
+            type: 'POST',
+            data: {pId: phyId, nsw: nsw, sw: sw, hcnw: hcnw, pc: pc, pcnw: pcnw, bt: bt, hc: hc},
+            success: function(response){
+                if(response){
+                    toastr.success('The payrate data was submitted successfully.');
+                }
+                else{
+                    toastr.error('Error while submitting the payrate data');
+                }
+            },
+            error: function(error){
+                alert("An error occurred");
+            }
+        });
+    }
+</script>

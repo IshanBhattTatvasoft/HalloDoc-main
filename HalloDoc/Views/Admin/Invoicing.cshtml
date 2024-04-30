@@ -1,0 +1,146 @@
+﻿@model InvoicingViewModel
+@{
+    ViewData["Title"] = "Invoicing";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+}
+
+@section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+}
+
+<html>
+<head>
+    <style>
+        input:focus {
+            outline: #3DB6FF !important;
+            /*border: 2px solid white !important;*/
+            box-shadow: none !important;
+            border-color: #3DB6FF !important;
+            /*color: red !important;*/
+        }
+
+        textarea:focus {
+            outline: none !important;
+            border-color: #3DB6FF !important;
+            box-shadow: none !important;
+        }
+
+
+        .form-floating:focus-within label {
+            color: #3DB6FF !important;
+        }
+
+        select:focus {
+            outline: #3DB6FF !important;
+            /*border: 2px solid white !important;*/
+            box-shadow: none !important;
+            border-color: #3DB6FF !important;
+            /*color: red !important;*/
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="bg-light" style="overflow: hidden;">
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+        <partial name="Toast" />
+
+        <div class="container">
+            <div class="row">
+                <div style="top: 42px; position: relative;" class="col">
+                    <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="AdminDashboard" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        Back
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-2">
+                        <p class="h5 text-muted fw-bold" id="heading-one">
+                            Timesheets
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-0 mt-3">
+                <div class="row">
+                    <div class="col-3 mt-2 ms-4">
+                        <div class="form-floating">
+                            <select class="form-select" style="text-align:start" data-bs-toggle="dropdown" name="RegionId" id="select-physician">
+                            </select>
+                            <label for="biWeeklyDropdown">Search by Physician</label>
+                        </div>
+                    </div>
+
+                    <div class="col-3 mt-2">
+                        <div class="form-floating">
+                            <select class="form-select" id="biWeeklyDropdown">
+                            </select>
+                            <label for="biWeeklyDropdown">Search by Timesheetperiod:</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-4 ms-4">
+                        <p class="h5 text-muted fw-bold" id="heading-one">
+                            Pending Bi-Weekly timesheet
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    window.onload = () => {
+        $.ajax({
+            url: '/Admin/GetAllPhysicians',
+            type: 'GET',
+            success: function (data) {
+                $.each(data, function (index, physician) {
+                    console.log(physician);
+                    $("#select-physician").append('<option class="physician-dropdown" value="' + physician.physicianId + '">' + physician.firstName + ' ' + physician.lastName + '</option>');
+                });
+            }
+        });
+    }
+
+    // Function to generate bi-weekly date ranges for the current year
+    function generateBiWeeklyDates() {
+        const biWeeklyOptions = document.getElementById("biWeeklyDropdown");
+        const currentDate = new Date();
+        const currentYear = currentDate.getFullYear();
+        const months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+
+        // Loop through each month
+        for (let i = 0; i < months.length; i++) {
+            const month = months[i];
+            const daysInMonth = new Date(currentYear, i + 1, 0).getDate(); // Get the total number of days in the month
+            const option1 = document.createElement("option");
+            const option2 = document.createElement("option");
+            const startDate1 = `${currentYear}/${month}/01`;
+            const endDate1 = `${currentYear}/${month}/15`;
+            const endDate2 = `${currentYear}/${month}/${daysInMonth}`;
+            option1.value = `${startDate1}_${endDate1}`;
+            option1.textContent = `${startDate1} - ${endDate1}`;
+            option2.value = `${endDate1}_${endDate2}`;
+            option2.textContent = `${endDate1} - ${endDate2}`;
+            biWeeklyOptions.appendChild(option1);
+            biWeeklyOptions.appendChild(option2);
+        }
+    }
+
+    // Call the function to generate bi-weekly date ranges for the current year
+    generateBiWeeklyDates();
+</script>

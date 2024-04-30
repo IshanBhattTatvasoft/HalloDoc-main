@@ -88,6 +88,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRW5jb3VudGVyRm9ybS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Admin/Invoicing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW52b2ljaW5nLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Admin/MDsOnCall.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTURzT25DYWxsLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
@@ -118,6 +122,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Admin/Payrate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGF5cmF0ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Admin/PayrateFromUserAccess.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cUGF5cmF0ZUZyb21Vc2VyQWNjZXNzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Admin/PlatformCreatePassword.cshtml]
@@ -258,6 +266,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Provider/ConcludeCare.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmlkZXJcQ29uY2x1ZGVDYXJlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Provider/MyInvoicing.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvdmlkZXJcTXlJbnZvaWNpbmcuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/pca141/Desktop/HalloDoc-Final/HalloDoc-main/HalloDoc/Views/Provider/MyProfile.cshtml]

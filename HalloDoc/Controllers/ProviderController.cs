@@ -609,5 +609,83 @@ namespace HalloDoc.Controllers
             }
         }
 
+        [CustomAuthorize("Provider", "ProviderInvoicing")]
+        public IActionResult MyInvoicing()
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 21;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                InvoicingViewModel ivm = new InvoicingViewModel
+                {
+                    adminNavbarModel = an,
+                };
+                return View(ivm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view invoicing information";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Provider", "ProviderInvoicing")]
+        public IActionResult BiWeeklyTimesheet(string fullDate)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 21;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                InvoicingViewModel ivm = new InvoicingViewModel
+                {
+                    adminNavbarModel = an,
+                };
+                return View(ivm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view invoicing information";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
     }
 }

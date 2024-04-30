@@ -2727,7 +2727,8 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     phoneConsults = p.Phoneconsult != null ? (int)p.Phoneconsult : 0,
                     phoneConsultsNightWeekend = p.PhoneconsultNightWeekend != null ? (int)p.PhoneconsultNightWeekend : 0,
                     batchTesting = p.BatchTesting != null ? (int)p.BatchTesting : 0,
-                    houseCalls = p.Housecall != null ? (int)p.Housecall : 0
+                    houseCalls = p.Housecall != null ? (int)p.Housecall : 0,
+                    isHavingEntry = true
                 };
                 pr = prvm;
             }
@@ -2743,11 +2744,52 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     phoneConsults = 0,
                     phoneConsultsNightWeekend = 0,
                     batchTesting = 0,
-                    houseCalls = 0
+                    houseCalls = 0,
+                    isHavingEntry = false
                 };
                 pr = prvm;
             }
             return pr;
+        }
+
+        public bool SubmitPayrateData(int pId, string? nsw, string? sw, string? hcnw, string? pc, string? pcnw, string? bt, string? hc)
+        {
+            Payrate pr = _context.Payrates.FirstOrDefault(p => p.PhysicianId == pId);
+            bool isEntered = false;
+            if(pr == null)
+            {
+                Payrate pr1 = new Payrate
+                {
+                    PhysicianId = pId,
+                    NightShiftWeekend = decimal.Parse(nsw),
+                    Shift = decimal.Parse(sw),
+                    HousecallNightWeekend = decimal.Parse(hcnw),
+                    Phoneconsult = decimal.Parse(pc),
+                    PhoneconsultNightWeekend = decimal.Parse(pcnw),
+                    BatchTesting = decimal.Parse(bt),
+                    Housecall = decimal.Parse(hc),
+                };
+
+                _context.Payrates.Add(pr1);
+                _context.SaveChanges();
+                isEntered = true;
+            }
+
+            else
+            {
+                pr.NightShiftWeekend = decimal.Parse(nsw);
+                pr.Shift = decimal.Parse(sw);
+                pr.HousecallNightWeekend = decimal.Parse(hcnw);
+                pr.Phoneconsult = decimal.Parse(pc);
+                pr.PhoneconsultNightWeekend = decimal.Parse(pcnw);
+                pr.BatchTesting = decimal.Parse(bt);
+                pr.Housecall = decimal.Parse(hc);
+                _context.Payrates.Update(pr);
+                _context.SaveChanges();
+                isEntered = true;
+            }
+
+            return isEntered;
         }
     }
 }

@@ -157,5 +157,6 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public string RoleNameFromId(int id);
         public bool CheckEmailFromAdminId(int id, string email);
         public PayrateViewModel GetPayrateData(AdminNavbarModel an, int pid);
+        public bool SubmitPayrateData(int pId, string? nsw, string? sw, string? hcnw, string? pc, string? pcnw, string? bt, string? hc);
     }
 }
