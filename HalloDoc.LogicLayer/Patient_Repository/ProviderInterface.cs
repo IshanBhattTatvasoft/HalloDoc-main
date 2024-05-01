@@ -335,8 +335,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public InvoicingViewModel GetBiWeeklyTimesheet(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId)
         {
+            int totalDays = endDate.Day - startDate.Day;
+
             Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == userId);
+            Timesheet t = _context.Timesheets.FirstOrDefault(ti => ti.PhysicianId == p.PhysicianId);
             List<KeyValuePair<string, int>> onCallHour = new List<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, string>> dateAndName = new List<KeyValuePair<string, string>>();
             int j = 0;
 
             for (int i = startDate.Day; i <= endDate.Day; i++)
@@ -351,9 +355,26 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     double ans = endTime.Subtract(startTime).TotalHours;
                     totalHours += Convert.ToInt32(ans);
                 }
-                // Specify the date format here
+
                 string formattedDate = temp.ToString("MM/dd/yyyy");
                 onCallHour.Add(new KeyValuePair<string, int>(formattedDate, totalHours));
+                j++;
+            }
+
+            j = 0;
+            
+            for (int i = startDate.Day; i <= endDate.Day; i++)
+            {
+                DateTime temp = startDate.AddDays(j);
+                TimesheetReimbursement tr = _context.TimesheetReimbursements.FirstOrDefault(ti => ti.TimesheetId == t.TimesheetId && ti.Date == temp);
+                string fileName = "";
+                if(tr!=null)
+                {
+                    fileName = tr.Bill;
+                }
+
+                string formattedDate = temp.ToString("MM/dd/yyyy");
+                dateAndName.Add(new KeyValuePair<string, string>(formattedDate, fileName));
                 j++;
             }
 
@@ -361,10 +382,26 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             {
                 adminNavbarModel = an,
                 dateAndOnCallHour = onCallHour,
+                dateAndFileName = dateAndName,
+                startDate = startDate, 
+                endDate = endDate,
             };
 
             return ivm;
+        }
 
+        public void SubmitTimesheet(InvoicingViewModel model, int id)
+        {
+            Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == id);
+            
+            Timesheet t = new Timesheet
+            {
+                PhysicianId = p.PhysicianId,
+                Startdate = model.startDate,
+                Enddate = model.endDate,
+                Status = "Pending",
+                IsFinalized = new BitArray(1,false)
+            };
         }
     }
 }

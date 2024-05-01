@@ -65,135 +65,142 @@
         <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
         <partial name="Toast" />
 
-        <div class="container">
-            <div class="row">
-                <div style="top: 42px; position: relative;" class="col">
-                    <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Provider" asp-action="MyInvoicing" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                             class="bi bi-chevron-left" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
-                        </svg>
-                        Back
-                    </a>
-                </div>
+        <form method="post" asp-action="SubmitTimeSheet" asp-controller="Provider">
 
+            <div class="container">
                 <div class="row">
-                    <div class="col mt-2">
-                        <p class="h5 text-muted fw-bold" id="heading-one">
+                    <div style="top: 42px; position: relative;" class="col">
+                        <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Provider" asp-action="MyInvoicing" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                 class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                      d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                            </svg>
+                            Back
+                        </a>
+                    </div>
 
-                        </p>
+                    <div class="row">
+                        <div class="col mt-2">
+                            <p class="h5 text-muted fw-bold" id="heading-one">
+
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="bg-white p-0 mt-5">
-                <div class="table-responsive">
+                <div class="bg-white p-0 mt-5">
+                    <div class="table-responsive">
 
-                    <table class="table">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">On-call Hours</th>
-                                <th class="text-center">Total Hours</th>
-                                <th class="text-center">Weekend/Holiday</th>
-                                <th class="text-center">Number of Housecalls</th>
-                                <th class="text-center">Number of Phone Consults</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @{
-                                var i = 0;
-                            }
-                            @foreach (var item in Model.dateAndOnCallHour)
-                            {
+                        <table class="table">
+                            <thead class="table-secondary">
                                 <tr>
-                                    <td class="text-center">@item.Key</td>
-                                    <td class="text-center">@item.Value</td>
-                                    <td class="text-center">
-                                        <input type="number" class="form-control" name="num" id="1" asp-for="@Model.totalHours[i]" />
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="checkbox" onclick="oncheck()" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" asp-for="@Model.holidays[i]" />
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="number" class="form-control" name="num" id="1" asp-for="@Model.numberOfHouseCalls[i]" />
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="number" class="form-control" name="num" id="1" asp-for="@Model.numberOfPhoneConsult[i]" />
-                                    </td>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">On-call Hours</th>
+                                    <th class="text-center">Total Hours</th>
+                                    <th class="text-center">Weekend/Holiday</th>
+                                    <th class="text-center">Number of Housecalls</th>
+                                    <th class="text-center">Number of Phone Consults</th>
                                 </tr>
-                                i++;
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+
+                            <tbody>
+                                @{
+                                    var i = 0;
+                                }
+                                @foreach (var item in Model.dateAndOnCallHour)
+                                {
+                                    <tr>
+                                        <td class="text-center">@item.Key.Replace("-","/")</td>
+                                        <td class="text-center">@item.Value</td>
+                                        <td class="text-center">
+                                            <input type="number" class="form-control" id="1" asp-for="@Model.totalHours[i]" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="checkbox" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" asp-for="@Model.holidays[i]" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="number" class="form-control" id="house@(i)" asp-for="@Model.numberOfHouseCalls[i]" onchange="setHouseCall(this.value,@i)" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="number" class="form-control" id="1" asp-for="@Model.numberOfPhoneConsult[i]" />
+                                        </td>
+                                    </tr>
+                                    i++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
                 </div>
 
                 <div class="row">
                     <div class="col">
-                        <button type="button" class="btn btn-info text-white float-end me-3 mb-2">Submit</button>
+                        <button type="button" id="addHideReceipt" class="btn btn-info text-white float-start mt-4">
+                            <span id="add">Add Receipts</span>
+                            <span id="hide" style="display: none;">Hide Receipts</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-0 mt-5" id="receiptTable" style="display: none;">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="table-secondary">
+                                <tr>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Item</th>
+                                    <th class="text-center">Amount</th>
+                                    <th><span class="ms-5">Bill</span></th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @{
+                                    var j = 0;
+                                }
+                                @foreach (var item in Model.dateAndFileName)
+                                {
+                                    <tr>
+                                        <td class="text-center">@item.Key.Replace("-","/")</td>
+                                        <td class="text-center">
+                                            <input type="text" class="form-control" id="item" asp-for="@Model.items[j]" />
+                                        </td>
+                                        <td class="text-center">
+                                            <input type="number" class="form-control" id="amount" asp-for="@Model.amounts[j]" />
+                                        </td>
+                                        <td>
+                                            <div class="d-flex gap-0 w-50">
+                                                <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" />
+                                                <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            @if (item.Value != "")
+                                            {
+                                                <button type="button" class="btn btn-outline-info">Edit</button>
+                                                <button type="button" class="btn btn-outline-info">Delete</button>
+                                                <button type="button" class="btn btn-outline-info">View</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                    j++;
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-info text-white float-end mt-4">Finalize</button>
+                        <button type="submit" class="btn btn-info text-white float-end me-3 mt-4">Submit</button>
                     </div>
                 </div>
             </div>
+        </form>
 
-            <div class="row">
-                <div class="col">
-                    <button type="button" id="addHideReceipt" class="btn btn-info text-white float-start mt-4">
-                        <span id="add">Add Receipts</span>
-                        <span id="hide" style="display: none;">Hide Receipts</span>
-                    </button>
-                </div>
-            </div>
-
-            <div class="bg-white p-0 mt-5" id="receiptTable" style="display: none;">
-                <div class="table-responsive">
-                    <table class="table">
-                        <thead class="table-secondary">
-                            <tr>
-                                <th class="text-center">Date</th>
-                                <th class="text-center">Item</th>
-                                <th class="text-center">Amount</th>
-                                <th class="text-center">Bill</th>
-                                <th class="text-center">Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach (var item in Model.dateAndOnCallHour)
-                            {
-                                <tr>
-                                    <td class="text-center">@item.Key</td>
-                                    <td class="text-center">
-                                        <input type="text" class="form-control" name="num" id="item" />
-                                    </td>
-                                    <td class="text-center">
-                                        <input type="text" class="form-control" name="num" id="amount" />
-                                    </td>
-                                    <td class="text-center">
-                                        <div class="d-flex gap-0">
-                                            <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" />
-                                            <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
-                                        </div>
-                                    </td>
-                                    <td class="text-center">
-                                        <button type="button" class="btn btn-outline-info">Edit</button>
-                                        <button type="button" class="btn btn-outline-info">Delete</button>
-                                        <button type="button" class="btn btn-outline-info">View</button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-info text-white float-end mt-4">Finalize</button>
-                </div>
-            </div>
-        </div>
     </div>
 </body>
 </html>
@@ -216,4 +223,5 @@
             isReceiptVisible = 0;
         }
     }
+
 </script>

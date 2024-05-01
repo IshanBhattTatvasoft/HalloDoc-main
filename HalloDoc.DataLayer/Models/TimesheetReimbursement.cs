@@ -15,5 +15,7 @@ public partial class TimesheetReimbursement
 
     public string? Bill { get; set; }
 
+    public DateTime Date { get; set; }
+
     public virtual Timesheet Timesheet { get; set; } = null!;
 }

@@ -2714,6 +2714,11 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public PayrateViewModel GetPayrateData(AdminNavbarModel an, int pid)
         {
             Payrate p = _context.Payrates.FirstOrDefault(pa => pa.PhysicianId == pid);
+            bool isEntered = false;
+            if(p!=null)
+            {
+                isEntered = (p.Housecall != 0 && p.BatchTesting != 0 && p.PhoneconsultNightWeekend != 0 && p.Phoneconsult != 0 && p.HousecallNightWeekend != 0 && p.Shift != 0 && p.NightShiftWeekend != 0) ? true : false;
+            }
             PayrateViewModel pr = new PayrateViewModel();
             if(p!=null)
             {
@@ -2728,7 +2733,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     phoneConsultsNightWeekend = p.PhoneconsultNightWeekend != null ? (int)p.PhoneconsultNightWeekend : 0,
                     batchTesting = p.BatchTesting != null ? (int)p.BatchTesting : 0,
                     houseCalls = p.Housecall != null ? (int)p.Housecall : 0,
-                    isHavingEntry = true
+                    isHavingEntry = isEntered
                 };
                 pr = prvm;
             }

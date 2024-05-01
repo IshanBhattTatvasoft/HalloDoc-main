@@ -984,6 +984,8 @@ public partial class ApplicationDbContext : DbContext
 
             entity.ToTable("TimesheetReimbursement");
 
+            entity.Property(e => e.Date).HasColumnType("timestamp without time zone");
+
             entity.HasOne(d => d.Timesheet).WithMany(p => p.TimesheetReimbursements)
                 .HasForeignKey(d => d.TimesheetId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

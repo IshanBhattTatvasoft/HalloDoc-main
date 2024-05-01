@@ -43,6 +43,7 @@ using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using Microsoft.AspNetCore.Http;
 using static Org.BouncyCastle.Bcpg.Attr.ImageAttrib;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using iText.Kernel.Utils;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -683,6 +684,43 @@ namespace HalloDoc.Controllers
 
                 InvoicingViewModel ivm = _providerInterface.GetBiWeeklyTimesheet(startDate, endDate, an, (int)userId);
                 return View(ivm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view invoicing information";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Provider", "ProviderInvoicing")]
+        public IActionResult SubmitTimeSheet(InvoicingViewModel model)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 21;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                _providerInterface.SubmitTimesheet(model, (int)userId);
+                return View(an);
             }
 
             catch (Exception ex)
