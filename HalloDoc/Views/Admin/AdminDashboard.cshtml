@@ -1095,35 +1095,35 @@
             document.getElementById("submit-button-for-excel").click();
         }
 
-        function validateForm() {
-            const region = document.getElementById("select-region").value;
-            const phys = document.getElementById("select-physician").value;
-            console.log(region);
-            let flag = 0
+        //function validateForm() {
+        //    const region = document.getElementById("select-region").value;
+        //    const phys = document.getElementById("select-physician").value;
+        //    console.log(region);
+        //    let flag = 0
             
-            if(region==-1)
-            {
-                console.log(region);
-                document.getElementById("regionError").innerHTML = "Please select alteast one region!";
-                document.getElementById("regionError").style.display = "block";
-                event.preventDefault();
-                return false;
-            }
+        //    if(region==-1)
+        //    {
+        //        console.log(region);
+        //        document.getElementById("regionError").innerHTML = "Please select alteast one region!";
+        //        document.getElementById("regionError").style.display = "block";
+        //        event.preventDefault();
+        //        return false;
+        //    }
             
-            if (phys<0) 
-            {
-                document.getElementById("physicianError").innerHTML = "Please select a physician";
-                document.getElementById("physicianError").style.display = "block";
-                event.preventDefault();
-                return false;
-            }
+        //    if (phys<0) 
+        //    {
+        //        document.getElementById("physicianError").innerHTML = "Please select a physician";
+        //        document.getElementById("physicianError").style.display = "block";
+        //        event.preventDefault();
+        //        return false;
+        //    }
 
-            if(region!=-1)
-            {
-                document.getElementById("regionError").innerHTML = "";
-                document.getElementById("regionError").style.display = "none";
-            }
-        }
+        //    if(region!=-1)
+        //    {
+        //        document.getElementById("regionError").innerHTML = "";
+        //        document.getElementById("regionError").style.display = "none";
+        //    }
+        //}
 
         function checkTransfer()
         {

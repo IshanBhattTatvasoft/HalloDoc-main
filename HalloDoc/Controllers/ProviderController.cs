@@ -40,6 +40,9 @@ using Request = HalloDoc.DataLayer.Models.Request;
 using Org.BouncyCastle.Asn1.Ocsp;
 using DocumentFormat.OpenXml.Bibliography;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using Microsoft.AspNetCore.Http;
+using static Org.BouncyCastle.Bcpg.Attr.ImageAttrib;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -649,8 +652,8 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Provider", "ProviderInvoicing")]
-        public IActionResult BiWeeklyTimesheet(string fullDate)
-        {
+        public IActionResult BiWeeklyTimesheet(string dateRange)
+         {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
@@ -673,10 +676,12 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                InvoicingViewModel ivm = new InvoicingViewModel
-                {
-                    adminNavbarModel = an,
-                };
+                string[] bothDates = dateRange.Split('-');
+                string format = "M/d/yyyy";
+                DateTime startDate = DateTime.ParseExact(bothDates[0], format, CultureInfo.InvariantCulture);
+                DateTime endDate = DateTime.ParseExact(bothDates[1], format, CultureInfo.InvariantCulture);
+
+                InvoicingViewModel ivm = _providerInterface.GetBiWeeklyTimesheet(startDate, endDate, an, (int)userId);
                 return View(ivm);
             }
 

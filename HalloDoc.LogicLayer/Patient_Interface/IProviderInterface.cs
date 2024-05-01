@@ -20,5 +20,6 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public EditProviderAccountViewModel GetProviderProfile(int id, AdminNavbarModel an);
         public List<Admin> GetAllAdmins();
         public bool isEncounterFinalized(int id);
+        public InvoicingViewModel GetBiWeeklyTimesheet(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId);
     }
 }

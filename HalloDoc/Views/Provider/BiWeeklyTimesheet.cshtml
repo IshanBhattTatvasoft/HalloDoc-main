@@ -1,0 +1,219 @@
+﻿@model InvoicingViewModel
+@{
+    ViewData["Title"] = "Biweekly Timesheet";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+}
+
+@section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+}
+
+<html>
+<head>
+    <style>
+        input:focus {
+            outline: #3DB6FF !important;
+            /*border: 2px solid white !important;*/
+            box-shadow: none !important;
+            border-color: #3DB6FF !important;
+            /*color: red !important;*/
+        }
+
+        textarea:focus {
+            outline: none !important;
+            border-color: #3DB6FF !important;
+            box-shadow: none !important;
+        }
+
+
+        .form-floating:focus-within label {
+            color: #3DB6FF !important;
+        }
+
+        select:focus {
+            outline: #3DB6FF !important;
+            /*border: 2px solid white !important;*/
+            box-shadow: none !important;
+            border-color: #3DB6FF !important;
+            /*color: red !important;*/
+        }
+
+        #Photo::-webkit-file-upload-button {
+            display: none;
+        }
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+
+        .table tr:last-child th,
+        .table tr:last-child td {
+            border: none;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+    <div class="bg-light" style="overflow: hidden;">
+        <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
+        <partial name="Toast" />
+
+        <div class="container">
+            <div class="row">
+                <div style="top: 42px; position: relative;" class="col">
+                    <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Provider" asp-action="MyInvoicing" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                             class="bi bi-chevron-left" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd"
+                                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                        </svg>
+                        Back
+                    </a>
+                </div>
+
+                <div class="row">
+                    <div class="col mt-2">
+                        <p class="h5 text-muted fw-bold" id="heading-one">
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-0 mt-5">
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">On-call Hours</th>
+                                <th class="text-center">Total Hours</th>
+                                <th class="text-center">Weekend/Holiday</th>
+                                <th class="text-center">Number of Housecalls</th>
+                                <th class="text-center">Number of Phone Consults</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                var i = 0;
+                            }
+                            @foreach (var item in Model.dateAndOnCallHour)
+                            {
+                                <tr>
+                                    <td class="text-center">@item.Key</td>
+                                    <td class="text-center">@item.Value</td>
+                                    <td class="text-center">
+                                        <input type="number" class="form-control" name="num" id="1" asp-for="@Model.totalHours[i]" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="checkbox" onclick="oncheck()" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" asp-for="@Model.holidays[i]" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="number" class="form-control" name="num" id="1" asp-for="@Model.numberOfHouseCalls[i]" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="number" class="form-control" name="num" id="1" asp-for="@Model.numberOfPhoneConsult[i]" />
+                                    </td>
+                                </tr>
+                                i++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-info text-white float-end me-3 mb-2">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="button" id="addHideReceipt" class="btn btn-info text-white float-start mt-4">
+                        <span id="add">Add Receipts</span>
+                        <span id="hide" style="display: none;">Hide Receipts</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="bg-white p-0 mt-5" id="receiptTable" style="display: none;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Item</th>
+                                <th class="text-center">Amount</th>
+                                <th class="text-center">Bill</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach (var item in Model.dateAndOnCallHour)
+                            {
+                                <tr>
+                                    <td class="text-center">@item.Key</td>
+                                    <td class="text-center">
+                                        <input type="text" class="form-control" name="num" id="item" />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="text" class="form-control" name="num" id="amount" />
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="d-flex gap-0">
+                                            <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" />
+                                            <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <button type="button" class="btn btn-outline-info">Edit</button>
+                                        <button type="button" class="btn btn-outline-info">Delete</button>
+                                        <button type="button" class="btn btn-outline-info">View</button>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-info text-white float-end mt-4">Finalize</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    let isReceiptVisible = 0;
+
+    document.getElementById("addHideReceipt").onclick = function () {
+        if (isReceiptVisible == 0) {
+            document.getElementById("add").style.display = "none";
+            document.getElementById("hide").style.display = "block";
+            document.getElementById("receiptTable").style.display = "block";
+            isReceiptVisible = 1;
+        }
+
+        else if (isReceiptVisible == 1) {
+            document.getElementById("add").style.display = "block";
+            document.getElementById("hide").style.display = "none";
+            document.getElementById("receiptTable").style.display = "none";
+            isReceiptVisible = 0;
+        }
+    }
+</script>

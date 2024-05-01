@@ -332,5 +332,39 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             EncounterForm ef = _context.EncounterForms.FirstOrDefault(e => e.RequestId == id);
             return ef.IsFinalized[0];
         }
+
+        public InvoicingViewModel GetBiWeeklyTimesheet(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId)
+        {
+            Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == userId);
+            List<KeyValuePair<string, int>> onCallHour = new List<KeyValuePair<string, int>>();
+            int j = 0;
+
+            for (int i = startDate.Day; i <= endDate.Day; i++)
+            {
+                DateTime temp = startDate.AddDays(j);
+                List<ShiftDetail> sd = _context.ShiftDetails.Where(s => s.Shift.PhysicianId == p.PhysicianId && s.ShiftDate == temp).ToList();
+                var totalHours = 0;
+                foreach (var item in sd)
+                {
+                    TimeSpan startTime = TimeSpan.Parse(item.StartTime.ToString());
+                    TimeSpan endTime = TimeSpan.Parse(item.EndTime.ToString());
+                    double ans = endTime.Subtract(startTime).TotalHours;
+                    totalHours += Convert.ToInt32(ans);
+                }
+                // Specify the date format here
+                string formattedDate = temp.ToString("MM/dd/yyyy");
+                onCallHour.Add(new KeyValuePair<string, int>(formattedDate, totalHours));
+                j++;
+            }
+
+            InvoicingViewModel ivm = new InvoicingViewModel
+            {
+                adminNavbarModel = an,
+                dateAndOnCallHour = onCallHour,
+            };
+
+            return ivm;
+
+        }
     }
 }
