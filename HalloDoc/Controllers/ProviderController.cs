@@ -695,7 +695,7 @@ namespace HalloDoc.Controllers
 
         [HttpPost]
         [CustomAuthorize("Provider", "ProviderInvoicing")]
-        public IActionResult SubmitTimeSheet(InvoicingViewModel model)
+        public IActionResult SubmitTimeSheet(InvoicingViewModel model, DateTime startDate, DateTime endDate)
         {
             try
             {
@@ -719,14 +719,23 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                _providerInterface.SubmitTimesheet(model, (int)userId);
-                return View(an);
+
+                bool isSubmitted = _providerInterface.SubmitTimesheet(model, startDate, endDate, (int)userId);
+                if(isSubmitted)
+                {
+                    TempData["success"] = "Timesheet details added successfully";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to add timesheet details";
+                }
+                return RedirectToAction("MyInvoicing");
             }
 
             catch (Exception ex)
             {
-                TempData["error"] = "Unable to view invoicing information";
-                return RedirectToAction("AdminDashboard");
+                TempData["error"] = "Unable to add timesheet details" + ex.Message;
+                return RedirectToAction("MyInvoicing");
             }
         }
 

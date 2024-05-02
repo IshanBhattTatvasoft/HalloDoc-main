@@ -21,7 +21,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Path = System.IO.Path;
 using System.Xml.Linq;using iText.Kernel.Pdf;using iText.Layout;using iText.Layout.Element;using System.IO;using Paragraph = iText.Layout.Element.Paragraph;using Document = iText.Layout.Document;using iText.Layout.Properties;using iText.Kernel.Font;using TextAlignment = iText.Layout.Properties.TextAlignment;using iText.Kernel.Font;using DocumentFormat.OpenXml.Spreadsheet;using static System.Runtime.InteropServices.JavaScript.JSType;using iText.IO.Font.Constants;using Style = iText.Layout.Style;
-using HalloDoc.DataLayer.Data;
 
 namespace HalloDoc.LogicLayer.Patient_Repository
 {

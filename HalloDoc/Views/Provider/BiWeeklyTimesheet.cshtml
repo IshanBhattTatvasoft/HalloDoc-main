@@ -41,7 +41,7 @@
             /*color: red !important;*/
         }
 
-        #Photo::-webkit-file-upload-button {
+        #fi::-webkit-file-upload-button {
             display: none;
         }
 
@@ -65,7 +65,7 @@
         <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
         <partial name="Toast" />
 
-        <form method="post" asp-action="SubmitTimeSheet" asp-controller="Provider">
+        <form method="post" asp-action="SubmitTimeSheet" asp-controller="Provider" enctype="multipart/form-data">
 
             <div class="container">
                 <div class="row">
@@ -114,20 +114,22 @@
                                         <td class="text-center">@item.Key.Replace("-","/")</td>
                                         <td class="text-center">@item.Value</td>
                                         <td class="text-center">
-                                            <input type="number" class="form-control" id="1" asp-for="@Model.totalHours[i]" />
+                                            <input type="number" class="form-control" id="1" value="@Model.totalHours[i]" asp-for="@Model.totalHours[i]" />
                                         </td>
                                         <td class="text-center">
-                                            <input type="checkbox" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" asp-for="@Model.holidays[i]" />
+                                            <input type="checkbox" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" value="@Model.holidays[i]" asp-for="@Model.holidays[i]" />
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" class="form-control" id="house@(i)" asp-for="@Model.numberOfHouseCalls[i]" onchange="setHouseCall(this.value,@i)" />
+                                            <input type="number" class="form-control" id="house@(i)" value="@Model.numberOfHouseCalls[i]" asp-for="@Model.numberOfHouseCalls[i]" onchange="setHouseCall(this.value,@i)" />
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" class="form-control" id="1" asp-for="@Model.numberOfPhoneConsult[i]" />
+                                            <input type="number" class="form-control" id="1" value="@Model.numberOfPhoneConsult[i]" asp-for="@Model.numberOfPhoneConsult[i]" />
                                         </td>
                                     </tr>
                                     i++;
                                 }
+                                <input type="date" style="display: none;" asp-for="@Model.startDate" name="startDate" />
+                                <input type="date" style="display: none;" asp-for="@Model.endDate" name="endDate" />
                             </tbody>
                         </table>
                     </div>
@@ -172,8 +174,8 @@
                                         </td>
                                         <td>
                                             <div class="d-flex gap-0 w-50">
-                                                <input type="file" class="form-control rounded-end-0 change3" id="Photo" placeholder="Select Photo" />
-                                                <button type="button" class="btn btn-info text-white rounded-start-0" onclick="SaveSign('1')">Upload</button>
+                                                <input type="file" id="fi@(j)" class="form-control rounded-end-0 change3" asp-for="@Model.files[j]" placeholder="Select Photo" onchange="checkName('@j')" />
+                                                <button type="button" class="btn btn-info text-white rounded-start-0">Upload</button>
                                             </div>
                                         </td>
                                         <td class="text-center">
@@ -223,5 +225,17 @@
             isReceiptVisible = 0;
         }
     }
+
+    //function checkName(sign) {
+    //    var filesInput = document.getElementById(`fi${sign}`);
+    //    var files = filesInput.files;
+    //    if (files.length > 0) {
+    //        document.getElementById(`fi${sign}`).value = files[0];
+    //        for (var i = 0; i < files.length; i++) {
+    //            console.log(files[i].name);
+    //        }
+    //    }
+
+    //}
 
 </script>

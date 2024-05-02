@@ -17,5 +17,7 @@ public partial class TimesheetReimbursement
 
     public DateTime Date { get; set; }
 
+    public bool IsDeleted { get; set; }
+
     public virtual Timesheet Timesheet { get; set; } = null!;
 }

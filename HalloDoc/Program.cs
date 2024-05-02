@@ -1,7 +1,6 @@
 //importing all the classes and structures defined in the Models namespace of a project HalloDoc.
 //By bringing these models into your current code scope, you can directly use them without having to specify the namespace repeatedly.This makes your code more concise and readable, especially when accessing these models frequently.
 using DocumentFormat.OpenXml.InkML;
-using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.LogicLayer.Patient_Interface;
 using HalloDoc.LogicLayer.Patient_Repository;

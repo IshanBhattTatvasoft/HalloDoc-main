@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using HalloDoc.DataLayer.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace HalloDoc.DataLayer.Data;
+namespace HalloDoc.DataLayer.Models;
 
 public partial class ApplicationDbContext : DbContext
 {
@@ -985,6 +984,7 @@ public partial class ApplicationDbContext : DbContext
             entity.ToTable("TimesheetReimbursement");
 
             entity.Property(e => e.Date).HasColumnType("timestamp without time zone");
+            entity.Property(e => e.IsDeleted).HasColumnName("isDeleted");
 
             entity.HasOne(d => d.Timesheet).WithMany(p => p.TimesheetReimbursements)
                 .HasForeignKey(d => d.TimesheetId)

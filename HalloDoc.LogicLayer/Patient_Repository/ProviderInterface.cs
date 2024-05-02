@@ -3,7 +3,6 @@ using DocumentFormat.OpenXml.Drawing;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using DocumentFormat.OpenXml.Office2016.Excel;
 using DocumentFormat.OpenXml.Spreadsheet;
-using HalloDoc.DataLayer.Data;
 using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
@@ -58,7 +57,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             r.ModifiedDate = DateTime.Now;
             r.CompletedByPhysician = new BitArray(1, true);
 
-            if(rn==null)
+            if (rn == null)
             {
                 rn2.RequestId = id;
                 rn2.PhysicianNotes = model.providerNotes;
@@ -67,7 +66,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 _context.RequestNotes.Add(rn2);
             }
 
-            if(rn!=null)
+            if (rn != null)
             {
                 rn.PhysicianNotes = rn.PhysicianNotes + ", " + model.providerNotes;
                 rn.ModifiedDate = DateTime.Now;
@@ -129,10 +128,10 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<Region> GetProviderRegionFromId(int id)
         {
-            List<Region>regions = new List<Region>();
+            List<Region> regions = new List<Region>();
             List<PhysicianRegion> pr = _context.PhysicianRegions.Where(p => p.PhysicianId == id).ToList();
 
-            foreach(var item in pr)
+            foreach (var item in pr)
             {
                 Region r = _context.Regions.FirstOrDefault(re => re.RegionId == item.RegionId);
                 regions.Add(r);
@@ -336,46 +335,81 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public InvoicingViewModel GetBiWeeklyTimesheet(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId)
         {
             int totalDays = endDate.Day - startDate.Day;
-
+            List<int> totalHour = new List<int>();
             Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == userId);
-            Timesheet t = _context.Timesheets.FirstOrDefault(ti => ti.PhysicianId == p.PhysicianId);
+            Timesheet timeSheet = _context.Timesheets.FirstOrDefault(ti => ti.PhysicianId == p.PhysicianId && ti.Startdate == startDate && ti.Enddate == endDate);
             List<KeyValuePair<string, int>> onCallHour = new List<KeyValuePair<string, int>>();
             List<KeyValuePair<string, string>> dateAndName = new List<KeyValuePair<string, string>>();
             int j = 0;
+            List<IFormFile> fileList = new List<IFormFile>();
 
             for (int i = startDate.Day; i <= endDate.Day; i++)
             {
                 DateTime temp = startDate.AddDays(j);
                 List<ShiftDetail> sd = _context.ShiftDetails.Where(s => s.Shift.PhysicianId == p.PhysicianId && s.ShiftDate == temp).ToList();
-                var totalHours = 0;
+                var hr = 0;
                 foreach (var item in sd)
                 {
                     TimeSpan startTime = TimeSpan.Parse(item.StartTime.ToString());
                     TimeSpan endTime = TimeSpan.Parse(item.EndTime.ToString());
                     double ans = endTime.Subtract(startTime).TotalHours;
-                    totalHours += Convert.ToInt32(ans);
+                    hr += Convert.ToInt32(ans);
+                }
+                string formattedDate = temp.ToString("MM/dd/yyyy");
+                onCallHour.Add(new KeyValuePair<string, int>(formattedDate, hr));
+                fileList.Add(null);
+                //for time reimbursement
+
+                TimesheetReimbursement tr = new TimesheetReimbursement();
+                string fileName = "";
+                if (timeSheet != null)
+                {
+                    bool isTimeReimbursement = _context.TimesheetReimbursements.Any(ti => ti.TimesheetId == timeSheet.TimesheetId && ti.Date == temp);
+                    tr = _context.TimesheetReimbursements.FirstOrDefault(ti => ti.TimesheetId == timeSheet.TimesheetId && ti.Date == temp);
+                    fileName = "";
                 }
 
-                string formattedDate = temp.ToString("MM/dd/yyyy");
-                onCallHour.Add(new KeyValuePair<string, int>(formattedDate, totalHours));
+                string formattedDate2 = temp.ToString("MM/dd/yyyy");
+                dateAndName.Add(new KeyValuePair<string, string>(formattedDate2, fileName));
+
                 j++;
             }
 
             j = 0;
-            
-            for (int i = startDate.Day; i <= endDate.Day; i++)
-            {
-                DateTime temp = startDate.AddDays(j);
-                TimesheetReimbursement tr = _context.TimesheetReimbursements.FirstOrDefault(ti => ti.TimesheetId == t.TimesheetId && ti.Date == temp);
-                string fileName = "";
-                if(tr!=null)
-                {
-                    fileName = tr.Bill;
-                }
 
-                string formattedDate = temp.ToString("MM/dd/yyyy");
-                dateAndName.Add(new KeyValuePair<string, string>(formattedDate, fileName));
-                j++;
+            //for (int i = startDate.Day; i <= endDate.Day; i++)
+            //{
+
+            //    j++;
+            //}
+
+            List<TimesheetDetail> timesheetDetails = new List<TimesheetDetail>();
+            if (timeSheet != null)
+            {
+                timesheetDetails = _context.TimesheetDetails.Where(t => t.TimesheetId == timeSheet.TimesheetId).ToList();
+            }
+
+            List<bool> isWeekend = new List<bool>();
+            List<int> houseCalls = new List<int>();
+            List<int> phone = new List<int>();
+            if (timesheetDetails.Count > 0)
+            {
+
+                foreach (var item in timesheetDetails)
+                {
+                    isWeekend.Add(item.IsWeekend[0]);
+                    houseCalls.Add((int)item.Housecall);
+                    phone.Add((int)item.PhoneConsult);
+                    totalHour.Add((int)item.ShiftHours);
+                }
+            }
+
+            else
+            {
+                isWeekend = Enumerable.Repeat(false, totalDays + 1).ToList();
+                houseCalls = Enumerable.Repeat(0, totalDays + 1).ToList();
+                phone = Enumerable.Repeat(0, totalDays + 1).ToList();
+                totalHour = Enumerable.Repeat(0, totalDays + 1).ToList();
             }
 
             InvoicingViewModel ivm = new InvoicingViewModel
@@ -383,25 +417,134 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 adminNavbarModel = an,
                 dateAndOnCallHour = onCallHour,
                 dateAndFileName = dateAndName,
-                startDate = startDate, 
+                startDate = startDate,
                 endDate = endDate,
+                totalHours = totalHour,
+                numberOfHouseCalls = houseCalls,
+                holidays = isWeekend,
+                numberOfPhoneConsult = phone,
             };
 
             return ivm;
         }
 
-        public void SubmitTimesheet(InvoicingViewModel model, int id)
+        public bool SubmitTimesheet(InvoicingViewModel model, DateTime startDate, DateTime endDate, int id)
         {
+            bool isSubmitted = false;
+
             Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == id);
-            
-            Timesheet t = new Timesheet
+            Timesheet timeSheet = new Timesheet();
+            bool isTimesheetExists = _context.Timesheets.Any(t => t.PhysicianId == p.PhysicianId && t.Startdate == startDate && t.Enddate == endDate);
+
+            if (!isTimesheetExists)
             {
-                PhysicianId = p.PhysicianId,
-                Startdate = model.startDate,
-                Enddate = model.endDate,
-                Status = "Pending",
-                IsFinalized = new BitArray(1,false)
-            };
+                timeSheet.PhysicianId = p.PhysicianId;
+                timeSheet.Startdate = startDate;
+                timeSheet.Enddate = endDate;
+                timeSheet.Status = "Pending";
+                timeSheet.IsFinalized = new BitArray(1, false);
+                _context.Timesheets.Add(timeSheet);
+                _context.SaveChanges();
+            }
+
+            else
+            {
+                timeSheet = _context.Timesheets.FirstOrDefault(ti => ti.PhysicianId == p.PhysicianId && ti.Startdate == startDate && ti.Enddate == endDate);
+            }
+
+            int j = 0;
+            for (int i = startDate.Day; i <= endDate.Day; i++)
+            {
+                if (_context.TimesheetDetails.FirstOrDefault(td => td.TimesheetId == timeSheet.TimesheetId && td.Shiftdate == startDate.AddDays(j)) != null)
+                {
+                    TimesheetDetail td = _context.TimesheetDetails.FirstOrDefault(tid => tid.TimesheetId == timeSheet.TimesheetId && tid.Shiftdate == startDate.AddDays(j));
+                    td.ShiftHours = model.totalHours[j];
+                    td.Housecall = model.numberOfHouseCalls[j];
+                    td.PhoneConsult = model.numberOfPhoneConsult[j];
+                    td.IsWeekend = new BitArray(1, model.holidays[j]);
+                    _context.TimesheetDetails.Update(td);
+                }
+                else
+                {
+                    TimesheetDetail td = new TimesheetDetail
+                    {
+                        TimesheetId = timeSheet.TimesheetId,
+                        Shiftdate = startDate.AddDays(j),
+                        ShiftHours = model.totalHours[j],
+                        Housecall = model.numberOfHouseCalls[j],
+                        PhoneConsult = model.numberOfPhoneConsult[j],
+                        IsWeekend = new BitArray(1, model.holidays[j]),
+                    };
+                    _context.TimesheetDetails.Add(td);
+                }
+                j++;
+                isSubmitted = true;
+            }
+            _context.SaveChanges();
+
+            // for reimbursement
+
+            if (model.amounts.Count > 0 || model.items.Count > 0 || model.files.Count > 0)
+            {
+                j = 0;
+                for (int i = startDate.Day; i <= endDate.Day; i++)
+                {
+                    if (_context.TimesheetReimbursements.FirstOrDefault(tr => tr.TimesheetId == timeSheet.TimesheetId && tr.Date == startDate.AddDays(j)) != null)
+                    {
+                        TimesheetReimbursement tr = _context.TimesheetReimbursements.FirstOrDefault(tr1 => tr1.TimesheetId == timeSheet.TimesheetId && tr1.Date == startDate.AddDays(j));
+                        tr.Item = model.items[j];
+                        tr.Amount = model.amounts[j];
+                        tr.Bill = model.files[j] != null ? model.files[i].FileName : null;
+                        tr.Date = startDate.AddDays(j);
+                        tr.IsDeleted = false;
+                        if (model.files[i] != null)
+                        {
+                            SetBillFile(model.files[i], timeSheet.PhysicianId, DateOnly.FromDateTime(startDate.AddDays(j)).ToString());
+                        }
+                        _context.TimesheetReimbursements.Update(tr);
+                    }
+                    else
+                    {
+                        if (model.files[j] != null)
+                        {
+                            SetBillFile(model.files[i], timeSheet.PhysicianId, DateOnly.FromDateTime(startDate.AddDays(j)).ToString());
+                        }
+                        TimesheetReimbursement tr = new TimesheetReimbursement
+                        {
+                            Item = model.items[j],
+                            Amount = model.amounts[j],
+                            Bill = (model.files[j] != null) ? model.files[j].FileName : null,
+                            Date = startDate.AddDays(j),
+                            IsDeleted = false,
+                        };
+                        _context.TimesheetReimbursements.Add(tr);
+                    }
+                    j++;
+                }
+            }
+            _context.SaveChanges();
+            return isSubmitted;
+        }
+
+        public void SetBillFile(IFormFile file, int id, string date)
+        {
+            if (file != null && file.Length > 0)
+            {
+                var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\Reimbursement", id.ToString());
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                string fileName = date + "_" + id;
+                var SavedFile = Path.Combine(folderPath, fileName);
+                System.IO.File.Delete(SavedFile);
+                using (var fileStream = new FileStream(SavedFile, FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+            }
         }
     }
 }
+
+

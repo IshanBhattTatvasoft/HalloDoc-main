@@ -19,6 +19,7 @@ public class InvoicingViewModel
     public List<int>? numberOfPhoneConsult { get; set; }
     public List<string>? items { get; set; }
     public List<int>? amounts { get; set; }
+    public List<IFormFile>? files { get; set; }
     public DateTime? startDate { get; set; }
     public DateTime? endDate { get; set; }
 }

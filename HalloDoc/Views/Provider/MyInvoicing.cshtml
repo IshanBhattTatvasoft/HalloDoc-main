@@ -90,6 +90,8 @@
                         </form>
                     </div>
                 </div>
+
+                <div class="mt-4 ms-3 me-3 myTable" id="TimesheetPartialView"></div>
             </div>
         </div>
     </div>
@@ -144,7 +146,17 @@
         document.getElementById("fullDate").value = startDate + "-" + endDate;
         console.log(document.getElementById("fullDate").value);
 
-        return [startDate, endDate];
+        //$.ajax({
+        //    url: '/Provider/GetTimesheetFromDate',
+        //    type: 'POST',
+        //    data: {fullDate: x},
+        //    success: function(response){
+        //        $("#TimesheetPartialView").html(response);
+        //    },
+        //    error: function(error){
+        //        alert("An error occurred");
+        //    }
+        //});
     }
 
     function checkDate()

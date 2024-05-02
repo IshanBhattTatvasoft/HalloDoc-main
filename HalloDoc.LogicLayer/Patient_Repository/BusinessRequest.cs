@@ -1,7 +1,5 @@
-﻿using HalloDoc.DataLayer.Data;
-using HalloDoc.DataLayer.Models;
+﻿using HalloDoc.DataLayer.Models;
 using HalloDoc.DataLayer.ViewModels;
-using HalloDoc.DataLayer.Data;
 using HalloDoc.LogicLayer.Patient_Interface;
 using System.Collections;
 

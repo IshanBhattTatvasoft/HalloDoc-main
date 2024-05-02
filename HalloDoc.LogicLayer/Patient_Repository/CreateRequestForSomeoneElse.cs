@@ -2,7 +2,6 @@
 using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using System;
-using HalloDoc.DataLayer.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

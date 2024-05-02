@@ -7,7 +7,7 @@
 
 @section Scripts {
     @{
-         <partial name="_ValidationScriptsPartial" />
+        <partial name="_ValidationScriptsPartial" />
     }
 }
 
@@ -62,7 +62,7 @@
         color: #3DB6FF !important;
     }
 
-    select:focus{
+    select:focus {
         outline: #3DB6FF !important;
         /*border: 2px solid white !important;*/
         box-shadow: none !important;
@@ -86,7 +86,7 @@
         <partial name="Toast" />
         <partial name="HeaderFooter" model="@Model.an" />
 
-        <div class="container mt-4 shadow align-content-lg-around bg-muted rounded">
+        <div class="container mt-4 shadowalign-content-lg-around bg-muted rounded">
             <div class="row">
                 <div style="top: 27px; position: relative;" class="col">
                     <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Admin" asp-action="UserAccess" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
@@ -107,151 +107,151 @@
                     </div>
                 </div>
             </div>
-        </div>
 
-        <form method="post" asp-action="CreateNewAdminAccountFromUserAccess" asp-controller="Admin" onsubmit="checkRegions()">
 
-            <div class="container mt-2 shadow-lg p-3 mb-5 bg-muted rounded" id="main-container">
-                <div class="row">
-                    <div class="col mt-4">
-                        <p class="h5 text-muted fw-bold ms-1" id="heading-one">
-                            Account Information
-                        </p>
-                    </div>
-                </div>
+            <form method="post" asp-action="CreateNewAdminAccountFromUserAccess" asp-controller="Admin" onsubmit="checkRegions()">
 
-                <div class="row">
-                    <div class="form-floating col-sm-4 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Username" disabled>
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Username (LastName.F)</label>
-                        <span asp-validation-for="Username" class="text-danger"></span>
+                <div class="container mt-2 shadow-lg p-3 mb-5 bg-muted rounded" id="main-container">
+                    <div class="row">
+                        <div class="col mt-4">
+                            <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                                Account Information
+                            </p>
+                        </div>
                     </div>
-                    <div class="form-floating col-sm-4 mt-3">
-                        <input class="form-control" type="text" asp-for="Password" required />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating col-sm-4 mt-3">
-                        <select class="form-select mb-3 update1" id="Role" asp-for="roleId">
-                            @foreach (var item in Model.allRoles)
-                            {
-                                if (item.AccountType == 1)
+
+                    <div class="row">
+                        <div class="form-floating col-sm-4 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="Username" disabled>
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Username (LastName.F)</label>
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col-sm-4 mt-3">
+                            <input class="form-control" type="text" asp-for="Password" required />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col-sm-4 mt-3">
+                            <select class="form-select mb-3 update1" id="Role" asp-for="roleId">
+                                @foreach (var item in Model.allRoles)
                                 {
-                                    <option value="@item.RoleId">@item.Name</option>
+                                    if (item.AccountType == 1)
+                                    {
+                                        <option value="@item.RoleId">@item.Name</option>
+                                    }
                                 }
-                            }
-                        </select>
-                        <label for="Role" class="ms-2 text-muted">Role</label>
-                        <span asp-validation-for="roleId" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mt-4">
-                        <p class="h5 text-muted fw-bold ms-1" id="heading-one">
-                            Administrator Information
-                        </p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="firstName">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">First Name</label>
-                        <span asp-validation-for="firstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="lastName">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Last Name</label>
-                        <span asp-validation-for="lastName" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" id="email" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="email">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Email</label>
-                        <span asp-validation-for="email" class="text-danger"></span>
+                            </select>
+                            <label for="Role" class="ms-2 text-muted">Role</label>
+                            <span asp-validation-for="roleId" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="confEmail">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Confirm Email</label>
-                        <span asp-validation-for="confEmail" class="text-danger"></span>
+                    <div class="row">
+                        <div class="col mt-4">
+                            <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                                Administrator Information
+                            </p>
+                        </div>
                     </div>
-                </div>
+                    <div class="row">
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="firstName">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">First Name</label>
+                            <span asp-validation-for="firstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="lastName">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Last Name</label>
+                            <span asp-validation-for="lastName" class="text-danger"></span>
+                        </div>
+                    </div>
 
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input id="phone" class="form-control" type="tel" asp-for="phone" required />
-                        <span asp-validation-for="phone" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating col-sm-6 mt-3">
-                        @foreach (var item in Model.allRegions)
-                        {
-                            <input class="region-check px-1" type="checkbox" name="regionNames" value="@item.RegionId" onchange="isChecked()" />
-                            <span class="me-2">@item.Name</span>
-                        }
-                        <span class="text-danger" style="display: none;" id="regionCheckError">Please select atleast one region</span>
-                    </div>
-                </div>
+                    <div class="row">
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" id="email" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="email">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Email</label>
+                            <span asp-validation-for="email" class="text-danger"></span>
+                        </div>
 
-                <div class="row">
-                    <div class="col mt-4">
-                        <p class="h5 text-muted fw-bold ms-1" id="heading-one">
-                            Mailing and Billing Information
-                        </p>
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="confEmail">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Confirm Email</label>
+                            <span asp-validation-for="confEmail" class="text-danger"></span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="address1">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 1</label>
-                        <span asp-validation-for="address1" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="address2">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 2</label>
-                        <span asp-validation-for="address2" class="text-danger"></span>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="city">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">City</label>
-                        <span asp-validation-for="city" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating col-sm-6 mt-3">
-                        <select class="form-select mb-3 update1" id="Role" asp-for="regionId">
+                    <div class="row">
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input id="phone" class="form-control" type="tel" asp-for="phone" required />
+                            <span asp-validation-for="phone" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col-sm-6 mt-3">
                             @foreach (var item in Model.allRegions)
                             {
-                                <option value="@item.RegionId">@item.Name</option>
+                                <input class="region-check px-1" type="checkbox" name="regionNames" value="@item.RegionId" onchange="isChecked()" />
+                                <span class="me-2">@item.Name</span>
                             }
-                        </select>
-                        <label for="Role" class="ms-2 text-muted">Select State</label>
-                        <span asp-validation-for="regionId" class="text-danger"></span>
+                            <span class="text-danger" style="display: none;" id="regionCheckError">Please select atleast one region</span>
+                        </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col mt-4">
+                            <p class="h5 text-muted fw-bold ms-1" id="heading-one">
+                                Mailing and Billing Information
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="address1">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 1</label>
+                            <span asp-validation-for="address1" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="address2">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Address 2</label>
+                            <span asp-validation-for="address2" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="city">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">City</label>
+                            <span asp-validation-for="city" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col-sm-6 mt-3">
+                            <select class="form-select mb-3 update1" id="Role" asp-for="regionId">
+                                @foreach (var item in Model.allRegions)
+                                {
+                                    <option value="@item.RegionId">@item.Name</option>
+                                }
+                            </select>
+                            <label for="Role" class="ms-2 text-muted">Select State</label>
+                            <span asp-validation-for="regionId" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="zipcode">
+                            <label for="floatingInput" class="ms-2 text-muted class-for-label">Zip</label>
+                            <span asp-validation-for="zipcode" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col-sm-6 mt-3">
+                            <input id="phone1" class="form-control" type="tel" asp-for="mailingPhoneNo" required />
+                            <span asp-validation-for="mailingPhoneNo" class="text-danger"></span>
+                        </div>
+                        <div class="form-floating col mt-4 lastbutton float-end" id="submitDivv">
+                            <button type="submit" class="btn btn-success float-end me-3">Create Account</button>
+                        </div>
+                    </div>
+
+
                 </div>
-
-                <div class="row">
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input type="text" class="form-control" placeholder="Your First Name" aria-label="First name" asp-for="zipcode">
-                        <label for="floatingInput" class="ms-2 text-muted class-for-label">Zip</label>
-                        <span asp-validation-for="zipcode" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating col-sm-6 mt-3">
-                        <input id="phone1" class="form-control" type="tel" asp-for="mailingPhoneNo" required />
-                        <span asp-validation-for="mailingPhoneNo" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating col mt-4 lastbutton float-end" id="submitDivv">
-                        <button type="submit" class="btn btn-success float-end me-3">Create Account</button>
-                    </div>
-                </div>
-
-
-            </div>
-        </form>
-
+            </form>
+        </div>
     </div>
 
 
@@ -310,5 +310,5 @@
 
     }
 
-    
+
 </script>
