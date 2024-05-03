@@ -65,9 +65,9 @@
         <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
         <partial name="Toast" />
 
-        <form method="post" asp-action="SubmitTimeSheet" asp-controller="Provider" enctype="multipart/form-data">
 
-            <div class="container">
+        <div class="container">
+            <form method="post" asp-action="SubmitTimeSheet" asp-controller="Provider" enctype="multipart/form-data">
                 <div class="row">
                     <div style="top: 42px; position: relative;" class="col">
                         <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Provider" asp-action="MyInvoicing" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
@@ -106,30 +106,30 @@
 
                             <tbody>
                                 @{
-                                    var i = 0;
+                                    var x = 0;
                                 }
-                                @foreach (var item in Model.dateAndOnCallHour)
+                                @for (var i = 0; i < Model.rvm.Count; i++)
                                 {
                                     <tr>
-                                        <td class="text-center">@item.Key.Replace("-","/")</td>
-                                        <td class="text-center">@item.Value</td>
+                                        <td class="text-center">@Model.rvm[i].dateAndOnCallHour.Key.Replace("-","/")</td>
+                                        <td class="text-center">@Model.rvm[i].dateAndOnCallHour.Value</td>
                                         <td class="text-center">
-                                            <input type="number" class="form-control" id="1" value="@Model.totalHours[i]" asp-for="@Model.totalHours[i]" />
+                                            <input type="number" class="form-control" id="1" value="@Model.rvm[i].totalHours" asp-for="@Model.rvm[i].totalHours" />
                                         </td>
                                         <td class="text-center">
-                                            <input type="checkbox" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" value="@Model.holidays[i]" asp-for="@Model.holidays[i]" />
+                                            <input type="checkbox" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" value="@Model.rvm[i].isWeekend" asp-for="@Model.rvm[i].isWeekend" />
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" class="form-control" id="house@(i)" value="@Model.numberOfHouseCalls[i]" asp-for="@Model.numberOfHouseCalls[i]" onchange="setHouseCall(this.value,@i)" />
+                                            <input type="number" class="form-control" id="house@(i)" value="@Model.rvm[i].numberOfHouseCalls" asp-for="@Model.rvm[i].numberOfHouseCalls" onchange="setHouseCall(this.value,@i)" />
                                         </td>
                                         <td class="text-center">
-                                            <input type="number" class="form-control" id="1" value="@Model.numberOfPhoneConsult[i]" asp-for="@Model.numberOfPhoneConsult[i]" />
+                                            <input type="number" class="form-control" id="1" value="@Model.rvm[i].numberOfPhoneConsult" asp-for="@Model.rvm[i].numberOfPhoneConsult" />
                                         </td>
                                     </tr>
-                                    i++;
+                                    x++;
                                 }
-                                <input type="date" style="display: none;" asp-for="@Model.startDate" name="startDate" />
-                                <input type="date" style="display: none;" asp-for="@Model.endDate" name="endDate" />
+                                <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
+                                <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
                             </tbody>
                         </table>
                     </div>
@@ -138,70 +138,95 @@
 
                 <div class="row">
                     <div class="col">
-                        <button type="button" id="addHideReceipt" class="btn btn-info text-white float-start mt-4">
-                            <span id="add">Add Receipts</span>
-                            <span id="hide" style="display: none;">Hide Receipts</span>
-                        </button>
+                        <button type="submit" class="btn btn-info text-white float-end mt-4">Submit</button>
                     </div>
                 </div>
-
-                <div class="bg-white p-0 mt-5" id="receiptTable" style="display: none;">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="table-secondary">
-                                <tr>
-                                    <th class="text-center">Date</th>
-                                    <th class="text-center">Item</th>
-                                    <th class="text-center">Amount</th>
-                                    <th><span class="ms-5">Bill</span></th>
-                                    <th class="text-center">Action</th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-                                @{
-                                    var j = 0;
-                                }
-                                @foreach (var item in Model.dateAndFileName)
-                                {
-                                    <tr>
-                                        <td class="text-center">@item.Key.Replace("-","/")</td>
-                                        <td class="text-center">
-                                            <input type="text" class="form-control" id="item" asp-for="@Model.items[j]" />
-                                        </td>
-                                        <td class="text-center">
-                                            <input type="number" class="form-control" id="amount" asp-for="@Model.amounts[j]" />
-                                        </td>
-                                        <td>
-                                            <div class="d-flex gap-0 w-50">
-                                                <input type="file" id="fi@(j)" class="form-control rounded-end-0 change3" asp-for="@Model.files[j]" placeholder="Select Photo" onchange="checkName('@j')" />
-                                                <button type="button" class="btn btn-info text-white rounded-start-0">Upload</button>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">
-                                            @if (item.Value != "")
-                                            {
-                                                <button type="button" class="btn btn-outline-info">Edit</button>
-                                                <button type="button" class="btn btn-outline-info">Delete</button>
-                                                <button type="button" class="btn btn-outline-info">View</button>
-                                            }
-                                        </td>
-                                    </tr>
-                                    j++;
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col">
-                        <button type="button" class="btn btn-info text-white float-end mt-4">Finalize</button>
-                        <button type="submit" class="btn btn-info text-white float-end me-3 mt-4">Submit</button>
-                    </div>
+            </form>
+            <div class="row">
+                <div class="col">
+                    <button type="button" id="addHideReceipt" class="btn btn-info text-white float-start mt-4">
+                        <span id="add">Add Receipts</span>
+                        <span id="hide" style="display: none;">Hide Receipts</span>
+                    </button>
                 </div>
             </div>
-        </form>
+
+            <div class="bg-white p-0 mt-5" id="receiptTable" style="display: none;">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="table-secondary">
+                            <tr>
+                                <th class="text-center">Date</th>
+                                <th class="text-center">Item</th>
+                                <th class="text-center">Amount</th>
+                                <th><span class="ms-5">Bill</span></th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @{
+                                var j = 0;
+                            }
+                            @for (var i = 0; i < Model.rvm.Count; i++)
+                            {
+                                string str = Model.rvm[i].dateAndFileName.Key + "-" + Model.rvm[i].dateAndFileName.Value;
+                                <form method="post" asp-action="SubmitReimbursement" asp-controller="Provider" asp-route-ind="@j" enctype="multipart/form-data">
+                                <tr>
+                                    <td class="text-center">@Model.rvm[i].dateAndFileName.Key.Replace("-","/")</td>
+                                    <td class="text-center">
+                                        <input type="text" name="item" class="form-control" id="item@(j)" asp-for="@Model.rvm[i].items" onchange="checkVal('@j')" readonly=@Model.rvm[i].isHavingFile />
+                                    </td>
+                                    <td class="text-center">
+                                        <input type="number" name="amount" class="form-control" id="amount@(j)" onchange="checkVal('@j')" asp-for="@Model.rvm[i].amounts" readonly=@Model.rvm[i].isHavingFile />
+                                    </td>
+                                    <td>
+                                            @if(Model.rvm[i].isFileDeleted != true)
+                                            {
+                                                @if (Model.rvm[i].dateAndFileName.Value != null && Model.rvm[i].dateAndFileName.Value != "")
+                                                {
+                                                <div class="d-flex gap-0" id="fileName@(i)">
+                                                    <span>@Model.rvm[i].dateAndFileName.Value</span>
+                                                </div>
+                                                }
+                                                else
+                                                {
+                                                <div class="d-flex gap-0 w-50" id="fileUpload@(i)">
+                                                    <input type="file" name="upload" id="fi" class="form-control rounded-end-0 change3" asp-for="@Model.rvm[i].file" placeholder="Select Photo" onchange="checkName('@j')" />
+                                                    <button type="button" class="btn btn-info text-white rounded-start-0">Upload</button>
+                                                </div>
+                                                }
+                                            }
+                                        </td>
+                                    <td>
+                                        <button type="submit" id="saveBtn@(j)" class="btn btn-outline-info me-2" style="display: none;">Save</button>
+                                        <button type="button" id="cancelBtn@(j)" class="btn btn-outline-info" style="display: none;" onclick="hideData('@j')">Cancel</button>
+                                            @if (Model.rvm[i].dateAndFileName.Value != "")
+                                            {
+                                            <button type="button" class="btn btn-outline-info">Edit</button>
+                                            <a type="button" asp-action="DeleteFile" asp-route-id="@Model.rvm[i].id" asp-controller="Provider" class="btn btn-outline-info">Delete</a>
+                                            <a href="~/Reimbursement/@Model.rvm[i].phyId/@str" target="_blank" type="button" class="btn btn-outline-info">View</a>
+                                            }
+                                    </td>
+                                <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
+                                <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
+                                <input type="hidden" name="phyId" asp-for="@Model.rvm[i].phyId" />
+                                </tr>
+                                </form>
+                                j++;
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="button" class="btn btn-info text-white float-end mt-4">Finalize</button>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </body>
@@ -226,16 +251,29 @@
         }
     }
 
-    //function checkName(sign) {
-    //    var filesInput = document.getElementById(`fi${sign}`);
-    //    var files = filesInput.files;
-    //    if (files.length > 0) {
-    //        document.getElementById(`fi${sign}`).value = files[0];
-    //        for (var i = 0; i < files.length; i++) {
-    //            console.log(files[i].name);
-    //        }
-    //    }
+    function checkVal(id) {
+        console.log(id);
+        var item = document.getElementById(`item${id}`).value;
+        var amt = document.getElementById(`amount${id}`).value;
+        console.log(item);
+        console.log(amt);
 
-    //}
+        if (item != null && amt != null && item != "" && amt != "") {
+            document.getElementById(`saveBtn${id}`).style.display = "inline-block";
+            document.getElementById(`cancelBtn${id}`).style.display = "inline-block";
+        }
+
+        else {
+            document.getElementById(`saveBtn${id}`).style.display = "none";
+            document.getElementById(`cancelBtn${id}`).style.display = "none";
+        }
+    }
+
+    function hideData(id) {
+        document.getElementById(`item${id}`).value = "";
+        document.getElementById(`amount${id}`).value = "";
+        document.getElementById(`saveBtn${id}`).style.display = "none";
+        document.getElementById(`cancelBtn${id}`).style.display = "none";
+    }
 
 </script>

@@ -721,7 +721,7 @@ namespace HalloDoc.Controllers
 
 
                 bool isSubmitted = _providerInterface.SubmitTimesheet(model, startDate, endDate, (int)userId);
-                if(isSubmitted)
+                if (isSubmitted)
                 {
                     TempData["success"] = "Timesheet details added successfully";
                 }
@@ -737,6 +737,58 @@ namespace HalloDoc.Controllers
                 TempData["error"] = "Unable to add timesheet details" + ex.Message;
                 return RedirectToAction("MyInvoicing");
             }
+        }
+
+        [HttpPost]
+        [CustomAuthorize("Provider", "ProviderInvoicing")]
+        public IActionResult SubmitReimbursement(int ind, DateTime startDate, DateTime endDate, string item, int amount, IFormFile upload)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 21;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+
+                bool isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, upload);
+                if (isSubmitted)
+                {
+                    TempData["success"] = "Timesheet details added successfully";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to add timesheet details";
+                }
+                return RedirectToAction("MyInvoicing");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to add timesheet details" + ex.Message;
+                return RedirectToAction("MyInvoicing");
+            }
+        }
+
+        public IActionResult DeleteFile(int id)
+        {
+            _providerInterface.DeleteFile(id);
+            return RedirectToAction("Invoicing");
         }
 
     }
