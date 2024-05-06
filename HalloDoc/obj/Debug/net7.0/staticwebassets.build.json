@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "r/mUF7QB2Ls2b4Xu80Y27uaY7jwjltfoe88iba7oHHI=",
+  "Hash": "6uGYY5JpTncSrsSSvRCJh8216JcI/2qbYY1e34xaKpU=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -3908,6 +3908,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Reimbursement\\1\\04-16-2024-patient-49.pdf"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\Reimbursement\\1\\04-17-2024-SRS-23-24-Trainees-17April24-GoodToHave (2).pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "Reimbursement/1/04-17-2024-SRS-23-24-Trainees-17April24-GoodToHave (2).pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Reimbursement\\1\\04-17-2024-SRS-23-24-Trainees-17April24-GoodToHave (2).pdf"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\Rotativa\\help-wkhtmltoimage.txt",

@@ -43,7 +43,7 @@
     </style>
 </head>
 
-<body class="bg-light">
+<body>
     <div class="bg-light" style="overflow: hidden;">
         <partial name="HeaderFooter" model="@Model.adminNavbarModel" />
         <partial name="Toast" />
@@ -146,17 +146,17 @@
         document.getElementById("fullDate").value = startDate + "-" + endDate;
         console.log(document.getElementById("fullDate").value);
 
-        //$.ajax({
-        //    url: '/Provider/GetTimesheetFromDate',
-        //    type: 'POST',
-        //    data: {fullDate: x},
-        //    success: function(response){
-        //        $("#TimesheetPartialView").html(response);
-        //    },
-        //    error: function(error){
-        //        alert("An error occurred");
-        //    }
-        //});
+        $.ajax({
+            url: '/Provider/GetTimesheetFromDate',
+            type: 'POST',
+            data: {date: x},
+            success: function(response){
+                $("#TimesheetPartialView").html(response);
+            },
+            error: function(error){
+                alert("An error occurred");
+            }
+        });
     }
 
     function checkDate()

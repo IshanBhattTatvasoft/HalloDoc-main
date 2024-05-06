@@ -381,7 +381,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                     }
                 }
                 x = 0;
-                List<TimesheetReimbursement> timesheetReimbursements = _context.TimesheetReimbursements.Where(t => t.TimesheetId == timeSheet.TimesheetId).ToList();
+                List<TimesheetReimbursement> timesheetReimbursements = _context.TimesheetReimbursements.Where(t => t.TimesheetId == timeSheet.TimesheetId).OrderBy(t => t.Date).ToList();
                 if (timesheetReimbursements != null)
                 {
                     foreach (var item in timesheetReimbursements)
@@ -502,8 +502,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return isSubmitted;
         }
 
-        public bool AddReimbursementData(int ind, DateTime startDate, DateTime endDate, int id, string item, int amount, IFormFile upload)
+        public bool AddReimbursementData(int ind, DateTime startDate, DateTime endDate, int id, string item, int amount, IFormFile? upload=null)
         {
+            string fname = "";
+            if(upload != null && upload.FileName != null)
+            {
+                fname = upload.FileName;
+            }
             bool isInserted = false;
             Timesheet timeSheet = _context.Timesheets.FirstOrDefault(t => t.PhysicianId == id && t.Startdate == startDate && t.Enddate == endDate);
             DateTime temp = startDate.AddDays(ind);
@@ -512,7 +517,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 TimesheetReimbursement tr = _context.TimesheetReimbursements.FirstOrDefault(t => t.TimesheetId == timeSheet.TimesheetId && t.Date == temp);
                 tr.Item = item;
                 tr.Amount = amount;
-                tr.Bill = upload.FileName;
+                tr.Bill = fname;
                 tr.Date = temp;
                 _context.TimesheetReimbursements.Update(tr);
                 SetBillFile(upload, id, temp.ToString());
@@ -524,7 +529,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 TimesheetReimbursement tr = new TimesheetReimbursement();
                 tr.Item = item;
                 tr.Amount = amount;
-                tr.Bill = (upload.FileName != null) ? upload.FileName : null;
+                tr.Bill = fname;
                 tr.Date = temp;
                 tr.TimesheetId = (timeSheet != null) ? timeSheet.TimesheetId : -1;
                 tr.IsDeleted = false;

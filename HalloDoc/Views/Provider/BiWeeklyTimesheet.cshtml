@@ -111,17 +111,26 @@
                                 @for (var i = 0; i < Model.rvm.Count; i++)
                                 {
                                     <tr>
-                                        <td class="text-center">@Model.rvm[i].dateAndOnCallHour.Key.Replace("-","/")</td>
-                                        <td class="text-center">@Model.rvm[i].dateAndOnCallHour.Value</td>
+                                        <td class="text-center">
+                                            @Model.rvm[i].dateAndOnCallHour.Key.Replace("-","/")
+                                        </td>
+
+                                        <td class="text-center">
+                                            @Model.rvm[i].dateAndOnCallHour.Value
+                                        </td>
+
                                         <td class="text-center">
                                             <input type="number" class="form-control" id="1" value="@Model.rvm[i].totalHours" asp-for="@Model.rvm[i].totalHours" />
                                         </td>
+
                                         <td class="text-center">
                                             <input type="checkbox" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" value="@Model.rvm[i].isWeekend" asp-for="@Model.rvm[i].isWeekend" />
                                         </td>
+
                                         <td class="text-center">
                                             <input type="number" class="form-control" id="house@(i)" value="@Model.rvm[i].numberOfHouseCalls" asp-for="@Model.rvm[i].numberOfHouseCalls" onchange="setHouseCall(this.value,@i)" />
                                         </td>
+
                                         <td class="text-center">
                                             <input type="number" class="form-control" id="1" value="@Model.rvm[i].numberOfPhoneConsult" asp-for="@Model.rvm[i].numberOfPhoneConsult" />
                                         </td>
@@ -172,16 +181,22 @@
                             {
                                 string str = Model.rvm[i].dateAndFileName.Key + "-" + Model.rvm[i].dateAndFileName.Value;
                                 <form method="post" asp-action="SubmitReimbursement" asp-controller="Provider" asp-route-ind="@j" enctype="multipart/form-data">
+
                                 <tr>
-                                    <td class="text-center">@Model.rvm[i].dateAndFileName.Key.Replace("-","/")</td>
+                                    <td class="text-center">
+                                            @Model.rvm[i].dateAndFileName.Key.Replace("-","/")
+                                    </td>
+
                                     <td class="text-center">
                                         <input type="text" name="item" class="form-control" id="item@(j)" asp-for="@Model.rvm[i].items" onchange="checkVal('@j')" readonly=@Model.rvm[i].isHavingFile />
                                     </td>
+
                                     <td class="text-center">
                                         <input type="number" name="amount" class="form-control" id="amount@(j)" onchange="checkVal('@j')" asp-for="@Model.rvm[i].amounts" readonly=@Model.rvm[i].isHavingFile />
                                     </td>
+
                                     <td>
-                                            @if(Model.rvm[i].isFileDeleted != true)
+                                            @if (Model.rvm[i].isFileDeleted != true)
                                             {
                                                 @if (Model.rvm[i].dateAndFileName.Value != null && Model.rvm[i].dateAndFileName.Value != "")
                                                 {
@@ -189,28 +204,50 @@
                                                     <span>@Model.rvm[i].dateAndFileName.Value</span>
                                                 </div>
                                                 }
+
                                                 else
                                                 {
                                                 <div class="d-flex gap-0 w-50" id="fileUpload@(i)">
                                                     <input type="file" name="upload" id="fi" class="form-control rounded-end-0 change3" asp-for="@Model.rvm[i].file" placeholder="Select Photo" onchange="checkName('@j')" />
-                                                    <button type="button" class="btn btn-info text-white rounded-start-0">Upload</button>
+                                                    <button type="button" class="btn btn-info text-white rounded-start-0">
+                                                        Upload
+                                                    </button>
                                                 </div>
                                                 }
                                             }
-                                        </td>
+                                    </td>
+
                                     <td>
-                                        <button type="submit" id="saveBtn@(j)" class="btn btn-outline-info me-2" style="display: none;">Save</button>
-                                        <button type="button" id="cancelBtn@(j)" class="btn btn-outline-info" style="display: none;" onclick="hideData('@j')">Cancel</button>
-                                            @if (Model.rvm[i].dateAndFileName.Value != "")
+                                        <button type="submit" id="saveBtn@(j)" class="btn btn-outline-info" style="display: none;">
+                                            Save
+                                        </button>
+
+                                        <button type="button" id="cancelBtn@(j)" class="btn btn-outline-info" style="display: none;" onclick="hideData('@j')">
+                                            Cancel
+                                        </button>
+
+                                            @if (Model.rvm[i].items != null)
                                             {
-                                            <button type="button" class="btn btn-outline-info">Edit</button>
-                                            <a type="button" asp-action="DeleteFile" asp-route-id="@Model.rvm[i].id" asp-controller="Provider" class="btn btn-outline-info">Delete</a>
-                                            <a href="~/Reimbursement/@Model.rvm[i].phyId/@str" target="_blank" type="button" class="btn btn-outline-info">View</a>
+                                                <button type="button" id="editBtn@(j)" class="btn btn-outline-info" onclick="checkVal(@j)">
+                                                    Edit
+                                                </button>
+                                             
+                                                @if (Model.rvm[i].dateAndFileName.Value != "" && Model.rvm[i].isFileDeleted == false)
+                                                {
+                                                <a type="button" asp-action="DeleteFile" asp-route-id="@Model.rvm[i].id" asp-controller="Provider" class="btn btn-outline-info">
+                                                    Delete
+                                                </a>
+
+                                                <a href="~/Reimbursement/@Model.rvm[i].phyId/@str" target="_blank" type="button" class="btn btn-outline-info">
+                                                    View
+                                                </a>
+                                                }
                                             }
                                     </td>
-                                <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
-                                <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
-                                <input type="hidden" name="phyId" asp-for="@Model.rvm[i].phyId" />
+
+                                    <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
+                                    <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
+                                    <input type="hidden" name="phyId" asp-for="@Model.rvm[i].phyId" />
                                 </tr>
                                 </form>
                                 j++;
@@ -261,19 +298,28 @@
         if (item != null && amt != null && item != "" && amt != "") {
             document.getElementById(`saveBtn${id}`).style.display = "inline-block";
             document.getElementById(`cancelBtn${id}`).style.display = "inline-block";
+            document.getElementById(`editBtn${id}`).style.display = "none";
+            document.getElementById(`item${id}`).removeAttribute('readonly');
+            document.getElementById(`amount${id}`).removeAttribute('readonly');
         }
 
         else {
             document.getElementById(`saveBtn${id}`).style.display = "none";
             document.getElementById(`cancelBtn${id}`).style.display = "none";
+            document.getElementById(`editBtn${id}`).style.display = "inline-block";
+            document.getElementById(`item${id}`).setAttribute('readonly', true);
+            document.getElementById(`amount${id}`).setAttribute('readonly', true);
         }
     }
 
     function hideData(id) {
-        document.getElementById(`item${id}`).value = "";
-        document.getElementById(`amount${id}`).value = "";
+        //document.getElementById(`item${id}`).value = "";
+        //document.getElementById(`amount${id}`).value = "";
         document.getElementById(`saveBtn${id}`).style.display = "none";
         document.getElementById(`cancelBtn${id}`).style.display = "none";
+        document.getElementById(`editBtn${id}`).style.display = "inline-block";
+        document.getElementById(`item${id}`).setAttribute('readonly', true);
+        document.getElementById(`amount${id}`).setAttribute('readonly', true);
     }
 
 </script>

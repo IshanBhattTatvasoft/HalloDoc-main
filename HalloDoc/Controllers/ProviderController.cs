@@ -653,6 +653,45 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Provider", "ProviderInvoicing")]
+        public IActionResult GetTimesheetFromDate(string date)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                an.Tab = 21;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                string[] bothDates = date.Split('-');
+                string format = "M/d/yyyy";
+                DateTime startDate = DateTime.ParseExact(bothDates[0], format, CultureInfo.InvariantCulture);
+                DateTime endDate = DateTime.ParseExact(bothDates[1], format, CultureInfo.InvariantCulture);
+                return PartialView("ProviderTimeSheetPartialView", _providerInterface.GetBiWeeklyTimesheet(startDate, endDate, an, (int)userId));
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view invoicing information";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Provider", "ProviderInvoicing")]
         public IActionResult BiWeeklyTimesheet(string dateRange)
          {
             try
@@ -765,8 +804,15 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-
-                bool isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, upload);
+                bool isSubmitted = false;
+                if(upload!= null)
+                {
+                isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, upload);
+                }
+                else
+                {
+                    isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, null);
+                }
                 if (isSubmitted)
                 {
                     TempData["success"] = "Timesheet details added successfully";
