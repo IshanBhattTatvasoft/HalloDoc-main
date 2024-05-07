@@ -13,5 +13,8 @@ public class InvoicingViewModel
     public List<ReimbursementViewModel> rvm { get; set; }
     public DateTime? startDate { get; set; }
     public DateTime? endDate { get; set; }
+    public int? timesheetId { get; set; }
+    public bool? isFinalized { get; set; }
+    public bool? isExisting { get; set; }
 }
 

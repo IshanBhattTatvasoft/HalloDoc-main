@@ -256,7 +256,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                if(!_providerInterface.isEncounterFinalized(id))
+                if (!_providerInterface.isEncounterFinalized(id))
                 {
                     TempData["error"] = "Encounter form is not finalized for this case";
                     return RedirectToAction("ConcludeCare", new { id = id });
@@ -681,7 +681,15 @@ namespace HalloDoc.Controllers
                 string format = "M/d/yyyy";
                 DateTime startDate = DateTime.ParseExact(bothDates[0], format, CultureInfo.InvariantCulture);
                 DateTime endDate = DateTime.ParseExact(bothDates[1], format, CultureInfo.InvariantCulture);
-                return PartialView("ProviderTimeSheetPartialView", _providerInterface.GetBiWeeklyTimesheet(startDate, endDate, an, (int)userId));
+                InvoicingViewModel model = _providerInterface.GetTimesheetOnInvoicing(startDate, endDate, an, (int)userId);
+                if (model.timesheetId != 0)
+                {
+                    return PartialView("ProviderTimeSheetPartialView", model);
+                }
+                else
+                {
+                    return Json(new {isExists = model.isExisting});
+                }
             }
 
             catch (Exception ex)
@@ -693,7 +701,7 @@ namespace HalloDoc.Controllers
 
         [CustomAuthorize("Provider", "ProviderInvoicing")]
         public IActionResult BiWeeklyTimesheet(string dateRange)
-         {
+        {
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
@@ -805,9 +813,9 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
 
                 bool isSubmitted = false;
-                if(upload!= null)
+                if (upload != null)
                 {
-                isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, upload);
+                    isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, upload);
                 }
                 else
                 {
@@ -827,6 +835,31 @@ namespace HalloDoc.Controllers
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to add timesheet details" + ex.Message;
+                return RedirectToAction("MyInvoicing");
+            }
+        }
+
+        [CustomAuthorize("Provider", "ProviderInvoicing")]
+        public IActionResult FinalizeTimesheet(int tid)
+        {
+            try
+            {
+                bool isFinalized = _providerInterface.FinalizeTimesheet(tid);
+                if (isFinalized)
+                {
+                    TempData["success"] = "Timesheet finalized successfully";
+                    return RedirectToAction("MyInvoicing");
+                }
+                else
+                {
+                    TempData["error"] = "Unable to finalze the timesheet";
+                    return RedirectToAction("MyInvoicing");
+                }
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = ex.Message;
                 return RedirectToAction("MyInvoicing");
             }
         }

@@ -1,90 +1,193 @@
 ﻿@model InvoicingViewModel
 
-<div class="table-responsive">
-    <table class="table">
-        <thead class="table-secondary">
-            <tr>
-                <th class="text-center">Date</th>
-                <th class="text-center">On-call Hours</th>
-                <th class="text-center">Total Hours</th>
-                <th class="text-center">Weekend/Holiday</th>
-                <th class="text-center">Number of Housecalls</th>
-                <th class="text-center">Number of Phone Consults</th>
-            </tr>
-        </thead>
+@if (Model.isExisting == false)
+{
+    <div class="row">
+        <div class="col mt-2">
+            <p class="h5 ms-3 text-muted fw-bold" id="heading-one">
+                No Record(s) Found
+            </p>
+        </div>
+    </div>
+}
 
-        <tbody>
-            @{
-                var i = 0;
-            }
-            @foreach (var item in Model.rvm)
-            {
+else
+{
+    <div class="table-responsive">
+
+        <table class="table">
+            <thead class="table-secondary">
                 <tr>
-                    <td class="text-center">@item.dateAndOnCallHour.Key.Replace("-","/")</td>
-                    <td class="text-center">@item.dateAndOnCallHour.Value</td>
-                    <td class="text-center">
-                        <input type="number" class="form-control" id="1" value="@item.totalHours" asp-for="@item.totalHours" />
-                    </td>
-                    <td class="text-center">
-                        <input type="checkbox" style="height: 18px;width: 18px;" class="ms-2 mt-2 me-5" id="checkall" value="@item.isWeekend" asp-for="@item.isWeekend" />
-                    </td>
-                    <td class="text-center">
-                        <input type="number" class="form-control" id="house@(i)" value="@item.numberOfHouseCalls" asp-for="@item.numberOfHouseCalls" onchange="setHouseCall(this.value,@i)" />
-                    </td>
-                    <td class="text-center">
-                        <input type="number" class="form-control" id="1" value="@item.numberOfPhoneConsult" asp-for="@item.numberOfPhoneConsult" />
-                    </td>
+                    <th class="text-center">Shift Date</th>
+                    <th class="text-center">Shift</th>
+                    <th class="text-center">NightShift Weekend</th>
+                    <th class="text-center">Housecall</th>
+                    <th class="text-center">Housecall NightShift Weekend</th>
+                    <th class="text-center">Phone Consults</th>
+                    <th class="text-center">Phone Consults NightShift Weekend</th>
+                    <th class="text-center">Batch Testing</th>
                 </tr>
-                i++;
-            }
-            <input type="date" style="display: none;" name="startDate" />
-            <input type="date" style="display: none;" name="endDate" />
-        </tbody>
-    </table>
+            </thead>
+
+            <tbody>
+                @{
+                    var x = 0;
+                }
+                @for (var i = 0; i < Model.rvm.Count; i++)
+                {
+                    var y = Model.rvm[i].isWeekend;
+                    <tr>
+                        <td class="text-center">
+                            @Model.rvm[i].dateAndOnCallHour.Key.Replace("-","/")
+                        </td>
+
+                        <td class="text-center">
+                            @Model.rvm[i].dateAndOnCallHour.Value
+                        </td>
+                        <td class="text-center">
+                            @if (y == true)
+                            {
+                                <span>1</span>
+                            }
+                            else
+                            {
+                                <span>0</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == true)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfHouseCalls</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == false)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfHouseCalls</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == true)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfPhoneConsult</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == false)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfPhoneConsult</span>
+                            }
+                        </td>
+
+                        <td class="text-center">0</td>
+                    </tr>
+                    x++;
+                }
+                <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
+                <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
+            </tbody>
+        </table>
 
 
-    <table class="table mt-3">
-        <thead class="table-secondary">
-            <tr>
-                <th class="text-center">Date</th>
-                <th class="text-center">Item</th>
-                <th class="text-center">Amount</th>
-                <th><span class="ms-5">Bill</span></th>
-                <th class="text-center">Action</th>
-            </tr>
-        </thead>
+        <div class="bg-white overflow-hidden">
+            <div class="row">
+                <div class="col mt-2">
+                    <p class="h5 ms-3 text-muted fw-bold" id="heading-one">
+                        TimeSheet Reimbursement
+                    </p>
+                </div>
+            </div>
 
-        <tbody>
-            @{
-                var j = 0;
-            }
-            @foreach (var item in Model.rvm)
-            {
-                <tr>
-                    <td class="text-center">@item.dateAndFileName.Key.Replace("-","/")</td>
-                    <td class="text-center">
-                        <input type="text" class="form-control" id="item" asp-for="@item.items" />
-                    </td>
-                    <td class="text-center">
-                        <input type="number" class="form-control" id="amount" asp-for="@item.amounts" />
-                    </td>
-                    <td>
-                        <div class="d-flex gap-0 w-50">
-                            <input type="file" id="fi" class="form-control rounded-end-0 change3" asp-for="@item.file" placeholder="Select Photo" onchange="checkName('@j')" />
-                            <button type="button" class="btn btn-info text-white rounded-start-0">Upload</button>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        @if (item.dateAndFileName.Value != "")
-                        {
-                            <button type="button" class="btn btn-outline-info">Edit</button>
-                            <button type="button" class="btn btn-outline-info">Delete</button>
-                            <button type="button" class="btn btn-outline-info">View</button>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Item</th>
+                            <th class="text-center">Amount</th>
+                            <th><span class="ms-5">Bill</span></th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            var j = 0;
                         }
-                    </td>
-                </tr>
-                j++;
-            }
-        </tbody>
-    </table>
-</div>
+                        @for (var i = 0; i < Model.rvm.Count; i++)
+                        {
+                            string str = Model.rvm[i].dateAndFileName.Key + "-" + Model.rvm[i].dateAndFileName.Value;
+                            <form method="post" asp-action="SubmitReimbursement" asp-controller="Provider" asp-route-ind="@j" enctype="multipart/form-data">
+                                @if (Model.rvm[i].dateAndFileName.Value != "")
+                                {
+                                <tr>
+                                    <td class="text-center">
+                                            @Model.rvm[i].dateAndFileName.Key.Replace("-","/")
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span>@Model.rvm[i].items</span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span>@Model.rvm[i].amounts</span>
+                                    </td>
+
+                                    <td>
+                                            @if (Model.rvm[i].isFileDeleted != true)
+                                            {
+                                                @if (Model.rvm[i].dateAndFileName.Value != null && Model.rvm[i].dateAndFileName.Value != "")
+                                                {
+                                                <div class="d-flex gap-0" id="fileName@(i)">
+                                                    <span>@Model.rvm[i].dateAndFileName.Value</span>
+                                                </div>
+                                                }
+                                            }
+                                    </td>
+
+                                    <td>
+                                        <a href="~/Reimbursement/@Model.rvm[i].phyId/@str" target="_blank" type="button" class="btn btn-outline-info">
+                                            View
+                                        </a>
+                                    </td>
+
+                                    <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
+                                    <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
+                                    <input type="hidden" name="phyId" asp-for="@Model.rvm[i].phyId" />
+                                </tr>
+
+                                }
+                            </form>
+                            j++;
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+
+    </div>
+}

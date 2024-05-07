@@ -348,6 +348,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public InvoicingViewModel GetBiWeeklyTimesheet(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId)
         {
+            bool isExists = false;
             int totalDays = endDate.Day - startDate.Day;
             int j = 0;
             List<ReimbursementViewModel> models = new List<ReimbursementViewModel>();
@@ -359,6 +360,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
             if (timeSheet != null)
             {
+                isExists = true;
                 List<TimesheetDetail> td = _context.TimesheetDetails.Where(t => t.TimesheetId == timeSheet.TimesheetId).ToList();
                 int x = 0;
                 if (td != null)
@@ -430,12 +432,133 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 }
             }
 
+            bool isSheetFinalized = false;
+            int id = 0;
+
+            if (timeSheet != null)
+            {
+                isSheetFinalized = timeSheet.IsFinalized[0];
+                id = timeSheet.TimesheetId;
+            }
+
             InvoicingViewModel ivm = new InvoicingViewModel
             {
                 adminNavbarModel = an,
                 rvm = models,
                 startDate = startDate,
                 endDate = endDate,
+                timesheetId = id,
+                isFinalized = isSheetFinalized,
+                isExisting = isExists,
+            };
+
+            return ivm;
+        }
+
+        public InvoicingViewModel GetTimesheetOnInvoicing(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId)
+        {
+            bool isExists = false;
+            int totalDays = endDate.Day - startDate.Day;
+            int j = 0;
+            List<ReimbursementViewModel> models = new List<ReimbursementViewModel>();
+            List<KeyValuePair<string, int>> onCallHour = new List<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, string>> dateAndName = new List<KeyValuePair<string, string>>();
+
+            Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == userId);
+            Timesheet timeSheet = _context.Timesheets.FirstOrDefault(ti => ti.PhysicianId == p.PhysicianId && ti.Startdate == startDate && ti.Enddate == endDate);
+
+            if (timeSheet != null)
+            {
+                isExists = true;
+                List<TimesheetDetail> td = _context.TimesheetDetails.Where(t => t.TimesheetId == timeSheet.TimesheetId).ToList();
+                int x = 0;
+                if (td != null)
+                {
+                    foreach (var item in td)
+                    {
+                        int hours = GetHoursFromShiftDetail(p.PhysicianId, startDate.AddDays(x));
+                        ReimbursementViewModel r = new ReimbursementViewModel
+                        {
+                            totalHours = item.ShiftHours,
+                            numberOfHouseCalls = item.Housecall,
+                            numberOfPhoneConsult = item.PhoneConsult,
+                            isWeekend = item.IsWeekend[0],
+                            dateAndOnCallHour = new KeyValuePair<string, int>(startDate.AddDays(x).ToString("MM/dd/yyyy"), hours),
+                            dateAndFileName = new KeyValuePair<string, string>(startDate.AddDays(x).ToString("MM/dd/yyyy"), ""),
+                            phyId = p.PhysicianId.ToString(),
+                        };
+                        x++;
+                        models.Add(r);
+                    }
+                }
+                x = 0;
+                List<TimesheetReimbursement> timesheetReimbursements = _context.TimesheetReimbursements.Where(t => t.TimesheetId == timeSheet.TimesheetId).OrderBy(t => t.Date).ToList();
+                if (timesheetReimbursements != null)
+                {
+                    foreach (var item in timesheetReimbursements)
+                    {
+                        models[x].items = item.Item;
+                        models[x].amounts = item.Amount;
+                        //string name = DateOnly.FromDateTime(item.Date) + "-" + timeSheet.PhysicianId + "-" + item.Bill;
+                        models[x].dateAndFileName = new KeyValuePair<string, string>(startDate.AddDays(x).ToString("MM/dd/yyyy"), item.Bill);
+                        models[x].isHavingFile = (item.Bill != null) ? true : false;
+                        models[x].isFileDeleted = item.IsDeleted;
+                        models[x].id = item.TimesheetReimbursementId;
+                        x++;
+                    }
+                }
+            }
+
+            if (timeSheet == null)
+            {
+                for (int i = 0; i <= totalDays; i++)
+                {
+                    DateTime temp = startDate.AddDays(i);
+                    List<ShiftDetail> sd = _context.ShiftDetails.Where(s => s.Shift.PhysicianId == p.PhysicianId && s.ShiftDate == temp).ToList();
+                    var hr = 0;
+                    foreach (var item in sd)
+                    {
+                        TimeSpan startTime = TimeSpan.Parse(item.StartTime.ToString());
+                        TimeSpan endTime = TimeSpan.Parse(item.EndTime.ToString());
+                        double ans = endTime.Subtract(startTime).TotalHours;
+                        hr += Convert.ToInt32(ans);
+                    }
+                    string formattedDate = temp.ToString("MM/dd/yyyy");
+
+                    ReimbursementViewModel rvm = new ReimbursementViewModel
+                    {
+                        totalHours = 0,
+                        isWeekend = false,
+                        numberOfHouseCalls = 0,
+                        numberOfPhoneConsult = 0,
+                        items = "",
+                        amounts = 0,
+                        dateAndOnCallHour = new KeyValuePair<string, int>(formattedDate, hr),
+                        dateAndFileName = new KeyValuePair<string, string>(formattedDate, ""),
+                        phyId = p.PhysicianId.ToString(),
+                    };
+                    models.Add(rvm);
+                }
+            }
+
+            bool isSheetFinalized = false;
+            int id = 0;
+
+            if(timeSheet != null)
+            {
+                isSheetFinalized = timeSheet.IsFinalized[0];
+                id = timeSheet.TimesheetId;
+            }
+
+            InvoicingViewModel ivm = new InvoicingViewModel
+            {
+                adminNavbarModel = an,
+                rvm = models,
+                startDate = startDate,
+                endDate = endDate,
+                timesheetId = id,
+                isFinalized = isSheetFinalized,
+                isExisting = isExists,
             };
 
             return ivm;
@@ -573,6 +696,23 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
             _context.TimesheetReimbursements.Update(tr);
             _context.SaveChanges();
+        }
+
+        public bool FinalizeTimesheet(int id)
+        {
+            Timesheet timesheet = _context.Timesheets.FirstOrDefault(t => t.TimesheetId == id);
+
+            if(timesheet == null)
+            {
+                return false;
+            }
+            else
+            {
+                timesheet.IsFinalized[0] = true;
+                _context.Timesheets.Update(timesheet);
+                _context.SaveChanges();
+                return true;
+            }
         }
     }
 }

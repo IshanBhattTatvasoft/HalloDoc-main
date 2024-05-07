@@ -28,6 +28,9 @@
             box-shadow: none !important;
         }
 
+        #fi::-webkit-file-upload-button {
+            display: none;
+        }
 
         .form-floating:focus-within label {
             color: #3DB6FF !important;
@@ -83,16 +86,27 @@
                     </div>
 
                     <div class="mt-3 ms-4 text-end w-auto">
-                        <form method="post" asp-action="BiWeeklyTimesheet" asp-controller="Provider" onsubmit="checkDate()">
-                            <input type="hidden" id="selectVal"/>
-                            <input type="hidden" id="fullDate" name="dateRange" />
-                            <button type="submit" class="btn btn-outline-info me-4">Finalize Timesheet</button>
-                        </form>
+                        @if (Model.isExisting == false || Model.isFinalized != true)
+                        {
+                            <form method="post" asp-action="BiWeeklyTimesheet" asp-controller="Provider" onsubmit="checkDate()">
+                                <input type="hidden" id="selectVal" />
+                                <input type="hidden" id="fullDate" name="dateRange" />
+                                <button type="submit" id="createNewTimesheet" class="btn btn-outline-info me-4" style="display: none;">Finalize Timesheet</button>
+                            </form>
+                        }
+
+                        else if (Model.isExisting == true || Model.isFinalized == false)
+                        {
+                            <form method="post" asp-action="FinalizeTimesheet" asp-controller="Provider">
+                                <input type="hidden" name="tid" asp-for="@Model.timesheetId" />
+                                <button type="submit" id="finalizeTimesheet" class="btn btn-outline-info me-4">Finalize Timesheet</button>
+                            </form>
+                        }
                     </div>
                 </div>
 
-                <div class="mt-4 ms-3 me-3 myTable" id="TimesheetPartialView"></div>
             </div>
+            <div class="mt-4 ms-3 me-3 myTable" id="TimesheetPartialView"></div>
         </div>
     </div>
 </body>
@@ -102,6 +116,12 @@
 
     // Function to generate bi-weekly date ranges for the current year
     function generateBiWeeklyDates() {
+
+        if (document.getElementById("biWeeklyDropdown").value != -1) {
+            document.getElementById("selectDateError").innerHTML = "";
+            document.getElementById("selectDateError").style.display = "none";
+        }
+
         const biWeeklyOptions = document.getElementById("biWeeklyDropdown");
         const currentDate = new Date();
         const currentYear = currentDate.getFullYear();
@@ -139,8 +159,8 @@
         console.log(endDateParts);
         const startDate = new Date(startDateParts[0], startDateParts[1] - 1, startDateParts[2]).toLocaleDateString();
         const endDate = new Date(endDateParts[0], endDateParts[1] - 1, endDateParts[2]).toLocaleDateString();
-        console.log(startDate);
-        console.log(endDate);
+        console.log("Start date: " + startDate);
+        console.log("End date: " + endDate);
         var x = startDate + "-" + endDate;
         console.log("Combined: " + x);
         document.getElementById("fullDate").value = startDate + "-" + endDate;
@@ -149,29 +169,66 @@
         $.ajax({
             url: '/Provider/GetTimesheetFromDate',
             type: 'POST',
-            data: {date: x},
-            success: function(response){
-                $("#TimesheetPartialView").html(response);
+            data: { date: x },
+            success: function (response) {
+                if (response.isExists) {
+                    $("#TimesheetPartialView").html(response);
+                }
+                else {
+                    document.getElementById("createNewTimesheet").style.display = "flex";
+                    document.getElementById("finalizeTimesheet").style.display = "none";
+                }
             },
-            error: function(error){
+            error: function (error) {
                 alert("An error occurred");
             }
         });
     }
 
-    function checkDate()
-    {
-        if (document.getElementById("biWeeklyDropdown").value == -1)
-        {
+    function checkDate() {
+        if (document.getElementById("biWeeklyDropdown").value == -1) {
             document.getElementById("selectDateError").innerHTML = "Please select a range of date";
             document.getElementById("selectDateError").style.display = "block";
             event.preventDefault();
             return false;
         }
-        else
-        {
+        else {
             document.getElementById("selectDateError").innerHTML = "";
             document.getElementById("selectDateError").style.display = "none";
         }
+    }
+
+    function checkVal(id) {
+        console.log(id);
+        var item = document.getElementById(`item${id}`).value;
+        var amt = document.getElementById(`amount${id}`).value;
+        console.log(item);
+        console.log(amt);
+
+        if (item != null && amt != null && item != "" && amt != "") {
+            document.getElementById(`saveBtn${id}`).style.display = "inline-block";
+            document.getElementById(`cancelBtn${id}`).style.display = "inline-block";
+            document.getElementById(`editBtn${id}`).style.display = "none";
+            document.getElementById(`item${id}`).removeAttribute('readonly');
+            document.getElementById(`amount${id}`).removeAttribute('readonly');
+        }
+
+        else {
+            document.getElementById(`saveBtn${id}`).style.display = "none";
+            document.getElementById(`cancelBtn${id}`).style.display = "none";
+            document.getElementById(`editBtn${id}`).style.display = "inline-block";
+            document.getElementById(`item${id}`).setAttribute('readonly', true);
+            document.getElementById(`amount${id}`).setAttribute('readonly', true);
+        }
+    }
+
+    function hideData(id) {
+        //document.getElementById(`item${id}`).value = "";
+        //document.getElementById(`amount${id}`).value = "";
+        document.getElementById(`saveBtn${id}`).style.display = "none";
+        document.getElementById(`cancelBtn${id}`).style.display = "none";
+        document.getElementById(`editBtn${id}`).style.display = "inline-block";
+        document.getElementById(`item${id}`).setAttribute('readonly', true);
+        document.getElementById(`amount${id}`).setAttribute('readonly', true);
     }
 </script>

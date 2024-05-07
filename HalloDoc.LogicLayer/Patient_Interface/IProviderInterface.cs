@@ -21,8 +21,10 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public List<Admin> GetAllAdmins();
         public bool isEncounterFinalized(int id);
         public InvoicingViewModel GetBiWeeklyTimesheet(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId);
+        public InvoicingViewModel GetTimesheetOnInvoicing(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId);
         public bool SubmitTimesheet(InvoicingViewModel model, DateTime startDate, DateTime endDate, int id);
         public bool AddReimbursementData(int ind, DateTime startDate, DateTime endDate, int id, string item, int amount, IFormFile? upload);
         public void DeleteFile(int id);
+        public bool FinalizeTimesheet(int id);
     }
 }
