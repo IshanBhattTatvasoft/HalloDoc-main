@@ -354,8 +354,12 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             List<ReimbursementViewModel> models = new List<ReimbursementViewModel>();
             List<KeyValuePair<string, int>> onCallHour = new List<KeyValuePair<string, int>>();
             List<KeyValuePair<string, string>> dateAndName = new List<KeyValuePair<string, string>>();
+            int shiftCount = 0;
+            int weekendCount = 0;
+            int houseCallCount = 0;
+            int phoneConsultCount = 0;
 
-            Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == userId);
+            Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.PhysicianId == userId);
             Timesheet timeSheet = _context.Timesheets.FirstOrDefault(ti => ti.PhysicianId == p.PhysicianId && ti.Startdate == startDate && ti.Enddate == endDate);
 
             if (timeSheet != null)
@@ -367,6 +371,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 {
                     foreach (var item in td)
                     {
+                        shiftCount += (int)item.ShiftHours;
+                        if (item.IsWeekend[0] == true)
+                        {
+                            weekendCount++;
+                        }
+                        houseCallCount += (int)item.Housecall;
+                        phoneConsultCount += (int)item.PhoneConsult;
                         int hours = GetHoursFromShiftDetail(p.PhysicianId, startDate.AddDays(x));
                         ReimbursementViewModel r = new ReimbursementViewModel
                         {
@@ -391,7 +402,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                         models[x].items = item.Item;
                         models[x].amounts = item.Amount;
                         //string name = DateOnly.FromDateTime(item.Date) + "-" + timeSheet.PhysicianId + "-" + item.Bill;
-                        models[x].dateAndFileName = new KeyValuePair<string, string>(startDate.AddDays(x).ToString("MM/dd/yyyy"),item.Bill);
+                        models[x].dateAndFileName = new KeyValuePair<string, string>(startDate.AddDays(x).ToString("MM/dd/yyyy"), item.Bill);
                         models[x].isHavingFile = (item.Bill != null) ? true : false;
                         models[x].isFileDeleted = item.IsDeleted;
                         models[x].id = item.TimesheetReimbursementId;
@@ -415,15 +426,15 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                         hr += Convert.ToInt32(ans);
                     }
                     string formattedDate = temp.ToString("MM/dd/yyyy");
-                    
+
                     ReimbursementViewModel rvm = new ReimbursementViewModel
                     {
                         totalHours = 0,
                         isWeekend = false,
                         numberOfHouseCalls = 0,
                         numberOfPhoneConsult = 0,
-                        items = "",
-                        amounts = 0,
+                        items = null,
+                        amounts = null,
                         dateAndOnCallHour = new KeyValuePair<string, int>(formattedDate, hr),
                         dateAndFileName = new KeyValuePair<string, string>(formattedDate, ""),
                         phyId = p.PhysicianId.ToString(),
@@ -450,9 +461,32 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 timesheetId = id,
                 isFinalized = isSheetFinalized,
                 isExisting = isExists,
+                payrateShift = (double?)_context.Payrates.FirstOrDefault(pa => pa.PhysicianId == p.PhysicianId).Shift,
+                payrateWeekend = (double?)_context.Payrates.FirstOrDefault(pa => pa.PhysicianId == p.PhysicianId).NightShiftWeekend,
+                payrateHouseCall = (double?)_context.Payrates.FirstOrDefault(pa => pa.PhysicianId == p.PhysicianId).Housecall,
+                payratePhoneConsult = (double?)_context.Payrates.FirstOrDefault(pa => pa.PhysicianId == p.PhysicianId).Phoneconsult,
+                shiftCount = shiftCount,
+                weekendCount = weekendCount,
+                houseCallCount = houseCallCount,
+                phoneConsultCount = phoneConsultCount,
+                physicianId = p.PhysicianId,
             };
 
             return ivm;
+        }
+
+        public bool CheckFinalized(DateTime startDate, DateTime endDate, int userId)
+        {
+            Physician p = _context.Physicians.FirstOrDefault(Physician => Physician.AspNetUserId == userId);
+            Timesheet timeSheet = _context.Timesheets.FirstOrDefault(ti => ti.PhysicianId == p.PhysicianId && ti.Startdate == startDate && ti.Enddate == endDate);
+            if (timeSheet != null && timeSheet.IsFinalized[0] == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public InvoicingViewModel GetTimesheetOnInvoicing(DateTime startDate, DateTime endDate, AdminNavbarModel an, int userId)
@@ -544,7 +578,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             bool isSheetFinalized = false;
             int id = 0;
 
-            if(timeSheet != null)
+            if (timeSheet != null)
             {
                 isSheetFinalized = timeSheet.IsFinalized[0];
                 id = timeSheet.TimesheetId;
@@ -625,40 +659,46 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return isSubmitted;
         }
 
-        public bool AddReimbursementData(int ind, DateTime startDate, DateTime endDate, int id, string item, int amount, IFormFile? upload=null)
+        public bool AddReimbursementData(int ind, DateTime startDate, DateTime endDate, int id, string item, int amount, IFormFile? upload = null)
         {
             string fname = "";
-            if(upload != null && upload.FileName != null)
+            if (upload != null && upload.FileName != null)
             {
                 fname = upload.FileName;
             }
             bool isInserted = false;
             Timesheet timeSheet = _context.Timesheets.FirstOrDefault(t => t.PhysicianId == id && t.Startdate == startDate && t.Enddate == endDate);
             DateTime temp = startDate.AddDays(ind);
-            if(_context.TimesheetReimbursements.FirstOrDefault(t => t.TimesheetId == timeSheet.TimesheetId && t.Date == temp) != null)
-            {
-                TimesheetReimbursement tr = _context.TimesheetReimbursements.FirstOrDefault(t => t.TimesheetId == timeSheet.TimesheetId && t.Date == temp);
-                tr.Item = item;
-                tr.Amount = amount;
-                tr.Bill = fname;
-                tr.Date = temp;
-                _context.TimesheetReimbursements.Update(tr);
-                SetBillFile(upload, id, temp.ToString());
-                isInserted = true;
-            }
 
-            else
+
+            if (timeSheet != null)
             {
-                TimesheetReimbursement tr = new TimesheetReimbursement();
-                tr.Item = item;
-                tr.Amount = amount;
-                tr.Bill = fname;
-                tr.Date = temp;
-                tr.TimesheetId = (timeSheet != null) ? timeSheet.TimesheetId : -1;
-                tr.IsDeleted = false;
-                SetBillFile(upload, id, temp.ToString());
-                _context.TimesheetReimbursements.Add(tr);
-                isInserted = true;
+
+                if (_context.TimesheetReimbursements.FirstOrDefault(t => t.TimesheetId == timeSheet.TimesheetId && t.Date == temp) != null)
+                {
+                    TimesheetReimbursement tr = _context.TimesheetReimbursements.FirstOrDefault(t => t.TimesheetId == timeSheet.TimesheetId && t.Date == temp);
+                    tr.Item = item;
+                    tr.Amount = amount;
+                    tr.Bill = fname;
+                    tr.Date = temp;
+                    _context.TimesheetReimbursements.Update(tr);
+                    SetBillFile(upload, id, temp.ToString());
+                    isInserted = true;
+                }
+
+                else
+                {
+                    TimesheetReimbursement tr = new TimesheetReimbursement();
+                    tr.Item = item;
+                    tr.Amount = amount;
+                    tr.Bill = fname;
+                    tr.Date = temp;
+                    tr.TimesheetId = (timeSheet != null) ? timeSheet.TimesheetId : -1;
+                    tr.IsDeleted = false;
+                    SetBillFile(upload, id, temp.ToString());
+                    _context.TimesheetReimbursements.Add(tr);
+                    isInserted = true;
+                }
             }
             _context.SaveChanges();
             return isInserted;
@@ -702,7 +742,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         {
             Timesheet timesheet = _context.Timesheets.FirstOrDefault(t => t.TimesheetId == id);
 
-            if(timesheet == null)
+            if (timesheet == null)
             {
                 return false;
             }

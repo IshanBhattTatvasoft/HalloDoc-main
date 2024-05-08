@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataOld\**" />
+    <Content Remove="DataOld\**" />
+    <EmbeddedResource Remove="DataOld\**" />
+    <None Remove="DataOld\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Views\SubmitRequestScreen.cshtml" />
   </ItemGroup>
 
@@ -35,7 +42,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="DataOld\" />
 	  <Folder Include="wwwroot\EncounterForms\" />
 	  <Folder Include="wwwroot\uploads\" />
 	</ItemGroup>

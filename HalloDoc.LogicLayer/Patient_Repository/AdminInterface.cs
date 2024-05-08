@@ -1465,7 +1465,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
 
         public List<Physician> GetAllPhysicians()
         {
-            return _context.Physicians.ToList();
+            return _context.Physicians.OrderBy(p => p.FirstName).ToList();
         }
 
         public List<RequestWiseFile> GetAllFiles()
@@ -2796,6 +2796,120 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return isEntered;
         }
 
-        
+        public AdminInvoicingViewModel GetTimesheetForAdminInvoicing(int id, DateTime startDate, DateTime endDate)
+        {
+            Timesheet timesheet = _context.Timesheets.FirstOrDefault(t => t.PhysicianId == id && t.Startdate == startDate && t.Enddate == endDate);
+            bool isExists = false;
+            AdminInvoicingViewModel model = new AdminInvoicingViewModel();
+            int totalDays = endDate.Day - startDate.Day;
+            int j = 0;
+            List<ReimbursementViewModel> models = new List<ReimbursementViewModel>();
+            List<KeyValuePair<string, int>> onCallHour = new List<KeyValuePair<string, int>>();
+            List<KeyValuePair<string, string>> dateAndName = new List<KeyValuePair<string, string>>();
+
+            Physician p = _context.Physicians.FirstOrDefault(ph => ph.PhysicianId == id);
+            model.physicianName = p.FirstName + " " + p.LastName;
+
+            if(timesheet != null)
+            {
+                model.isTimesheetExists = true;
+                model.startDate = startDate;
+                model.endDate = endDate;
+                model.physicianId = id;
+                model.timesheetId = timesheet.TimesheetId;
+                model.status = timesheet.Status;
+                if(timesheet.Status == "Pending")
+                {
+                    model.isApproved = false;
+                }
+                else
+                {
+                    model.isApproved = true;
+                }
+            }
+
+            if(timesheet != null && timesheet.Status == "Approved")
+            {
+                List<TimesheetDetail> td = _context.TimesheetDetails.Where(t => t.TimesheetId == timesheet.TimesheetId).ToList();
+                int x = 0;
+                if (td != null)
+                {
+                    foreach (var item in td)
+                    {
+                        int hours = GetHoursFromShiftDetail(p.PhysicianId, startDate.AddDays(x));
+                        ReimbursementViewModel r = new ReimbursementViewModel
+                        {
+                            totalHours = item.ShiftHours,
+                            numberOfHouseCalls = item.Housecall,
+                            numberOfPhoneConsult = item.PhoneConsult,
+                            isWeekend = item.IsWeekend[0],
+                            dateAndOnCallHour = new KeyValuePair<string, int>(startDate.AddDays(x).ToString("MM/dd/yyyy"), hours),
+                            dateAndFileName = new KeyValuePair<string, string>(startDate.AddDays(x).ToString("MM/dd/yyyy"), ""),
+                            phyId = p.PhysicianId.ToString(),
+                        };
+                        x++;
+                        models.Add(r);
+                    }
+                }
+                x = 0;
+                List<TimesheetReimbursement> timesheetReimbursements = _context.TimesheetReimbursements.Where(t => t.TimesheetId == timesheet.TimesheetId).OrderBy(t => t.Date).ToList();
+                if (timesheetReimbursements != null)
+                {
+                    foreach (var item in timesheetReimbursements)
+                    {
+                        models[x].items = item.Item;
+                        models[x].amounts = item.Amount;
+                        //string name = DateOnly.FromDateTime(item.Date) + "-" + timeSheet.PhysicianId + "-" + item.Bill;
+                        models[x].dateAndFileName = new KeyValuePair<string, string>(startDate.AddDays(x).ToString("MM/dd/yyyy"), item.Bill);
+                        models[x].isHavingFile = (item.Bill != null) ? true : false;
+                        models[x].isFileDeleted = item.IsDeleted;
+                        models[x].id = item.TimesheetReimbursementId;
+                        x++;
+                    }
+                }
+
+                model.rvm = models;
+            }
+
+            if(timesheet == null)
+            {
+                model.isTimesheetExists = isExists;
+            }
+
+            return model;
+        }
+
+        public int GetHoursFromShiftDetail(int id, DateTime temp)
+        {
+            List<ShiftDetail> sd = _context.ShiftDetails.Where(s => s.Shift.PhysicianId == id && s.ShiftDate == temp).ToList();
+            int hr = 0;
+            foreach (var item in sd)
+            {
+                TimeSpan startTime = TimeSpan.Parse(item.StartTime.ToString());
+                TimeSpan endTime = TimeSpan.Parse(item.EndTime.ToString());
+                double ans = endTime.Subtract(startTime).TotalHours;
+                hr += Convert.ToInt32(ans);
+            }
+            return hr;
+        }
+
+        public bool ApproveTimesheet(int tid, int bonus, string desc)
+        {
+            bool isApproved = false;
+            Timesheet timesheet = _context.Timesheets.FirstOrDefault(t => t.TimesheetId == tid);
+            
+            if(timesheet != null)
+            {
+                timesheet.Status = "Approved";
+                timesheet.BonusAmount = bonus;
+                timesheet.AdminDesc = desc;
+                _context.Timesheets.Update(timesheet);
+                _context.SaveChanges();
+                isApproved = true;
+            }
+
+            return isApproved;
+        }
+
     }
 }

@@ -1,0 +1,236 @@
+﻿@model AdminInvoicingViewModel
+
+@if(Model.isApproved == true)
+{
+    <div class="table-responsive mt-2">
+
+        <table class="table">
+            <thead class="table-secondary">
+                <tr>
+                    <th class="text-center">Shift Date</th>
+                    <th class="text-center">Shift</th>
+                    <th class="text-center">NightShift Weekend</th>
+                    <th class="text-center">Housecall</th>
+                    <th class="text-center">Housecall NightShift Weekend</th>
+                    <th class="text-center">Phone Consults</th>
+                    <th class="text-center">Phone Consults NightShift Weekend</th>
+                    <th class="text-center">Batch Testing</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @{
+                    var x = 0;
+                }
+                @for (var i = 0; i < Model.rvm.Count; i++)
+                {
+                    var y = Model.rvm[i].isWeekend;
+                    <tr>
+                        <td class="text-center">
+                            @Model.rvm[i].dateAndOnCallHour.Key.Replace("-","/")
+                        </td>
+
+                        <td class="text-center">
+                            @Model.rvm[i].dateAndOnCallHour.Value
+                        </td>
+                        <td class="text-center">
+                            @if (y == true)
+                            {
+                                <span>1</span>
+                            }
+                            else
+                            {
+                                <span>0</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == true)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfHouseCalls</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == false)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfHouseCalls</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == true)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfPhoneConsult</span>
+                            }
+                        </td>
+
+                        <td class="text-center">
+                            @if (y == false)
+                            {
+                                <span>0</span>
+                            }
+                            else
+                            {
+                                <span>@Model.rvm[i].numberOfPhoneConsult</span>
+                            }
+                        </td>
+
+                        <td class="text-center">0</td>
+                    </tr>
+                    x++;
+                }
+                <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
+                <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
+            </tbody>
+        </table>
+
+
+        <div class="bg-white overflow-hidden">
+            <div class="row">
+                <div class="col mt-2">
+                    <p class="h5 ms-3 text-muted fw-bold" id="heading-one">
+                        TimeSheet Reimbursement
+                    </p>
+                </div>
+            </div>
+
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th class="text-center">Date</th>
+                            <th class="text-center">Item</th>
+                            <th class="text-center">Amount</th>
+                            <th><span class="ms-5">Bill</span></th>
+                            <th class="text-center">Action</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @{
+                            var j = 0;
+                        }
+                        @for (var i = 0; i < Model.rvm.Count; i++)
+                        {
+                            string str = Model.rvm[i].dateAndFileName.Key + "-" + Model.rvm[i].dateAndFileName.Value;
+                            <form method="post" asp-action="SubmitReimbursement" asp-controller="Provider" asp-route-ind="@j" enctype="multipart/form-data">
+                                @if (Model.rvm[i].dateAndFileName.Value != "")
+                                {
+                                <tr>
+                                    <td class="text-center">
+                                            @Model.rvm[i].dateAndFileName.Key.Replace("-","/")
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span>@Model.rvm[i].items</span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span>@Model.rvm[i].amounts</span>
+                                    </td>
+
+                                    <td>
+                                            @if (Model.rvm[i].isFileDeleted != true)
+                                            {
+                                                @if (Model.rvm[i].dateAndFileName.Value != null && Model.rvm[i].dateAndFileName.Value != "")
+                                                {
+                                                <div class="d-flex gap-0" id="fileName@(i)">
+                                                    <span>@Model.rvm[i].dateAndFileName.Value</span>
+                                                </div>
+                                                }
+                                            }
+                                    </td>
+
+                                    <td>
+                                        <a href="~/Reimbursement/@Model.rvm[i].phyId/@str" target="_blank" type="button" class="btn btn-outline-info">
+                                            View
+                                        </a>
+                                    </td>
+
+                                    <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
+                                    <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
+                                    <input type="hidden" name="phyId" asp-for="@Model.rvm[i].phyId" />
+                                </tr>
+
+                                }
+                            </form>
+                            j++;
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+
+
+        </div>
+
+    </div>
+}
+
+else if (Model.isTimesheetExists == false)
+{
+    <div class="row">
+        <div class="col mt-4 ms-4">
+            <p class="h5 text-muted fw-bold" id="heading-one">
+                No timesheet exists for @Model.physicianName
+            </p>
+        </div>
+    </div>
+}
+
+else
+{
+    <div class="row">
+        <div class="col mt-4 ms-4">
+            <p class="h5 text-muted fw-bold" id="heading-one">
+                Pending Bi-Weekly timesheet
+            </p>
+        </div>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead class="table-secondary">
+                <tr>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>@Model.startDate.ToString()</td>
+                    <td>@Model.endDate</td>
+                    <td>@Model.status</td>
+                    <td>
+                        @if (Model.isApproved == false)
+                        {
+                            <form method="post" asp-action="BiWeeklyTimesheet" asp-controller="Provider">
+                                <input type="hidden" id="fullDate" name="dateRange"/>
+                                <input type="hidden" name="pid" asp-for="@Model.physicianId"/>
+                                <button type="submit" class="btn btn-outline-info">Approve</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+}
+

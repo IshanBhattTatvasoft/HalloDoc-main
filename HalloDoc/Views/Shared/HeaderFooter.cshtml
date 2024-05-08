@@ -213,7 +213,7 @@
             }
         }
 
-        @if (roleMenu.Any(r => r == "ProviderInvoicing"))
+        @if (roleMenu.Any(r => r == "ProviderInvoicing") && Model.roleName == "Provider")
         {
             @if (Model.Tab == 21)
             {

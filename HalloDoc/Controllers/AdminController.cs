@@ -40,6 +40,8 @@ using Request = HalloDoc.DataLayer.Models.Request;
 using Org.BouncyCastle.Asn1.Ocsp;
 using iText.Kernel.Geom;
 using Microsoft.IdentityModel.Tokens;
+using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -5750,17 +5752,83 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
-                InvoicingViewModel ivm = new InvoicingViewModel
+                AdminInvoicingViewModel aivm = new AdminInvoicingViewModel
                 {
                     adminNavbarModel = an,
                 };
-                return View(ivm);
+                return View(aivm);
             }
 
             catch (Exception ex)
             {
                 TempData["error"] = "Unable to view invoicing information";
                 return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "Invoicing")]
+        public IActionResult GetTimesheetFromInvoicing(int id, string date)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 7;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                string[] bothDates = date.Split('_');
+                string format = "yyyy/MM/dd";
+                DateTime startDate = DateTime.ParseExact(bothDates[0], format, CultureInfo.InvariantCulture);
+                DateTime endDate = DateTime.ParseExact(bothDates[1], format, CultureInfo.InvariantCulture);
+
+                AdminInvoicingViewModel aivm = _adminInterface.GetTimesheetForAdminInvoicing(id, startDate, endDate);
+                aivm.adminNavbarModel = an;
+                return PartialView("AdminInvoicingPagePartialView", aivm);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view invoicing information";
+                return RedirectToAction("AdminDashboard");
+            }
+        }
+
+        [CustomAuthorize("Admin", "ProviderInvoicing")]
+        public IActionResult ApproveTimesheet(int tid, int bonus, string desc)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                AdminNavbarModel an = new AdminNavbarModel();
+                an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                an.Tab = 7;
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+                bool isApproved = _adminInterface.ApproveTimesheet(tid, bonus, desc);
+                if(isApproved)
+                {
+                    TempData["success"] = "Timesheet approved successfully";
+                }
+                else
+                {
+                    TempData["error"] = "Unable to approve the timesheet";
+                }
+                return RedirectToAction("Invoicing");
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to approve the timesheet";
+                return RedirectToAction("Invoicing");
             }
         }
 

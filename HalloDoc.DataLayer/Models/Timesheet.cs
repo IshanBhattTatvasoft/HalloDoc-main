@@ -18,6 +18,12 @@ public partial class Timesheet
 
     public BitArray? IsFinalized { get; set; }
 
+    public double? Total { get; set; }
+
+    public double? BonusAmount { get; set; }
+
+    public string? AdminDesc { get; set; }
+
     public virtual Physician Physician { get; set; } = null!;
 
     public virtual ICollection<TimesheetDetail> TimesheetDetails { get; set; } = new List<TimesheetDetail>();

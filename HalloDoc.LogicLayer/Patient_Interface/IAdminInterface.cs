@@ -158,6 +158,8 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public bool CheckEmailFromAdminId(int id, string email);
         public PayrateViewModel GetPayrateData(AdminNavbarModel an, int pid);
         public bool SubmitPayrateData(int pId, string? nsw, string? sw, string? hcnw, string? pc, string? pcnw, string? bt, string? hc);
-        
+        public AdminInvoicingViewModel GetTimesheetForAdminInvoicing(int id, DateTime startDate, DateTime endDate);
+        public bool ApproveTimesheet(int tid, int bonus, string desc);
+        public int GetHoursFromShiftDetail(int id, DateTime temp);
     }
 }

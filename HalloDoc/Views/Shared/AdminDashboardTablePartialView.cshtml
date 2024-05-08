@@ -169,7 +169,8 @@
                         </td>
                         @if (Model.an.roleName == "Admin" && Model.status != "Unpaid")
                         {
-                            <td class="@statusClass">@(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@(DateTime.Now.Year - item.RequestClient.IntYear))</td>
+                            int yearsDifference = (int)(DateTime.Now.Year - item.RequestClient.IntYear);
+                            <td class="@statusClass">@(DateTime.Parse($"{item.RequestClient.IntYear}-{item.RequestClient.StrMonth}-{item.RequestClient.IntDate}").ToString("MMMM dd,yyyy"))(@yearsDifference.ToString())</td>
                         }
                         @if (Model.an.roleName == "Admin" && (Model.status == "New" || Model.status == "Pending" || Model.status == "Active"))
                         {

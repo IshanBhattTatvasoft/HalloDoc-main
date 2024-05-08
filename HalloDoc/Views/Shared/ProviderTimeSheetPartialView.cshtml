@@ -1,6 +1,10 @@
 ﻿@model InvoicingViewModel
 
-@if (Model.isExisting == false)
+@{
+    var z = Model.isExisting;
+}
+
+@if (z == false)
 {
     <div class="row">
         <div class="col mt-2">
@@ -175,6 +179,7 @@ else
                                     <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
                                     <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
                                     <input type="hidden" name="phyId" asp-for="@Model.rvm[i].phyId" />
+                                    <input type="hidden" id="isExisting" asp-for="@Model.isExisting"/>
                                 </tr>
 
                                 }

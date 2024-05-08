@@ -68,6 +68,7 @@
 
         <div class="container">
             <form method="post" asp-action="SubmitTimeSheet" asp-controller="Provider" enctype="multipart/form-data">
+                <input type="hidden" name="phyId" asp-for="@Model.physicianId"/>
                 <div class="row">
                     <div style="top: 42px; position: relative;" class="col">
                         <a class="float-end text-info mx-auto" id="backdesign" asp-controller="Provider" asp-action="MyInvoicing" style="text-decoration: none;margin-right: 243px;border: 1px solid; border-radius: 7px; height: 40px;display: flex;align-items: center;justify-content: center;padding: 4px 4px 4px 1px;width: 69px;">
@@ -101,6 +102,10 @@
                                     <th class="text-center">Weekend/Holiday</th>
                                     <th class="text-center">Number of Housecalls</th>
                                     <th class="text-center">Number of Phone Consults</th>
+                                    @if (Model.adminNavbarModel.roleName == "Admin")
+                                    {
+                                        <th class="text-center">Total</th>
+                                    }
                                 </tr>
                             </thead>
 
@@ -137,6 +142,34 @@
                                     </tr>
                                     x++;
                                 }
+
+                                @if (Model.adminNavbarModel.roleName == "Admin")
+                                {
+                                    var one = Math.BigMul((int)Model.payrateShift, (int)Model.shiftCount);
+                                    var two = Math.BigMul((int)Model.payrateWeekend, (int)Model.weekendCount);
+                                    var three = Math.BigMul((int)Model.payrateHouseCall, (int)Model.houseCallCount);
+                                    var four = Math.BigMul((int)Model.payratePhoneConsult, (int)Model.phoneConsultCount);
+                                    var five = one + two + three + four;
+
+                                    <tr>
+                                        <td>Payrate</td>
+                                        <td></td>
+                                        <td><input type="text" class="form-control" disabled asp-for="@Model.payrateShift" value="@Model.payrateShift" /></td>
+                                        <td><input type="text" class="form-control" disabled asp-for="@Model.payrateWeekend" value="@Model.payrateWeekend" /></td>
+                                        <td><input type="text" class="form-control" disabled asp-for="@Model.payrateHouseCall" value="@Model.payrateHouseCall" /></td>
+                                        <td><input type="text" class="form-control" disabled asp-for="@Model.payratePhoneConsult" value="@Model.payratePhoneConsult" /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>Invoice Total</td>
+                                        <td></td>
+                                        <td><input type="text" class="form-control" disabled value="@one" /></td>
+                                        <td><input type="text" class="form-control" disabled value="@two" /></td>
+                                        <td><input type="text" class="form-control" disabled value="@three" /></td>
+                                        <td><input type="text" class="form-control" disabled value="@four" /></td>
+                                        <td><input type="text" class="form-control" disabled value="@five" /></td>
+                                    </tr>
+                                }
                                 <input type="date" style="display: none;" name="startDate" asp-for="@Model.startDate" />
                                 <input type="date" style="display: none;" name="endDate" asp-for="@Model.endDate" />
                             </tbody>
@@ -151,14 +184,18 @@
                     </div>
                 </div>
             </form>
-            <div class="row">
-                <div class="col">
-                    <button type="button" id="addHideReceipt" class="btn btn-info text-white float-start mt-4">
-                        <span id="add">Add Receipts</span>
-                        <span id="hide" style="display: none;">Hide Receipts</span>
-                    </button>
+
+            @if (Model.timesheetId != 0 && Model.timesheetId != null)
+            {
+                <div class="row">
+                    <div class="col">
+                        <button type="button" id="addHideReceipt" class="btn btn-info text-white float-start mt-4">
+                            <span id="add">Add Receipts</span>
+                            <span id="hide" style="display: none;">Hide Receipts</span>
+                        </button>
+                    </div>
                 </div>
-            </div>
+            }
 
             <div class="bg-white p-0 mt-5" id="receiptTable" style="display: none;">
                 <div class="table-responsive">
@@ -228,10 +265,10 @@
 
                                             @if (Model.rvm[i].items != null)
                                             {
-                                                <button type="button" id="editBtn@(j)" class="btn btn-outline-info" onclick="checkVal(@j)">
-                                                    Edit
-                                                </button>
-                                             
+                                            <button type="button" id="editBtn@(j)" class="btn btn-outline-info" onclick="checkVal(@j)">
+                                                Edit
+                                            </button>
+
                                                 @if (Model.rvm[i].dateAndFileName.Value != "" && Model.rvm[i].isFileDeleted == false)
                                                 {
                                                 <a type="button" asp-action="DeleteFile" asp-route-id="@Model.rvm[i].id" asp-controller="Provider" class="btn btn-outline-info">
@@ -255,13 +292,40 @@
                         </tbody>
                     </table>
                 </div>
+
+                @if (Model.adminNavbarModel.roleName == "Admin")
+                {
+                    <div class="d-flex justify-content-end">
+                        <form method="post" asp-action="ApproveTimesheet" asp-controller="Admin">
+                            <div class="form-floating d-inline-block w-auto mt-4 h-75 me-2">
+                                <input type="number" name="bonus" class="form-control" />
+                                <input type="hidden" name="tid" asp-for="@Model.timesheetId"/>
+                                <label for="floatingInput" class="text-muted">Bonus Amount</label>
+                            </div>
+
+                            <div class="form-floating d-inline-block w-auto mt-4 h-75 me-2">
+                                <input type="text" name="desc" class="form-control" />
+                                <label for="floatingInput" class="text-muted">Admin Description</label>
+                            </div>
+
+                            <div class="form floating float-end">
+                                <button type="submit" class="btn btn-info mt-4">Approve</button>
+                            </div>
+                        </form>
+                    </div>
+                }
             </div>
 
-            <div class="row">
-                <div class="col">
-                    <button type="button" class="btn btn-info text-white float-end mt-4">Finalize</button>
+            @if (Model.adminNavbarModel.roleName == "Provider" && Model.timesheetId != 0 && Model.timesheetId != null)
+            {
+                <div class="row">
+                    <div class="col">
+                        <a type="button" class="btn btn-info text-white float-end mt-4" asp-action="FinalizeTimesheet" asp-controller="Provider" asp-route-tid="@Model.timesheetId">Finalize</a>
+                    </div>
                 </div>
-            </div>
+            }
+
+            
         </div>
 
 
@@ -307,8 +371,6 @@
             document.getElementById(`saveBtn${id}`).style.display = "none";
             document.getElementById(`cancelBtn${id}`).style.display = "none";
             document.getElementById(`editBtn${id}`).style.display = "inline-block";
-            document.getElementById(`item${id}`).setAttribute('readonly', true);
-            document.getElementById(`amount${id}`).setAttribute('readonly', true);
         }
     }
 

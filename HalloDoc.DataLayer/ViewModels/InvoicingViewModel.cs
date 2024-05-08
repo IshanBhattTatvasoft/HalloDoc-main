@@ -16,5 +16,16 @@ public class InvoicingViewModel
     public int? timesheetId { get; set; }
     public bool? isFinalized { get; set; }
     public bool? isExisting { get; set; }
+    public double? payrateShift { get; set; }
+    public double? payrateWeekend { get; set; }
+    public double? payrateHouseCall { get; set; }
+    public double? payratePhoneConsult { get; set; }
+    public int? shiftCount { get; set; }
+    public int? weekendCount { get; set; }
+    public int? houseCallCount { get; set; }
+    public int? phoneConsultCount { get; set; }
+    public int? bonus { get; set; }
+    public string? desc { get; set; }
+    public int? physicianId { get; set; }
 }
 

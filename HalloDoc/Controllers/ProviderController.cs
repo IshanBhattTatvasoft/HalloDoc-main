@@ -682,14 +682,7 @@ namespace HalloDoc.Controllers
                 DateTime startDate = DateTime.ParseExact(bothDates[0], format, CultureInfo.InvariantCulture);
                 DateTime endDate = DateTime.ParseExact(bothDates[1], format, CultureInfo.InvariantCulture);
                 InvoicingViewModel model = _providerInterface.GetTimesheetOnInvoicing(startDate, endDate, an, (int)userId);
-                if (model.timesheetId != 0)
-                {
-                    return PartialView("ProviderTimeSheetPartialView", model);
-                }
-                else
-                {
-                    return Json(new {isExists = model.isExisting});
-                }
+                return PartialView("ProviderTimeSheetPartialView", model);
             }
 
             catch (Exception ex)
@@ -700,7 +693,7 @@ namespace HalloDoc.Controllers
         }
 
         [CustomAuthorize("Provider", "ProviderInvoicing")]
-        public IActionResult BiWeeklyTimesheet(string dateRange)
+        public bool CheckFinalized(string date)
         {
             try
             {
@@ -724,12 +717,61 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
 
+                string[] bothDates = date.Split('-');
+                string format = "M/d/yyyy";
+                DateTime startDate = DateTime.ParseExact(bothDates[0], format, CultureInfo.InvariantCulture);
+                DateTime endDate = DateTime.ParseExact(bothDates[1], format, CultureInfo.InvariantCulture);
+                return _providerInterface.CheckFinalized(startDate, endDate, (int)userId);
+            }
+
+            catch (Exception ex)
+            {
+                TempData["error"] = "Unable to view invoicing information";
+                return false;
+            }
+        }
+
+        [CustomAuthorize("Admin Provider", "ProviderInvoicing")]
+        public IActionResult BiWeeklyTimesheet(AdminInvoicingViewModel? model, string? dateRange = null, int? pid = null)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("id");
+                Admin ad = _adminInterface.GetAdminFromId((int)userId);
+                Physician p = _adminInterface.GetPhysicianFromId((int)userId);
+                int x = (int)(pid != null ? pid : 0);
+                AdminNavbarModel an = new AdminNavbarModel();
+                if (ad != null)
+                {
+                    an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
+                    an.roleName = "Admin";
+                }
+                else
+                {
+                    x = p.PhysicianId;
+                    an.Admin_Name = string.Concat(p.FirstName, " ", p.LastName);
+                    an.roleName = "Provider";
+                }
+                if (pid != null)
+                {
+                    an.Tab = 7;
+                }
+                else
+                {
+                    an.Tab = 21;
+                }
+                string token = Request.Cookies["token"];
+                string roleIdVal = _jwtToken.GetRoleId(token);
+                List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
+                ViewBag.Menu = menus;
+
+
                 string[] bothDates = dateRange.Split('-');
                 string format = "M/d/yyyy";
                 DateTime startDate = DateTime.ParseExact(bothDates[0], format, CultureInfo.InvariantCulture);
                 DateTime endDate = DateTime.ParseExact(bothDates[1], format, CultureInfo.InvariantCulture);
 
-                InvoicingViewModel ivm = _providerInterface.GetBiWeeklyTimesheet(startDate, endDate, an, (int)userId);
+                InvoicingViewModel ivm = _providerInterface.GetBiWeeklyTimesheet(startDate, endDate, an, x);
                 return View(ivm);
             }
 
@@ -741,8 +783,8 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Provider", "ProviderInvoicing")]
-        public IActionResult SubmitTimeSheet(InvoicingViewModel model, DateTime startDate, DateTime endDate)
+        [CustomAuthorize("Admin Provider", "ProviderInvoicing")]
+        public IActionResult SubmitTimeSheet(InvoicingViewModel model, DateTime startDate, DateTime endDate, int phyId)
         {
             try
             {
@@ -750,6 +792,7 @@ namespace HalloDoc.Controllers
                 Admin ad = _adminInterface.GetAdminFromId((int)userId);
                 Physician p = _adminInterface.GetPhysicianFromId((int)userId);
                 AdminNavbarModel an = new AdminNavbarModel();
+                Physician phy = _adminInterface.FetchPhysician(phyId);
                 if (ad != null)
                 {
                     an.Admin_Name = string.Concat(ad.FirstName, " ", ad.LastName);
@@ -767,7 +810,7 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
 
 
-                bool isSubmitted = _providerInterface.SubmitTimesheet(model, startDate, endDate, (int)userId);
+                bool isSubmitted = _providerInterface.SubmitTimesheet(model, startDate, endDate, (int)phy.AspNetUserId);
                 if (isSubmitted)
                 {
                     TempData["success"] = "Timesheet details added successfully";
@@ -776,7 +819,14 @@ namespace HalloDoc.Controllers
                 {
                     TempData["error"] = "Unable to add timesheet details";
                 }
-                return RedirectToAction("MyInvoicing");
+                if (an.roleName == "Provider")
+                {
+                    return RedirectToAction("MyInvoicing");
+                }
+                else
+                {
+                    return RedirectToAction("Invoicing", "Admin");
+                }
             }
 
             catch (Exception ex)
@@ -787,8 +837,8 @@ namespace HalloDoc.Controllers
         }
 
         [HttpPost]
-        [CustomAuthorize("Provider", "ProviderInvoicing")]
-        public IActionResult SubmitReimbursement(int ind, DateTime startDate, DateTime endDate, string item, int amount, IFormFile upload)
+        [CustomAuthorize("Admin Provider", "ProviderInvoicing")]
+        public IActionResult SubmitReimbursement(int phyId, int ind, DateTime startDate, DateTime endDate, string item, int amount, IFormFile upload)
         {
             try
             {
@@ -815,21 +865,28 @@ namespace HalloDoc.Controllers
                 bool isSubmitted = false;
                 if (upload != null)
                 {
-                    isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, upload);
+                    isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, phyId, item, amount, upload);
                 }
                 else
                 {
-                    isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, p.PhysicianId, item, amount, null);
+                    isSubmitted = _providerInterface.AddReimbursementData(ind, startDate, endDate, phyId, item, amount, null);
                 }
                 if (isSubmitted)
                 {
-                    TempData["success"] = "Timesheet details added successfully";
+                    TempData["success"] = "Reimbursement details added successfully";
                 }
                 else
                 {
                     TempData["error"] = "Unable to add timesheet details";
                 }
-                return RedirectToAction("MyInvoicing");
+                if (an.roleName == "Provider")
+                {
+                    return RedirectToAction("MyInvoicing");
+                }
+                else
+                {
+                    return RedirectToAction("Invoicing", "Admin");
+                }
             }
 
             catch (Exception ex)
