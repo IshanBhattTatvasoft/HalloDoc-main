@@ -1,38 +1,27 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.AdminDashboardTableView
 
-
-@*Location Modal*@
-@*<div class="modal" id="myModal1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <section>
-                <div class="mapouter">
-                    <div class="gmap_canvas">
-                        <iframe width="600" height="500" id="gmap_canvas" src="" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-
-                            <!-- </iframe><a href="https://123movies-to.org">123 movies</a><br> -->
-                            <style>
-                                .mapouter {
-                                    position: relative;
-                                    text-align: right;
-                                    height: 500px;
-                                    width: 600px;
-                                }</style>
-                            <!-- <a href="https://www.embedgooglemap.net">embedgooglemap.net</a> -->
-                            <style>
-                                .gmap_canvas {
-                                    overflow: hidden;
-                                    background: none !important;
-                                    height: 500px;
-                                    width: 600px;
-                                }
-                            </style>
+@*Message Offcanvas*@
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide" aria-labelledby="offcanvasSideLabel">
+    <div class="offcanvas-header bg-info text-light">
+        <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" id="ChatContainer">
+        <div class="Chat-Container">
+            <ul id="messagesList" class="chat-messages d-flex flex-column" style="height:80vh;">
+            </ul>
+            <form id="messageForm">
+                <div class="d-flex gap-2 position-absolute w-100 bottom-0 mb-2">
+                    <div class="form-floating" style="width:310px;">
+                        <textarea class="form-control" placeholder="Type A Message" id="messageInput"></textarea>
+                        <label for="messageInput">Type A Message</label>
                     </div>
+                    <button class="btn btn-info text-white" onclick="ViewMessage(); return false;"><i class="bi bi-send m-2"></i></button>
                 </div>
-            </section>
+            </form>
         </div>
     </div>
-</div>*@
+</div>
 
 <form asp-action="DownloadSpecificExcel" asp-controller="Admin" method="post">
     @Html.HiddenFor(m => m.status)
@@ -127,7 +116,7 @@
                     {
                         <th>Notes</th>
                     }
-                    @*<th>Chat With</th>*@
+                    <th>Chat With</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -249,6 +238,14 @@
                                 </td>
                             }
                         }
+
+                        <td class="@statusClass my-auto">
+                            <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Admin</button>
+                            @if(item.PhysicianId != null)
+                            {
+                                <button class="btn btn-outline-light mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Provider</button>
+                            }
+                        </td>
 
                         <td class="@statusClass my-auto">
                             <div class="dropdown" style="height:100%;display:flex;">
@@ -830,6 +827,8 @@
         <a style="color:#00ccff !important; cursor: pointer !important;" data-page="@(Model.CurrentPage + 1)" class="mx-4 text-decoration-none pagination-text">Next</a>
     }
 </div>
+
+
 
 <script>
 
