@@ -782,12 +782,14 @@ td {
     justify-content: center;
 }
 
-    .loader2 span {
-        display: block;
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        background-color: #00ccff;
-        animation: bounce 1.2s ease-in-out infinite;
-        margin-right: 5px;
-    }
+.loader2 span {
+    display: block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: #00ccff;
+    animation: bounce 1.2s ease-in-out infinite;
+    margin-right: 5px;
+}
+
+

@@ -127,11 +127,11 @@
             welcome
             @if (Model.roleName == "Admin")
             {
-                <strong> @Model.Admin_Name</strong>
+                <strong id="userName"> @Model.Admin_Name</strong>
             }
             else
             {
-                <strong> Dr. @Model.Admin_Name</strong>
+                <strong id="userName"> Dr.@Model.Admin_Name</strong>
 
             }
         </p>

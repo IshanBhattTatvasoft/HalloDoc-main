@@ -8,6 +8,54 @@
         textarea {
             resize: none !important;
         }
+
+        .chat-messages {
+            list-style-type: none;
+            padding: 0;
+            margin: 5px;
+        }
+
+        *::-webkit-scrollbar {
+            width: 9px;
+        }
+
+        *::-webkit-scrollbar-track {
+            background: #fcfcfc;
+        }
+
+        *::-webkit-scrollbar-thumb {
+            background-color: #5a6263;
+            border-radius: 10px;
+            border: 3px solid #ffffff;
+        }
+
+        .chat-message {
+            padding: 10px 10px;
+            margin-bottom: 5px;
+            border-bottom-left-radius: 8px;
+        }
+
+        .outgoing {
+            background-color: #dcf8c640;
+            border: 2px solid #eaeaea94;
+            width: max-content;
+            align-self: flex-end;
+        }
+
+        .incoming {
+            background-color: #e4faff;
+            border: 2px solid #d6eaff;
+            width: max-content;
+            align-self: flex-start;
+        }
+
+        .timeOnLeft {
+            align-self: flex-start;
+        }
+
+        .timeOnRight {
+            align-self: flex-end;
+        }
     </style>
 }
 
@@ -431,7 +479,7 @@
                         <input type="number" hidden asp-for="RequestId" id="r-id-three" />
                         <p class="mb-3 text-muted">Patient Name: <span class="text-info fw-bold" id="p-name-two"></span></p>
                         <div class="form-group">
-                            <textarea class="form-control border border-info" id="blockReason" placeholder="Reason for Block Request" rows="5" name="reasonForBlockRequest" ></textarea>
+                            <textarea class="form-control border border-info" id="blockReason" placeholder="Reason for Block Request" rows="5" name="reasonForBlockRequest"></textarea>
                             <span class="text-danger" id="blockError" style="display: none;"></span>
                         </div>
 
@@ -1073,7 +1121,7 @@
                 document.getElementById("business-data").style.display = "flex";
             }
 
-            $("#SendAgreementModal").modal('show'); 
+            $("#SendAgreementModal").modal('show');
         }
 
         // code to show dropdown in phone number field of
@@ -1100,7 +1148,7 @@
         //    const phys = document.getElementById("select-physician").value;
         //    console.log(region);
         //    let flag = 0
-            
+
         //    if(region==-1)
         //    {
         //        console.log(region);
@@ -1109,8 +1157,8 @@
         //        event.preventDefault();
         //        return false;
         //    }
-            
-        //    if (phys<0) 
+
+        //    if (phys<0)
         //    {
         //        document.getElementById("physicianError").innerHTML = "Please select a physician";
         //        document.getElementById("physicianError").style.display = "block";
@@ -1125,13 +1173,12 @@
         //    }
         //}
 
-        function checkTransfer()
-        {
+        function checkTransfer() {
             const region = document.getElementById("select-region-for-transfer").value;
             const phys = document.getElementById("select-physician2").value;
             console.log(region);
             let flag = 0
-            console.log("Phy: "+phys);
+            console.log("Phy: " + phys);
             if (region == -1) {
                 console.log(region);
                 document.getElementById("regionError2").innerHTML = "Please select alteast one region!";
@@ -1182,20 +1229,17 @@
             return true;
         }
 
-        function checkCancelCase()
-        {
+        function checkCancelCase() {
             var reason = document.getElementById("reason").value;
             console.log(reason);
-            if(reason == -1)
-            {
+            if (reason == -1) {
                 console.log("if");
                 document.getElementById("caseTagError").innerHTML = "Please select a reason for cancelling the case";
                 document.getElementById("caseTagError").style.display = "block";
                 event.preventDefault();
                 return false;
             }
-            else
-            {
+            else {
                 console.log("else");
                 document.getElementById("caseTagError").innerHTML = "";
                 document.getElementById("caseTagError").style.display = "none";
@@ -1203,20 +1247,17 @@
             return true;
         }
 
-        function checkBlockCase()
-        {
+        function checkBlockCase() {
             var reason = document.getElementById("blockReason").value;
 
-            if(reason == null || reason == "")
-            {
+            if (reason == null || reason == "") {
                 console.log("if");
                 document.getElementById("blockError").innerHTML = "Please enter reason to block the case";
                 document.getElementById("blockError").style.display = "block";
                 event.preventDefault();
                 return false;
             }
-            else
-            {
+            else {
                 console.log("else");
                 document.getElementById("blockError").innerHTML = "";
                 document.getElementById("blockError").style.display = "none";
@@ -1227,16 +1268,14 @@
         function checkDTY() {
             var x = document.getElementById("reasonDTY").value;
 
-            if(x == null || x == "")
-            {
+            if (x == null || x == "") {
                 console.log("if");
                 document.getElementById("dtyError").innerHTML = "Please enter reason for which support is needed";
                 document.getElementById("dtyError").style.display = "block";
                 event.preventDefault();
                 return false;
             }
-            else
-            {
+            else {
                 console.log("else");
                 document.getElementById("dtyError").innerHTML = "";
                 document.getElementById("dtyError").style.display = "none";
@@ -1248,7 +1287,7 @@
             // make values empty of fields in Cancel Case Modal
             document.getElementById("reason").value = "-1";
             document.getElementById("exampleFormControlTextarea1").value = "";
-            
+
             // make values empty of fields in Assign Case Modal
             console.log("assign case");
             document.getElementById("select-region").value = -1;
@@ -1268,7 +1307,7 @@
             // make values empty of fields of Send Agreement Modal
             document.getElementById("phoneForAgree").value = "";
             document.getElementById("emailForAgree").value = "";
-            
+
             // make values empty of fields of Request DTY Modal
             document.getElementById("reasonDTY").value = "";
 
@@ -1280,10 +1319,10 @@
         $('#exampleModal').on('hide.bs.modal', function (e) {
             // call to the function which resets the inputs
             console.log("hide bs modal call");
-            resetFormInputs(); 
+            resetFormInputs();
         });
 
-        $('#example2Modal').on('hide.bs.modal', function(e){
+        $('#example2Modal').on('hide.bs.modal', function (e) {
             resetFormInputs();
         });
 
@@ -1302,9 +1341,112 @@
         $("#requestSupportModal").on('hide.bs.modal', function (e) {
             resetFormInputs();
         });
-        
+
         $("#providerTransferModal").on('hide.bs.modal', function (e) {
             resetFormInputs();
         });
+
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        var loggedInUser, lastUser, lastTime, uniqueId;
+
+        connection.on("ReceiveMessage", function (user, message) {
+            const messagesList = document.getElementById(`messagesList${uniqueId}`);
+            // create new element to show message in it
+            const listItem = document.createElement("li");
+            // get current time
+            const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            listItem.classList.add("chat-message");
+
+            if (message.length > 19) {
+                listItem.style.width = "50%";
+            }
+            listItem.style.wordWrap = "break-word";
+            listItem.classList.add("d-block");
+            const checkName = document.getElementById("userName").innerText;
+            console.log("User: " + user);
+            console.log("Check name: " + checkName);
+            listItem.classList.add(user === checkName ? "outgoing" : "incoming");
+            listItem.classList.add("mt-2");
+            listItem.textContent = `${message}`;
+
+
+            // create element to show username and time or only time
+            const userName = document.createElement("small");
+            if (user == loggedInUser) {
+                userName.textContent = `${currentTime}`;
+            }
+            else {
+                userName.textContent = `${user}, ${currentTime}`;
+            }
+            userName.classList.add("d-block");
+            userName.style.fontSize = "12px";
+            userName.classList.add("text-muted");
+            userName.classList.add(user === checkName ? "timeOnRight" : "timeOnLeft");
+            userName.classList.add("mt-2");
+            
+            if(listItem.classList.contains("outgoing"))
+            {
+                listItem.style.backgroundColor = "#dcf8c640";
+                listItem.style.border = "2px solid #eaeaea94";
+                listItem.style.width = "max-content";
+                listItem.style.alignSelf = "flex-end";
+            }
+
+            if(listItem.classList.contains("incoming"))
+            {
+                listItem.style.backgroundColor = "#e4faff";
+                listItem.style.border = "2px solid #d6eaff";
+                listItem.style.width = "max-content";
+                listItem.style.alignSelf = "flex-start";
+            }
+
+            if(userName.classList.contains("timeOnLeft"))
+            {
+                userName.style.alignSelf = "flex-start";
+            }
+
+            if(userName.classList.contains("timeOnRight"))
+            {
+                userName.style.alignSelf = "flex-end";
+            }
+
+            // show username and time if user who has sent the message is not same as the logged in user OR message sent time is not equal to current time
+            if (lastUser != user || lastTime != currentTime) {
+                messagesList.appendChild(userName);
+            }
+            messagesList.appendChild(listItem);
+            scrollToBottom();
+            lastUser = user;
+            lastTime = currentTime;
+        });
+
+        function checkEnterButton(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById(`sendMessageButton${uniqueId}`).click();
+            }
+        }
+
+        function scrollToBottom() {
+            let messages = document.getElementById('ChatContainer');
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        function ViewMessage(id) {
+            console.log(id);
+            var user = document.getElementById("userName").innerText;
+            var message = document.getElementById(`messageInput${id}`).value;
+            console.log(message);
+            loggedInUser = user;
+            uniqueId = id;
+            if (message != '') {
+                connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+                document.getElementById(`messageInput${id}`).value = "";
+            }
+        }
+
     </script>
 </div>

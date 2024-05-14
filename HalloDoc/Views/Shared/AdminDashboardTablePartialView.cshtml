@@ -1,27 +1,6 @@
 ﻿@model HalloDoc.DataLayer.ViewModels.AdminDashboardTableView
 
-@*Message Offcanvas*@
-<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide" aria-labelledby="offcanvasSideLabel">
-    <div class="offcanvas-header bg-info text-light">
-        <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
-        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body" id="ChatContainer">
-        <div class="Chat-Container">
-            <ul id="messagesList" class="chat-messages d-flex flex-column" style="height:80vh;">
-            </ul>
-            <form id="messageForm">
-                <div class="d-flex gap-2 position-absolute w-100 bottom-0 mb-2">
-                    <div class="form-floating" style="width:310px;">
-                        <textarea class="form-control" placeholder="Type A Message" id="messageInput"></textarea>
-                        <label for="messageInput">Type A Message</label>
-                    </div>
-                    <button class="btn btn-info text-white" onclick="ViewMessage(); return false;"><i class="bi bi-send m-2"></i></button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+
 
 <form asp-action="DownloadSpecificExcel" asp-controller="Admin" method="post">
     @Html.HiddenFor(m => m.status)
@@ -121,8 +100,42 @@
                 </tr>
             </thead>
             <tbody id="abcd">
+                @{
+                    var i = 0;
+                }
                 @foreach (var item in Model.requests)
                 {
+                    i++;
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(i)" aria-labelledby="offcanvasSideLabel">
+
+                        <div class="offcanvas-header bg-info text-light">
+                            <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+
+                        <div class="offcanvas-body" id="ChatContainer">
+                            <div class="Chat-Container">
+                                <ul id="messagesList@(i)" class="chat-messages d-flex flex-column">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="offcanvas-bottom">
+                            <form id="messageForm@(i)">
+                                <div class="d-flex gap-2">
+                                    <div class="form-floating" style="width:310px;">
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(i)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <label for="messageInput">Type A Message</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@i'); return false;" id="sendMessageButton@(i)"><i class="bi bi-send m-2"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+
                     var statusClass = "";
                     var notes = "";
                     @if (item.RequestTypeId == 1)
@@ -240,10 +253,10 @@
                         }
 
                         <td class="@statusClass my-auto">
-                            <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Admin</button>
+                            <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(i)" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Admin</button>
                             @if(item.PhysicianId != null)
                             {
-                                <button class="btn btn-outline-light mt-2" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Provider</button>
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(i)" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Provider</button>
                             }
                         </td>
 
@@ -485,6 +498,10 @@
                             </div>
                         </td>
                     </tr>
+
+                    @*Message Offcanvas*@
+                   
+                i++;
                 }
             </tbody>
         </table>

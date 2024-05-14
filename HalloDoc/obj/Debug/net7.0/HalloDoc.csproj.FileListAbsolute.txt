@@ -1578,7 +1578,9 @@ C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\i
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\itext.bouncy-castle-adapter.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\itext.commons.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.AspNetCore.Connections.Abstractions.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.AspNetCore.Razor.Language.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.AspNetCore.SignalR.Common.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.Build.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.Build.Framework.dll
@@ -1600,6 +1602,8 @@ C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\M
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Relational.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.Extensions.DependencyModel.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.Extensions.Features.dll
+C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.Extensions.Options.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.IdentityModel.Abstractions.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.IdentityModel.JsonWebTokens.dll
 C:\Users\pca141\Desktop\HalloDoc-Final\HalloDoc-main\HalloDoc\bin\Debug\net7.0\Microsoft.IdentityModel.Logging.dll

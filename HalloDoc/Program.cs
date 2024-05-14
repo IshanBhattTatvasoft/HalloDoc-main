@@ -2,6 +2,7 @@
 //By bringing these models into your current code scope, you can directly use them without having to specify the namespace repeatedly.This makes your code more concise and readable, especially when accessing these models frequently.
 using DocumentFormat.OpenXml.InkML;
 using HalloDoc.DataLayer.Models;
+using HalloDoc.DataLayer.ViewModels;
 using HalloDoc.LogicLayer.Patient_Interface;
 using HalloDoc.LogicLayer.Patient_Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Rotativa.AspNetCore;
 using System.Text;
+
 
 // creates WebApplicationBuilder instance to configure the web application
 var builder = WebApplication.CreateBuilder(args);
@@ -20,8 +22,9 @@ ConfigurationManager configuration = builder.Configuration;
 builder.Services.AddControllersWithViews();
 
 // registers the HttpContextAccessor, which allows access to the HTTP context within the application.
-builder.Services.AddHttpContextAccessor();  
+builder.Services.AddHttpContextAccessor();
 
+builder.Services.AddSignalR();  
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -80,6 +83,6 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Login}/{action=PatientSite}/{id?}");
 
-app.UseRotativa();
+app.MapHub<ChatHub>("/chatHub");
 //This method is the terminal middleware in the request processing pipeline. It delegates the handling of requests to the application's request-handling logic.
 app.Run();
