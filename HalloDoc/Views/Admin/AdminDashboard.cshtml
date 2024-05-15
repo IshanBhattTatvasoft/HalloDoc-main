@@ -1351,6 +1351,9 @@
         var loggedInUser, lastUser, lastTime, uniqueId;
 
         connection.on("ReceiveMessage", function (user, message) {
+            let senderName = user.split('#')[0];
+            let id = user.split('#')[1];
+
             const messagesList = document.getElementById(`messagesList${uniqueId}`);
             // create new element to show message in it
             const listItem = document.createElement("li");
@@ -1364,61 +1367,38 @@
             listItem.style.wordWrap = "break-word";
             listItem.classList.add("d-block");
             const checkName = document.getElementById("userName").innerText;
-            console.log("User: " + user);
+            console.log("User: " + senderName);
             console.log("Check name: " + checkName);
-            listItem.classList.add(user === checkName ? "outgoing" : "incoming");
+            listItem.classList.add(senderName === checkName ? "outgoing" : "incoming");
             listItem.classList.add("mt-2");
             listItem.textContent = `${message}`;
 
 
             // create element to show username and time or only time
             const userName = document.createElement("small");
-            if (user == loggedInUser) {
+            if (senderName == loggedInUser) {
                 userName.textContent = `${currentTime}`;
             }
             else {
-                userName.textContent = `${user}, ${currentTime}`;
+                userName.textContent = `${senderName}, ${currentTime}`;
             }
+            console.log(userName.textContent);
             userName.classList.add("d-block");
             userName.style.fontSize = "12px";
             userName.classList.add("text-muted");
-            userName.classList.add(user === checkName ? "timeOnRight" : "timeOnLeft");
+            userName.classList.add(senderName === checkName ? "timeOnRight" : "timeOnLeft");
             userName.classList.add("mt-2");
             
-            if(listItem.classList.contains("outgoing"))
-            {
-                listItem.style.backgroundColor = "#dcf8c640";
-                listItem.style.border = "2px solid #eaeaea94";
-                listItem.style.width = "max-content";
-                listItem.style.alignSelf = "flex-end";
-            }
-
-            if(listItem.classList.contains("incoming"))
-            {
-                listItem.style.backgroundColor = "#e4faff";
-                listItem.style.border = "2px solid #d6eaff";
-                listItem.style.width = "max-content";
-                listItem.style.alignSelf = "flex-start";
-            }
-
-            if(userName.classList.contains("timeOnLeft"))
-            {
-                userName.style.alignSelf = "flex-start";
-            }
-
-            if(userName.classList.contains("timeOnRight"))
-            {
-                userName.style.alignSelf = "flex-end";
-            }
 
             // show username and time if user who has sent the message is not same as the logged in user OR message sent time is not equal to current time
-            if (lastUser != user || lastTime != currentTime) {
+            if (lastUser != senderName || lastTime != currentTime || uniqueId != id) {
                 messagesList.appendChild(userName);
             }
             messagesList.appendChild(listItem);
             scrollToBottom();
             lastUser = user;
             lastTime = currentTime;
+            uniqueId = id;
         });
 
         function checkEnterButton(event) {
@@ -1433,20 +1413,28 @@
             messages.scrollTop = messages.scrollHeight;
         }
 
+        function setRecevierId(id)
+        {
+            uniqueId = id;
+        }
+
         connection.start().catch(err => console.error(err.toString()));
 
-        function ViewMessage(id) {
-            console.log(id);
+        function ViewMessage(aspId) {
+            console.log(aspId);
             var user = document.getElementById("userName").innerText;
-            var message = document.getElementById(`messageInput${id}`).value;
+            var message = document.getElementById(`messageInput${aspId}`).value;
             console.log(message);
             loggedInUser = user;
-            uniqueId = id;
+            uniqueId = aspId;
+            user = user + "#" + aspId;
             if (message != '') {
                 connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
-                document.getElementById(`messageInput${id}`).value = "";
+                document.getElementById(`messageInput${aspId}`).value = "";
             }
         }
+
+        
 
     </script>
 </div>

@@ -67,39 +67,39 @@ namespace HalloDoc.Controllers
             _patientRequest = patientRequest;
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        //validate admin login
-        public IActionResult PlatformLoginPage(LoginViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
-                if (user != null)
-                {
-                    var token = _jwtToken.GenerateJwtToken(user);
-                    if (model.PasswordHash == user.PasswordHash)
-                    {
-                        Admin ad = _adminInterface.ValidateUser(user.Email);
-                        HttpContext.Session.SetInt32("id", ad.AdminId);
-                        HttpContext.Session.SetString("name", ad.FirstName);
-                        Response.Cookies.Append("token", token.ToString());
-                        HttpContext.Session.SetString("IsLoggedIn", "true");
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        ////validate admin login
+        //public IActionResult PlatformLoginPage(LoginViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        AspNetUser user = new AuthManager().Login(model.UserName, model.PasswordHash);
+        //        if (user != null)
+        //        {
+        //            var token = _jwtToken.GenerateJwtToken(user);
+        //            if (model.PasswordHash == user.PasswordHash)
+        //            {
+        //                Admin ad = _adminInterface.ValidateUser(user.Email);
+        //                HttpContext.Session.SetInt32("id", ad.AdminId);
+        //                HttpContext.Session.SetString("name", ad.FirstName);
+        //                Response.Cookies.Append("token", token.ToString());
+        //                HttpContext.Session.SetString("IsLoggedIn", "true");
 
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("PasswordHash", "Incorrect Password");
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("Username", "Incorrect Username");
-                }
-            }
+        //            }
+        //            else
+        //            {
+        //                ModelState.AddModelError("PasswordHash", "Incorrect Password");
+        //            }
+        //        }
+        //        else
+        //        {
+        //            ModelState.AddModelError("Username", "Incorrect Username");
+        //        }
+        //    }
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
 
         // destroy session on logout
         public IActionResult Logout()
@@ -136,6 +136,7 @@ namespace HalloDoc.Controllers
             List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
             ViewBag.Menu = menus;
             AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, null, null, -1, 1, 10);
+            adminDashboardViewModel.aspNetUserId = (int)userId;
             return View(adminDashboardViewModel);
         }
 
@@ -154,6 +155,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("New", (int)userId, search, requestor, (int)region, page, pageSize);
+                adminDashboardViewModel.aspNetUserId = (int)userId;
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
 
@@ -177,6 +179,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Pending", (int)userId, search, requestor, (int)region, page, pageSize);
+                adminDashboardViewModel.aspNetUserId = (int)userId;
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
             catch (Exception ex)
@@ -199,6 +202,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Active", (int)userId, search, requestor, (int)region, page, pageSize);
+                adminDashboardViewModel.aspNetUserId = (int)userId;
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
             catch (Exception ex)
@@ -221,6 +225,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Conclude", (int)userId, search, requestor, (int)region, page, pageSize);
+                adminDashboardViewModel.aspNetUserId = (int)userId;
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
             catch (Exception ex)
@@ -243,6 +248,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("ToClose", (int)userId, search, requestor, (int)region, page, pageSize);
+                adminDashboardViewModel.aspNetUserId = (int)userId;
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
             catch (Exception ex)
@@ -265,6 +271,7 @@ namespace HalloDoc.Controllers
                 List<string> menus = _adminInterface.GetAllMenus(roleIdVal);
                 ViewBag.Menu = menus;
                 AdminDashboardTableView adminDashboardViewModel = _adminInterface.ModelOfAdminDashboard("Unpaid", (int)userId, search, requestor, (int)region, page, pageSize);
+                adminDashboardViewModel.aspNetUserId = (int)userId;
                 return PartialView("AdminDashboardTablePartialView", adminDashboardViewModel);
             }
             catch (Exception ex)
@@ -1204,7 +1211,7 @@ namespace HalloDoc.Controllers
             }
         }
 
-        
+
 
         [CustomAuthorize("Admin", "AdminDashboard")]
         public int sendAgreement2(int reqId)
@@ -3558,10 +3565,10 @@ namespace HalloDoc.Controllers
                 string[] regionArr = selectedRegion.Split(',');
                 char[] rId = selectedRegion.ToCharArray();
 
-                if(!_adminInterface.CheckEmailFromAdminId(aid, model.email))
+                if (!_adminInterface.CheckEmailFromAdminId(aid, model.email))
                 {
                     TempData["error"] = "Email already exists in other account";
-                    return RedirectToAction("AdminProfileFromUserAccess", new { id = aid});
+                    return RedirectToAction("AdminProfileFromUserAccess", new { id = aid });
                 }
 
                 _adminInterface.UpdateAdminDataFromId(model, aid, selectedRegion);
@@ -3569,11 +3576,11 @@ namespace HalloDoc.Controllers
                 TempData["success"] = "Administrator info updated successfully";
                 if (model.an == null)
                 {
-                    return RedirectToAction("AdminProfileFromUserAccess", new {id = aid});
+                    return RedirectToAction("AdminProfileFromUserAccess", new { id = aid });
                 }
                 else
                 {
-                    return RedirectToAction("AdminProfileFromUserAccess", new {id = aid});
+                    return RedirectToAction("AdminProfileFromUserAccess", new { id = aid });
                 }
             }
 
@@ -4005,7 +4012,7 @@ namespace HalloDoc.Controllers
                     return RedirectToAction("CreateAdminAccount");
                 }
 
-                if(PatientCheck(model.Email))
+                if (PatientCheck(model.Email))
                 {
                     TempData["error"] = "Email already exists in the other account";
                     return RedirectToAction("ProviderMenu");
@@ -4182,7 +4189,7 @@ namespace HalloDoc.Controllers
             try
             {
                 _adminInterface.SetContentOfPhysician(file, PhysicianId, IsSignature);
-                if(!IsSignature)
+                if (!IsSignature)
                 {
                     TempData["success"] = "Profile photo uploaded successfully";
                 }
@@ -4491,7 +4498,7 @@ namespace HalloDoc.Controllers
                     return RedirectToAction("CreateAdminAccount");
                 }
 
-                if(PatientCheck(model.email))
+                if (PatientCheck(model.email))
                 {
                     TempData["error"] = "Email already exists in other account";
                     return RedirectToAction("CreateAdminAccount");
@@ -5726,7 +5733,7 @@ namespace HalloDoc.Controllers
             try
             {
                 var userId = HttpContext.Session.GetInt32("id");
-                
+
                 return _adminInterface.SubmitPayrateData(pId, nsw, sw, hcnw, pc, pcnw, bt, hc);
             }
 
@@ -5814,7 +5821,7 @@ namespace HalloDoc.Controllers
                 ViewBag.Menu = menus;
 
                 bool isApproved = _adminInterface.ApproveTimesheet(tid, bonus, desc);
-                if(isApproved)
+                if (isApproved)
                 {
                     TempData["success"] = "Timesheet approved successfully";
                 }

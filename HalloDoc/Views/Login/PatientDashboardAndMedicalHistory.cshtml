@@ -16,13 +16,81 @@
     <script src="~/js/bootstrap.bundle.min.js"></script>
 }
 
+<style>
+    textarea {
+        resize: none !important;
+    }
+
+    .chat-messages {
+        list-style-type: none;
+        padding: 0;
+        margin: 5px;
+    }
+
+    *::-webkit-scrollbar {
+        width: 9px;
+    }
+
+    *::-webkit-scrollbar-track {
+        background: #fcfcfc;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: #5a6263;
+        border-radius: 10px;
+        border: 3px solid #ffffff;
+    }
+
+    .chat-message {
+        padding: 10px 10px;
+        margin-bottom: 5px;
+        border-bottom-left-radius: 8px;
+    }
+
+    .outgoing {
+        background-color: #dcf8c640;
+        border: 2px solid #eaeaea94;
+        width: max-content;
+        align-self: flex-end;
+    }
+
+    .incoming {
+        background-color: #e4faff;
+        border: 2px solid #d6eaff;
+        width: max-content;
+        align-self: flex-start;
+    }
+
+    .timeOnLeft {
+        align-self: flex-start;
+    }
+
+    .timeOnRight {
+        align-self: flex-end;
+    }
+
+    input:focus {
+        outline: #3DB6FF !important;
+        /*border: 2px solid white !important;*/
+        box-shadow: none !important;
+        border-color: #3DB6FF !important;
+        /*color: red !important;*/
+    }
+
+    textarea:focus {
+        outline: none !important;
+        border-color: #3DB6FF !important;
+        box-shadow: none !important;
+    }
+</style>
+
 <div style="overflow-x: hidden; overflow-y: auto;">
-    <partial name="Toast"/>
-    <partial name="PatientNavbar" model="@Model.an"/>
+    <partial name="Toast" />
+    <partial name="PatientNavbar" model="@Model.an" />
 
     <div class="d-flex flex-column bg-light" style="margin: 5px auto; padding: 0px 35px;">
         <div class="bg-light">
-            <div class="mx-5 py-5 px-3">
+            <div class="me-5 py-5 px-3">
                 <p class="h4 text-muted">Medical History</p>
             </div>
         </div>
@@ -48,7 +116,7 @@
                             <div class="text-center">
                                 <button type="button" class="btn btn_dash selected" id="me-link" onclick="toggleMe()">Me</button>
                                 <a asp-action="RequestForMe" id="me_link"></a>
-                                
+
                                 <button type="button" class="btn btn_dash" id="else-link" onclick="toggleElse()">Someone Else</button>
                                 <a asp-action="RequestForSomeoneElse" id="else_link"></a>
                             </div>
@@ -67,6 +135,7 @@
                         <tr>
                             <th scope="col">Created Date <i class="fa-solid fa-arrow-down"></i></th>
                             <th scope="col">Current Status</th>
+                            <th scope="col">Chat With</th>
                             <th scope="col">Document</th>
                         </tr>
                     </thead>
@@ -75,16 +144,27 @@
                         {
                             @foreach (var obj in Model.Requests)
                             {
+
                                 <tr>
                                     <td>
                                         @obj.CreatedDate.ToString("MMM dd, yyyy")
 
                                     </td>
+
                                     <td>
                                         @Enum.GetName(typeof(Status), obj.Status)
                                     </td>
+
                                     <td>
-                                        @if (obj.RequestId != null)
+                                        <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(Model.User.Id)" aria-controls="offcanvasSide" onclick="setRecevierId('@Model.User.Id')"><i class="fa-regular fa-user me-2"></i>Admin</button>
+                                        @if (obj.PhysicianId != null)
+                                        {
+                                            <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(Model.User.Id)" aria-controls="offcanvasSide" onclick="setRecevierId('@Model.User.Id')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
+                                        }
+                                    </td>
+
+                                    <td>
+                                        @if (obj.RequestId != null && (obj.Status == 8 || obj.Status == 9))
                                         {
                                             var fileCount = Model.RequestsAndFiles.Count(rf => rf.RequestId == obj.RequestId);
                                             <a style="border:1px solid #00ccff;padding:6px;margin:auto;  color:#00ccff;border-radius:5px; text-decoration: none;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@obj.RequestId">(@fileCount) Documents</a>
@@ -97,6 +177,33 @@
                         }
                     </tbody>
                 </table>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(Model.User.Id)" aria-labelledby="offcanvasSideLabel">
+
+                    <div class="offcanvas-header bg-info text-light">
+                        <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-backdrop="false"></button>
+                    </div>
+
+                    <div class="offcanvas-body" id="ChatContainer">
+                        <div class="Chat-Container">
+                            <ul id="messagesList@(Model.User.Id)" class="chat-messages d-flex flex-column">
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="offcanvas-bottom">
+                        <form id="messageForm@(Model.User.Id)">
+                            <div class="d-flex gap-2">
+                                <div class="form-floating" style="width:310px;">
+                                    <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(Model.User.Id)" onkeydown="checkEnterButton(event)"></textarea>
+                                    <label for="messageInput">Type A Message</label>
+                                </div>
+                                <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@Model.User.Id'); return false;" id="sendMessageButton@(Model.User.Id)"><i class="bi bi-send m-2"></i></button>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
             </div>
 
 
@@ -118,7 +225,8 @@
                                         data-bs-target="#flush-collapse(@obj.RequestId)"
                                         aria-expanded="false" aria-controls="flush-collapse(@obj.RequestId)" style="background-color: #E5EEF5;">
                                     <img src="~/images/clock.svg" alt="" class="accordion-img"> <span class="accordion-heading">
-                                        <span class="ms-2">Created
+                                        <span class="ms-2">
+                                            Created
                                             Date:
                                         </span><span class="accordion-value">@obj.CreatedDate.ToString("MMM dd, yyyy")</span>
                                     </span>
@@ -132,11 +240,11 @@
                                             <img src="~/images/person-circle.svg" alt="" class="accordion-img-inner">
                                             <span class="accordion-heading-inner">
                                                 Provider :
-                                                    @if(obj.RequestId!=null)
-                                                    {
-                                                        var x = Model.phy.FirstOrDefault(p => p.PhysicianId == obj.PhysicianId);
-                                                <span class="accordion-value-inner">
-                                                    @if(x!=null)
+                                                @if (obj.RequestId != null)
+                                                {
+                                                    var x = Model.phy.FirstOrDefault(p => p.PhysicianId == obj.PhysicianId);
+                                                    <span class="accordion-value-inner">
+                                                        @if (x != null)
                                                         {
                                                             <span>Dr. @x.FirstName</span>
                                                         }
@@ -145,20 +253,20 @@
                                                             <span>-</span>
                                                         }
                                                     </span>
-                                                    }
-                                                    
+                                                }
+
                                             </span>
                                         </div>
                                         <div class="inner-flex mb-2">
                                             <img src="~/images/success-26.svg" alt="" class="accordion-img-inner" style="height: 15px; width: 15px"> <span class="accordion-heading-inner">
                                                 Current
                                                 Status: <span class="accordion-value-inner">
-                                                    
+
                                                 </span>
                                             </span>
                                         </div>
                                         <div style="margin-top: 4px;">
-                                            @if (obj.RequestId != null)
+                                            @if (obj.RequestId != null && (obj.Status == 8 || obj.Status == 9))
                                             {
                                                 var fileCount = Model.RequestsAndFiles.Count(rf => rf.RequestId == obj.RequestId);
                                                 <a class="w-100 text-center" style="border:1px solid #00ccff;padding:3px;margin-top: 3px;  color:#00ccff;border-radius:5px; text-decoration: none; height: 31px;display: inline-block;" asp-controller="Login" asp-action="PatientDashboardViewDocuments" asp-route-id="@obj.RequestId" style="text-decoration: none;">(@fileCount) Documents</a>
@@ -233,6 +341,93 @@
                 link_else.click();
             }
         }
+
+        var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+        var loggedInUser, lastUser, lastTime, uniqueId;
+
+        connection.on("ReceiveMessage", function (user, message) {
+            let senderName = user.split('#')[0];
+            let id = user.split('#')[1];
+
+            const messagesList = document.getElementById(`messagesList${uniqueId}`);
+            // create new element to show message in it
+            const listItem = document.createElement("li");
+            // get current time
+            const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            listItem.classList.add("chat-message");
+
+            if (message.length > 19) {
+                listItem.style.width = "50%";
+            }
+            listItem.style.wordWrap = "break-word";
+            listItem.classList.add("d-block");
+            const checkName = document.getElementById("userName").innerText;
+            console.log("User: " + senderName);
+            console.log("Check name: " + checkName);
+            listItem.classList.add(senderName === checkName ? "outgoing" : "incoming");
+            listItem.classList.add("mt-2");
+            listItem.textContent = `${message}`;
+
+
+            // create element to show username and time or only time
+            const userName = document.createElement("small");
+            if (senderName == loggedInUser) {
+                userName.textContent = `${currentTime}`;
+            }
+            else {
+                userName.textContent = `${senderName}, ${currentTime}`;
+            }
+            console.log(userName.textContent);
+            userName.classList.add("d-block");
+            userName.style.fontSize = "12px";
+            userName.classList.add("text-muted");
+            userName.classList.add(senderName === checkName ? "timeOnRight" : "timeOnLeft");
+            userName.classList.add("mt-2");
+
+
+            // show username and time if user who has sent the message is not same as the logged in user OR message sent time is not equal to current time
+            if (lastUser != senderName || lastTime != currentTime || uniqueId != id) {
+                messagesList.appendChild(userName);
+            }
+            messagesList.appendChild(listItem);
+            scrollToBottom();
+            lastUser = user;
+            lastTime = currentTime;
+            uniqueId = id;
+        });
+
+        function checkEnterButton(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                document.getElementById(`sendMessageButton${uniqueId}`).click();
+            }
+        }
+
+        function scrollToBottom() {
+            let messages = document.getElementById('ChatContainer');
+            messages.scrollTop = messages.scrollHeight;
+        }
+
+        function setRecevierId(id) {
+            uniqueId = id;
+        }
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        function ViewMessage(aspId) {
+            console.log(aspId);
+            var user = document.getElementById("userName").innerText;
+            var message = document.getElementById(`messageInput${aspId}`).value;
+            console.log(message);
+            loggedInUser = user;
+            uniqueId = aspId;
+            user = user + "#" + aspId;
+            if (message != '') {
+                connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+                document.getElementById(`messageInput${aspId}`).value = "";
+            }
+        }
+
     </script>
-    
+
 </div>

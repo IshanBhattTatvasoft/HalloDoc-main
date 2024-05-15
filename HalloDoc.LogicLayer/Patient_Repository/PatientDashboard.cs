@@ -20,6 +20,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public DashboardViewModel GetDashboardData(int id)
         {
             User users = _context.Users.FirstOrDefault(us => us.UserId == id);
+            AspNetUser anu = _context.AspNetUsers.FirstOrDefault(a => a.Id == users.AspNetUserId);
 
             IEnumerable<Request> req = _context.Requests.Where(r => r.UserId == users.UserId).OrderByDescending(r => r.CreatedDate);
             IEnumerable<RequestWiseFile> rwf = _context.RequestWiseFiles;
@@ -38,6 +39,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 Requests = req,
                 RequestsAndFiles = requestsAndFile,
                 phy = ph,
+                User = anu,
             };
 
             return viewModel;

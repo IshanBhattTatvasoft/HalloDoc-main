@@ -97,7 +97,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             List<HalloDoc.DataLayer.Models.Region> r = _context.Regions.ToList();
             List<CaseTag> c = _context.CaseTags.ToList();
 
-            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Include(e => e.EncounterForms).Where(exp).OrderByDescending(e => e.CreatedDate);
+            IQueryable<Request> query = _context.Requests.Include(r => r.RequestClient).Include(r => r.Physician).Include(r => r.RequestStatusLogs).Include(e => e.EncounterForms).Include(u => u.User).Where(exp).OrderByDescending(e => e.CreatedDate);
 
             if (search != null && search != "")
             {
@@ -146,6 +146,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 caseTags = c,
                 email = "abc",
                 requests = query.Skip((page - 1) * pageSize).Take(pageSize).ToList(),
+                anu = _context.AspNetUsers.ToList(),
                 an = an,
                 CurrentPage = page,
                 PageSize = pageSize,

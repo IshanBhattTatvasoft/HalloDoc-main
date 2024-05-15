@@ -100,14 +100,12 @@
                 </tr>
             </thead>
             <tbody id="abcd">
-                @{
-                    var i = 0;
-                }
                 @foreach (var item in Model.requests)
                 {
-                    i++;
+                    var anuId = Model.anu.FirstOrDefault(a => a.UserName == item.RequestClient.Email)?.Id;
+                    @*Message Offcanvas*@
 
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(i)" aria-labelledby="offcanvasSideLabel">
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(anuId)" aria-labelledby="offcanvasSideLabel">
 
                         <div class="offcanvas-header bg-info text-light">
                             <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
@@ -116,19 +114,19 @@
 
                         <div class="offcanvas-body" id="ChatContainer">
                             <div class="Chat-Container">
-                                <ul id="messagesList@(i)" class="chat-messages d-flex flex-column">
+                                <ul id="messagesList@(anuId)" class="chat-messages d-flex flex-column">
                                 </ul>
                             </div>
                         </div>
 
                         <div class="offcanvas-bottom">
-                            <form id="messageForm@(i)">
+                            <form id="messageForm@(anuId)">
                                 <div class="d-flex gap-2">
                                     <div class="form-floating" style="width:310px;">
-                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(i)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(anuId)" onkeydown="checkEnterButton(event)"></textarea>
                                         <label for="messageInput">Type A Message</label>
                                     </div>
-                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@i'); return false;" id="sendMessageButton@(i)"><i class="bi bi-send m-2"></i></button>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@anuId'); return false;" id="sendMessageButton@(anuId)"><i class="bi bi-send m-2"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -253,10 +251,10 @@
                         }
 
                         <td class="@statusClass my-auto">
-                            <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(i)" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Admin</button>
+                            <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(anuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@anuId')"><i class="fa-regular fa-user me-2"></i>Patient</button>
                             @if(item.PhysicianId != null)
                             {
-                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(i)" aria-controls="offcanvasSide"><i class="bi bi-person-workspace"></i>Provider</button>
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(anuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@anuId')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
                             }
                         </td>
 
@@ -499,9 +497,6 @@
                         </td>
                     </tr>
 
-                    @*Message Offcanvas*@
-                   
-                i++;
                 }
             </tbody>
         </table>

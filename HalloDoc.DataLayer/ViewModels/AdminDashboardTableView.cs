@@ -46,4 +46,6 @@ public class AdminDashboardTableView
     public string cancelCaseNotes { get; set; }
     public string phoneNo { get; set; }
     public string requestDTY { get; set; }
+    public int? aspNetUserId { get; set; }
+    public List<AspNetUser> anu { get; set; }
 }
