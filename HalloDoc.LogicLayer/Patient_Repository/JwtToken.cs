@@ -138,5 +138,38 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 return roleId;
             }
         }
+
+        public string GetAspId(string token)
+        {
+            string userId = "";
+
+            if (token == null)
+            {
+                return userId;
+            }
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!);
+
+            try
+            {
+                tokenHandler.ValidateToken(token, new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero,
+                }, out SecurityToken validatedToken);
+
+                JwtSecurityToken jwtSecurityToken = (JwtSecurityToken)validatedToken;
+                var x = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "userId").Value;
+                return x;
+            }
+            catch
+            {
+                return userId;
+            }
+        }
     }
 }

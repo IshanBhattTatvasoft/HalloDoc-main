@@ -1350,9 +1350,10 @@
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         var loggedInUser, lastUser, lastTime, uniqueId;
 
-        connection.on("ReceiveMessage", function (user, message) {
-            let senderName = user.split('#')[0];
-            let id = user.split('#')[1];
+        connection.on("ReceiveMessage", function (senderId, receiverId, requestId, user, message) {
+            console.log(senderId, receiverId, requestId, user, message);
+            let senderName = user;
+            let id = receiverId
 
             const messagesList = document.getElementById(`messagesList${uniqueId}`);
             // create new element to show message in it
@@ -1388,7 +1389,7 @@
             userName.classList.add("text-muted");
             userName.classList.add(senderName === checkName ? "timeOnRight" : "timeOnLeft");
             userName.classList.add("mt-2");
-            
+
 
             // show username and time if user who has sent the message is not same as the logged in user OR message sent time is not equal to current time
             if (lastUser != senderName || lastTime != currentTime || uniqueId != id) {
@@ -1400,6 +1401,42 @@
             lastTime = currentTime;
             uniqueId = id;
         });
+
+        connection.start().catch(err => console.error(err.toString()));
+
+        function ViewMessage(aspId, reqId) {
+            console.log(aspId);
+            var user = document.getElementById("userName").innerText;
+            var message = document.getElementById(`messageInput${aspId}-${reqId}`).value;
+            console.log(message);
+            loggedInUser = user;
+            uniqueId = aspId;
+            //user = user + "#" + aspId;
+            if (message != '') {
+                connection.invoke("SendMessage", aspId, reqId, user, message)
+                    .then(() => {
+                        const listItem = document.createElement("li");
+                        listItem.classList.add("chat-message");
+                        listItem.classList.add("d-block");
+                        listItem.classList.add("outgoing");
+                        listItem.textContent = message;
+                        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        const username = document.createElement("small");
+                        const messagesList = document.getElementById(`messagesList${uniqueId}`);
+                        userName.classList.add("d-block");
+                        userName.style.fontSize = "12px";
+                        userName.classList.add("text-muted");
+                        username.classList.add("timeOnRight");
+                        userName.textContent = `${currentTime}`;
+                        scrollToBottom();
+                        messagesList.appendChild(username);
+                        messagesList.appendChild(listItem);
+                    })
+                    .catch(err => console.error(err.toString()));
+                document.getElementById(`messageInput${aspId}-${reqId}`).value = "";
+            }
+        }
 
         function checkEnterButton(event) {
             if (event.key === 'Enter') {
@@ -1413,28 +1450,9 @@
             messages.scrollTop = messages.scrollHeight;
         }
 
-        function setRecevierId(id)
-        {
+        function setRecevierId(id) {
             uniqueId = id;
         }
-
-        connection.start().catch(err => console.error(err.toString()));
-
-        function ViewMessage(aspId) {
-            console.log(aspId);
-            var user = document.getElementById("userName").innerText;
-            var message = document.getElementById(`messageInput${aspId}`).value;
-            console.log(message);
-            loggedInUser = user;
-            uniqueId = aspId;
-            user = user + "#" + aspId;
-            if (message != '') {
-                connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
-                document.getElementById(`messageInput${aspId}`).value = "";
-            }
-        }
-
-        
 
     </script>
 </div>

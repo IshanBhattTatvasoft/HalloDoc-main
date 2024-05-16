@@ -152,6 +152,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 PageSize = pageSize,
                 TotalItems = query.Count(),
                 TotalPages = (int)Math.Ceiling((double)query.Count() / pageSize),
+                allPhysicians = _context.Physicians.ToList(),
             };
             return adminDashboardViewModel;
         }

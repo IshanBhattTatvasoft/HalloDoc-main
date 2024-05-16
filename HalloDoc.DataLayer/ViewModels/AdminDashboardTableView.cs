@@ -48,4 +48,5 @@ public class AdminDashboardTableView
     public string requestDTY { get; set; }
     public int? aspNetUserId { get; set; }
     public List<AspNetUser> anu { get; set; }
+    public List<Physician> allPhysicians { get; set; }
 }

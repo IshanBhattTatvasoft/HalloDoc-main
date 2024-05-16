@@ -145,6 +145,34 @@
                             @foreach (var obj in Model.Requests)
                             {
 
+                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(Model.User.Id)" aria-labelledby="offcanvasSideLabel">
+
+                                    <div class="offcanvas-header bg-info text-light">
+                                        <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-backdrop="false"></button>
+                                    </div>
+
+                                    <div class="offcanvas-body" id="ChatContainer">
+                                        <div class="Chat-Container">
+                                            <ul id="messagesList@(Model.User.Id)" class="chat-messages d-flex flex-column">
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="offcanvas-bottom">
+                                        <form id="messageForm@(Model.User.Id)">
+                                            <div class="d-flex gap-2">
+                                                <div class="form-floating" style="width:310px;">
+                                                    <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(Model.User.Id)" onkeydown="checkEnterButton(event)"></textarea>
+                                                    <label for="messageInput">Type A Message</label>
+                                                </div>
+                                                <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@Model.User.Id', '@obj.RequestId'); return false;" id="sendMessageButton@(Model.User.Id)"><i class="bi bi-send m-2"></i></button>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+
                                 <tr>
                                     <td>
                                         @obj.CreatedDate.ToString("MMM dd, yyyy")
@@ -177,33 +205,7 @@
                         }
                     </tbody>
                 </table>
-                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(Model.User.Id)" aria-labelledby="offcanvasSideLabel">
-
-                    <div class="offcanvas-header bg-info text-light">
-                        <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
-                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-backdrop="false"></button>
-                    </div>
-
-                    <div class="offcanvas-body" id="ChatContainer">
-                        <div class="Chat-Container">
-                            <ul id="messagesList@(Model.User.Id)" class="chat-messages d-flex flex-column">
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="offcanvas-bottom">
-                        <form id="messageForm@(Model.User.Id)">
-                            <div class="d-flex gap-2">
-                                <div class="form-floating" style="width:310px;">
-                                    <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(Model.User.Id)" onkeydown="checkEnterButton(event)"></textarea>
-                                    <label for="messageInput">Type A Message</label>
-                                </div>
-                                <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@Model.User.Id'); return false;" id="sendMessageButton@(Model.User.Id)"><i class="bi bi-send m-2"></i></button>
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
+                
             </div>
 
 
@@ -314,6 +316,7 @@
         var btn_else = document.getElementById("else-link");
         var link_me = document.getElementById("me_link");
         var link_else = document.getElementById("else_link");
+
         function toggleMe() {
             if (btn_me.classList.contains("selected")) {
                 btn_else.classList.remove("selected");
@@ -323,6 +326,7 @@
                 btn_else.classList.remove("selected");
             }
         }
+
         function toggleElse() {
             if (btn_else.classList.contains("selected")) {
                 btn_me.classList.remove("selected");
@@ -332,6 +336,7 @@
                 btn_else.classList.add("selected");
             }
         }
+
         function selectForm() {
 
             if (btn_me.classList.contains("selected")) {
@@ -345,7 +350,8 @@
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         var loggedInUser, lastUser, lastTime, uniqueId;
 
-        connection.on("ReceiveMessage", function (user, message) {
+        connection.on("ReceiveMessage", function (senderId, receiverId, requestId, user, message) {
+            debugger;
             let senderName = user.split('#')[0];
             let id = user.split('#')[1];
 
@@ -414,7 +420,7 @@
 
         connection.start().catch(err => console.error(err.toString()));
 
-        function ViewMessage(aspId) {
+        function ViewMessage(aspId, reqId) {
             console.log(aspId);
             var user = document.getElementById("userName").innerText;
             var message = document.getElementById(`messageInput${aspId}`).value;
@@ -423,7 +429,7 @@
             uniqueId = aspId;
             user = user + "#" + aspId;
             if (message != '') {
-                connection.invoke("SendMessage", user, message).catch(err => console.error(err.toString()));
+                connection.invoke("SendMessage", aspId, reqId, user, message).catch(err => console.error(err.toString()));
                 document.getElementById(`messageInput${aspId}`).value = "";
             }
         }

@@ -102,10 +102,19 @@
             <tbody id="abcd">
                 @foreach (var item in Model.requests)
                 {
-                    var anuId = Model.anu.FirstOrDefault(a => a.UserName == item.RequestClient.Email)?.Id;
-                    @*Message Offcanvas*@
+                    var phyAnuId = 0;
+                    var adminAnuId = 0;
+                    var patientAnuId = Model.anu.FirstOrDefault(a => a.UserName == item.RequestClient.Email)?.Id;
+                    
+                    if(item.PhysicianId != null)
+                    {
+                        phyAnuId = (int)Model.allPhysicians.FirstOrDefault(a => a.PhysicianId == item.PhysicianId)?.AspNetUserId;
+                        adminAnuId = (int)Model.allPhysicians.FirstOrDefault(b => b.PhysicianId == item.PhysicianId)?.CreatedBy;
+                    }
 
-                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(anuId)" aria-labelledby="offcanvasSideLabel">
+                    @*Message Offcanvas - Admin to Patient*@
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(patientAnuId)" aria-labelledby="offcanvasSideLabel">
 
                         <div class="offcanvas-header bg-info text-light">
                             <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
@@ -114,25 +123,114 @@
 
                         <div class="offcanvas-body" id="ChatContainer">
                             <div class="Chat-Container">
-                                <ul id="messagesList@(anuId)" class="chat-messages d-flex flex-column">
+                                <ul id="messagesList@(patientAnuId)" class="chat-messages d-flex flex-column">
                                 </ul>
                             </div>
                         </div>
 
                         <div class="offcanvas-bottom">
-                            <form id="messageForm@(anuId)">
+                            <form id="messageForm@(patientAnuId)">
                                 <div class="d-flex gap-2">
                                     <div class="form-floating" style="width:310px;">
-                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(anuId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(patientAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
                                         <label for="messageInput">Type A Message</label>
                                     </div>
-                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@anuId'); return false;" id="sendMessageButton@(anuId)"><i class="bi bi-send m-2"></i></button>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@patientAnuId','@item.RequestId'); return false;" id="sendMessageButton@(patientAnuId)"><i class="bi bi-send m-2"></i></button>
                                 </div>
                             </form>
                         </div>
 
                     </div>
 
+                    @*Message Offcanvas - Provider to Patient*@
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(patientAnuId)Provider" aria-labelledby="offcanvasSideLabel">
+
+                        <div class="offcanvas-header bg-info text-light">
+                            <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+
+                        <div class="offcanvas-body" id="ChatContainer">
+                            <div class="Chat-Container">
+                                <ul id="messagesList@(patientAnuId)" class="chat-messages d-flex flex-column">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="offcanvas-bottom">
+                            <form id="messageForm@(patientAnuId)">
+                                <div class="d-flex gap-2">
+                                    <div class="form-floating" style="width:310px;">
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(patientAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <label for="messageInput">Type A Message</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@patientAnuId','@item.RequestId'); return false;" id="sendMessageButton@(patientAnuId)"><i class="bi bi-send m-2"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    @*Message Offcanvas - Admin to Provider*@
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(phyAnuId)" aria-labelledby="offcanvasSideLabel">
+
+                        <div class="offcanvas-header bg-info text-light">
+                            <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+
+                        <div class="offcanvas-body" id="ChatContainer">
+                            <div class="Chat-Container">
+                                <ul id="messagesList@(phyAnuId)" class="chat-messages d-flex flex-column">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="offcanvas-bottom">
+                            <form id="messageForm@(phyAnuId)">
+                                <div class="d-flex gap-2">
+                                    <div class="form-floating" style="width:310px;">
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(phyAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <label for="messageInput">Type A Message</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@phyAnuId','@item.RequestId'); return false;" id="sendMessageButton@(phyAnuId)"><i class="bi bi-send m-2"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+
+                    @*Message Offcanvas - Provider to Admin*@
+
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(adminAnuId)" aria-labelledby="offcanvasSideLabel">
+
+                        <div class="offcanvas-header bg-info text-light">
+                            <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                        </div>
+
+                        <div class="offcanvas-body" id="ChatContainer">
+                            <div class="Chat-Container">
+                                <ul id="messagesList@(adminAnuId)" class="chat-messages d-flex flex-column">
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="offcanvas-bottom">
+                            <form id="messageForm@(adminAnuId)">
+                                <div class="d-flex gap-2">
+                                    <div class="form-floating" style="width:310px;">
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(adminAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <label for="messageInput">Type A Message</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@adminAnuId','@item.RequestId'); return false;" id="sendMessageButton@(adminAnuId)"><i class="bi bi-send m-2"></i></button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
 
                     var statusClass = "";
                     var notes = "";
@@ -251,11 +349,21 @@
                         }
 
                         <td class="@statusClass my-auto">
-                            <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(anuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@anuId')"><i class="fa-regular fa-user me-2"></i>Patient</button>
-                            @if(item.PhysicianId != null)
+                            @if(Model.an.roleName == "Admin")
                             {
-                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(anuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@anuId')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(patientAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@patientAnuId')"><i class="fa-regular fa-user me-2"></i>Patient</button>
                             }
+                            @if(item.PhysicianId != null && Model.an.roleName == "Admin")
+                            {
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(phyAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@phyAnuId')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
+                            }
+                            @if(Model.an.roleName == "Provider")
+                            {
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(patientAnuId)Provider" aria-controls="offcanvasSide" onclick="setRecevierId('@patientAnuId')"><i class="fa-regular fa-user me-2"></i>Patient</button>
+
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(adminAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@adminAnuId')"><i class="fa-regular fa-user me-2"></i>Admin</button>
+                            }
+                            
                         </td>
 
                         <td class="@statusClass my-auto">

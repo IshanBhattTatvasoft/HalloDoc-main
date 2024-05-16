@@ -3649,7 +3649,7 @@ namespace HalloDoc.Controllers
 
                 AdminProfile ap = new AdminProfile
                 {
-                    Username = anur.UserName,
+                    Username = ad.LastName + ad.FirstName[0],
                     firstName = ad.FirstName,
                     lastName = ad.LastName,
                     email = ad.Email,
