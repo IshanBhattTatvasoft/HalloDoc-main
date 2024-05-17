@@ -14,9 +14,11 @@ namespace HalloDoc.DataLayer.ViewModels;
 public class ChatHub : Hub
 {
     private readonly IJwtToken _jwt;
-    public ChatHub(IJwtToken jwt)
+    private readonly IAdminInterface _admin;
+    public ChatHub(IJwtToken jwt, IAdminInterface admin)
     {
         _jwt = jwt;
+        _admin = admin;
     }
 
     public override Task OnConnectedAsync()
@@ -28,13 +30,23 @@ public class ChatHub : Hub
         return base.OnConnectedAsync();
     }
 
-    public async Task SendMessage(string receiverId, string requestId, string user, string message)
+    public async Task SendMessage(string receiverId, string requestId, string user, string message, string receiverRoleName)
     {
         HttpContext httpContext = Context.GetHttpContext();
         string jwtToken = httpContext.Request.Cookies["token"];
         string id = _jwt.GetAspId(jwtToken);
         string senderId = id;
-        await Clients.Group(receiverId).SendAsync("ReceiveMessage", senderId, receiverId, requestId, user, message);
+
+        if(receiverRoleName == "Admin")
+        {
+            List<string> allAdminIds = _admin.GetAllAdminIds();
+            await Clients.Groups(allAdminIds).SendAsync("ReceiveMessage", senderId, requestId, user, message);
+
+        }
+        else
+        {
+            await Clients.Group(receiverId).SendAsync("ReceiveMessage", receiverId, requestId, user, message);
+        }
         //await Clients.All.SendAsync("ReceiveMessage", user, message);
     }
 }

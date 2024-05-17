@@ -132,10 +132,10 @@
                             <form id="messageForm@(patientAnuId)">
                                 <div class="d-flex gap-2">
                                     <div class="form-floating" style="width:310px;">
-                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(patientAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(patientAnuId)-@(item.RequestId)-@(Model.an.roleName)1" onkeydown="checkEnterButton(event)"></textarea>
                                         <label for="messageInput">Type A Message</label>
                                     </div>
-                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@patientAnuId','@item.RequestId'); return false;" id="sendMessageButton@(patientAnuId)"><i class="bi bi-send m-2"></i></button>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@patientAnuId','@item.RequestId','@Model.an.roleName','1'); return false;" id="sendMessageButton@(patientAnuId)"><i class="bi bi-send m-2"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -162,10 +162,10 @@
                             <form id="messageForm@(patientAnuId)">
                                 <div class="d-flex gap-2">
                                     <div class="form-floating" style="width:310px;">
-                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(patientAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(patientAnuId)-@(item.RequestId)-@(Model.an.roleName)2" onkeydown="checkEnterButton(event)"></textarea>
                                         <label for="messageInput">Type A Message</label>
                                     </div>
-                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@patientAnuId','@item.RequestId'); return false;" id="sendMessageButton@(patientAnuId)"><i class="bi bi-send m-2"></i></button>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@patientAnuId','@item.RequestId','@Model.an.roleName','2'); return false;" id="sendMessageButton@(patientAnuId)"><i class="bi bi-send m-2"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -192,16 +192,17 @@
                             <form id="messageForm@(phyAnuId)">
                                 <div class="d-flex gap-2">
                                     <div class="form-floating" style="width:310px;">
-                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(phyAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(phyAnuId)-@(item.RequestId)-@(Model.an.roleName)1" onkeydown="checkEnterButton(event)"></textarea>
                                         <label for="messageInput">Type A Message</label>
                                     </div>
-                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@phyAnuId','@item.RequestId'); return false;" id="sendMessageButton@(phyAnuId)"><i class="bi bi-send m-2"></i></button>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@phyAnuId','@item.RequestId', '@Model.an.roleName','1'); return false;" id="sendMessageButton@(phyAnuId)"><i class="bi bi-send m-2"></i></button>
                                 </div>
                             </form>
                         </div>
 
                     </div>
 
+                    
                     @*Message Offcanvas - Provider to Admin*@
 
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(adminAnuId)" aria-labelledby="offcanvasSideLabel">
@@ -222,10 +223,10 @@
                             <form id="messageForm@(adminAnuId)">
                                 <div class="d-flex gap-2">
                                     <div class="form-floating" style="width:310px;">
-                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(adminAnuId)-@(item.RequestId)" onkeydown="checkEnterButton(event)"></textarea>
+                                        <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(adminAnuId)-@(item.RequestId)-@(Model.an.roleName)2" onkeydown="checkEnterButton(event)"></textarea>
                                         <label for="messageInput">Type A Message</label>
                                     </div>
-                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@adminAnuId','@item.RequestId'); return false;" id="sendMessageButton@(adminAnuId)"><i class="bi bi-send m-2"></i></button>
+                                    <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@adminAnuId','@item.RequestId', '@Model.an.roleName','2'); return false;" id="sendMessageButton@(adminAnuId)"><i class="bi bi-send m-2"></i></button>
                                 </div>
                             </form>
                         </div>
@@ -351,17 +352,17 @@
                         <td class="@statusClass my-auto">
                             @if(Model.an.roleName == "Admin")
                             {
-                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(patientAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@patientAnuId')"><i class="fa-regular fa-user me-2"></i>Patient</button>
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(patientAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@patientAnuId', 'Patient')"><i class="fa-regular fa-user me-2"></i>Patient</button>
                             }
                             @if(item.PhysicianId != null && Model.an.roleName == "Admin")
                             {
-                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(phyAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@phyAnuId')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(phyAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@phyAnuId', 'Provider')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
                             }
                             @if(Model.an.roleName == "Provider")
                             {
-                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(patientAnuId)Provider" aria-controls="offcanvasSide" onclick="setRecevierId('@patientAnuId')"><i class="fa-regular fa-user me-2"></i>Patient</button>
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(patientAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@patientAnuId', 'Patient')"><i class="fa-regular fa-user me-2"></i>Patient</button>
 
-                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(adminAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@adminAnuId')"><i class="fa-regular fa-user me-2"></i>Admin</button>
+                                <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(adminAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@adminAnuId', 'Admin')"><i class="fa-regular fa-user me-2"></i>Admin</button>
                             }
                             
                         </td>

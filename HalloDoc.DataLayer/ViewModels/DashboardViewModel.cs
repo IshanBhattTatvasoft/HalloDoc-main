@@ -19,6 +19,7 @@ public class DashboardViewModel
     public User UserModel { get; set; }
     public IEnumerable<Request> Requests { get; set; }
     public List<Physician> phy { get; set; }
+    public List<int> phyAspIds { get; set; }
     public List<RequestFileViewModel> RequestsAndFiles { get; set; }
 }
 

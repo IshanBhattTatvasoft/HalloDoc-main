@@ -2913,5 +2913,13 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             return isApproved;
         }
 
+        public List<string> GetAllAdminIds()
+        {
+            List<string> ids = new List<string>();
+            foreach(var item in _context.Admins.Select(u=>u.AspNetUserId).ToList()) {
+                ids.Add(item.ToString());
+            }
+            return ids;
+        }
     }
 }

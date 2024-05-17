@@ -22,7 +22,28 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             User users = _context.Users.FirstOrDefault(us => us.UserId == id);
             AspNetUser anu = _context.AspNetUsers.FirstOrDefault(a => a.Id == users.AspNetUserId);
 
-            IEnumerable<Request> req = _context.Requests.Where(r => r.UserId == users.UserId).OrderByDescending(r => r.CreatedDate);
+            List<RequestClient> rc = _context.RequestClients.Where(r => r.Email == anu.UserName).ToList();
+            List<int> phyAspId = new List<int>();
+            List<Request> req = new List<Request>();
+            foreach (var item in rc)
+            {
+                Request r = _context.Requests.Include(r=>r.Physician).FirstOrDefault(re => re.RequestClientId == item.RequestClientId);
+                if (r != null)
+                {
+                    req.Add(r);
+                    if (r.PhysicianId != null)
+                    {
+                        phyAspId.Add((int)_context.Physicians.FirstOrDefault(p => p.PhysicianId == r.PhysicianId)?.AspNetUserId);
+                    }
+                    else { phyAspId.Add(0); }
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+
             IEnumerable<RequestWiseFile> rwf = _context.RequestWiseFiles;
             List<Physician> ph = _context.Physicians.OrderByDescending(p => p.CreatedDate).ToList();
 
@@ -39,6 +60,7 @@ namespace HalloDoc.LogicLayer.Patient_Repository
                 Requests = req,
                 RequestsAndFiles = requestsAndFile,
                 phy = ph,
+                phyAspIds = phyAspId,
                 User = anu,
             };
 

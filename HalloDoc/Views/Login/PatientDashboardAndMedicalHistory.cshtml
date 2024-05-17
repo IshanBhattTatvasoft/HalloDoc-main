@@ -144,39 +144,42 @@
                         {
                             @foreach (var obj in Model.Requests)
                             {
+                                var i = 0;
 
-                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(Model.User.Id)" aria-labelledby="offcanvasSideLabel">
+
+                                @*Message Offcanvas - Patient to Admin*@
+                                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide0" aria-labelledby="offcanvasSideLabel">
 
                                     <div class="offcanvas-header bg-info text-light">
                                         <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
-                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-backdrop="false"></button>
+                                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                     </div>
 
                                     <div class="offcanvas-body" id="ChatContainer">
                                         <div class="Chat-Container">
-                                            <ul id="messagesList@(Model.User.Id)" class="chat-messages d-flex flex-column">
+                                            <ul id="messagesList0" class="chat-messages d-flex flex-column">
                                             </ul>
                                         </div>
                                     </div>
 
                                     <div class="offcanvas-bottom">
-                                        <form id="messageForm@(Model.User.Id)">
+                                        <form id="messageForm0">
                                             <div class="d-flex gap-2">
                                                 <div class="form-floating" style="width:310px;">
-                                                    <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(Model.User.Id)" onkeydown="checkEnterButton(event)"></textarea>
+                                                    <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput0-@(obj.RequestId)-Patient" onkeydown="checkEnterButton(event)"></textarea>
                                                     <label for="messageInput">Type A Message</label>
                                                 </div>
-                                                <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@Model.User.Id', '@obj.RequestId'); return false;" id="sendMessageButton@(Model.User.Id)"><i class="bi bi-send m-2"></i></button>
+                                                <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('0','@obj.RequestId'); return false;" id="sendMessageButton0"><i class="bi bi-send m-2"></i></button>
                                             </div>
                                         </form>
                                     </div>
 
                                 </div>
 
+
                                 <tr>
                                     <td>
                                         @obj.CreatedDate.ToString("MMM dd, yyyy")
-
                                     </td>
 
                                     <td>
@@ -184,10 +187,38 @@
                                     </td>
 
                                     <td>
-                                        <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(Model.User.Id)" aria-controls="offcanvasSide" onclick="setRecevierId('@Model.User.Id')"><i class="fa-regular fa-user me-2"></i>Admin</button>
+                                        <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide0" aria-controls="offcanvasSide" onclick="setRecevierId('0', 'Admin')"><i class="fa-regular fa-user me-2"></i>Admin</button>
                                         @if (obj.PhysicianId != null)
                                         {
-                                            <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(Model.User.Id)" aria-controls="offcanvasSide" onclick="setRecevierId('@Model.User.Id')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
+                                            <button class="btn btn-outline-info" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(Model.User.Id)" aria-controls="offcanvasSide" onclick="setRecevierId('@obj.PhysicianId', 'Provider')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
+
+                                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(Model.User.Id)" aria-labelledby="offcanvasSideLabel">
+
+                                                <div class="offcanvas-header bg-info text-light">
+                                                    <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                                                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-backdrop="false"></button>
+                                                </div>
+
+                                                <div class="offcanvas-body" id="ChatContainer">
+                                                    <div class="Chat-Container">
+                                                        <ul id="messagesList@(obj.Physician.AspNetUserId)" class="chat-messages d-flex flex-column">
+                                                        </ul>
+                                                    </div>
+                                                </div>
+
+                                                <div class="offcanvas-bottom">
+                                                    <form id="messageForm@(Model.User.Id)">
+                                                        <div class="d-flex gap-2">
+                                                            <div class="form-floating" style="width:310px;">
+                                                                <textarea class="form-control overflow-y-hidden" placeholder="Type A Message" id="messageInput@(obj.Physician.AspNetUserId)-@(obj.RequestId)-Patient" onkeydown="checkEnterButton(event)"></textarea>
+                                                                <label for="messageInput">Type A Message</label>
+                                                            </div>
+                                                            <button type="submit" class="btn btn-info text-white" onclick="ViewMessage('@obj.Physician.AspNetUserId', '@obj.RequestId'); return false;" id="sendMessageButton@(Model.User.Id)"><i class="bi bi-send m-2"></i></button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
                                         }
                                     </td>
 
@@ -201,6 +232,7 @@
                                     </td>
 
                                 </tr>
+                                i++;
                             }
                         }
                     </tbody>
@@ -350,12 +382,12 @@
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         var loggedInUser, lastUser, lastTime, uniqueId;
 
-        connection.on("ReceiveMessage", function (senderId, receiverId, requestId, user, message) {
+        connection.on("ReceiveMessage", function (senderId, requestId, user, message) {
             debugger;
-            let senderName = user.split('#')[0];
-            let id = user.split('#')[1];
+            console.log(senderId, requestId, user, message);
+            let senderName = user;
 
-            const messagesList = document.getElementById(`messagesList${uniqueId}`);
+            const messagesList = document.getElementById(`messagesList${senderId}`);
             // create new element to show message in it
             const listItem = document.createElement("li");
             // get current time
@@ -392,14 +424,14 @@
 
 
             // show username and time if user who has sent the message is not same as the logged in user OR message sent time is not equal to current time
-            if (lastUser != senderName || lastTime != currentTime || uniqueId != id) {
+            if (lastUser != senderName || lastTime != currentTime) {
                 messagesList.appendChild(userName);
             }
             messagesList.appendChild(listItem);
             scrollToBottom();
             lastUser = user;
             lastTime = currentTime;
-            uniqueId = id;
+            //uniqueId = id;
         });
 
         function checkEnterButton(event) {
@@ -423,15 +455,41 @@
         function ViewMessage(aspId, reqId) {
             console.log(aspId);
             var user = document.getElementById("userName").innerText;
-            var message = document.getElementById(`messageInput${aspId}`).value;
+            var message = document.getElementById(`messageInput${aspId}-${reqId}-Patient`).value;
             console.log(message);
             loggedInUser = user;
-            uniqueId = aspId;
+            //uniqueId = aspId;
             user = user + "#" + aspId;
-            if (message != '') {
-                connection.invoke("SendMessage", aspId, reqId, user, message).catch(err => console.error(err.toString()));
-                document.getElementById(`messageInput${aspId}`).value = "";
+            if (message.trim() != '') {
+                connection.invoke("SendMessage", aspId, reqId, user, message, receiverRoleName)
+                    .then(() => {
+                        const listItem = document.createElement("li");
+                        listItem.classList.add("chat-message");
+                        listItem.classList.add("d-block");
+                        listItem.classList.add("outgoing");
+                        listItem.textContent = message;
+                        const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                        const username = document.createElement("small");
+                        const messagesList = document.getElementById(`messagesList${aspId}`);
+                        username.classList.add("d-block");
+                        username.style.fontSize = "12px";
+                        username.classList.add("text-muted");
+                        username.classList.add("timeOnRight");
+                        username.textContent = `${user}`;
+                        scrollToBottom();
+                        messagesList.appendChild(username);
+                        messagesList.appendChild(listItem);
+                    })
+                    .catch(err => console.error(err.toString()));
+                document.getElementById(`messageInput${aspId}-${reqId}-Patient`).value = "";
             }
+        }
+
+        var receiverRoleName;
+        function setRecevierId(id, role) {
+            uniqueId = id;
+            receiverRoleName = role;
         }
 
     </script>

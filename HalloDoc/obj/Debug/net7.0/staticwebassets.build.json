@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "6uGYY5JpTncSrsSSvRCJh8216JcI/2qbYY1e34xaKpU=",
+  "Hash": "5x6zbJoPWv0o02XN6r1jBeOHpv5yRjpfVKkJBHCUBgA=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -3874,6 +3874,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Physician\\9\\Signature.png"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\Reimbursement\\1\\01-15-2024-SRS-23-24-ChatFeature-6May.pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "Reimbursement/1/01-15-2024-SRS-23-24-ChatFeature-6May.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Reimbursement\\1\\01-15-2024-SRS-23-24-ChatFeature-6May.pdf"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\Reimbursement\\1\\04-15-2024-patient-97.pdf",

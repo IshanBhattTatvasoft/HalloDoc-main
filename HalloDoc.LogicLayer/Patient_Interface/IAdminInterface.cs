@@ -161,5 +161,6 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public AdminInvoicingViewModel GetTimesheetForAdminInvoicing(int id, DateTime startDate, DateTime endDate);
         public bool ApproveTimesheet(int tid, int bonus, string desc);
         public int GetHoursFromShiftDetail(int id, DateTime temp);
+        public List<string> GetAllAdminIds();
     }
 }
