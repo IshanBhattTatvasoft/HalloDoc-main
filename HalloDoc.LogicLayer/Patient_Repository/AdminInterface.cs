@@ -2921,5 +2921,19 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             }
             return ids;
         }
+
+        public bool IsAdminFromAspId(int receiverId)
+        {
+            bool isAdmin = false;
+            foreach(var item in _context.AspNetUserRoles.ToList())
+            {
+                if(item.RoleId == 3)
+                {
+                    isAdmin = true; break;
+                }
+            }
+
+            return isAdmin;
+        }
     }
 }

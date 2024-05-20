@@ -177,7 +177,8 @@
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(phyAnuId)" aria-labelledby="offcanvasSideLabel">
 
                         <div class="offcanvas-header bg-info text-light">
-                            <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                            <img src="~/Physician/@item.PhysicianId/Profile.png" class="me-2" height="80" width="80" />
+                            <h4 class="text-white" id="offcanvasSideLabel">Dr. @item.Physician?.FirstName</h4>
                             <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         </div>
 
@@ -354,7 +355,7 @@
                             {
                                 <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(patientAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@patientAnuId', 'Patient')"><i class="fa-regular fa-user me-2"></i>Patient</button>
                             }
-                            @if(item.PhysicianId != null && Model.an.roleName == "Admin")
+                            @if(Model.an.roleName == "Admin" && item.PhysicianId != null)
                             {
                                 <button class="btn btn-outline-light" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSide@(phyAnuId)" aria-controls="offcanvasSide" onclick="setRecevierId('@phyAnuId', 'Provider')"><i class="fa-solid fa-user-doctor me-2"></i>Provider</button>
                             }

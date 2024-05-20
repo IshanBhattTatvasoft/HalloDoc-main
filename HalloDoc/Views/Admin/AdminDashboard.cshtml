@@ -1350,7 +1350,7 @@
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
         var loggedInUser, lastUser, lastTime, uniqueId, receiverRoleName;
 
-        connection.on("ReceiveMessage", function (senderId, requestId, user, message) {
+        connection.on("ReceiveMessage", function (senderId, requestId, user, message, isAdmin) {
             console.log(senderId, requestId, user, message);
             let senderName = user;
 
@@ -1366,7 +1366,7 @@
             }
             listItem.style.wordWrap = "break-word";
             listItem.classList.add("d-block");
-            const checkName = document.getElementById("userName").innerText;
+            const checkName = document.getElementById("navbarName").innerText;
             console.log("User: " + senderName);
             console.log("Check name: " + checkName);
             listItem.classList.add(senderName === checkName ? "outgoing" : "incoming");
@@ -1406,7 +1406,7 @@
         function ViewMessage(aspId, reqId,role,num) {
             console.log(reqId);
             console.log(aspId);
-            var user = document.getElementById("userName").innerText;
+            var user = document.getElementById("navbarName").innerText;
             var message = document.getElementById(`messageInput${aspId}-${reqId}-${role}${num}`).value;
             console.log(message);
             loggedInUser = user;
@@ -1428,7 +1428,7 @@
                         userName.style.fontSize = "12px";
                         userName.classList.add("text-muted");
                         userName.classList.add("timeOnRight");
-                        userName.textContent = `${user}`;
+                        userName.textContent = `${loggedInUser}`;
                         scrollToBottom();
                         messagesList.appendChild(userName);
                         messagesList.appendChild(listItem);

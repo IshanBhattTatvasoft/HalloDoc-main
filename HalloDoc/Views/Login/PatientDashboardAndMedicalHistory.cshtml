@@ -195,13 +195,14 @@
                                             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasSide@(Model.User.Id)" aria-labelledby="offcanvasSideLabel">
 
                                                 <div class="offcanvas-header bg-info text-light">
-                                                    <h4 class="text-white" id="offcanvasSideLabel">Chat</h4>
+                                                    <img src="~/Physician/@obj.PhysicianId/Profile.png" class="me-2" height="80" width="80" />
+                                                    <h4 class="text-white" id="offcanvasSideLabel">Dr. @obj.Physician?.FirstName</h4>
                                                     <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close" data-bs-backdrop="false"></button>
                                                 </div>
 
                                                 <div class="offcanvas-body" id="ChatContainer">
                                                     <div class="Chat-Container">
-                                                        <ul id="messagesList@(obj.Physician.AspNetUserId)" class="chat-messages d-flex flex-column">
+                                                        <ul id="messagesList@(Model.User.Id)" class="chat-messages d-flex flex-column">
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -237,7 +238,7 @@
                         }
                     </tbody>
                 </table>
-                
+
             </div>
 
 
@@ -380,14 +381,24 @@
         }
 
         var connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
-        var loggedInUser, lastUser, lastTime, uniqueId;
+        var loggedInUser, lastUser, lastTime, uniqueId, listId;
 
-        connection.on("ReceiveMessage", function (senderId, requestId, user, message) {
+        connection.on("ReceiveMessage", function (receiverId, requestId, user, message, isAdmin) {
             debugger;
-            console.log(senderId, requestId, user, message);
-            let senderName = user;
-
-            const messagesList = document.getElementById(`messagesList${senderId}`);
+            console.log(receiverId, requestId, user, message);
+            const senderName = user;
+            console.log("Receiver id: " + receiverId);
+            console.log("Logged in id: " + @Model.User.Id);
+            console.log(isAdmin);
+            if (isAdmin == true) {
+                listId = 0;
+            }
+            else {
+                listId = receiverId;
+            }
+            console.log("List id: " + listId);
+            const messagesList = document.getElementById(`messagesList${listId}`);
+            console.log("Message list: " + messagesList);
             // create new element to show message in it
             const listItem = document.createElement("li");
             // get current time
@@ -399,7 +410,7 @@
             }
             listItem.style.wordWrap = "break-word";
             listItem.classList.add("d-block");
-            const checkName = document.getElementById("userName").innerText;
+            const checkName = document.getElementById("navbarName").innerText;
             console.log("User: " + senderName);
             console.log("Check name: " + checkName);
             listItem.classList.add(senderName === checkName ? "outgoing" : "incoming");
@@ -454,7 +465,8 @@
 
         function ViewMessage(aspId, reqId) {
             console.log(aspId);
-            var user = document.getElementById("userName").innerText;
+            var user = document.getElementById("navbarName").innerText;
+            console.log("User: " + user);
             var message = document.getElementById(`messageInput${aspId}-${reqId}-Patient`).value;
             console.log(message);
             loggedInUser = user;
@@ -469,14 +481,20 @@
                         listItem.classList.add("outgoing");
                         listItem.textContent = message;
                         const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
+                        var messagesList;
                         const username = document.createElement("small");
-                        const messagesList = document.getElementById(`messagesList${aspId}`);
+                        if (receiverRoleName == "Admin") {
+                            messagesList = document.getElementById(`messagesList0`);
+                        }
+                        else{
+                            messagesList = document.getElementById(`messagesList${@Model.User.Id}`);
+                        }
                         username.classList.add("d-block");
                         username.style.fontSize = "12px";
                         username.classList.add("text-muted");
                         username.classList.add("timeOnRight");
-                        username.textContent = `${user}`;
+                        console.log(user);
+                        username.textContent = `${loggedInUser}`;
                         scrollToBottom();
                         messagesList.appendChild(username);
                         messagesList.appendChild(listItem);

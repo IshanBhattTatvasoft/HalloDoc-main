@@ -36,16 +36,23 @@ public class ChatHub : Hub
         string jwtToken = httpContext.Request.Cookies["token"];
         string id = _jwt.GetAspId(jwtToken);
         string senderId = id;
+        bool isAdmin = _admin.IsAdminFromAspId(Convert.ToInt32(receiverId));
+        if(receiverId == "0")
+        {
+            isAdmin = true;
+        }
 
         if(receiverRoleName == "Admin")
         {
             List<string> allAdminIds = _admin.GetAllAdminIds();
-            await Clients.Groups(allAdminIds).SendAsync("ReceiveMessage", senderId, requestId, user, message);
+            user = user.Split('#')[0];
+            await Clients.Groups(allAdminIds).SendAsync("ReceiveMessage", senderId, requestId, user, message, isAdmin);
 
         }
         else
         {
-            await Clients.Group(receiverId).SendAsync("ReceiveMessage", receiverId, requestId, user, message);
+            user = user.Split('#')[0];
+            await Clients.Group(receiverId).SendAsync("ReceiveMessage", receiverId, requestId, user, message, isAdmin);
         }
         //await Clients.All.SendAsync("ReceiveMessage", user, message);
     }

@@ -162,5 +162,6 @@ namespace HalloDoc.LogicLayer.Patient_Interface
         public bool ApproveTimesheet(int tid, int bonus, string desc);
         public int GetHoursFromShiftDetail(int id, DateTime temp);
         public List<string> GetAllAdminIds();
+        public bool IsAdminFromAspId(int receiverId);
     }
 }
