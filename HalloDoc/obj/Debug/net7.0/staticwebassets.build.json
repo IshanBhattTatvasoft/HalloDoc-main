@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "5x6zbJoPWv0o02XN6r1jBeOHpv5yRjpfVKkJBHCUBgA=",
+  "Hash": "7ZGeO/iLV5Q4nZp6Nji86R5Mkcnxu68edX5VxnCHSFM=",
   "Source": "HalloDoc",
   "BasePath": "_content/HalloDoc",
   "Mode": "Default",
@@ -3942,6 +3942,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\Reimbursement\\1\\04-17-2024-SRS-23-24-Trainees-17April24-GoodToHave (2).pdf"
+    },
+    {
+      "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\Reimbursement\\1\\05-01-2024-SRS-23-24-ChatFeature-6May.pdf",
+      "SourceId": "HalloDoc",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\",
+      "BasePath": "_content/HalloDoc",
+      "RelativePath": "Reimbursement/1/05-01-2024-SRS-23-24-ChatFeature-6May.pdf",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\Reimbursement\\1\\05-01-2024-SRS-23-24-ChatFeature-6May.pdf"
     },
     {
       "Identity": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\Rotativa\\help-wkhtmltoimage.txt",

@@ -1862,13 +1862,14 @@ namespace HalloDoc.LogicLayer.Patient_Repository
         public void CreateNewProviderAccount(EditProviderAccountViewModel model, List<int> regionNames, int userId)
         {
             Admin ad = GetAdminFromAdminId(userId);
+            Physician ph = _context.Physicians.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
 
             AspNetUser anu = new AspNetUser();
             AspNetUserRole anur = new AspNetUserRole();
             Physician p = new Physician();
             PhysicianLocation pl = new PhysicianLocation();
             PhysicianNotification pn = new PhysicianNotification();
-            Physician ph = _context.Physicians.OrderByDescending(r => r.CreatedDate).FirstOrDefault();
+            Payrate payrate = new Payrate();
 
             anu.UserName = "MD." + model.LastName + "." + model.FirstName[0];
             anu.PasswordHash = model.Password;
@@ -1950,6 +1951,16 @@ namespace HalloDoc.LogicLayer.Patient_Repository
             {
                 SetAllDocOfPhysician(model.NonDisclosureAgreement, p.PhysicianId, 4);
             }
+
+            payrate.PhysicianId = p.PhysicianId;
+            payrate.NightShiftWeekend = 0;
+            payrate.Shift = 0;
+            payrate.HousecallNightWeekend = 0;
+            payrate.Phoneconsult = 0;
+            payrate.PhoneconsultNightWeekend = 0;
+            payrate.BatchTesting = 0;
+            payrate.Housecall = 0;
+            _context.Payrates.Add(payrate);
 
             _context.SaveChanges();
         }
