@@ -14,7 +14,7 @@
         right: 15px;
     }
 
-    .logout-icon{
+    .logout-icon {
         position: absolute;
         right: 50px;
     }
@@ -71,8 +71,10 @@
             position: absolute;
             bottom: 0;
             left: 5px;
-            width: 90%; /* Set the width to match the content width */
-            height: 2px; /* Height of the border */
+            width: 90%;
+            /* Set the width to match the content width */
+            height: 2px;
+            /* Height of the border */
             background-color: #00CCFF;
         }
 
@@ -115,6 +117,7 @@
 
         <img src="~/images/logo1.png" class="Image ps-1 pt-1 ms-5 d-none d-sm-flex" alt="Patient"
              style="height: 80px;" />
+
         <div>
             <img src="~/images/logo1.png" class="d-sm-none d-flex align-items-center" alt="Patient"
                  style="height: 80px;" />
@@ -122,6 +125,7 @@
         </div>
     </div>
     <div class="d-flex align-items-center gap-1 flex-wrap">
+
         <p class="fw-light p-0 text-muted fw-semibold me-4 d-none d-sm-inline-block"
            style="margin-top: 20px !important;">
             welcome
@@ -135,13 +139,15 @@
 
             }
         </p>
-        <a class="btn btn-outline-info d-none d-sm-flex mt-1" asp-controller="Login" asp-action="PatientLoginPage"
-           style="margin-right:100px;">Logout</a>
+
+        <a class="btn btn-outline-info d-none d-sm-flex mt-1 me-5" asp-controller="Login" asp-action="PatientLoginPage">Logout</a>
+
         <a class="btn btn-outline-info d-inline-block d-sm-none logout-icon" asp-controller="Login"
            asp-action="PatientLoginPage">
             <i class="bi bi-box-arrow-right"></i>
         </a>
-        <div class="moon-flex d-none d-sm-flex">
+
+        <div class="moon-flex d-none d-sm-flex me-4">
             <button onclick="changeTheme()" class="change-theme">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor"
                      class="bi bi-moon night-mode-icon" viewBox="0 0 16 16">
@@ -156,6 +162,7 @@
                 </svg>
             </button>
         </div>
+
         <div class="moon-flex d-sm-none d-flex flex-shrink-1 flex-sm-shrink-0">
             <button onclick="changeTheme()" class="change-theme-mobile-view">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
@@ -171,6 +178,7 @@
                 </svg>
             </button>
         </div>
+
     </div>
 
 
@@ -183,14 +191,16 @@
         {
             @if (Model.Tab == 1)
             {
-                <a class="nav-link active text-muted ps-3 ms-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">
+                <a class="nav-link active text-muted ps-3 ms-3 dashboard" id="nav-home-tab" asp-action="AdminDashboard"
+                   asp-controller="Admin">
                     Dashboard
                     <span class="active-border"></span>
                 </a>
             }
             else
             {
-                <a class="nav-link text-muted ps-3 ms-4 dashboard" id="nav-home-tab" asp-action="AdminDashboard" asp-controller="Admin">Dashboard</a>
+                <a class="nav-link text-muted ps-3 ms-4 dashboard" id="nav-home-tab" asp-action="AdminDashboard"
+                   asp-controller="Admin">Dashboard</a>
             }
         }
 
@@ -217,14 +227,16 @@
         {
             @if (Model.Tab == 21)
             {
-                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MyInvoicing">
                     Invoicing
                     <span class="active-border"></span>
                 </a>
             }
             else
             {
-                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MyInvoicing">
                     Invoicing
                 </a>
             }
@@ -234,14 +246,16 @@
         {
             @if (Model.Tab == 19)
             {
-                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MySchedule">
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MySchedule">
                     My Schedule
                     <span class="active-border"></span>
                 </a>
             }
             else
             {
-                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider" asp-action="MySchedule">My Schedule</a>
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MySchedule">My Schedule</a>
             }
         }
 
@@ -249,14 +263,16 @@
         {
             @if (Model.Tab == 20)
             {
-                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyProfile">
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MyProfile">
                     My Profile
                     <span class="active-border"></span>
                 </a>
             }
             else
             {
-                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider" asp-action="MyProfile">My Profile</a>
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MyProfile">My Profile</a>
             }
         }
 
@@ -264,30 +280,37 @@
         {
             @if (Model.Tab == 3)
             {
-                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                <a class="nav-link active text-muted my-profile ps-3 ms-3" id="nav-profile-tab" asp-controller="Admin"
+                   asp-action="MyProfile">
                     My Profile
                     <span class="active-border"></span>
                 </a>
             }
             else
             {
-                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">My Profile</a>
+                <a class="nav-link text-muted my-profile ps-3 ms-4" id="nav-profile-tab" asp-controller="Admin"
+                   asp-action="MyProfile">My Profile</a>
             }
         }
 
-        @if (roleMenu.Any(r => r == "ProviderMenu") || (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Admin") || roleMenu.Any(r => r == "Invoicing"))
+        @if (roleMenu.Any(r => r == "ProviderMenu") || (roleMenu.Any(r => r == "Scheduling") && Model.roleName ==
+        "Admin") || roleMenu.Any(r => r == "Invoicing"))
         {
             <div class="dropdown d-inline-block w-auto">
                 @if (Model.Tab == 4 || Model.Tab == 5 || Model.Tab == 6 || Model.Tab == 7)
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted records active ps-3 ms-3" id="nav-profile-tab2" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle nav-link text-muted records active ps-3 ms-3" id="nav-profile-tab2"
+                            type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
                         Providers
                         <span class="active-border"></span>
                     </button>
                 }
                 else
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted records ps-3 ms-4" id="nav-profile-tab2" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">Providers</button>
+                    <button class="btn dropdown-toggle nav-link text-muted records ps-3 ms-4" id="nav-profile-tab2"
+                            type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
+                        Providers
+                    </button>
                 }
 
                 <ul class="dropdown-menu ms-2">
@@ -296,7 +319,8 @@
                         @if (Model.Tab == 5)
                         {
                             <li>
-                                <a asp-action="ProviderMenu" asp-controller="Admin" class="dropdown-item-active text-muted dropdown-item mb-2">
+                                <a asp-action="ProviderMenu" asp-controller="Admin"
+                                   class="dropdown-item-active text-muted dropdown-item mb-2">
                                     Provider
                                 </a>
                             </li>
@@ -316,7 +340,8 @@
                         @if (Model.Tab == 6)
                         {
                             <li>
-                                <a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Scheduling" asp-controller="Admin">
+                                <a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Scheduling"
+                                   asp-controller="Admin">
                                     Scheduling
                                 </a>
                             </li>
@@ -336,7 +361,8 @@
                         @if (Model.Tab == 7)
                         {
                             <li>
-                                <a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Invoicing" asp-controller="Admin">
+                                <a class="dropdown-item-active text-muted dropdown-item mb-2" asp-action="Invoicing"
+                                   asp-controller="Admin">
                                     Invoicing
                                 </a>
                             </li>
@@ -359,32 +385,37 @@
         {
             @if (Model.Tab == 8)
             {
-                <a class="nav-link active text-muted ms-3 partners ps-3 ms-3" id="nav-profile-tab" asp-controller="Admin" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="Vendors">
+                <a class="nav-link active text-muted ms-3 partners ps-3 ms-3" id="nav-profile-tab" asp-controller="Admin"
+                   role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="Vendors">
                     Partners
                     <span class="active-border"></span>
                 </a>
             }
             else
             {
-                <a class="nav-link text-muted ms-3 partners ps-3 ms-4" id="nav-profile-tab" asp-controller="Admin" role="tab" aria-controls="nav-profile" aria-selected="false" asp-action="Vendors">
+                <a class="nav-link text-muted ms-3 partners ps-3 ms-4" id="nav-profile-tab" asp-controller="Admin" role="tab"
+                   aria-controls="nav-profile" aria-selected="false" asp-action="Vendors">
                     Partners
                 </a>
             }
         }
 
         <div class="dropdown d-inline-block w-auto">
-            @if (roleMenu.Any(r => r == "AccountAccess") || roleMenu.Any(r => r == "UserAccess") || roleMenu.Any(r => r == "CreateAdminAccount"))
+            @if (roleMenu.Any(r => r == "AccountAccess") || roleMenu.Any(r => r == "UserAccess") || roleMenu.Any(r => r
+            == "CreateAdminAccount"))
             {
                 @if (Model.Tab == 9 || Model.Tab == 10 || Model.Tab == 11 || Model.Tab == 12)
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-3 access active" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-3 access active" id="nav-profile-tab"
+                            type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
                         Access
                         <span class="active-border"></span>
                     </button>
                 }
                 else
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-4 access" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-4 access" id="nav-profile-tab" type="button"
+                            role="tab" data-bs-toggle="dropdown" aria-expanded="false">
                         Access
                     </button>
                 }
@@ -395,7 +426,8 @@
                     @if (Model.Tab == 10)
                     {
                         <li>
-                            <a class="text-muted dropdown-item mb-2 dropdown-item-active" asp-action="AccountAccess" asp-controller="Admin">
+                            <a class="text-muted dropdown-item mb-2 dropdown-item-active" asp-action="AccountAccess"
+                               asp-controller="Admin">
                                 Account Access
                             </a>
                         </li>
@@ -416,7 +448,8 @@
                     @if (Model.Tab == 11)
                     {
                         <li>
-                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="UserAccess" asp-controller="Admin">
+                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="UserAccess"
+                               asp-controller="Admin">
                                 User Access
                             </a>
                         </li>
@@ -437,7 +470,8 @@
                     @if (Model.Tab == 12)
                     {
                         <li>
-                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="CreateAdminAccount" asp-controller="Admin">
+                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="CreateAdminAccount"
+                               asp-controller="Admin">
                                 Create Admin Account
                             </a>
                         </li>
@@ -455,18 +489,22 @@
         </div>
 
         <div class="dropdown d-inline-block w-auto">
-            @if (roleMenu.Any(r => r == "SearchRecords") || roleMenu.Any(r => r == "EmailLogs") || roleMenu.Any(r => r == "SMSLogs") || roleMenu.Any(r => r == "PatientRecords") || roleMenu.Any(r => r == "BlockedHistory"))
+            @if (roleMenu.Any(r => r == "SearchRecords") || roleMenu.Any(r => r == "EmailLogs") || roleMenu.Any(r => r
+            == "SMSLogs") || roleMenu.Any(r => r == "PatientRecords") || roleMenu.Any(r => r == "BlockedHistory"))
             {
-                @if (Model.Tab == 13 || Model.Tab == 14 || Model.Tab == 15 || Model.Tab == 16 || Model.Tab == 17 || Model.Tab == 18)
+                @if (Model.Tab == 13 || Model.Tab == 14 || Model.Tab == 15 || Model.Tab == 16 || Model.Tab == 17 ||
+               Model.Tab == 18)
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-3 records active" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-3 records active" id="nav-profile-tab"
+                            type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
                         Records
                         <span class="active-border"></span>
                     </button>
                 }
                 else
                 {
-                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-4 records" id="nav-profile-tab" type="button" role="tab" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn dropdown-toggle nav-link text-muted ps-3 ms-4 records" id="nav-profile-tab" type="button"
+                            role="tab" data-bs-toggle="dropdown" aria-expanded="false">
                         Records
                     </button>
                 }
@@ -477,7 +515,8 @@
                     @if (Model.Tab == 14)
                     {
                         <li>
-                            <a class="text-muted dropdown-item mb-2 dropdown-item-active" asp-action="SearchRecords" asp-controller="Admin">
+                            <a class="text-muted dropdown-item mb-2 dropdown-item-active" asp-action="SearchRecords"
+                               asp-controller="Admin">
                                 Search Records
                             </a>
                         </li>
@@ -496,7 +535,8 @@
                     @if (Model.Tab == 15)
                     {
                         <li>
-                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="EmailLogs" asp-controller="Admin">
+                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="EmailLogs"
+                               asp-controller="Admin">
                                 Email Logs
                             </a>
                         </li>
@@ -516,7 +556,8 @@
                     @if (Model.Tab == 16)
                     {
                         <li>
-                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="SmsLogs" asp-controller="Admin">
+                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="SmsLogs"
+                               asp-controller="Admin">
                                 SMS Logs
                             </a>
                         </li>
@@ -536,7 +577,8 @@
                     @if (Model.Tab == 17)
                     {
                         <li>
-                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="PatientHistory" asp-controller="Admin">
+                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="PatientHistory"
+                               asp-controller="Admin">
                                 Patient Records
                             </a>
                         </li>
@@ -556,7 +598,8 @@
                     @if (Model.Tab == 18)
                     {
                         <li>
-                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="BlockedHistory" asp-controller="Admin">
+                            <a class="text-muted dropdown-item dropdown-item-active mb-2" asp-action="BlockedHistory"
+                               asp-controller="Admin">
                                 Blocked History
                             </a>
                         </li>
@@ -588,13 +631,15 @@
         {
             @if (Model.Tab == 1)
             {
-                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin"
+                   asp-action="AdminDashboard">
                     <span class="h5">Dashboard</span>
                 </a>
             }
             else
             {
-                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin" asp-action="AdminDashboard">
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-home-tab" asp-controller="Admin"
+                   asp-action="AdminDashboard">
                     <span class="h5">Dashboard</span>
                 </a>
             }
@@ -604,8 +649,8 @@
         {
             @if (Model.Tab == 2)
             {
-                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
-                   aria-controls="nav-Location" aria-selected="false" asp-action="ProviderLocation">
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin"
+                   role="tab" aria-controls="nav-Location" aria-selected="false" asp-action="ProviderLocation">
                     <span class="h5">Provider Location</span>
                 </a>
             }
@@ -622,13 +667,15 @@
         {
             @if (Model.Tab == 19)
             {
-                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MySchedule">
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                   asp-controller="Provider" asp-action="MySchedule">
                     <span class="h5">My Schedule</span>
                 </a>
             }
             else
             {
-                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MySchedule">
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MySchedule">
                     <span class="h5">My Schedule</span>
                 </a>
             }
@@ -638,13 +685,15 @@
         {
             @if (Model.Tab == 21)
             {
-                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                   asp-controller="Provider" asp-action="MyInvoicing">
                     <span class="h5">Invoicing</span>
                 </a>
             }
             else
             {
-                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyInvoicing">
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MyInvoicing">
                     <span class="h5">Invoicing</span>
                 </a>
             }
@@ -654,13 +703,15 @@
         {
             @if (Model.Tab == 20)
             {
-                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyProfile">
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                   asp-controller="Provider" asp-action="MyProfile">
                     <span class="h5">My Profile</span>
                 </a>
             }
             else
             {
-                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider" asp-action="MyProfile">
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Provider"
+                   asp-action="MyProfile">
                     <span class="h5">My Profile</span>
                 </a>
             }
@@ -670,31 +721,38 @@
         {
             @if (Model.Tab == 3)
             {
-                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin"
+                   asp-action="MyProfile">
                     <span class="h5">My Profile</span>
                 </a>
             }
             else
             {
-                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin"
+                   asp-action="MyProfile">
                     <span class="h5">My Profile</span>
                 </a>
             }
         }
 
-        @if (roleMenu.Any(r => r == "ProviderMenu") || (roleMenu.Any(r => r == "Scheduling") && Model.roleName == "Admin") || roleMenu.Any(r => r == "Invoicing"))
+        @if (roleMenu.Any(r => r == "ProviderMenu") || (roleMenu.Any(r => r == "Scheduling") && Model.roleName ==
+        "Admin") || roleMenu.Any(r => r == "Invoicing"))
         {
             <div class="dropdown d-inline-block w-auto">
 
                 @if (Model.Tab == 4 || Model.Tab == 5 || Model.Tab == 6 || Model.Tab == 7)
                 {
-                    <button class="btn dropdown-toggle nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                    <button class="btn dropdown-toggle nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3"
+                            id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-controls="nav-Location" aria-selected="false">
                         <span class="h5">Providers</span>
                     </button>
                 }
                 else
                 {
-                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab"
+                            role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location"
+                            aria-selected="false">
                         <span class="h5">Providers</span>
                     </button>
                 }
@@ -705,7 +763,8 @@
                         @if (Model.Tab == 5)
                         {
                             <li>
-                                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="ProviderMenu" asp-controller="Admin">
+                                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                                   asp-action="ProviderMenu" asp-controller="Admin">
                                     <span class="h5">Provider</span>
                                 </a>
                             </li>
@@ -713,7 +772,8 @@
                         else
                         {
                             <li>
-                                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="ProviderMenu" asp-controller="Admin">
+                                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="ProviderMenu"
+                                   asp-controller="Admin">
                                     <span class="h5">Provider</span>
                                 </a>
                             </li>
@@ -725,7 +785,8 @@
                         @if (Model.Tab == 6)
                         {
                             <li>
-                                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="Scheduling" asp-controller="Admin">
+                                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                                   asp-action="Scheduling" asp-controller="Admin">
                                     <span class="h5">Scheduling</span>
                                 </a>
                             </li>
@@ -733,7 +794,8 @@
                         else
                         {
                             <li>
-                                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="Scheduling" asp-controller="Admin">
+                                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="Scheduling"
+                                   asp-controller="Admin">
                                     <span class="h5">Scheduling</span>
                                 </a>
                             </li>
@@ -746,7 +808,8 @@
                         @if (Model.Tab == 7)
                         {
                             <li>
-                                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                                   asp-controller="Admin" asp-action="MyProfile">
                                     <span class="h5">Invoicing</span>
                                 </a>
                             </li>
@@ -754,7 +817,8 @@
                         else
                         {
                             <li>
-                                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin" asp-action="MyProfile">
+                                <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-controller="Admin"
+                                   asp-action="MyProfile">
                                     <span class="h5">Invoicing</span>
                                 </a>
                             </li>
@@ -770,8 +834,8 @@
 
             @if (Model.Tab == 8)
             {
-                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin" role="tab"
-                   aria-controls="nav-Location" aria-selected="false" asp-action="Vendors">
+                <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-Location-tab" asp-controller="Admin"
+                   role="tab" aria-controls="nav-Location" aria-selected="false" asp-action="Vendors">
                     <span class="h5">Partners</span>
                 </a>
             }
@@ -785,18 +849,23 @@
         }
 
         <div class="dropdown w-100">
-            @if (roleMenu.Any(r => r == "AccountAccess") || roleMenu.Any(r => r == "UserAccess") || roleMenu.Any(r => r == "CreateAdminAccount"))
+            @if (roleMenu.Any(r => r == "AccountAccess") || roleMenu.Any(r => r == "UserAccess") || roleMenu.Any(r => r
+            == "CreateAdminAccount"))
             {
 
                 @if (Model.Tab == 9 || Model.Tab == 10 || Model.Tab == 11 || Model.Tab == 12)
                 {
-                    <button class="btn dropdown-toggle mobile-active nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                    <button class="btn dropdown-toggle mobile-active nav-link sidebar text-dark mb-2 ps-4 py-3"
+                            id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false"
+                            aria-controls="nav-Location" aria-selected="false">
                         <span class="h5">Access</span>
                     </button>
                 }
                 else
                 {
-                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab"
+                            role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location"
+                            aria-selected="false">
                         <span class="h5">Access</span>
                     </button>
                 }
@@ -809,7 +878,8 @@
                     @if (Model.Tab == 10)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" aspasp-action="AccountAccess" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               aspasp-action="AccountAccess" asp-controller="Admin">
                                 <span class="h5">Account Access</span>
                             </a>
                         </li>
@@ -817,7 +887,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="AccountAccess" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="AccountAccess"
+                               asp-controller="Admin">
                                 <span class="h5">Account Access</span>
                             </a>
                         </li>
@@ -830,7 +901,8 @@
                     @if (Model.Tab == 11)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="UserAccess" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="UserAccess" asp-controller="Admin">
                                 <span class="h5">User Access</span>
                             </a>
                         </li>
@@ -838,7 +910,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="UserAccess" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="UserAccess"
+                               asp-controller="Admin">
                                 <span class="h5">User Access</span>
                             </a>
                         </li>
@@ -851,7 +924,8 @@
                     @if (Model.Tab == 12)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="CreateAdminAccount" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="CreateAdminAccount" asp-controller="Admin">
                                 <span class="h5">Create Admin Account</span>
                             </a>
                         </li>
@@ -859,7 +933,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="CreateAdminAccount" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="CreateAdminAccount" asp-controller="Admin">
                                 <span class="h5">Create Admin Account</span>
                             </a>
                         </li>
@@ -870,18 +945,24 @@
 
 
         <div class="dropdown w-100">
-            @if (roleMenu.Any(r => r == "SearchRecords") || roleMenu.Any(r => r == "EmailLogs") || roleMenu.Any(r => r == "SMSLogs") || roleMenu.Any(r => r == "PatientRecords") || roleMenu.Any(r => r == "BlockedHistory"))
+            @if (roleMenu.Any(r => r == "SearchRecords") || roleMenu.Any(r => r == "EmailLogs") || roleMenu.Any(r => r
+            == "SMSLogs") || roleMenu.Any(r => r == "PatientRecords") || roleMenu.Any(r => r == "BlockedHistory"))
             {
 
-                @if (Model.Tab == 13 || Model.Tab == 14 || Model.Tab == 15 || Model.Tab == 16 || Model.Tab == 17 || Model.Tab == 18)
+                @if (Model.Tab == 13 || Model.Tab == 14 || Model.Tab == 15 || Model.Tab == 16 || Model.Tab == 17 ||
+               Model.Tab == 18)
                 {
-                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab"
+                            role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location"
+                            aria-selected="false">
                         <span class="h5">Records</span>
                     </button>
                 }
                 else
                 {
-                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab" role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location" aria-selected="false">
+                    <button class="btn dropdown-toggle nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-Location-tab"
+                            role="tab" data-bs-toggle="dropdown" aria-expanded="false" aria-controls="nav-Location"
+                            aria-selected="false">
                         <span class="h5">Records</span>
                     </button>
                 }
@@ -894,7 +975,8 @@
                     @if (Model.Tab == 14)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="SearchRecords" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="SearchRecords" asp-controller="Admin">
                                 <span class="h5">Search Records</span>
                             </a>
                         </li>
@@ -902,7 +984,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="SearchRecords" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="SearchRecords"
+                               asp-controller="Admin">
                                 <span class="h5">Search Records</span>
                             </a>
                         </li>
@@ -915,7 +998,8 @@
                     @if (Model.Tab == 15)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="EmailLogs" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="EmailLogs" asp-controller="Admin">
                                 <span class="h5">Email Logs</span>
                             </a>
                         </li>
@@ -923,7 +1007,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="EmailLogs" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="EmailLogs"
+                               asp-controller="Admin">
                                 <span class="h5">Email Logs</span>
                             </a>
                         </li>
@@ -936,7 +1021,8 @@
                     @if (Model.Tab == 16)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="SmsLogs" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="SmsLogs" asp-controller="Admin">
                                 <span class="h5">SMS Logs</span>
                             </a>
                         </li>
@@ -944,7 +1030,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="SmsLogs" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="SmsLogs"
+                               asp-controller="Admin">
                                 <span class="h5">SMS Logs</span>
                             </a>
                         </li>
@@ -957,7 +1044,8 @@
                     @if (Model.Tab == 17)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="PatientHistory" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="PatientHistory" asp-controller="Admin">
                                 <span class="h5">Patient Records</span>
                             </a>
                         </li>
@@ -965,7 +1053,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="PatientHistory" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="PatientHistory" asp-controller="Admin">
                                 <span class="h5">Patient Records</span>
                             </a>
                         </li>
@@ -978,7 +1067,8 @@
                     @if (Model.Tab == 18)
                     {
                         <li>
-                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="BlockedHistory" asp-controller="Admin">
+                            <a class="nav-link sidebar mobile-active text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="BlockedHistory" asp-controller="Admin">
                                 <span class="h5">Block History</span>
                             </a>
                         </li>
@@ -986,7 +1076,8 @@
                     else
                     {
                         <li>
-                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab" asp-action="BlockedHistory" asp-controller="Admin">
+                            <a class="nav-link sidebar text-dark mb-2 ps-4 py-3" id="nav-profile-tab"
+                               asp-action="BlockedHistory" asp-controller="Admin">
                                 <span class="h5">Block History</span>
                             </a>
                         </li>

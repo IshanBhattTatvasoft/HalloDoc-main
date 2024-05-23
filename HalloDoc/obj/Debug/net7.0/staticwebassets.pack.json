@@ -25,6 +25,10 @@
       "PackagePath": "staticwebassets\\EncounterForms\\patient-97.pdf"
     },
     {
+      "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\OneSignalSDKWorker.js",
+      "PackagePath": "staticwebassets\\OneSignalSDKWorker.js"
+    },
+    {
       "Id": "C:\\Users\\pca141\\Desktop\\HalloDoc-Final\\HalloDoc-main\\HalloDoc\\wwwroot\\Physician\\100\\AgreementDoc.csv",
       "PackagePath": "staticwebassets\\Physician\\100\\AgreementDoc.csv"
     },

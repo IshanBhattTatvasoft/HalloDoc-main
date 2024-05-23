@@ -61,6 +61,7 @@
 
 @section Scripts {
     <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
+    
     <partial name="_ValidationScriptsPartial" />
 }
 
@@ -712,6 +713,15 @@
         </div>
     </div>
 
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(function (OneSignal) {
+            OneSignal.init({
+                appId: "160f4bf8-6dd2-4010-ba96-baa47ec3bda9",
+            });
+        });
+    </script>
 
     <script>
 
@@ -1399,9 +1409,28 @@
             lastUser = user;
             lastTime = currentTime;
             //uniqueId = id;
+
+            showNotification(user, message);
         });
 
         connection.start().catch(err => console.error(err.toString()));
+
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    console.log("Notification permission granted.");
+                }
+            });
+        }
+
+        function showNotification(user, message) {
+            if (Notification.permission === "granted") {
+                new Notification("New message from " + user, {
+                    body: message,
+                    icon: "images/info-circle.png"
+                });
+            }
+        }
 
         function ViewMessage(aspId, reqId,role,num) {
             console.log(reqId);
@@ -1436,6 +1465,20 @@
                     .catch(err => console.error(err.toString()));
                 document.getElementById(`messageInput${aspId}-${reqId}-${role}${num}`).value = "";
             }
+        }
+
+        function callNotificationAjax()
+        {
+            $.ajax({
+                url: '/Admin/SendPushNotification',
+                type: 'POST',
+                success: function(response){
+                    console.log("hi");
+                },
+                error: function(error){
+                    console.log("jhe");
+                }
+            });
         }
 
         function checkEnterButton(event) {

@@ -42,6 +42,8 @@ using iText.Kernel.Geom;
 using Microsoft.IdentityModel.Tokens;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using Newtonsoft.Json;
+using System.Text;
 //using Twilio.Http;
 //using System.Diagnostics;
 //using HalloDoc.Data;
@@ -113,6 +115,52 @@ namespace HalloDoc.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public IActionResult SendPushNotification()
+        {
+            try
+            {
+                var ApiKey = "Y2M1NTE2MWYtMzFiMC00MDliLWE1MGUtZDA0ZThiNWFmNTgy";
+                var ApiUrl = "http://localhost:5032";
+                var webRequest = WebRequest.Create($"{ApiUrl}") as HttpWebRequest;
+                webRequest.KeepAlive = true;
+                webRequest.Method = "POST";
+                webRequest.ContentType = "application/json; charset=utf-8";
+                webRequest.Headers.Add("authorization", $"Basic {ApiKey}");
+
+                var obj = new
+                {
+                    app_id = "160f4bf8-6dd2-4010-ba96-baa47ec3bda9",
+                    headings = new { en = "Web Push Notification Title" }, //this value can be change as per need, can be a value from db
+                    contents = new { en = "Here it goes push notification content" }, //this value can be change as per need, can be a value from db
+                    included_segments = new string[] { "All" },
+                    url = ""
+                };
+                var param = JsonConvert.SerializeObject(obj);
+                var byteArray = Encoding.UTF8.GetBytes(param);
+
+                using (var writer = webRequest.GetRequestStream())
+                {
+                    writer.Write(byteArray, 0, byteArray.Length);
+                }
+
+                using (var response = webRequest.GetResponse() as HttpWebResponse)
+                {
+                    if (response != null)
+                    {
+                        using var reader = new StreamReader(response.GetResponseStream());
+                        var responseContent = reader.ReadToEnd();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok("Error");
+            }
+            return Ok("Success");
+        }
+
 
         // admin dashboard function
         [CustomAuthorize("Admin Provider", "AdminDashboard")]

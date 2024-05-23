@@ -319,6 +319,16 @@
 
     </div>
 
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+    <script>
+        window.OneSignalDeferred = window.OneSignalDeferred || [];
+        OneSignalDeferred.push(function (OneSignal) {
+            OneSignal.init({
+                appId: "160f4bf8-6dd2-4010-ba96-baa47ec3bda9",
+            });
+        });
+    </script>
+
     <script>
 
         function changeBackgroundColor(radioButtonId) {
@@ -384,13 +394,13 @@
         var loggedInUser, lastUser, lastTime, uniqueId, listId;
 
         connection.on("ReceiveMessage", function (receiverId, requestId, user, message, isAdmin) {
-            debugger;
+            
             console.log(receiverId, requestId, user, message);
             const senderName = user;
             console.log("Receiver id: " + receiverId);
             console.log("Logged in id: " + @Model.User.Id);
             console.log(isAdmin);
-            if (isAdmin == true) {
+            if (isAdmin == false) {
                 listId = 0;
             }
             else {
@@ -443,6 +453,8 @@
             lastUser = user;
             lastTime = currentTime;
             //uniqueId = id;
+
+            showNotification(user, message);
         });
 
         function checkEnterButton(event) {
@@ -502,6 +514,36 @@
                     .catch(err => console.error(err.toString()));
                 document.getElementById(`messageInput${aspId}-${reqId}-Patient`).value = "";
             }
+        }
+
+        if (Notification.permission !== "granted") {
+            Notification.requestPermission().then(permission => {
+                if (permission === "granted") {
+                    console.log("Notification permission granted.");
+                }
+            });
+        }
+
+        function showNotification(user, message) {
+            if (Notification.permission === "granted") {
+                new Notification("New message from " + user, {
+                    body: message,
+                    icon: "images/info-circle.png"
+                });
+            }
+        }
+
+        function callNotificationAjax() {
+            $.ajax({
+                url: '/Admin/SendPushNotification',
+                type: 'POST',
+                success: function (response) {
+                    console.log("hi");
+                },
+                error: function (error) {
+                    console.log("jhe");
+                }
+            });
         }
 
         var receiverRoleName;
